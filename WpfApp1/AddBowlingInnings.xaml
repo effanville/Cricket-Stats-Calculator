@@ -1,0 +1,72 @@
+﻿<Window x:Class="WpfApp1.AddBowlingInnings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Add Bowling Form" Height="414" Width="579">
+    <Grid>
+        <TextBox Name ="Player1" HorizontalAlignment="Left" Height="22" Margin="31,16,0,0" TextWrapping="Wrap" Text="P1" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player2" HorizontalAlignment="Left" Height="22" Margin="31,44,0,0" TextWrapping="Wrap" Text="P2" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player3" HorizontalAlignment="Left" Height="22" Margin="31,73,0,0" TextWrapping="Wrap" Text="P3" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player4" HorizontalAlignment="Left" Height="22" Margin="32,106,0,0" TextWrapping="Wrap" Text="P4" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player5" HorizontalAlignment="Left" Height="22" Margin="32,134,0,0" TextWrapping="Wrap" Text="P5" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player6" HorizontalAlignment="Left" Height="22" Margin="33,166,0,0" TextWrapping="Wrap" Text="P6" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player7" HorizontalAlignment="Left" Height="22" Margin="33,197,0,0" TextWrapping="Wrap" Text="P7" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player8" HorizontalAlignment="Left" Height="22" Margin="32,225,0,0" TextWrapping="Wrap" Text="P8" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player9" HorizontalAlignment="Left" Height="22" Margin="33,254,0,0" TextWrapping="Wrap" Text="P9" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player10" HorizontalAlignment="Left" Height="22" Margin="33,282,0,0" TextWrapping="Wrap" Text="P10" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player11" HorizontalAlignment="Left" Height="22" Margin="33,309,0,0" TextWrapping="Wrap" Text="P11" VerticalAlignment="Top" Width="120"/>
+
+        <Button Name="Go_ToFielding" Content="Next" HorizontalAlignment="Left" Margin="236,347,0,0" VerticalAlignment="Top" Width="75"  Click="GoToFielidngClick" ClickMode="Press"/>
+        <TextBox Name="P1Overs" HorizontalAlignment="Left" Height="22" Margin="163,16,0,0" TextWrapping="Wrap" Text="P1 Overs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P2Overs" HorizontalAlignment="Left" Height="22" Margin="163,47,0,0" TextWrapping="Wrap" Text="P2 Overs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P3Overs" HorizontalAlignment="Left" Height="22" Margin="163,72,0,0" TextWrapping="Wrap" Text="P3 Overs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P4Overs" HorizontalAlignment="Left" Height="22" Margin="163,106,0,0" TextWrapping="Wrap" Text="P4 Overs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P5Overs" HorizontalAlignment="Left" Height="22" Margin="163,136,0,0" TextWrapping="Wrap" Text="P5 Overs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P6Overs" HorizontalAlignment="Left" Height="22" Margin="163,166,0,0" TextWrapping="Wrap" Text="P6 Overs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P7Overs" HorizontalAlignment="Left" Height="22" Margin="163,196,0,0" TextWrapping="Wrap" Text="P7 Overs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P8Overs" HorizontalAlignment="Left" Height="22" Margin="163,227,0,0" TextWrapping="Wrap" Text="P8 Overs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P9Overs" HorizontalAlignment="Left" Height="22" Margin="163,256,0,0" TextWrapping="Wrap" Text="P9 Overs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P10Overs" HorizontalAlignment="Left" Height="22" Margin="163,282,0,0" TextWrapping="Wrap" Text="P10 Overs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P11Overs" HorizontalAlignment="Left" Height="22" Margin="163,307,0,0" TextWrapping="Wrap" Text="P11 Overs" VerticalAlignment="Top" Width="80"/>
+
+        <TextBox Name="P1Mdns" HorizontalAlignment="Left" Height="22" Margin="263,16,0,0" TextWrapping="Wrap" Text="P1 Maidens" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P2Mdns" HorizontalAlignment="Left" Height="22" Margin="263,47,0,0" TextWrapping="Wrap" Text="P2 Maidens" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P3Mdns" HorizontalAlignment="Left" Height="22" Margin="263,72,0,0" TextWrapping="Wrap" Text="P3 Maidens" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P4Mdns" HorizontalAlignment="Left" Height="22" Margin="263,106,0,0" TextWrapping="Wrap" Text="P4 Maidens" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P5Mdns" HorizontalAlignment="Left" Height="22" Margin="263,136,0,0" TextWrapping="Wrap" Text="P5 Maidens" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P6Mdns" HorizontalAlignment="Left" Height="22" Margin="263,166,0,0" TextWrapping="Wrap" Text="P6 Maidens" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P7Mdns" HorizontalAlignment="Left" Height="22" Margin="263,196,0,0" TextWrapping="Wrap" Text="P7 Maidens" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P8Mdns" HorizontalAlignment="Left" Height="22" Margin="263,227,0,0" TextWrapping="Wrap" Text="P8 Maidens" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P9Mdns" HorizontalAlignment="Left" Height="22" Margin="263,256,0,0" TextWrapping="Wrap" Text="P9 Maidens" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P10Mdns" HorizontalAlignment="Left" Height="22" Margin="263,282,0,0" TextWrapping="Wrap" Text="P10 Maidens" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P11Mdns" HorizontalAlignment="Left" Height="22" Margin="263,307,0,0" TextWrapping="Wrap" Text="P11 Maidens" VerticalAlignment="Top" Width="80"/>
+
+        <TextBox Name="P1RunsConc" HorizontalAlignment="Left" Height="22" Margin="363,16,0,0" TextWrapping="Wrap" Text="P1 Runs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P2RunsConc" HorizontalAlignment="Left" Height="22" Margin="363,47,0,0" TextWrapping="Wrap" Text="P2 Runs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P3RunsConc" HorizontalAlignment="Left" Height="22" Margin="363,72,0,0" TextWrapping="Wrap" Text="P3 Runs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P4RunsConc" HorizontalAlignment="Left" Height="22" Margin="363,106,0,0" TextWrapping="Wrap" Text="P4 Runs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P5RunsConc" HorizontalAlignment="Left" Height="22" Margin="363,136,0,0" TextWrapping="Wrap" Text="P5 Runs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P6RunsConc" HorizontalAlignment="Left" Height="22" Margin="363,166,0,0" TextWrapping="Wrap" Text="P6 Runs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P7RunsConc" HorizontalAlignment="Left" Height="22" Margin="363,196,0,0" TextWrapping="Wrap" Text="P7 Runs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P8RunsConc" HorizontalAlignment="Left" Height="22" Margin="363,227,0,0" TextWrapping="Wrap" Text="P8 Runs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P9RunsConc" HorizontalAlignment="Left" Height="22" Margin="363,256,0,0" TextWrapping="Wrap" Text="P9 Runs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P10RunsConc" HorizontalAlignment="Left" Height="22" Margin="363,282,0,0" TextWrapping="Wrap" Text="P10 Runs" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P11RunsConc" HorizontalAlignment="Left" Height="22" Margin="363,307,0,0" TextWrapping="Wrap" Text="P11 Runs" VerticalAlignment="Top" Width="80"/>
+
+        <TextBox Name="P1Wkts" HorizontalAlignment="Left" Height="22" Margin="463,16,0,0" TextWrapping="Wrap" Text="P1 Wickets" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P2Wkts" HorizontalAlignment="Left" Height="22" Margin="463,47,0,0" TextWrapping="Wrap" Text="P2 Wickets" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P3Wkts" HorizontalAlignment="Left" Height="22" Margin="463,72,0,0" TextWrapping="Wrap" Text="P3 Wickets" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P4Wkts" HorizontalAlignment="Left" Height="22" Margin="463,106,0,0" TextWrapping="Wrap" Text="P4 Wickets" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P5Wkts" HorizontalAlignment="Left" Height="22" Margin="463,136,0,0" TextWrapping="Wrap" Text="P5 Wickets" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P6Wkts" HorizontalAlignment="Left" Height="22" Margin="463,166,0,0" TextWrapping="Wrap" Text="P6 Wickets" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P7Wkts" HorizontalAlignment="Left" Height="22" Margin="463,196,0,0" TextWrapping="Wrap" Text="P7 Wickets" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P8Wkts" HorizontalAlignment="Left" Height="22" Margin="463,227,0,0" TextWrapping="Wrap" Text="P8 Wickets" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P9Wkts" HorizontalAlignment="Left" Height="22" Margin="463,256,0,0" TextWrapping="Wrap" Text="P9 Wickets" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P10Wkts" HorizontalAlignment="Left" Height="22" Margin="463,282,0,0" TextWrapping="Wrap" Text="P10 Wickets" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name="P11Wkts" HorizontalAlignment="Left" Height="22" Margin="463,307,0,0" TextWrapping="Wrap" Text="P11 Wickets" VerticalAlignment="Top" Width="80"/>
+
+    </Grid>
+</Window>

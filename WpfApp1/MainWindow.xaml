@@ -1,0 +1,20 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Cricket Statistics v0.1" Height="258.334" Width="564.001">
+    <Grid HorizontalAlignment="Left" Width="559" Margin="0,0,-3,0">
+        <Button Name="Add_Pl_btn" Content="Add Player" HorizontalAlignment="Left" Margin="26,70,0,0" VerticalAlignment="Top" Width="146" Click="PlayerClick" ClickMode="Press" />
+        <Button Name="Add_Match_btn" Content="Add Match" HorizontalAlignment="Left" Margin="26,23,0,0" VerticalAlignment="Top" Width="147" Click="MatchClick" ClickMode="Press" />
+        <Button Name="Stats_btn" Content="Create Statistics" HorizontalAlignment="Left" Margin="28,108,0,0" VerticalAlignment="Top" Width="143" Click="StatsClick" ClickMode="Press" />
+        <Button Name="Save_btn" Content="Save Database" HorizontalAlignment="Left" Margin="29,153,0,0" VerticalAlignment="Top" Width="144" Click="SaveClick" ClickMode="Press" />
+        <ListBox Name ="Players" HorizontalAlignment="Left" Height="170" Margin="210,43,0,0" VerticalAlignment="Top" Width="102"/>
+        <Button Name="PopulateList" Content="GeneratePlayerList" HorizontalAlignment="Left" Margin="195,13,0,0" VerticalAlignment="Top" Width="146" Click="button1_Click" ClickMode="Press" />
+        <Button Name="PopulateListMatch" Content="GenerateMatchList" HorizontalAlignment="Left" Margin="359,11,0,0" VerticalAlignment="Top" Width="146" Click="match_button_Click" ClickMode="Press" />
+        <ListBox Name ="Matches" HorizontalAlignment="Left" Height="170" Margin="382,42,0,0" VerticalAlignment="Top" Width="102"/>
+
+    </Grid>
+</Window>

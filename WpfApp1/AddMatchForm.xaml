@@ -1,0 +1,44 @@
+﻿<Window x:Class="WpfApp1.AddMatchForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Add Match Form" Height="386" Width="360">
+    <Grid Margin="0,0,4,5">
+        <Button Name="Go_To_Batting" Content="Next" HorizontalAlignment="Left" Margin="47,292,0,0" VerticalAlignment="Top" Width="146" Click="GoToBattingClick" ClickMode="Press" />
+        <Label Content="Player 1" HorizontalAlignment="Left" Margin="17,7,0,0" VerticalAlignment="Top"/>
+        <Label Content="Player 2" HorizontalAlignment="Left" Margin="17,31,0,0" VerticalAlignment="Top"/>
+        <Label Content="Player 3" HorizontalAlignment="Left" Margin="17,58,0,0" VerticalAlignment="Top"/>
+        <Label Content="Player 4" HorizontalAlignment="Left" Margin="16,80,0,0" VerticalAlignment="Top"/>
+        <Label Content="Player 5" HorizontalAlignment="Left" Margin="18,106,0,0" VerticalAlignment="Top"/>
+        <Label Content="Player 6" HorizontalAlignment="Left" Margin="18,128,0,0" VerticalAlignment="Top"/>
+        <Label Content="Player 7" HorizontalAlignment="Left" Margin="17,155,0,0" VerticalAlignment="Top"/>
+        <Label Content="Player 8" HorizontalAlignment="Left" Margin="18,179,0,0" VerticalAlignment="Top"/>
+        <Label Content="Player 9" HorizontalAlignment="Left" Margin="18,204,0,0" VerticalAlignment="Top"/>
+        <Label Content="Player 10" HorizontalAlignment="Left" Margin="14,230,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.845,-1.833"/>
+        <Label Content="Player 11" HorizontalAlignment="Left" Margin="13,257,0,0" VerticalAlignment="Top"/>
+        <ComboBox Name="ChoosePlayer1" HorizontalAlignment="Left" Margin="72,12,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ChoosePlayer2" HorizontalAlignment="Left" Margin="72,36,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ChoosePlayer3" HorizontalAlignment="Left" Margin="72,61,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ChoosePlayer4" HorizontalAlignment="Left" Margin="72,84,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ChoosePlayer5" HorizontalAlignment="Left" Margin="72,108,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ChoosePlayer6" HorizontalAlignment="Left" Margin="72,132,0,0" VerticalAlignment="Top" Width="120"/>
+
+        <ComboBox Name="ChoosePlayer7" HorizontalAlignment="Left" Margin="72,157,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ChoosePlayer8" HorizontalAlignment="Left" Margin="72,182,0,0" VerticalAlignment="Top" Width="120"/>
+
+        <ComboBox Name="ChoosePlayer9" HorizontalAlignment="Left" Margin="72,207,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ChoosePlayer10" HorizontalAlignment="Left" Margin="72,232,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ChoosePlayer11" HorizontalAlignment="Left" Margin="72,257,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="OppositionNameBox" HorizontalAlignment="Left" Height="23" Margin="217,89,0,0" TextWrapping="Wrap" Text="Opposition Name" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="ManOfMatchBox" HorizontalAlignment="Left" Height="23" Margin="215,133,0,0" TextWrapping="Wrap" Text="Man of Match" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="DateBox" HorizontalAlignment="Left" Height="23" Margin="215,21,0,0" TextWrapping="Wrap" Text="Date" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="PlaceBox" HorizontalAlignment="Left" Height="23" Margin="216,55,0,0" TextWrapping="Wrap" Text="Place" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name ="ResultBox" HorizontalAlignment="Left" Margin="214,208,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="215,180,0,0" TextWrapping="Wrap" Text="Result" VerticalAlignment="Top" Width="120"/>
+
+
+    </Grid>
+</Window>

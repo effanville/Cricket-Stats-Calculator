@@ -1,0 +1,16 @@
+﻿<Window x:Class="WpfApp1.StatisticsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Team Statistics" Height="450" Width="1395.5">
+    <Grid>
+        <DataGrid Name="BattingStats" HorizontalAlignment="Left" Height="384" Margin="24,10,0,0" VerticalAlignment="Top" Width="422" />
+        <DataGrid Name="BowlingStats" HorizontalAlignment="Left" Height="384" Margin="456,10,0,0" VerticalAlignment="Top" Width="458" />
+        <DataGrid Name="FieldingStats" HorizontalAlignment="Left" Height="384" Margin="940,12,0,0" VerticalAlignment="Top" Width="196" />
+        <DataGrid Name="KeepingStats" HorizontalAlignment="Left" Height="384" Margin="1172,14,0,0" VerticalAlignment="Top" Width="178" />
+
+    </Grid>
+</Window>
