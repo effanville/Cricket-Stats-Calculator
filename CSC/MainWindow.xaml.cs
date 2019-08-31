@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Cricket;
 
-namespace WpfApp1
+namespace CricketStatsCalc
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

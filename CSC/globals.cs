@@ -9,6 +9,26 @@ namespace Cricket
 {
     public static class Globals
     {
+        public static List<int> DataCleanse(params string[] inputdata)
+        {
+            List<string> inputdatalist = new List<string>();
+            foreach (string input in inputdata)
+            {
+                inputdatalist.Add(input);
+            }
+
+            List<int> outputs = new List<int>(new int[11]);
+
+            int result = 0;
+            for (int i = 0; i < inputdatalist.Count; i++)
+            {
+                result = 0;
+                // if user entered a value, input that, otherwise, return 0 runs scored.
+                outputs[i] = int.TryParse(inputdatalist[i], out result) ? result : 0;
+            }
+
+            return outputs;
+        }
 
 
         public static List<Cricket_Player> Ardeley = new List<Cricket_Player>();
@@ -81,7 +101,6 @@ namespace Cricket
                     reader.Close();
             }
         }
-
 
     }
 }

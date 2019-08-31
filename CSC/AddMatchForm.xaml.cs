@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Cricket;
 
-namespace WpfApp1
+namespace CricketStatsCalc
 {
     /// <summary>
     /// Interaction logic for Window2.xaml

@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Cricket;
 
-namespace WpfApp1
+namespace CricketStatsCalc
 {
     /// <summary>
     /// Interaction logic for Window3.xaml
@@ -100,31 +100,9 @@ namespace WpfApp1
 
         void GoToBowling_Click(object sender, RoutedEventArgs e)
         {
-            // vector of un modified input data from user
-            List<string> runsdata = new List<string>();
-            runsdata.Add(Player1_Runs.Text);
-            runsdata.Add(Player2_Runs.Text);
-            runsdata.Add(Player3_Runs.Text);
-            runsdata.Add(Player4_Runs.Text);
-            runsdata.Add(Player5_Runs.Text);
-            runsdata.Add(Player6_Runs.Text);
-            runsdata.Add(Player7_Runs.Text);
-            runsdata.Add(Player8_Runs.Text);
-            runsdata.Add(Player9_Runs.Text);
-            runsdata.Add(Player10_Runs.Text);
-            runsdata.Add(Player11_Runs.Text);
 
-            // vector of runs data to be added to batting innings
-            List<int> runs = new List<int>(new int[11]);
-
-
-            int result = 0;
-            for (int i = 0; i < runsdata.Count; i++)
-            {
-                result = 0;
-                // if user entered a value, input that, otherwise, return 0 runs scored.
-                runs[i] = int.TryParse(runsdata[i], out result) ? result : 0;
-            }          
+            List<int> runs = Globals.DataCleanse(Player1_Runs.Text, Player2_Runs.Text, Player3_Runs.Text, Player4_Runs.Text, Player5_Runs.Text, Player6_Runs.Text, Player7_Runs.Text, Player8_Runs.Text, Player9_Runs.Text, Player10_Runs.Text, Player11_Runs.Text);
+        
 
             List<OutType> HowOut = new List<OutType>();
             HowOut.Add((OutType)Player1OutMethod.SelectedValue);

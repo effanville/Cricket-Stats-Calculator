@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using Cricket;
 using System.IO;
 
-namespace WpfApp1
+namespace CricketStatsCalc
 {
     public class DummyBattingStats
     {
@@ -181,6 +181,7 @@ namespace WpfApp1
 
             StreamWriter swBat = new StreamWriter("Batting.csv");
             StreamWriter swBowl = new StreamWriter("Bowling.csv");
+            StreamWriter swField = new StreamWriter("Fielding.csv");
 
             foreach (Cricket_Player person in Globals.Ardeley)
             {
@@ -215,17 +216,21 @@ namespace WpfApp1
                 DummyFieldingStats NextfieldPlayer = new DummyFieldingStats(Name1, tot_catches, tot_runouts, tot_catches_w, tot_stump_w, tot_fielding);
                 DummyFieldStats.Add(NextfieldPlayer);
 
+                int tot_keep = person.Total_keeper_dismissals;
                 if (person.Total_keeper_dismissals > 0)
                 {
-                    int tot_keep = person.Total_keeper_dismissals;
+                    
                     DummyKeeperStats NextKeeperPlayer = new DummyKeeperStats(Name1, tot_catches_w, tot_stump_w, tot_keep);
                     DummyKeepStats.Add(NextKeeperPlayer);
                 }
 
-                string lineBat = person.Name + "," + person.Total_runs.ToString() + "," + person.Total_innings.ToString() + "," + person.Total_not_out.ToString() + "," + person.Batting_average.ToString();
-                string lineBowl = person.Name + "," + person.Total_overs.ToString();
+                string lineBat = person.Name + "," + person.Total_runs.ToString() + "," + person.Total_innings.ToString() + "," + person.Total_not_out.ToString() + "," + person.Batting_average.ToString() + " , " + best.ToString();
+                string lineBowl = person.Name + "," + person.Total_overs.ToString() + "," + Tot_mdns.ToString() + "," + Tot_runs_conc.ToString() + "," + Tot_wckts.ToString() + "," + BAv.ToString() + "," + Becon.ToString() + " , " + bowlbest.ToString();
+                string lineField = person.Name + " , " + tot_catches.ToString() + " , " + tot_runouts.ToString() + " , " + tot_catches_w.ToString() + " , " + tot_stump_w.ToString() + " , " + tot_fielding.ToString()+ " , " + tot_keep.ToString();
+
                 swBat.WriteLine(lineBat);
                 swBowl.WriteLine(lineBowl);
+                swField.WriteLine(lineField);
             }
             BattingCompare BC = new BattingCompare();
             DummyBatStats.Sort(BC);
