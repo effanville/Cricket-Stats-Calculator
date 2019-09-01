@@ -7,6 +7,7 @@
         Title="Match Selector" Height="163.994" Width="207.953">
     <Grid Margin="0,0,7,5">
         <ComboBox Name="ChooseMatch" HorizontalAlignment="Left" Margin="37,15,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button Name="CreatePlayer" Content="Submit" HorizontalAlignment="Left" Margin="61,71,0,0" VerticalAlignment="Top" Width="75" Click ="ChooseMatchClick" ClickMode="Press" RenderTransformOrigin="0.04,0.45" />
+        <Button Name="CreatePlayer" Content="Submit" HorizontalAlignment="Left" Margin="58,55,0,0" VerticalAlignment="Top" Width="75" Click ="ChooseMatchClick" ClickMode="Press" RenderTransformOrigin="0.04,0.45" />
+        <Button x:Name="DeleteMatch" Content="Delete Match" HorizontalAlignment="Left" Margin="59,93,0,0" VerticalAlignment="Top" Width="75" Click ="DeleteMatchClick" ClickMode="Press" RenderTransformOrigin="0.04,0.45" />
     </Grid>
 </Window>

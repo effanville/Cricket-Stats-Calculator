@@ -33,5 +33,11 @@ namespace CricketStatsCalc
             AddMatchWindow.Show();
             Close();
         }
+
+        private void DeleteMatchClick(object sender, RoutedEventArgs e)
+        {
+            Globals.GamesPlayed.RemoveAt(ChooseMatch.SelectedIndex);
+            Close();
+        }
     }
 }
