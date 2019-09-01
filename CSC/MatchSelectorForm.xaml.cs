@@ -29,7 +29,9 @@ namespace CricketStatsCalc
 
         private void ChooseMatchClick(object sender, RoutedEventArgs e)
         {
-
+            AddMatchForm AddMatchWindow = new AddMatchForm(ChooseMatch.SelectedIndex);
+            AddMatchWindow.Show();
+            Close();
         }
     }
 }

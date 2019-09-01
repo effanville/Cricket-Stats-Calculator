@@ -44,7 +44,7 @@ namespace CricketStatsCalc
 
         void MatchClick(object sender, RoutedEventArgs e)
         {
-            AddMatchForm AddMatchWindow = new AddMatchForm();
+            AddMatchForm AddMatchWindow = new AddMatchForm(-1);
             Add_Match_btn.Background = Brushes.Pink;
             AddMatchWindow.Show();
         }

@@ -130,6 +130,19 @@ namespace Cricket
             var fFieldingStats = new Fielding();
         }
 
+        public void EditMatchdata(string oppos, string date1, string place, ResultType Result, List<string> PlayerNames)
+        {
+            fOpposition = oppos;
+
+            fPlayerNames = PlayerNames;
+
+            date = date1;
+
+            fPlace = place;
+
+            fResult = Result;
+        }
+
         /// <summary>
         /// Query to determine whether 
         /// </summary>

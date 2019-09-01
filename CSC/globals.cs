@@ -48,6 +48,20 @@ namespace Cricket
             return null;
         }
 
+        public static int IndexFromPlayerName(string name)
+        {
+            int numbplayers = Ardeley.Count;
+            for(int i = 0; i < numbplayers; ++i)
+            {
+                if (Ardeley[i].Name == name)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
         /// <summary>
         /// Saving routine of database
         /// </summary>
