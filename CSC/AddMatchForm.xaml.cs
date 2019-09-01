@@ -140,17 +140,16 @@ namespace CricketStatsCalc
             {
                 Cricket_Match newMatch = new Cricket_Match(OppoName, date1, place, Result, team);
                 Globals.GamesPlayed.Add(newMatch);
-                Go_To_Batting.Background = Brushes.Pink;
-                AddBattingInnings AddBattingWindow = new AddBattingInnings(-1);
-                AddBattingWindow.Show();
             }
 
             if (GameIndex > -1)
             {
                 Globals.GamesPlayed[GameIndex].EditMatchdata(OppoName, date1, place, Result, team);
-                AddBattingInnings AddBattingWindow = new AddBattingInnings(GameIndex);
-                AddBattingWindow.Show();
             }
+
+            AddBattingInnings AddBattingWindow = new AddBattingInnings(GameIndex);
+            AddBattingWindow.Show();
+
             Close();
             
         }

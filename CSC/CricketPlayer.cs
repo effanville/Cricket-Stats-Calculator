@@ -250,11 +250,25 @@ namespace Cricket
         {
             if (!Calculated)
             {
+                total_runs = 0;
+                total_innings = 0;
+                total_not_out = 0;
+                total_overs = 0;
+                total_maidens = 0;
+                total_runs_conceded = 0;
+                total_wickets = 0;
+                total_catches = 0;
+                total_run_out = 0;
+                total_catches_w = 0;
+                total_stumpings_w = 0;
+
                 int best_bowl_wckts = 0;
                 int best_bowl_runs = 0;
                 string best_bowl_oppo = "";
+                string best_bowl_date = "";
                 int bestbat = 0;
                 string bestbat_oppo = "";
+                string best_bat_date = "";
                 foreach (Cricket_Match game in Globals.GamesPlayed)
                 {
                     int playerIndex = 0;
@@ -286,6 +300,7 @@ namespace Cricket
                         {
                             bestbat = game.FBatting.FRuns_Scored[playerIndex];
                             bestbat_oppo = game.FOpposition;
+                            best_bat_date = game.Date;
                         }
 
                         // next update bowling information and statistics
@@ -325,6 +340,7 @@ namespace Cricket
                                 best_bowl_wckts = game.FBowling.FWickets[playerIndex];
                                 best_bowl_runs = game.FBowling.FMaidens[playerIndex];
                                 best_bowl_oppo = game.FOpposition;
+                                best_bowl_date = game.Date;
                             }
                         }
 
@@ -336,13 +352,12 @@ namespace Cricket
                         total_stumpings_w += game.FFieldingStats.FStumpings[playerIndex];
 
                     }
-                    int i = 1;
                 }
 
                 total_fielding_dismissals = total_catches + total_run_out + total_catches_w + total_stumpings_w;
                 total_keeper_dismissals = total_catches_w + total_stumpings_w;
-                Bestbatting = bestbat.ToString() + " v " + bestbat_oppo;
-                best_bowl_figures = best_bowl_wckts.ToString() + "-" + best_bowl_runs.ToString() + " v " + best_bowl_oppo;
+                Bestbatting = bestbat.ToString() + " v " + bestbat_oppo + " " + best_bat_date;
+                best_bowl_figures = best_bowl_wckts.ToString() + "-" + best_bowl_runs.ToString() + " v " + best_bowl_oppo + " " + best_bowl_date;
             }
 
             return true;
