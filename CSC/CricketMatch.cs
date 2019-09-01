@@ -45,11 +45,11 @@ namespace Cricket
         /// <summary>
         /// list of players that play in this match
         /// </summary>
-        private List<Cricket_Player> fPlayers;
-        public List<Cricket_Player> FPlayers
+        private List<string> fPlayerNames;
+        public List<string> FPlayerNames
         {
-            get { return fPlayers; }
-            set { fPlayers = value; }
+            get { return fPlayerNames; }
+            set { fPlayerNames = value; }
         }
 
         private Batting_Innings fBatting;
@@ -84,24 +84,24 @@ namespace Cricket
         /// </summary>
         /// <param name="oppos">Name of the opposition</param>
         /// <param name="Players">List of players that play</param>
-        public Cricket_Match(string oppos, List<Cricket_Player> Players)
+        public Cricket_Match(string oppos, List<string> PlayerNames)
         {
             fOpposition = oppos;
 
-            fPlayers = Players;
+            fPlayerNames = PlayerNames;
 
-            fBatting = new Batting_Innings(Players);
+            fBatting = new Batting_Innings(PlayerNames);
 
-            fBowling = new BowlingInnings(Players);
+            fBowling = new BowlingInnings(PlayerNames);
 
-            fFieldingStats = new Fielding(Players);
+            fFieldingStats = new Fielding(PlayerNames);
         }
 
-        public Cricket_Match(string oppos, string date1, string place, ResultType Result, List<Cricket_Player> Players)
+        public Cricket_Match(string oppos, string date1, string place, ResultType Result, List<string> PlayerNames)
         {
             fOpposition = oppos;
 
-            fPlayers = Players;
+            fPlayerNames = PlayerNames;
 
             date = date1;
 
@@ -109,11 +109,11 @@ namespace Cricket
 
             fResult = Result;
 
-            fBatting = new Batting_Innings(Players);
+            fBatting = new Batting_Innings(PlayerNames);
 
-            fBowling = new BowlingInnings(Players);
+            fBowling = new BowlingInnings(PlayerNames);
 
-            fFieldingStats = new Fielding(Players);
+            fFieldingStats = new Fielding(PlayerNames);
         }
 
         public Cricket_Match()
@@ -121,7 +121,7 @@ namespace Cricket
             string dummy = "";
             fOpposition = dummy;
 
-            fPlayers = new List<Cricket_Player>();
+            fPlayerNames = new List<string>();
 
             var fBatting = new Batting_Innings();
 
@@ -140,9 +140,9 @@ namespace Cricket
         {
             bool played = false;
             int i = 0;
-            for (i = 0; i < fPlayers.Count; ++i)
+            for (i = 0; i < fPlayerNames.Count; ++i)
             {
-                if (fPlayers[i] == person)
+                if (fPlayerNames[i] == person.Name)
                 {
                     played = true;
                     break;

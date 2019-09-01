@@ -25,49 +25,49 @@ namespace CricketStatsCalc
         public AddFieldingForm()
         {
             InitializeComponent();
-            if (Latest.FPlayers[0] != null)
+            if (Latest.FPlayerNames[0] != null)
             {
-                Player1.Text = Latest.FPlayers[0].Name;
+                Player1.Text = Latest.FPlayerNames[0];
             }
-            if (Latest.FPlayers[1] != null)
+            if (Latest.FPlayerNames[1] != null)
             {
-                Player2.Text = Latest.FPlayers[1].Name;
+                Player2.Text = Latest.FPlayerNames[1];
             }
-            if (Latest.FPlayers[2] != null)
+            if (Latest.FPlayerNames[2] != null)
             {
-                Player3.Text = Latest.FPlayers[2].Name;
+                Player3.Text = Latest.FPlayerNames[2];
             }
-            if (Latest.FPlayers[3] != null)
+            if (Latest.FPlayerNames[3] != null)
             {
-                Player4.Text = Latest.FPlayers[3].Name;
+                Player4.Text = Latest.FPlayerNames[3];
             }
-            if (Latest.FPlayers[4] != null)
+            if (Latest.FPlayerNames[4] != null)
             {
-                Player5.Text = Latest.FPlayers[4].Name;
+                Player5.Text = Latest.FPlayerNames[4];
             }
-            if (Latest.FPlayers[5] != null)
+            if (Latest.FPlayerNames[5] != null)
             {
-                Player6.Text = Latest.FPlayers[5].Name;
+                Player6.Text = Latest.FPlayerNames[5];
             }
-            if (Latest.FPlayers[6] != null)
+            if (Latest.FPlayerNames[6] != null)
             {
-                Player7.Text = Latest.FPlayers[6].Name;
+                Player7.Text = Latest.FPlayerNames[6];
             }
-            if (Latest.FPlayers[7] != null)
+            if (Latest.FPlayerNames[7] != null)
             {
-                Player8.Text = Latest.FPlayers[7].Name;
+                Player8.Text = Latest.FPlayerNames[7];
             }
-            if (Latest.FPlayers[8] != null)
+            if (Latest.FPlayerNames[8] != null)
             {
-                Player9.Text = Latest.FPlayers[8].Name;
+                Player9.Text = Latest.FPlayerNames[8];
             }
-            if (Latest.FPlayers[9] != null)
+            if (Latest.FPlayerNames[9] != null)
             {
-                Player10.Text = Latest.FPlayers[9].Name;
+                Player10.Text = Latest.FPlayerNames[9];
             }
-            if (Latest.FPlayers[10] != null)
+            if (Latest.FPlayerNames[10] != null)
             {
-                Player11.Text = Latest.FPlayers[10].Name;
+                Player11.Text = Latest.FPlayerNames[10];
             }
         }
 
@@ -83,16 +83,17 @@ namespace CricketStatsCalc
 
             Latest.FFieldingStats.Add_Data(catches, ro,  st,  keepcat);
 
-            // ensure all players just added have statistics recalculated
-            foreach (Cricket_Player person in Latest.FPlayers)
-            {
-                if(person!=null)
-                {
-                    person.Calculated = false;
-                }              
-            }
 
             Globals.GamesPlayed[Globals.GamesPlayed.Count() - 1] = Latest;
+            foreach (string person in Latest.FPlayerNames)
+            {
+                Cricket_Player A = Globals.GetPlayerFromName(person);
+                if(A!=null)
+                {
+                    A.Calculated = false;
+                }
+            }
+
             Close();
         }
     }

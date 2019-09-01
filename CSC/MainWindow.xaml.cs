@@ -68,8 +68,7 @@ namespace CricketStatsCalc
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-
-                Players.Items.Clear();
+            Players.Items.Clear();
 
             foreach (Cricket_Player person in Globals.Ardeley)
             {
@@ -86,6 +85,12 @@ namespace CricketStatsCalc
             {
                 Matches.Items.Add(opposition.FOpposition);
             }
+        }
+
+        private void viewedit_match_Click(object sender, RoutedEventArgs e)
+        {
+            MatchSelectorForm EditMatchWindow = new MatchSelectorForm();
+            EditMatchWindow.Show();
         }
     }
 }

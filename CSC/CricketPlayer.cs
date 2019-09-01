@@ -336,6 +336,7 @@ namespace Cricket
                         total_stumpings_w += game.FFieldingStats.FStumpings[playerIndex];
 
                     }
+                    int i = 1;
                 }
 
                 total_fielding_dismissals = total_catches + total_run_out + total_catches_w + total_stumpings_w;

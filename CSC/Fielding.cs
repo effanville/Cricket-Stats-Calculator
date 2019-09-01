@@ -11,11 +11,11 @@ namespace Cricket
         /// <summary>
         /// list of players that play in this innings
         /// </summary>
-        private List<Cricket_Player> fPlayers;
-        public List<Cricket_Player> FPlayers
+        private List<string> fPlayerNames;
+        public List<string> FPlayerNames
         {
-            get {return fPlayers;}
-            set{fPlayers = value;}
+            get {return fPlayerNames;}
+            set{fPlayerNames = value;}
         }
 
         private List<int> fCatches;
@@ -54,13 +54,13 @@ namespace Cricket
             fCatchesKeeper = keepcat;
         }
 
-        public Fielding(List<Cricket_Player> Players)
+        public Fielding(List<string> PlayerNames)
         {
-            fPlayers = Players;
+            fPlayerNames = PlayerNames;
         }
         public Fielding()
         {
-            fPlayers = new List < Cricket_Player >();
+            fPlayerNames = new List < string >();
         }
     }
 }

@@ -51,18 +51,34 @@ namespace CricketStatsCalc
 
         void GoToBattingClick(object sender, RoutedEventArgs e)
         {
-            List<Cricket_Player> team = new List<Cricket_Player>();
-            team.Add((Cricket_Player)ChoosePlayer1.SelectedItem);
-            team.Add((Cricket_Player)ChoosePlayer2.SelectedItem);
-            team.Add((Cricket_Player)ChoosePlayer3.SelectedItem);
-            team.Add((Cricket_Player)ChoosePlayer4.SelectedItem);
-            team.Add((Cricket_Player)ChoosePlayer5.SelectedItem);
-            team.Add((Cricket_Player)ChoosePlayer6.SelectedItem);
-            team.Add((Cricket_Player)ChoosePlayer7.SelectedItem);
-            team.Add((Cricket_Player)ChoosePlayer8.SelectedItem);
-            team.Add((Cricket_Player)ChoosePlayer9.SelectedItem);
-            team.Add((Cricket_Player)ChoosePlayer10.SelectedItem);
-            team.Add((Cricket_Player)ChoosePlayer11.SelectedItem);
+            List<string> team = new List<string>(new string[11]);
+            if (ChoosePlayer1.SelectedItem is Cricket_Player)
+            { team[0]= ((Cricket_Player)ChoosePlayer1.SelectedItem).Name; }
+
+            if (ChoosePlayer2.SelectedItem is Cricket_Player )
+            { team[1]=((Cricket_Player)ChoosePlayer2.SelectedItem).Name; }
+
+            if (ChoosePlayer3.SelectedItem is Cricket_Player)
+            { team[2]=((Cricket_Player)ChoosePlayer3.SelectedItem).Name; }
+
+            if (ChoosePlayer4.SelectedItem is Cricket_Player)
+            { team[3]=((Cricket_Player)ChoosePlayer4.SelectedItem).Name; }
+
+            if (ChoosePlayer5.SelectedItem is Cricket_Player)
+            { team[4]= ((Cricket_Player)ChoosePlayer5.SelectedItem).Name; }
+
+            if (ChoosePlayer6.SelectedItem is Cricket_Player)
+            {   team[5] = ((Cricket_Player)ChoosePlayer6.SelectedItem).Name; }
+            if (ChoosePlayer7.SelectedItem is Cricket_Player )
+            {   team[6] = ((Cricket_Player)ChoosePlayer7.SelectedItem).Name; }
+            if (ChoosePlayer8.SelectedItem is Cricket_Player)
+            {   team[7] = ((Cricket_Player)ChoosePlayer8.SelectedItem).Name; }
+            if (ChoosePlayer9.SelectedItem is Cricket_Player )
+            { team[8] = ((Cricket_Player)ChoosePlayer9.SelectedItem).Name; }
+            if (ChoosePlayer10.SelectedItem is Cricket_Player )
+            {   team[9] = ((Cricket_Player)ChoosePlayer10.SelectedItem).Name; }
+            if (ChoosePlayer11.SelectedItem is Cricket_Player)
+            { team[10] = ((Cricket_Player)ChoosePlayer11.SelectedItem).Name; }
 
             string OppoName = OppositionNameBox.Text;
             string date1 = DateBox.Text;

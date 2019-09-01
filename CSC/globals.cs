@@ -35,6 +35,22 @@ namespace Cricket
 
         public static List<Cricket_Match> GamesPlayed = new List<Cricket_Match>();
 
+        public static Cricket_Player GetPlayerFromName(string name)
+        {
+            foreach (Cricket_Player person in Ardeley)
+            {
+                if (person.Name == name)
+                {
+                    return person;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Saving routine of database
+        /// </summary>
         public static void SaveDatabase()
         {
             WriteToXmlFile<List<Cricket_Player>>("playerdata.xml", Ardeley);

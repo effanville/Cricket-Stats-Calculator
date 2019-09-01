@@ -11,16 +11,16 @@ namespace Cricket
         /// <summary>
         /// list of players that play in this innings
         /// </summary>
-        private List<Cricket_Player> fPlayers;
-        public List<Cricket_Player> FPlayers
+        private List<string> fPlayerNames;
+        public List<string> FPlayerNames
         {
             get
             {
-                return fPlayers;
+                return fPlayerNames;
             }
             set
             {
-                fPlayers = value;
+                fPlayerNames = value;
             }
         }
 
@@ -61,17 +61,17 @@ namespace Cricket
         /// takes in player names from the overlying match class
         /// inputs for the runs scored and how out are dealt with either from a WPF or from command line
         /// </summary>
-        public Batting_Innings(List<Cricket_Player> Players, List<int> Runs_Scored,   List<OutType> Method_Out,int Extras)
+        public Batting_Innings(List<string> PlayerNames, List<int> Runs_Scored,   List<OutType> Method_Out,int Extras)
         {
-            fPlayers = Players;
+            fPlayerNames = PlayerNames;
             fRuns_Scored = Runs_Scored;
             fMethod_Out = Method_Out;
             fExtras = Extras;
         }
 
-        public Batting_Innings(List<Cricket_Player> Players)
+        public Batting_Innings(List<string> PlayerNames)
         {
-            fPlayers = Players;
+            fPlayerNames = PlayerNames;
             fRuns_Scored = new List<int>();
             fMethod_Out = new List<OutType>();
             fExtras = 0;

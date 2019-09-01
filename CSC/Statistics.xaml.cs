@@ -185,7 +185,6 @@ namespace CricketStatsCalc
 
             foreach (Cricket_Player person in Globals.Ardeley)
             {
-
                 //create mock stats for batting
                 string Name1 = person.Name;
                 int Tot_Runs1 = person.Total_runs;
@@ -240,6 +239,7 @@ namespace CricketStatsCalc
 
             swBat.Close();
             swBowl.Close();
+            swField.Close();
 
 
             BowlingCompare BowlC = new BowlingCompare();

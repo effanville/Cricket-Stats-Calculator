@@ -11,16 +11,16 @@ namespace Cricket
         /// <summary>
         /// list of players that play in this innings
         /// </summary>
-        private List<Cricket_Player> fPlayers;
-        private List<Cricket_Player> FPlayers
+        private List<string> fPlayerNames;
+        private List<string> FPlayerNames
         {
             get
             {
-                return fPlayers;
+                return fPlayerNames;
             }
             set
             {
-                fPlayers = value;
+                fPlayerNames = value;
             }
         }
 
@@ -60,18 +60,18 @@ namespace Cricket
             fWickets = Wickets;
         }
 
-        public BowlingInnings(List<Cricket_Player> Players, List<int> Overs, List<int> Maidens, List<int> Runs, List<int> Wickets)
+        public BowlingInnings(List<string> PlayerNames, List<int> Overs, List<int> Maidens, List<int> Runs, List<int> Wickets)
         {
-            fPlayers = Players;
+            fPlayerNames = PlayerNames;
             fOvers_Bowled = Overs;
             fMaidens = Maidens;
             fRuns_Conceded = Runs;
             fWickets = Wickets;
         }
 
-        public BowlingInnings(List<Cricket_Player> Players)
+        public BowlingInnings(List<string> PlayerNames)
         {
-            fPlayers = Players;
+            fPlayerNames = PlayerNames;
         }
 
         /// <summary>
