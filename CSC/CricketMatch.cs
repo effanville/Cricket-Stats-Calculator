@@ -22,8 +22,8 @@ namespace Cricket
             }
         }
 
-        private string date;
-        public string Date
+        private DateTime date;
+        public DateTime Date
         { get { return date; }
             set { date = value; }
         }
@@ -97,7 +97,7 @@ namespace Cricket
             fFieldingStats = new Fielding(PlayerNames);
         }
 
-        public Cricket_Match(string oppos, string date1, string place, ResultType Result, List<string> PlayerNames)
+        public Cricket_Match(string oppos, DateTime date1, string place, ResultType Result, List<string> PlayerNames)
         {
             fOpposition = oppos;
 
@@ -130,7 +130,7 @@ namespace Cricket
             var fFieldingStats = new Fielding();
         }
 
-        public void EditMatchdata(string oppos, string date1, string place, ResultType Result, List<string> PlayerNames)
+        public void EditMatchdata(string oppos, DateTime date1, string place, ResultType Result, List<string> PlayerNames)
         {
             fOpposition = oppos;
 

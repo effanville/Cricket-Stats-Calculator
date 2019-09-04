@@ -300,15 +300,15 @@ namespace Cricket
                         {
                             bestbat = game.FBatting.FRuns_Scored[playerIndex];
                             bestbat_oppo = game.FOpposition;
-                            best_bat_date = game.Date;
+                            best_bat_date = game.Date.ToShortDateString();
                         }
 
                         // next update bowling information and statistics
 
                         total_overs += game.FBowling.FOvers_Bowled[playerIndex];
-                        total_maidens = game.FBowling.FMaidens[playerIndex];
-                        total_runs_conceded = game.FBowling.FRuncs_Conceded[playerIndex];
-                        total_wickets = game.FBowling.FWickets[playerIndex];
+                        total_maidens += game.FBowling.FMaidens[playerIndex];
+                        total_runs_conceded += game.FBowling.FRuncs_Conceded[playerIndex];
+                        total_wickets += game.FBowling.FWickets[playerIndex];
 
                         if (total_wickets != 0)
                         {
@@ -330,6 +330,7 @@ namespace Cricket
                             best_bowl_wckts = game.FBowling.FWickets[playerIndex];
                             best_bowl_runs = game.FBowling.FRuncs_Conceded[playerIndex];
                             best_bowl_oppo = game.FOpposition;
+                            best_bowl_date = game.Date.ToShortDateString();
                         }
 
                         // if the number of wickets is the same, but have fewer runs, then these are the best figures
@@ -338,9 +339,9 @@ namespace Cricket
                             if (game.FBowling.FMaidens[playerIndex] < best_bowl_runs)
                             {
                                 best_bowl_wckts = game.FBowling.FWickets[playerIndex];
-                                best_bowl_runs = game.FBowling.FMaidens[playerIndex];
+                                best_bowl_runs = game.FBowling.FRuncs_Conceded[playerIndex];
                                 best_bowl_oppo = game.FOpposition;
-                                best_bowl_date = game.Date;
+                                best_bowl_date = game.Date.ToShortDateString();
                             }
                         }
 

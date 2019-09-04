@@ -94,7 +94,7 @@ namespace CricketStatsCalc
                 }
 
                 OppositionNameBox.Text = Globals.GamesPlayed[indexinput].FOpposition;
-                DateBox.Text = Globals.GamesPlayed[indexinput].Date;
+                DateBox.Text = Globals.GamesPlayed[indexinput].Date.ToShortDateString();
                 PlaceBox.Text = Globals.GamesPlayed[indexinput].FPlace;
             }
         }
@@ -132,7 +132,16 @@ namespace CricketStatsCalc
                 { team[10] = ((Cricket_Player)ChoosePlayer11.SelectedItem).Name; }
 
                 string OppoName = OppositionNameBox.Text;
-                string date1 = DateBox.Text;
+
+                DateTime date1;
+
+            if (!DateTime.TryParse(DateBox.Text, out date1))
+            {
+            }
+
+
+
+                
                 string place = PlaceBox.Text;
                 ResultType Result = (ResultType)ResultBox.SelectedValue;
 

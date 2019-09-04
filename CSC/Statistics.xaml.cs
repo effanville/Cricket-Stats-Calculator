@@ -41,6 +41,7 @@ namespace CricketStatsCalc
     {
         public int Compare(DummyBattingStats x, DummyBattingStats y)
         {
+
             if (x.Batting_average > y.Batting_average)
             {
                 return -1;
@@ -82,6 +83,14 @@ namespace CricketStatsCalc
     {
         public int Compare(DummyBowlingStats x, DummyBowlingStats y)
         {
+            if (double.IsNaN(x.average))
+            {
+                return 1;
+            }
+            if (double.IsNaN(y.average))
+            {
+                return -1;
+            }
             if (x.average < y.average)
             {
                 return -1;
@@ -183,6 +192,9 @@ namespace CricketStatsCalc
             StreamWriter swBowl = new StreamWriter("Bowling.csv");
             StreamWriter swField = new StreamWriter("Fielding.csv");
 
+            swBat.WriteLine("Name, Total Runs, Total innings, Total not out, Batting average, best batting");
+            swBowl.WriteLine("Name,  Total overs, Total mdns, Total runsconceded, Total wickets, Average, Economy, Best bowling");
+            swField.WriteLine("Name, total catches, total runouts, total catches keeper, total stump keeper, total fielding, total keep");
             foreach (Cricket_Player person in Globals.Ardeley)
             {
                 //create mock stats for batting
@@ -192,7 +204,7 @@ namespace CricketStatsCalc
                 int Tot_not_out1 = person.Total_not_out;
                 string best = person.Bestbatting;
                 double Batting_average1 = person.Batting_average;
-                DummyBattingStats NextPlayer = new DummyBattingStats(Name1, Tot_Runs1, Tot_innings1, Tot_not_out1, best, Batting_average1);
+                DummyBattingStats NextPlayer = new DummyBattingStats(Name1, Tot_Runs1, Tot_innings1, Tot_not_out1, best, Math.Round(Batting_average1,2));
                 DummyBatStats.Add(NextPlayer);
 
                 //create mock stats for bowling
@@ -203,7 +215,7 @@ namespace CricketStatsCalc
                 double BAv = person.Bowling_average;
                 double Becon = person.Bowling_economy;
                 string bowlbest = person.Best_bowl_figures;
-                DummyBowlingStats NextBowlPlayer = new DummyBowlingStats(Name1, Tot_Ovrs, Tot_mdns, Tot_runs_conc,Tot_wckts, BAv, Becon, bowlbest);
+                DummyBowlingStats NextBowlPlayer = new DummyBowlingStats(Name1, Tot_Ovrs, Tot_mdns, Tot_runs_conc,Tot_wckts,Math.Round(BAv,2), Math.Round(Becon,2), bowlbest);
                 DummyBowlStats.Add(NextBowlPlayer);
 
                 // create mock stats for fielding
@@ -256,7 +268,6 @@ namespace CricketStatsCalc
 
             KeeperCompare KeepC = new KeeperCompare();
             DummyKeepStats.Sort(KeepC);
-            KeepingStats.ItemsSource = DummyKeepStats;
         }
     }
 }
