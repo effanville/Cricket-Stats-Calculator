@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Add Player" Height="194.037" Width="188.991">
+        Title="Add Player" Height="238.815" Width="262.472">
     <Grid Margin="0,0,12,-2">
-        <Button Name="CreatePlayer" Content="Submit" HorizontalAlignment="Left" Margin="37,25,0,0" VerticalAlignment="Top" Width="75" Click ="AddNameClick" ClickMode="Press" />
-        <TextBox Name="PlayerAddBox" HorizontalAlignment="Left" Height="28" Margin="7,77,0,0" TextWrapping="Wrap" Text="Input Player Name Here" VerticalAlignment="Top" Width="162"/>
+        <Button Name="CreatePlayer" Content="Submit" HorizontalAlignment="Left" Margin="78,63,0,0" VerticalAlignment="Top" Width="75" Click ="AddNameClick" ClickMode="Press" />
+        <TextBox Name="PlayerAddBox" HorizontalAlignment="Left" Height="28" Margin="41,119,0,0" TextWrapping="Wrap" Text="Input Player Name Here" VerticalAlignment="Top" Width="162"/>
 
     </Grid>
 </Window>

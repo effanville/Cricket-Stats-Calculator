@@ -5,44 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Add Batting Innings Form" Height="435.508" Width="491.526">
+        Title="Add Batting Innings Form" Height="479.008" Width="491.526">
     <Grid>
-        <TextBox Name ="Player1" HorizontalAlignment="Left" Height="22" Margin="31,16,0,0" TextWrapping="Wrap" Text="P1" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player2" HorizontalAlignment="Left" Height="22" Margin="31,44,0,0" TextWrapping="Wrap" Text="P2" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player3" HorizontalAlignment="Left" Height="22" Margin="31,73,0,0" TextWrapping="Wrap" Text="P3" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player4" HorizontalAlignment="Left" Height="22" Margin="31,101,0,0" TextWrapping="Wrap" Text="P4" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player5" HorizontalAlignment="Left" Height="22" Margin="32,134,0,0" TextWrapping="Wrap" Text="P5" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player6" HorizontalAlignment="Left" Height="22" Margin="33,166,0,0" TextWrapping="Wrap" Text="P6" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player7" HorizontalAlignment="Left" Height="22" Margin="33,197,0,0" TextWrapping="Wrap" Text="P7" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player8" HorizontalAlignment="Left" Height="22" Margin="32,225,0,0" TextWrapping="Wrap" Text="P8" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player9" HorizontalAlignment="Left" Height="22" Margin="33,254,0,0" TextWrapping="Wrap" Text="P9" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player10" HorizontalAlignment="Left" Height="22" Margin="33,282,0,0" TextWrapping="Wrap" Text="P10" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player11" HorizontalAlignment="Left" Height="22" Margin="33,309,0,0" TextWrapping="Wrap" Text="P11" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="Player1OutMethod" HorizontalAlignment="Left" Margin="163,16,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="Player2OutMethod" HorizontalAlignment="Left" Margin="163,45,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="Player3OutMethod" HorizontalAlignment="Left" Margin="163,74,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="Player4OutMethod" HorizontalAlignment="Left" Margin="163,101,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="Player5OutMethod" HorizontalAlignment="Left" Margin="163,133,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="Player6OutMethod" HorizontalAlignment="Left" Margin="163,166,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="Player7OutMethod" HorizontalAlignment="Left" Margin="163,198,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="Player8OutMethod" HorizontalAlignment="Left" Margin="163,226,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="Player9OutMethod" HorizontalAlignment="Left" Margin="163,253,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="Player10OutMethod" HorizontalAlignment="Left" Margin="163,282,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="Player11OutMethod" HorizontalAlignment="Left" Margin="163,310,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player1_Runs" HorizontalAlignment="Left" Height="22" Margin="296,18,0,0" TextWrapping="Wrap" Text="P1_Runs" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player2_Runs" HorizontalAlignment="Left" Height="22" Margin="296,46,0,0" TextWrapping="Wrap" Text="P2_Runs" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player3_Runs" HorizontalAlignment="Left" Height="22" Margin="296,75,0,0" TextWrapping="Wrap" Text="P3_Runs" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player4_Runs" HorizontalAlignment="Left" Height="22" Margin="296,101,0,0" TextWrapping="Wrap" Text="P4_Runs" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player5_Runs" HorizontalAlignment="Left" Height="22" Margin="296,132,0,0" TextWrapping="Wrap" Text="P5_Runs" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player6_Runs" HorizontalAlignment="Left" Height="22" Margin="296,163,0,0" TextWrapping="Wrap" Text="P6_Runs" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player7_Runs" HorizontalAlignment="Left" Height="22" Margin="296,199,0,0" TextWrapping="Wrap" Text="P7_Runs" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player1" HorizontalAlignment="Left" Height="22" Margin="37,52,0,0" TextWrapping="Wrap" Text="P1" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player2" HorizontalAlignment="Left" Height="22" Margin="37,80,0,0" TextWrapping="Wrap" Text="P2" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player3" HorizontalAlignment="Left" Height="22" Margin="37,109,0,0" TextWrapping="Wrap" Text="P3" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player4" HorizontalAlignment="Left" Height="22" Margin="37,137,0,0" TextWrapping="Wrap" Text="P4" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player5" HorizontalAlignment="Left" Height="22" Margin="38,170,0,0" TextWrapping="Wrap" Text="P5" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player6" HorizontalAlignment="Left" Height="22" Margin="39,202,0,0" TextWrapping="Wrap" Text="P6" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player7" HorizontalAlignment="Left" Height="22" Margin="39,233,0,0" TextWrapping="Wrap" Text="P7" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player8" HorizontalAlignment="Left" Height="22" Margin="38,261,0,0" TextWrapping="Wrap" Text="P8" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player9" HorizontalAlignment="Left" Height="22" Margin="39,290,0,0" TextWrapping="Wrap" Text="P9" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player10" HorizontalAlignment="Left" Height="22" Margin="39,318,0,0" TextWrapping="Wrap" Text="P10" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player11" HorizontalAlignment="Left" Height="22" Margin="39,345,0,0" TextWrapping="Wrap" Text="P11" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="Player1OutMethod" HorizontalAlignment="Left" Margin="169,52,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="Player2OutMethod" HorizontalAlignment="Left" Margin="169,81,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="Player3OutMethod" HorizontalAlignment="Left" Margin="169,110,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="Player4OutMethod" HorizontalAlignment="Left" Margin="169,137,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="Player5OutMethod" HorizontalAlignment="Left" Margin="169,169,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="Player6OutMethod" HorizontalAlignment="Left" Margin="169,202,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="Player7OutMethod" HorizontalAlignment="Left" Margin="169,234,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="Player8OutMethod" HorizontalAlignment="Left" Margin="169,262,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="Player9OutMethod" HorizontalAlignment="Left" Margin="169,289,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="Player10OutMethod" HorizontalAlignment="Left" Margin="169,318,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="Player11OutMethod" HorizontalAlignment="Left" Margin="169,346,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player1_Runs" HorizontalAlignment="Left" Height="22" Margin="302,54,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player2_Runs" HorizontalAlignment="Left" Height="22" Margin="302,82,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player3_Runs" HorizontalAlignment="Left" Height="22" Margin="302,111,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player4_Runs" HorizontalAlignment="Left" Height="22" Margin="302,137,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player5_Runs" HorizontalAlignment="Left" Height="22" Margin="302,168,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player6_Runs" HorizontalAlignment="Left" Height="22" Margin="302,199,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player7_Runs" HorizontalAlignment="Left" Height="22" Margin="302,235,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
-        <TextBox Name ="Player8_Runs" HorizontalAlignment="Left" Height="22" Margin="296,227,0,0" TextWrapping="Wrap" Text="P8_Runs" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player9_Runs" HorizontalAlignment="Left" Height="22" Margin="296,255,0,0" TextWrapping="Wrap" Text="P9_Runs" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player10_Runs" HorizontalAlignment="Left" Height="22" Margin="296,281,0,0" TextWrapping="Wrap" Text="P10_Runs" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player11_Runs" HorizontalAlignment="Left" Height="22" Margin="296,313,0,0" TextWrapping="Wrap" Text="P11_Runs" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Extras" HorizontalAlignment="Left" Height="22" Margin="296,343,0,0" TextWrapping="Wrap" Text="Extras" VerticalAlignment="Top" Width="120"/>
-        <Button Name="Go_To_Bowling" Content="Next" HorizontalAlignment="Left" Margin="155,370,0,0" VerticalAlignment="Top" Width="75" Click="GoToBowling_Click" ClickMode="Press"/>
+        <TextBox Name ="Player8_Runs" HorizontalAlignment="Left" Height="22" Margin="302,263,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player9_Runs" HorizontalAlignment="Left" Height="22" Margin="302,291,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player10_Runs" HorizontalAlignment="Left" Height="22" Margin="302,317,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player11_Runs" HorizontalAlignment="Left" Height="22" Margin="302,349,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Extras" HorizontalAlignment="Left" Height="22" Margin="302,379,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Button Name="Go_To_Bowling" Content="Next" HorizontalAlignment="Left" Margin="186,419,0,0" VerticalAlignment="Top" Width="75" Click="GoToBowling_Click" ClickMode="Press"/>
+        <TextBox x:Name ="Player1_Copy" HorizontalAlignment="Left" Height="22" Margin="37,18,0,0" TextWrapping="Wrap" Text="Player Name" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name ="Player1_Copy1" HorizontalAlignment="Left" Height="22" Margin="170,19,0,0" TextWrapping="Wrap" Text="How Out" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name ="Player1_Runs_Copy" HorizontalAlignment="Left" Height="22" Margin="302,19,0,0" TextWrapping="Wrap" Text="Runs Scored" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.472,-1.197"/>
+        <TextBox x:Name ="Extras_Copy" HorizontalAlignment="Left" Height="22" Margin="167,379,0,0" TextWrapping="Wrap" Text="Extras" VerticalAlignment="Top" Width="120"/>
 
     </Grid>
 </Window>

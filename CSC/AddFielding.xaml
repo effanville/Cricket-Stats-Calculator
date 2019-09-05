@@ -5,69 +5,74 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Add Fielding Form" Height="411" Width="567">
+        Title="Add Fielding Form" Height="450" Width="567">
     <Grid>
-        <Button Name="Submit_Match" Content="Next" HorizontalAlignment="Left" Margin="236,347,0,0" VerticalAlignment="Top" Width="75"  Click="Submit_Match_Click" ClickMode="Press"/>
+        <Button Name="Submit_Match" Content="Next" HorizontalAlignment="Left" Margin="230,383,0,0" VerticalAlignment="Top" Width="75"  Click="Submit_Match_Click" ClickMode="Press"/>
 
-        <TextBox Name ="Player1" HorizontalAlignment="Left" Height="22" Margin="31,16,0,0" TextWrapping="Wrap" Text="P1" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player2" HorizontalAlignment="Left" Height="22" Margin="31,44,0,0" TextWrapping="Wrap" Text="P2" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player3" HorizontalAlignment="Left" Height="22" Margin="31,73,0,0" TextWrapping="Wrap" Text="P3" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player4" HorizontalAlignment="Left" Height="22" Margin="31,101,0,0" TextWrapping="Wrap" Text="P4" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player5" HorizontalAlignment="Left" Height="22" Margin="32,134,0,0" TextWrapping="Wrap" Text="P5" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player6" HorizontalAlignment="Left" Height="22" Margin="33,166,0,0" TextWrapping="Wrap" Text="P6" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player7" HorizontalAlignment="Left" Height="22" Margin="33,197,0,0" TextWrapping="Wrap" Text="P7" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player8" HorizontalAlignment="Left" Height="22" Margin="32,225,0,0" TextWrapping="Wrap" Text="P8" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player9" HorizontalAlignment="Left" Height="22" Margin="33,254,0,0" TextWrapping="Wrap" Text="P9" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player10" HorizontalAlignment="Left" Height="22" Margin="33,282,0,0" TextWrapping="Wrap" Text="P10" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Player11" HorizontalAlignment="Left" Height="22" Margin="33,309,0,0" TextWrapping="Wrap" Text="P11" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player1" HorizontalAlignment="Left" Height="22" Margin="25,52,0,0" TextWrapping="Wrap" Text="P1" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player2" HorizontalAlignment="Left" Height="22" Margin="25,80,0,0" TextWrapping="Wrap" Text="P2" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player3" HorizontalAlignment="Left" Height="22" Margin="25,109,0,0" TextWrapping="Wrap" Text="P3" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player4" HorizontalAlignment="Left" Height="22" Margin="25,137,0,0" TextWrapping="Wrap" Text="P4" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player5" HorizontalAlignment="Left" Height="22" Margin="25,170,0,0" TextWrapping="Wrap" Text="P5" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player6" HorizontalAlignment="Left" Height="22" Margin="25,202,0,0" TextWrapping="Wrap" Text="P6" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player7" HorizontalAlignment="Left" Height="22" Margin="25,233,0,0" TextWrapping="Wrap" Text="P7" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player8" HorizontalAlignment="Left" Height="22" Margin="25,261,0,0" TextWrapping="Wrap" Text="P8" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player9" HorizontalAlignment="Left" Height="22" Margin="25,290,0,0" TextWrapping="Wrap" Text="P9" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player10" HorizontalAlignment="Left" Height="22" Margin="25,318,0,0" TextWrapping="Wrap" Text="P10" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="Player11" HorizontalAlignment="Left" Height="22" Margin="25,345,0,0" TextWrapping="Wrap" Text="P11" VerticalAlignment="Top" Width="120"/>
 
-        <TextBox Name ="P1cat" HorizontalAlignment="Left" Height="22" Margin="160,16,0,0" TextWrapping="Wrap" Text="Catches" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P2cat" HorizontalAlignment="Left" Height="22" Margin="160,44,0,0" TextWrapping="Wrap" Text="Catches" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P3cat" HorizontalAlignment="Left" Height="22" Margin="160,73,0,0" TextWrapping="Wrap" Text="P3" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P4cat" HorizontalAlignment="Left" Height="22" Margin="160,101,0,0" TextWrapping="Wrap" Text="P4" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P5cat" HorizontalAlignment="Left" Height="22" Margin="160,134,0,0" TextWrapping="Wrap" Text="P5" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P6cat" HorizontalAlignment="Left" Height="22" Margin="160,166,0,0" TextWrapping="Wrap" Text="P6" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P7cat" HorizontalAlignment="Left" Height="22" Margin="160,197,0,0" TextWrapping="Wrap" Text="P7" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P8cat" HorizontalAlignment="Left" Height="22" Margin="160,225,0,0" TextWrapping="Wrap" Text="P8" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P9cat" HorizontalAlignment="Left" Height="22" Margin="160,254,0,0" TextWrapping="Wrap" Text="P9" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P10cat" HorizontalAlignment="Left" Height="22" Margin="160,282,0,0" TextWrapping="Wrap" Text="P10" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P11cat" HorizontalAlignment="Left" Height="22" Margin="160,309,0,0" TextWrapping="Wrap" Text="P11" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P1cat" HorizontalAlignment="Left" Height="22" Margin="154,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P2cat" HorizontalAlignment="Left" Height="22" Margin="154,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P3cat" HorizontalAlignment="Left" Height="22" Margin="154,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P4cat" HorizontalAlignment="Left" Height="22" Margin="154,137,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P5cat" HorizontalAlignment="Left" Height="22" Margin="154,170,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P6cat" HorizontalAlignment="Left" Height="22" Margin="154,202,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P7cat" HorizontalAlignment="Left" Height="22" Margin="154,233,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P8cat" HorizontalAlignment="Left" Height="22" Margin="154,261,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P9cat" HorizontalAlignment="Left" Height="22" Margin="154,290,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P10cat" HorizontalAlignment="Left" Height="22" Margin="154,318,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P11cat" HorizontalAlignment="Left" Height="22" Margin="154,345,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
 
-        <TextBox Name ="P1RO" HorizontalAlignment="Left" Height="22" Margin="260,16,0,0" TextWrapping="Wrap" Text="Run Outs" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P2RO" HorizontalAlignment="Left" Height="22" Margin="260,44,0,0" TextWrapping="Wrap" Text="P2" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P3RO" HorizontalAlignment="Left" Height="22" Margin="260,73,0,0" TextWrapping="Wrap" Text="P3" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P4RO" HorizontalAlignment="Left" Height="22" Margin="260,101,0,0" TextWrapping="Wrap" Text="P4" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P5RO" HorizontalAlignment="Left" Height="22" Margin="260,134,0,0" TextWrapping="Wrap" Text="P5" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P6RO" HorizontalAlignment="Left" Height="22" Margin="260,166,0,0" TextWrapping="Wrap" Text="P6" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P7RO" HorizontalAlignment="Left" Height="22" Margin="260,197,0,0" TextWrapping="Wrap" Text="P7" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P8RO" HorizontalAlignment="Left" Height="22" Margin="260,225,0,0" TextWrapping="Wrap" Text="P8" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P9RO" HorizontalAlignment="Left" Height="22" Margin="260,254,0,0" TextWrapping="Wrap" Text="P9" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P10RO" HorizontalAlignment="Left" Height="22" Margin="260,282,0,0" TextWrapping="Wrap" Text="P10" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P11RO" HorizontalAlignment="Left" Height="22" Margin="260,309,0,0" TextWrapping="Wrap" Text="P11" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P1RO" HorizontalAlignment="Left" Height="22" Margin="254,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P2RO" HorizontalAlignment="Left" Height="22" Margin="254,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P3RO" HorizontalAlignment="Left" Height="22" Margin="254,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P4RO" HorizontalAlignment="Left" Height="22" Margin="254,137,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P5RO" HorizontalAlignment="Left" Height="22" Margin="254,170,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P6RO" HorizontalAlignment="Left" Height="22" Margin="254,202,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P7RO" HorizontalAlignment="Left" Height="22" Margin="254,233,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P8RO" HorizontalAlignment="Left" Height="22" Margin="254,261,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P9RO" HorizontalAlignment="Left" Height="22" Margin="254,290,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P10RO" HorizontalAlignment="Left" Height="22" Margin="254,318,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P11RO" HorizontalAlignment="Left" Height="22" Margin="254,345,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
 
-        <TextBox Name ="P1WCat" HorizontalAlignment="Left" Height="22" Margin="360,16,0,0" TextWrapping="Wrap" Text="WK -Catches" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P2WCat" HorizontalAlignment="Left" Height="22" Margin="360,44,0,0" TextWrapping="Wrap" Text="P2" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P3WCat" HorizontalAlignment="Left" Height="22" Margin="360,73,0,0" TextWrapping="Wrap" Text="P3" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P4WCat" HorizontalAlignment="Left" Height="22" Margin="360,101,0,0" TextWrapping="Wrap" Text="P4" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P5WCat" HorizontalAlignment="Left" Height="22" Margin="360,134,0,0" TextWrapping="Wrap" Text="P5" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P6WCat" HorizontalAlignment="Left" Height="22" Margin="360,166,0,0" TextWrapping="Wrap" Text="P6" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P7WCat" HorizontalAlignment="Left" Height="22" Margin="360,197,0,0" TextWrapping="Wrap" Text="P7" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P8WCat" HorizontalAlignment="Left" Height="22" Margin="360,225,0,0" TextWrapping="Wrap" Text="P8" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P9WCat" HorizontalAlignment="Left" Height="22" Margin="360,254,0,0" TextWrapping="Wrap" Text="P9" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P10WCat" HorizontalAlignment="Left" Height="22" Margin="360,282,0,0" TextWrapping="Wrap" Text="P10" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P11WCat" HorizontalAlignment="Left" Height="22" Margin="360,309,0,0" TextWrapping="Wrap" Text="P11" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P1WCat" HorizontalAlignment="Left" Height="22" Margin="354,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P2WCat" HorizontalAlignment="Left" Height="22" Margin="354,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P3WCat" HorizontalAlignment="Left" Height="22" Margin="354,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P4WCat" HorizontalAlignment="Left" Height="22" Margin="354,137,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P5WCat" HorizontalAlignment="Left" Height="22" Margin="354,170,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P6WCat" HorizontalAlignment="Left" Height="22" Margin="354,202,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P7WCat" HorizontalAlignment="Left" Height="22" Margin="354,233,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P8WCat" HorizontalAlignment="Left" Height="22" Margin="354,261,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P9WCat" HorizontalAlignment="Left" Height="22" Margin="354,290,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P10WCat" HorizontalAlignment="Left" Height="22" Margin="354,318,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P11WCat" HorizontalAlignment="Left" Height="22" Margin="354,345,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
 
-        <TextBox Name ="P1WS" HorizontalAlignment="Left" Height="22" Margin="460,16,0,0" TextWrapping="Wrap" Text="WK-Stump" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P2WS" HorizontalAlignment="Left" Height="22" Margin="460,44,0,0" TextWrapping="Wrap" Text="P2" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P3WS" HorizontalAlignment="Left" Height="22" Margin="460,73,0,0" TextWrapping="Wrap" Text="P3" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P4WS" HorizontalAlignment="Left" Height="22" Margin="460,101,0,0" TextWrapping="Wrap" Text="P4" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P5WS" HorizontalAlignment="Left" Height="22" Margin="460,134,0,0" TextWrapping="Wrap" Text="P5" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P6WS" HorizontalAlignment="Left" Height="22" Margin="460,166,0,0" TextWrapping="Wrap" Text="P6" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P7WS" HorizontalAlignment="Left" Height="22" Margin="460,197,0,0" TextWrapping="Wrap" Text="P7" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P8WS" HorizontalAlignment="Left" Height="22" Margin="460,225,0,0" TextWrapping="Wrap" Text="P8" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P9WS" HorizontalAlignment="Left" Height="22" Margin="460,254,0,0" TextWrapping="Wrap" Text="P9" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P10WS" HorizontalAlignment="Left" Height="22" Margin="460,282,0,0" TextWrapping="Wrap" Text="P10" VerticalAlignment="Top" Width="80"/>
-        <TextBox Name ="P11WS" HorizontalAlignment="Left" Height="22" Margin="460,309,0,0" TextWrapping="Wrap" Text="P11" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P1WS" HorizontalAlignment="Left" Height="22" Margin="454,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P2WS" HorizontalAlignment="Left" Height="22" Margin="454,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P3WS" HorizontalAlignment="Left" Height="22" Margin="454,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P4WS" HorizontalAlignment="Left" Height="22" Margin="454,137,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P5WS" HorizontalAlignment="Left" Height="22" Margin="454,170,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P6WS" HorizontalAlignment="Left" Height="22" Margin="454,202,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P7WS" HorizontalAlignment="Left" Height="22" Margin="454,233,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P8WS" HorizontalAlignment="Left" Height="22" Margin="454,261,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P9WS" HorizontalAlignment="Left" Height="22" Margin="454,290,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P10WS" HorizontalAlignment="Left" Height="22" Margin="454,318,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox Name ="P11WS" HorizontalAlignment="Left" Height="22" Margin="454,345,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox x:Name ="Player1_Copy" HorizontalAlignment="Left" Height="22" Margin="25,21,0,0" TextWrapping="Wrap" Text="Player Name" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name ="P1cat_Copy" HorizontalAlignment="Left" Height="22" Margin="154,20,0,0" TextWrapping="Wrap" Text="Catches" VerticalAlignment="Top" Width="80"/>
+        <TextBox x:Name ="P1RO_Copy" HorizontalAlignment="Left" Height="22" Margin="254,20,0,0" TextWrapping="Wrap" Text="Run Outs" VerticalAlignment="Top" Width="80"/>
+        <TextBox x:Name ="P1WCat_Copy" HorizontalAlignment="Left" Height="22" Margin="355,19,0,0" TextWrapping="Wrap" Text="WK -Catches" VerticalAlignment="Top" Width="80"/>
+        <TextBox x:Name ="P1WS_Copy" HorizontalAlignment="Left" Height="22" Margin="455,18,0,0" TextWrapping="Wrap" Text="WK-Stump" VerticalAlignment="Top" Width="80"/>
 
     </Grid>
 </Window>
