@@ -36,8 +36,10 @@
         <TextBox Name ="ManOfMatchBox" HorizontalAlignment="Left" Height="23" Margin="215,133,0,0" TextWrapping="Wrap" Text="Man of Match" VerticalAlignment="Top" Width="120"/>
         <TextBox Name ="DateBox" HorizontalAlignment="Left" Height="23" Margin="215,21,0,0" TextWrapping="Wrap" Text="Date" VerticalAlignment="Top" Width="120"/>
         <TextBox Name ="PlaceBox" HorizontalAlignment="Left" Height="23" Margin="216,55,0,0" TextWrapping="Wrap" Text="Place" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name ="ResultBox" HorizontalAlignment="Left" Margin="214,208,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name ="ResultBox" HorizontalAlignment="Left" Margin="214,213,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="216,248,0,0" TextWrapping="Wrap" Text="MatchType" VerticalAlignment="Top" Width="120"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="215,180,0,0" TextWrapping="Wrap" Text="Result" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name ="MatchTypeBox" HorizontalAlignment="Left" Margin="218,279,0,0" VerticalAlignment="Top" Width="120"/>
 
 
     </Grid>

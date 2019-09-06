@@ -42,6 +42,13 @@ namespace Cricket
             set { fResult = value; }
         }
 
+        private MatchType fType;
+        public MatchType FType
+        {
+            get { return fType; }
+            set { fType = value; }
+        }
+
         /// <summary>
         /// list of players that play in this match
         /// </summary>
@@ -97,7 +104,7 @@ namespace Cricket
             fFieldingStats = new Fielding(PlayerNames);
         }
 
-        public Cricket_Match(string oppos, DateTime date1, string place, ResultType Result, List<string> PlayerNames)
+        public Cricket_Match(string oppos, DateTime date1, string place, ResultType Result, MatchType TypeofMatch, List<string> PlayerNames)
         {
             fOpposition = oppos;
 
@@ -108,6 +115,8 @@ namespace Cricket
             fPlace = place;
 
             fResult = Result;
+
+            fType = TypeofMatch;
 
             fBatting = new Batting_Innings(PlayerNames);
 
@@ -178,5 +187,12 @@ namespace Cricket
         Draw = 1,
         Tie = 2,
         Win = 3,
+    }
+
+    public enum MatchType
+    {
+        League = 0,
+        Friendly = 1,
+        Evening = 2,
     }
 }

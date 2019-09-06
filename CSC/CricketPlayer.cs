@@ -274,84 +274,86 @@ namespace Cricket
                     int playerIndex = 0;
                     if (game.PlayNotPlay(this, out playerIndex))
                     {
-                        // first update batting information and statistics
-                        total_runs = total_runs + game.FBatting.FRuns_Scored[playerIndex];
-
-                        OutType test = OutType.DidNotBat;
-                        // if the player batted, then out type is not didnotbat
-                        if (!game.FBatting.FMethod_Out[playerIndex].Equals(test))
+                        if (game.FType == MatchType.League)
                         {
-                            total_innings += 1;
+                            // first update batting information and statistics
+                            total_runs = total_runs + game.FBatting.FRuns_Scored[playerIndex];
 
-                            // if batsman was not out, then add to this value
-                            OutType test2 = OutType.NotOut;
-                            if (game.FBatting.FMethod_Out[playerIndex].Equals(test2))
+                            OutType test = OutType.DidNotBat;
+                            // if the player batted, then out type is not didnotbat
+                            if (!game.FBatting.FMethod_Out[playerIndex].Equals(test))
                             {
-                                total_not_out += 1;
+                                total_innings += 1;
+
+                                // if batsman was not out, then add to this value
+                                OutType test2 = OutType.NotOut;
+                                if (game.FBatting.FMethod_Out[playerIndex].Equals(test2))
+                                {
+                                    total_not_out += 1;
+                                }
                             }
-                        }
 
-                        if (total_innings - total_not_out != 0)
-                        {
-                            Batting_average = (double)total_runs / ((double)total_innings - (double)total_not_out);
-                        }
+                            if (total_innings - total_not_out != 0)
+                            {
+                                Batting_average = (double)total_runs / ((double)total_innings - (double)total_not_out);
+                            }
 
-                        if (game.FBatting.FRuns_Scored[playerIndex] > bestbat)
-                        {
-                            bestbat = game.FBatting.FRuns_Scored[playerIndex];
-                            bestbat_oppo = game.FOpposition;
-                            best_bat_date = game.Date.ToShortDateString();
-                        }
+                            if (game.FBatting.FRuns_Scored[playerIndex] > bestbat)
+                            {
+                                bestbat = game.FBatting.FRuns_Scored[playerIndex];
+                                bestbat_oppo = game.FOpposition;
+                                best_bat_date = game.Date.ToShortDateString();
+                            }
 
-                        // next update bowling information and statistics
+                            // next update bowling information and statistics
 
-                        total_overs += game.FBowling.FOvers_Bowled[playerIndex];
-                        total_maidens += game.FBowling.FMaidens[playerIndex];
-                        total_runs_conceded += game.FBowling.FRuncs_Conceded[playerIndex];
-                        total_wickets += game.FBowling.FWickets[playerIndex];
+                            total_overs += game.FBowling.FOvers_Bowled[playerIndex];
+                            total_maidens += game.FBowling.FMaidens[playerIndex];
+                            total_runs_conceded += game.FBowling.FRuncs_Conceded[playerIndex];
+                            total_wickets += game.FBowling.FWickets[playerIndex];
 
-                        if (total_wickets != 0)
-                        {
-                            bowling_average = (double)total_runs_conceded / (double)total_wickets;
+                            if (total_wickets != 0)
+                            {
+                                bowling_average = (double)total_runs_conceded / (double)total_wickets;
 
-                        }
-                        else { bowling_average = double.NaN; }
+                            }
+                            else { bowling_average = double.NaN; }
 
-                        if (total_overs != 0)
-                        { bowling_economy = (double)total_runs_conceded / (double)total_overs; }
-                        else { bowling_economy = double.NaN; }
+                            if (total_overs != 0)
+                            { bowling_economy = (double)total_runs_conceded / (double)total_overs; }
+                            else { bowling_economy = double.NaN; }
 
-                        // now produce best bowling figures
-                        // best figures are the most wickets for the fewest runs
+                            // now produce best bowling figures
+                            // best figures are the most wickets for the fewest runs
 
-                        // if this game has more wickets than before, then these are the best figures so far
-                        if (game.FBowling.FWickets[playerIndex] > best_bowl_wckts)
-                        {
-                            best_bowl_wckts = game.FBowling.FWickets[playerIndex];
-                            best_bowl_runs = game.FBowling.FRuncs_Conceded[playerIndex];
-                            best_bowl_oppo = game.FOpposition;
-                            best_bowl_date = game.Date.ToShortDateString();
-                        }
-
-                        // if the number of wickets is the same, but have fewer runs, then these are the best figures
-                        if (game.FBowling.FWickets[playerIndex] == best_bowl_wckts)
-                        {
-                            if (game.FBowling.FMaidens[playerIndex] < best_bowl_runs)
+                            // if this game has more wickets than before, then these are the best figures so far
+                            if (game.FBowling.FWickets[playerIndex] > best_bowl_wckts)
                             {
                                 best_bowl_wckts = game.FBowling.FWickets[playerIndex];
                                 best_bowl_runs = game.FBowling.FRuncs_Conceded[playerIndex];
                                 best_bowl_oppo = game.FOpposition;
                                 best_bowl_date = game.Date.ToShortDateString();
                             }
+
+                            // if the number of wickets is the same, but have fewer runs, then these are the best figures
+                            if (game.FBowling.FWickets[playerIndex] == best_bowl_wckts)
+                            {
+                                if (game.FBowling.FMaidens[playerIndex] < best_bowl_runs)
+                                {
+                                    best_bowl_wckts = game.FBowling.FWickets[playerIndex];
+                                    best_bowl_runs = game.FBowling.FRuncs_Conceded[playerIndex];
+                                    best_bowl_oppo = game.FOpposition;
+                                    best_bowl_date = game.Date.ToShortDateString();
+                                }
+                            }
+
+                            // finally deal with fielding statistics
+                            total_catches += game.FFieldingStats.FCatches[playerIndex];
+                            total_run_out += game.FFieldingStats.FRunOuts[playerIndex];
+
+                            total_catches_w += game.FFieldingStats.FCatchesKeeper[playerIndex];
+                            total_stumpings_w += game.FFieldingStats.FStumpings[playerIndex];
                         }
-
-                        // finally deal with fielding statistics
-                        total_catches += game.FFieldingStats.FCatches[playerIndex];
-                        total_run_out += game.FFieldingStats.FRunOuts[playerIndex];
-
-                        total_catches_w += game.FFieldingStats.FCatchesKeeper[playerIndex];
-                        total_stumpings_w += game.FFieldingStats.FStumpings[playerIndex];
-
                     }
                 }
 

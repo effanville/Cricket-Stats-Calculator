@@ -51,6 +51,9 @@ namespace CricketStatsCalc
             ChoosePlayer11.DisplayMemberPath = "Name";
             ResultBox.ItemsSource = Enum.GetValues(typeof(ResultType)).Cast<ResultType>();
             ResultBox.SelectedIndex = 3;
+
+            MatchTypeBox.ItemsSource = Enum.GetValues(typeof(MatchType)).Cast<MatchType>();
+            MatchTypeBox.SelectedIndex = 0;
             if (indexinput > -1)
             {
                 int value = Globals.IndexFromPlayerName(Globals.GamesPlayed[indexinput].FPlayerNames[0]);
@@ -144,10 +147,11 @@ namespace CricketStatsCalc
                 
                 string place = PlaceBox.Text;
                 ResultType Result = (ResultType)ResultBox.SelectedValue;
+            MatchType TypeofMatch = (MatchType)MatchTypeBox.SelectedValue;
 
             if (GameIndex < 0)
             {
-                Cricket_Match newMatch = new Cricket_Match(OppoName, date1, place, Result, team);
+                Cricket_Match newMatch = new Cricket_Match(OppoName, date1, place, Result, TypeofMatch, team);
                 Globals.GamesPlayed.Add(newMatch);
             }
 
