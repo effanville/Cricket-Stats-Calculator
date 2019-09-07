@@ -16,6 +16,31 @@ using Cricket;
 
 namespace CricketStatsCalc
 {
+
+    public class MatchViewData
+    {
+        public MatchViewData(string input1, DateTime input2)
+        {
+            OppositionName = input1;
+
+            MatchDate = input2;
+        }
+
+        public string OppositionName;
+
+        public DateTime MatchDate;
+
+    }
+
+    class MatchDateCompare : IComparer<MatchViewData>
+    {
+        public int Compare(MatchViewData x, MatchViewData y)
+        {
+            return DateTime.Compare(x.MatchDate, y.MatchDate);
+        }
+    }
+
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -29,10 +54,22 @@ namespace CricketStatsCalc
             {
                 Players.Items.Add(person.Name);
             }
+            List<MatchViewData> outputs = new List<MatchViewData>();
             foreach (Cricket_Match opposition in Globals.GamesPlayed)
             {
-                Matches.Items.Add(opposition.FOpposition);
+                MatchViewData Temp = new MatchViewData(opposition.FOpposition, opposition.Date);
+                outputs.Add(Temp);
             }
+
+            MatchDateCompare MDC = new MatchDateCompare();
+            outputs.Sort(MDC);
+
+            foreach(MatchViewData match in outputs)
+            {
+                string Temp = match.OppositionName + " " + match.MatchDate.ToShortDateString();
+                Matches.Items.Add(Temp);
+            }
+            
         }
 
         void PlayerClick(object sender, RoutedEventArgs e)
@@ -80,10 +117,20 @@ namespace CricketStatsCalc
         {
 
             Matches.Items.Clear();
-
-            foreach(Cricket_Match opposition in Globals.GamesPlayed)
+            List<MatchViewData> outputs = new List<MatchViewData>();
+            foreach (Cricket_Match opposition in Globals.GamesPlayed)
             {
-                Matches.Items.Add(opposition.FOpposition);
+                MatchViewData Temp = new MatchViewData(opposition.FOpposition, opposition.Date);
+                outputs.Add(Temp);
+            }
+
+            MatchDateCompare MDC = new MatchDateCompare();
+            outputs.Sort(MDC);
+
+            foreach (MatchViewData match in outputs)
+            {
+                string Temp = match.OppositionName + " " + match.MatchDate.ToShortDateString();
+                Matches.Items.Add(Temp);
             }
         }
 
