@@ -79,8 +79,8 @@ namespace Cricket
             set { fFieldingStats = value; }
         }
 
-        private Cricket_Player fMoM;
-        public Cricket_Player FMoM
+        private string fMoM;
+        public string FMoM
         {
             get { return fMoM; }
             set { fMoM = value; }
@@ -104,7 +104,7 @@ namespace Cricket
             fFieldingStats = new Fielding(PlayerNames);
         }
 
-        public Cricket_Match(string oppos, DateTime date1, string place, ResultType Result, MatchType TypeofMatch, List<string> PlayerNames)
+        public Cricket_Match(string oppos, DateTime date1, string place, ResultType Result, MatchType TypeofMatch, string MoM, List<string> PlayerNames)
         {
             fOpposition = oppos;
 
@@ -117,6 +117,8 @@ namespace Cricket
             fResult = Result;
 
             fType = TypeofMatch;
+
+            fMoM = MoM;
 
             fBatting = new Batting_Innings(PlayerNames);
 
@@ -139,7 +141,7 @@ namespace Cricket
             var fFieldingStats = new Fielding();
         }
 
-        public void EditMatchdata(string oppos, DateTime date1, string place, ResultType Result, List<string> PlayerNames)
+        public void EditMatchdata(string oppos, DateTime date1, string place, ResultType Result, string MoM, List<string> PlayerNames)
         {
             fOpposition = oppos;
 
@@ -150,6 +152,8 @@ namespace Cricket
             fPlace = place;
 
             fResult = Result;
+
+            fMoM = MoM;
         }
 
         /// <summary>

@@ -19,21 +19,21 @@
         <Label Content="Player 9" HorizontalAlignment="Left" Margin="18,204,0,0" VerticalAlignment="Top"/>
         <Label Content="Player 10" HorizontalAlignment="Left" Margin="14,230,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.845,-1.833"/>
         <Label Content="Player 11" HorizontalAlignment="Left" Margin="13,257,0,0" VerticalAlignment="Top"/>
-        <ComboBox Name="ChoosePlayer1" HorizontalAlignment="Left" Margin="72,12,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="ChoosePlayer2" HorizontalAlignment="Left" Margin="72,36,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="ChoosePlayer3" HorizontalAlignment="Left" Margin="72,61,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="ChoosePlayer4" HorizontalAlignment="Left" Margin="72,84,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="ChoosePlayer5" HorizontalAlignment="Left" Margin="72,108,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="ChoosePlayer6" HorizontalAlignment="Left" Margin="72,132,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ChoosePlayer1" HorizontalAlignment="Left" Margin="72,12,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer1_SelectionChanged"/>
+        <ComboBox Name="ChoosePlayer2" HorizontalAlignment="Left" Margin="72,36,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer2_SelectionChanged"/>
+        <ComboBox Name="ChoosePlayer3" HorizontalAlignment="Left" Margin="72,61,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer3_SelectionChanged"/>
+        <ComboBox Name="ChoosePlayer4" HorizontalAlignment="Left" Margin="72,84,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer4_SelectionChanged"/>
+        <ComboBox Name="ChoosePlayer5" HorizontalAlignment="Left" Margin="72,108,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer5_SelectionChanged"/>
+        <ComboBox Name="ChoosePlayer6" HorizontalAlignment="Left" Margin="72,132,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer6_SelectionChanged"/>
 
-        <ComboBox Name="ChoosePlayer7" HorizontalAlignment="Left" Margin="72,157,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="ChoosePlayer8" HorizontalAlignment="Left" Margin="72,182,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ChoosePlayer7" HorizontalAlignment="Left" Margin="72,157,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer7_SelectionChanged"/>
+        <ComboBox Name="ChoosePlayer8" HorizontalAlignment="Left" Margin="72,182,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer8_SelectionChanged"/>
 
-        <ComboBox Name="ChoosePlayer9" HorizontalAlignment="Left" Margin="72,207,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="ChoosePlayer10" HorizontalAlignment="Left" Margin="72,232,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="ChoosePlayer11" HorizontalAlignment="Left" Margin="72,257,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ChoosePlayer9" HorizontalAlignment="Left" Margin="72,207,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer9_SelectionChanged" />
+        <ComboBox Name="ChoosePlayer10" HorizontalAlignment="Left" Margin="72,232,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer10_SelectionChanged"/>
+        <ComboBox Name="ChoosePlayer11" HorizontalAlignment="Left" Margin="72,257,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer11_SelectionChanged"/>
         <TextBox Name ="OppositionNameBox" HorizontalAlignment="Left" Height="23" Margin="217,89,0,0" TextWrapping="Wrap" Text="Opposition Name" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="ManOfMatchBox" HorizontalAlignment="Left" Height="23" Margin="215,133,0,0" TextWrapping="Wrap" Text="Man of Match" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name ="ManOfMatchBox" HorizontalAlignment="Left" Margin="215,133,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding MoMList}"/>
         <TextBox Name ="DateBox" HorizontalAlignment="Left" Height="23" Margin="215,21,0,0" TextWrapping="Wrap" Text="Date" VerticalAlignment="Top" Width="120"/>
         <TextBox Name ="PlaceBox" HorizontalAlignment="Left" Height="23" Margin="216,55,0,0" TextWrapping="Wrap" Text="Place" VerticalAlignment="Top" Width="120"/>
         <ComboBox Name ="ResultBox" HorizontalAlignment="Left" Margin="214,213,0,0" VerticalAlignment="Top" Width="120"/>
