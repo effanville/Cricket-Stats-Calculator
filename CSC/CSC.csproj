@@ -68,6 +68,7 @@
     <Compile Include="AddBowlingInnings.xaml.cs">
       <DependentUpon>AddBowlingInnings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="globals.cs" />
     <Compile Include="Statistics.xaml.cs">
       <DependentUpon>Statistics.xaml</DependentUpon>
     </Compile>
