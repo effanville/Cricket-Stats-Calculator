@@ -55,78 +55,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Cricket_Classes\BattingInnings.cs" />
+    <Compile Include="Cricket_Classes\BowlingInnings.cs" />
+    <Compile Include="Cricket_Classes\CricketMatch.cs" />
+    <Compile Include="Cricket_Classes\CricketPlayer.cs" />
+    <Compile Include="Cricket_Classes\Cricketseason.cs" />
+    <Compile Include="Cricket_Classes\Fielding.cs" />
+    <Compile Include="Cricket_Classes\TeamStats.cs" />
     <Compile Include="globals.cs" />
-    <Compile Include="AddPlayerForm.xaml.cs">
-      <DependentUpon>AddPlayerForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AddMatchForm.xaml.cs">
-      <DependentUpon>AddMatchForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AddBattingInnings.xaml.cs">
-      <DependentUpon>AddBattingInnings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AddBowlingInnings.xaml.cs">
-      <DependentUpon>AddBowlingInnings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="globals.cs" />
-    <Compile Include="Statistics.xaml.cs">
-      <DependentUpon>Statistics.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AddFielding.xaml.cs">
-      <DependentUpon>AddFielding.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MatchSelectorForm.xaml.cs">
-      <DependentUpon>MatchSelectorForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TeamStats.cs" />
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BattingInnings.cs" />
-    <Compile Include="BowlingInnings.cs" />
-    <Compile Include="Fielding.cs" />
-    <Compile Include="CricketMatch.cs" />
-    <Compile Include="CricketPlayer.cs" />
-    <Compile Include="Cricketseason.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="AddPlayerForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AddMatchForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AddBattingInnings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AddBowlingInnings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Statistics.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AddFielding.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MatchSelectorForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gui\AddBattingInnings.xaml.cs">
+      <DependentUpon>AddBattingInnings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\AddBowlingInnings.xaml.cs">
+      <DependentUpon>AddBowlingInnings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\AddFielding.xaml.cs">
+      <DependentUpon>AddFielding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\AddMatchForm.xaml.cs">
+      <DependentUpon>AddMatchForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\AddPlayerForm.xaml.cs">
+      <DependentUpon>AddPlayerForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\MatchSelectorForm.xaml.cs">
+      <DependentUpon>MatchSelectorForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Statistics.xaml.cs">
+      <DependentUpon>Statistics.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -151,6 +117,41 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Gui\AddBattingInnings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Gui\AddBowlingInnings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Gui\AddFielding.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Gui\AddMatchForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Gui\AddPlayerForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Gui\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Gui\MatchSelectorForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Gui\Statistics.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
