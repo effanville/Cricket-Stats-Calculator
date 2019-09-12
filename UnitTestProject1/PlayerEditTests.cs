@@ -11,7 +11,7 @@ namespace CSCTests
         [TestMethod]
         public void TestMethod1()
         {
-            Cricket_Player Matt = new Cricket_Player
+            
         }
     }
 }
