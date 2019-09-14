@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.779
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSC", "CSC\CSC.csproj", "{1CF1A8B8-AD2C-4225-AC76-6038117C4036}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSCTests", "UnitTestProject1\CSCTests.csproj", "{958E8CB7-F654-4CB6-BB02-01255F7AFDFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSCTests", "CSCTests\CSCTests.csproj", "{958E8CB7-F654-4CB6-BB02-01255F7AFDFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

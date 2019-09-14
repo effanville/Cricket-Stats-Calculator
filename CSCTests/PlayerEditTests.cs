@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Cricket;
 using CricketStatsCalc;
 
 namespace CSCTests
 {
-    [TestClass]
+    [TestFixture]
     public class PlayerEditTests
     {
-        [TestMethod]
+        [Test]
         public void TestMethod1()
         {
             
