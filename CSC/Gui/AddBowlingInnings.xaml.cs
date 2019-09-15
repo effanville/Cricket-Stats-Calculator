@@ -143,7 +143,10 @@ namespace CricketStatsCalc
 
                 List<int> Wickets = Globals.DataCleanse(P1Wkts.Text, P2Wkts.Text, P3Wkts.Text, P4Wkts.Text, P5Wkts.Text, P6Wkts.Text, P7Wkts.Text, P8Wkts.Text, P9Wkts.Text, P10Wkts.Text, P11Wkts.Text);
 
-                Latest.FBowling.Add_Data(overs, Maidens, Runs, Wickets);
+            int Byes = 0;
+            int.TryParse(B_LB_Input_Box.Text, out Byes);
+
+                Latest.FBowling.Add_Data(overs, Maidens, Runs, Wickets, Byes);
             if (GameIndex < 0)
             {
                 Globals.GamesPlayed[Globals.GamesPlayed.Count() - 1] = Latest;

@@ -52,12 +52,21 @@ namespace Cricket
             set { fWickets = value; }
         }
 
-        public void Add_Data(List<int> Overs, List<int> Maidens, List<int> Runs, List<int> Wickets)
+
+        private int byesLegByes;
+        public int ByesLegByes
+        {
+            get { return byesLegByes; }
+            set { byesLegByes = value; }
+        }
+
+        public void Add_Data(List<int> Overs, List<int> Maidens, List<int> Runs, List<int> Wickets, int BLB)
         {
             fOvers_Bowled = Overs;
             fMaidens = Maidens;
             fRuns_Conceded = Runs;
             fWickets = Wickets;
+            byesLegByes = BLB;
         }
 
         public BowlingInnings(List<string> PlayerNames, List<int> Overs, List<int> Maidens, List<int> Runs, List<int> Wickets)
