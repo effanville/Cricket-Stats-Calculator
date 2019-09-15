@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Cricket;
+using ReportingStructures;
 
 namespace CricketStatsCalc
 {
@@ -141,42 +142,95 @@ namespace CricketStatsCalc
         void GoToBowling_Click(object sender, RoutedEventArgs e)
         {
 
-                List<int> runs = Globals.DataCleanse(Player1_Runs.Text, Player2_Runs.Text, Player3_Runs.Text, Player4_Runs.Text, Player5_Runs.Text, Player6_Runs.Text, Player7_Runs.Text, Player8_Runs.Text, Player9_Runs.Text, Player10_Runs.Text, Player11_Runs.Text);
+            List<int> runs = Globals.DataCleanse(Player1_Runs.Text, Player2_Runs.Text, Player3_Runs.Text, Player4_Runs.Text, Player5_Runs.Text, Player6_Runs.Text, Player7_Runs.Text, Player8_Runs.Text, Player9_Runs.Text, Player10_Runs.Text, Player11_Runs.Text);
 
 
-                List<OutType> HowOut = new List<OutType>();
-                HowOut.Add((OutType)Player1OutMethod.SelectedValue);
-                HowOut.Add((OutType)Player2OutMethod.SelectedValue);
-                HowOut.Add((OutType)Player3OutMethod.SelectedValue);
-                HowOut.Add((OutType)Player4OutMethod.SelectedValue);
-                HowOut.Add((OutType)Player5OutMethod.SelectedValue);
-                HowOut.Add((OutType)Player6OutMethod.SelectedValue);
-                HowOut.Add((OutType)Player7OutMethod.SelectedValue);
-                HowOut.Add((OutType)Player8OutMethod.SelectedValue);
-                HowOut.Add((OutType)Player9OutMethod.SelectedValue);
-                HowOut.Add((OutType)Player10OutMethod.SelectedValue);
-                HowOut.Add((OutType)Player11OutMethod.SelectedValue);
-
-                int noExtras = 0;
-                Int32.TryParse(Extras.Text, out noExtras);
+            List<OutType> HowOut = new List<OutType>();
+            HowOut.Add((OutType)Player1OutMethod.SelectedValue);
+            HowOut.Add((OutType)Player2OutMethod.SelectedValue);
+            HowOut.Add((OutType)Player3OutMethod.SelectedValue);
+            HowOut.Add((OutType)Player4OutMethod.SelectedValue);
+            HowOut.Add((OutType)Player5OutMethod.SelectedValue);
+            HowOut.Add((OutType)Player6OutMethod.SelectedValue);
+            HowOut.Add((OutType)Player7OutMethod.SelectedValue);
+            HowOut.Add((OutType)Player8OutMethod.SelectedValue);
+            HowOut.Add((OutType)Player9OutMethod.SelectedValue);
+            HowOut.Add((OutType)Player10OutMethod.SelectedValue);
+            HowOut.Add((OutType)Player11OutMethod.SelectedValue);
 
 
-                Latest.FBatting.Set_Data(runs, HowOut, noExtras);
 
-            if (GameIndex < 0)
+            // The following provides checks to ensure the user has inputted data correctly.
+            for (int i = 0; i < runs.Count; i++)
             {
-                Globals.GamesPlayed[Globals.GamesPlayed.Count() - 1] = Latest;
+                // Is not possible for a batsman to score runs without batting.
+                if (HowOut[i] == OutType.DidNotBat && runs[i] != 0)
+                {
+                    string errorRep = "Player " + Latest.FPlayerNames[i] + " didn't bat but scored runs";
+                    ErrorReports.AddError(errorRep);
+                }
 
-                AddBowlingInnings AddBowlingWindow = new AddBowlingInnings(-1);
-                AddBowlingWindow.Show();
+                // Is not possible for a player in list to not bat if someone later does bat.
+                if (i != runs.Count - 1)
+                {
+                    if (HowOut[i] == OutType.DidNotBat && HowOut[i + 1] != OutType.DidNotBat)
+                    {
+                        string errorRep = "Player " + Latest.FPlayerNames[i] + " didn't bat but player " + Latest.FPlayerNames[i + 1] + " batted";
+                        ErrorReports.AddError(errorRep);
+                    }
+                }
             }
-            if (GameIndex > -1)
+
+            int noExtras = 0;
+            if (!Int32.TryParse(Extras.Text, out noExtras))
             {
-                Globals.GamesPlayed[GameIndex] = Latest;
-                AddBowlingInnings AddBowlingWindow = new AddBowlingInnings(GameIndex);
-                AddBowlingWindow.Show();
+                if (Extras.Text != null)
+                {
+                    ErrorReports.AddError("The Extras added was not an integer");
+                }
             }
-            Close();
+
+
+            
+
+            if (!ErrorReports.OkNotOk())
+            {
+                ErrorReportsWindow ErrorsWindow = new ErrorReportsWindow();
+                ErrorsWindow.ShowDialog();
+            }
+            else
+            {
+                ErrorReportsWindow ErrorsWindow = new ErrorReportsWindow();
+                // Only show window if have things to show.
+                if (ErrorReports.GetErrors().Count != 0 || ErrorReports.GetWarnings().Count != 0 || ErrorReports.GetReport().Count != 0)
+                {
+
+                    ErrorsWindow.ShowDialog();
+                }
+
+                if (ErrorsWindow.BackForward)
+                {
+                    Latest.FBatting.Set_Data(runs, HowOut, noExtras);
+                    if (GameIndex < 0)
+                    {
+                        Globals.GamesPlayed[Globals.GamesPlayed.Count() - 1] = Latest;
+
+                        AddBowlingInnings AddBowlingWindow = new AddBowlingInnings(-1);
+                        AddBowlingWindow.Show();
+                    }
+                    if (GameIndex > -1)
+                    {
+                        Globals.GamesPlayed[GameIndex] = Latest;
+                        AddBowlingInnings AddBowlingWindow = new AddBowlingInnings(GameIndex);
+                        AddBowlingWindow.Show();
+
+                        Close();
+                    }
+                }
+                else
+                {
+                }
+            }
         }
     }
 }

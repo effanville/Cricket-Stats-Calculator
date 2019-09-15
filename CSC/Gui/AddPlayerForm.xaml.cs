@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using Cricket;
+using ReportingStructures;
+using CricketDatabaseEditing;
 
 namespace CricketStatsCalc
 {
@@ -28,11 +18,25 @@ namespace CricketStatsCalc
 
         void AddNameClick(object sender, RoutedEventArgs e)
         {
-            string name = PlayerAddBox.Text;
-            Cricket_Player newMan = new Cricket_Player(name);
-            Globals.Ardeley.Add(newMan);
-            PlayerAddBox.Clear();
-            Close();
+            if (PlayerAddBox.Text != "Input Player Name Here")
+            {
+                if (CricketDatabaseEditingFunctions.AddPlayer(PlayerAddBox.Text))
+                {
+                    PlayerAddBox.Clear();
+                    Close();
+                }
+            }
+            else
+            {
+                ErrorReports.AddError("User has not specified a name for new player.");
+            }
+
+            if (ErrorReports.GetErrors().Count != 0)
+            {
+                ErrorReportsWindow errorReportsWindow = new ErrorReportsWindow();
+                errorReportsWindow.Show();
+            }
+
         }
 
 

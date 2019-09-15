@@ -2,18 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Collections;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Cricket;
+using ReportingStructures;
 
 namespace CricketStatsCalc
 {
@@ -261,11 +253,16 @@ namespace CricketStatsCalc
                 { team[10] = ((Cricket_Player)ChoosePlayer11.SelectedItem).Name; }
 
                 string OppoName = OppositionNameBox.Text;
+            if (OppoName == "Opposition Name")
+            {
+                ErrorReports.AddError("Opposition Name is not set");
+            }
 
                 DateTime date1;
 
             if (!DateTime.TryParse(DateBox.Text, out date1))
             {
+                ErrorReports.AddWarning("No Date Specified");
             }
 
             string MoM = "";
@@ -273,28 +270,84 @@ namespace CricketStatsCalc
             {
                 MoM = ManOfMatchBox.SelectedValue.ToString();
             }
+            else
+            {
+                ErrorReports.AddWarning("No Man of Match Selected");
+            }
 
                 
                 string place = PlaceBox.Text;
+            if (place == "Place")
+            {
+                ErrorReports.AddWarning("Place of game not set.");
+                place = null;
+            }
                 ResultType Result = (ResultType)ResultBox.SelectedValue;
             MatchType TypeofMatch = (MatchType)MatchTypeBox.SelectedValue;
 
-            if (GameIndex < 0)
+            //now perform consistency checks on inputted data
+            //check for players added once
+            bool pls = false;
+            for(int i = 0; i < team.Count; i++)
             {
-                Cricket_Match newMatch = new Cricket_Match(OppoName, date1, place, Result, TypeofMatch, MoM, team);
-                Globals.GamesPlayed.Add(newMatch);
+                if (team[i] != null)
+                {
+                    pls = true;
+                }
+                for (int j = i + 1; j < team.Count; j++)
+                {
+                    if (team[i] !=null && team[j] !=null)
+                    {
+                        if (team[i] == team[j])
+                        {
+                            string issue = "Same player has been added twice to match: " + team[i];
+                            ErrorReports.AddError(issue);
+                        }
+                    }
+                }
+            }
+            if (!pls)
+            {
+                ErrorReports.AddError("No players included in this match");
             }
 
-            if (GameIndex > -1)
+            if (!ErrorReports.OkNotOk())
             {
-                Globals.GamesPlayed[GameIndex].EditMatchdata(OppoName, date1, place, Result, MoM, team);
+                ErrorReportsWindow ErrorsWindow = new ErrorReportsWindow();
+                ErrorsWindow.ShowDialog();
             }
+            else
+            {
+                ErrorReportsWindow ErrorsWindow = new ErrorReportsWindow();
+                // Only show window if have things to show.
+                if (ErrorReports.GetErrors().Count != 0 || ErrorReports.GetWarnings().Count!=0|| ErrorReports.GetReport().Count!=0)
+                {
+                    
+                    ErrorsWindow.ShowDialog();
+                }
 
-            AddBattingInnings AddBattingWindow = new AddBattingInnings(GameIndex);
-            AddBattingWindow.Show();
+                if (ErrorsWindow.BackForward)
+                {
+                    if (GameIndex < 0)
+                    {
+                        Cricket_Match newMatch = new Cricket_Match(OppoName, date1, place, Result, TypeofMatch, MoM, team);
+                        Globals.GamesPlayed.Add(newMatch);
+                    }
 
-            Close();
-            
+                    if (GameIndex > -1)
+                    {
+                        Globals.GamesPlayed[GameIndex].EditMatchdata(OppoName, date1, place, Result, MoM, team);
+                    }
+
+                    AddBattingInnings AddBattingWindow = new AddBattingInnings(GameIndex);
+                    AddBattingWindow.Show();
+
+                    Close();
+                }
+                else
+                {
+                }
+            }
         }
     }
 }

@@ -64,15 +64,20 @@
     </ApplicationDefinition>
     <Compile Include="Cricket_Classes\BattingInnings.cs" />
     <Compile Include="Cricket_Classes\BowlingInnings.cs" />
+    <Compile Include="Cricket_Classes\CricketTeam.cs" />
     <Compile Include="Cricket_Classes\CricketMatch.cs" />
     <Compile Include="Cricket_Classes\CricketPlayer.cs" />
     <Compile Include="Cricket_Classes\Cricketseason.cs" />
     <Compile Include="Cricket_Classes\Fielding.cs" />
     <Compile Include="Cricket_Classes\TeamStats.cs" />
+    <Compile Include="ErrorReports.cs" />
     <Compile Include="globals.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ErrorReportsWindow.xaml.cs">
+      <DependentUpon>ErrorReportsWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +96,7 @@
     <Compile Include="Gui\AddPlayerForm.xaml.cs">
       <DependentUpon>AddPlayerForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Cricket_Classes\CricketDatabaseEditingFunctions.cs" />
     <Compile Include="Gui\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -159,6 +165,10 @@
     <Page Include="Gui\Statistics.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="ErrorReportsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

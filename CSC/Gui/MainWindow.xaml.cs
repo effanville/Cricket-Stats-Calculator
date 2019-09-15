@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Cricket;
+using ReportingStructures;
 
 namespace CricketStatsCalc
 {
@@ -49,6 +40,9 @@ namespace CricketStatsCalc
         public MainWindow()
         {
             Globals.LoadDatabase();
+
+            // Configure structure for holding error reports
+            ErrorReports.Configure();
             InitializeComponent();
             foreach (Cricket_Player person in Globals.Ardeley)
             {

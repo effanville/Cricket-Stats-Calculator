@@ -46,7 +46,8 @@ namespace CSCTests
         }
 
         public void BowlingStatsPrep_TwoMatch(int[] O1, int[] M1, int[] RC1, int[] W1, int[] O2, int[] M2, int[] RC2, int[] W2 )
-        {
+        { 
+            int extras = 0;
             List<int> Ov1 = O1.ToList();
             List<int> Md1 = M1.ToList();
             List<int> R1 = RC1.ToList();
@@ -55,8 +56,8 @@ namespace CSCTests
             List<int> Md2 = M2.ToList();
             List<int> R2 = RC2.ToList();
             List<int> Wc2 = W2.ToList();
-            DummyMatch.FBowling.Add_Data(Ov1,Md1,R1,Wc1);
-            DummyMatch2.FBowling.Add_Data(Ov2, Md2, R2, Wc2);
+            DummyMatch.FBowling.Add_Data(Ov1,Md1,R1,Wc1,0);
+            DummyMatch2.FBowling.Add_Data(Ov2, Md2, R2, Wc2,0);
         }
         
         public void FieldingStatsPrep_TwoMatch(int[] Ca1, int[] ROu1, int[] STu1, int[] CWi1, int[] Ca2, int[] ROu2, int[] STu2, int[] CWi2)

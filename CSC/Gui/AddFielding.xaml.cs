@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Cricket;
+using ReportingStructures;
 
 namespace CricketStatsCalc
 {
@@ -134,35 +135,62 @@ namespace CricketStatsCalc
 
         private void Submit_Match_Click(object sender, RoutedEventArgs e)
         {
- 
-               List<int> catches = Globals.DataCleanse(P1cat.Text, P2cat.Text, P3cat.Text, P4cat.Text, P5cat.Text, P6cat.Text, P7cat.Text, P8cat.Text, P9cat.Text, P10cat.Text, P11cat.Text);
 
-                List<int> ro = Globals.DataCleanse(P1RO.Text, P2RO.Text, P3RO.Text, P4RO.Text, P5RO.Text, P6RO.Text, P7RO.Text, P8RO.Text, P9RO.Text, P10RO.Text, P11RO.Text);
+            List<int> catches = Globals.DataCleanse(P1cat.Text, P2cat.Text, P3cat.Text, P4cat.Text, P5cat.Text, P6cat.Text, P7cat.Text, P8cat.Text, P9cat.Text, P10cat.Text, P11cat.Text);
 
-                List<int> st = Globals.DataCleanse(P1WS.Text, P2WS.Text, P3WS.Text, P4WS.Text, P5WS.Text, P6WS.Text, P7WS.Text, P8WS.Text, P9WS.Text, P10WS.Text, P11WS.Text);
+            List<int> ro = Globals.DataCleanse(P1RO.Text, P2RO.Text, P3RO.Text, P4RO.Text, P5RO.Text, P6RO.Text, P7RO.Text, P8RO.Text, P9RO.Text, P10RO.Text, P11RO.Text);
 
-                List<int> keepcat = Globals.DataCleanse(P1WCat.Text, P2WCat.Text, P3WCat.Text, P4WCat.Text, P5WCat.Text, P6WCat.Text, P7WCat.Text, P8WCat.Text, P9WCat.Text, P10WCat.Text, P11WCat.Text);
+            List<int> st = Globals.DataCleanse(P1WS.Text, P2WS.Text, P3WS.Text, P4WS.Text, P5WS.Text, P6WS.Text, P7WS.Text, P8WS.Text, P9WS.Text, P10WS.Text, P11WS.Text);
 
-                Latest.FFieldingStats.Add_Data(catches, ro, st, keepcat);
+            List<int> keepcat = Globals.DataCleanse(P1WCat.Text, P2WCat.Text, P3WCat.Text, P4WCat.Text, P5WCat.Text, P6WCat.Text, P7WCat.Text, P8WCat.Text, P9WCat.Text, P10WCat.Text, P11WCat.Text);
 
-            if (GameIndex == -1)
+            if (catches.Sum() + ro.Sum() + st.Sum() + keepcat.Sum() > 10)
             {
-                Globals.GamesPlayed[Globals.GamesPlayed.Count() - 1] = Latest;
+                ErrorReports.AddError("Total number of fielding dismissals exceeds 10.");
             }
-            if (GameIndex > -1)
+            
+            if (!ErrorReports.OkNotOk())
             {
-                Globals.GamesPlayed[GameIndex] = Latest;
+                ErrorReportsWindow ErrorsWindow = new ErrorReportsWindow();
+                ErrorsWindow.ShowDialog();
             }
-            foreach (string person in Latest.FPlayerNames)
+            else
             {
-                Cricket_Player A = Globals.GetPlayerFromName(person);
-                if (A != null)
+                
+                ErrorReportsWindow ErrorsWindow = new ErrorReportsWindow();
+                // Only show window if have things to show.
+                if (ErrorReports.GetErrors().Count != 0 || ErrorReports.GetWarnings().Count != 0 || ErrorReports.GetReport().Count != 0)
                 {
-                    A.Calculated = false;
+
+                    ErrorsWindow.ShowDialog();
+                }
+
+                if (ErrorsWindow.BackForward)
+                {
+                    Latest.FFieldingStats.Add_Data(catches, ro, st, keepcat);
+                    if (GameIndex == -1)
+                    {
+                        Globals.GamesPlayed[Globals.GamesPlayed.Count() - 1] = Latest;
+                    }
+                    if (GameIndex > -1)
+                    {
+                        Globals.GamesPlayed[GameIndex] = Latest;
+                    }
+                    foreach (string person in Latest.FPlayerNames)
+                    {
+                        Cricket_Player A = Globals.GetPlayerFromName(person);
+                        if (A != null)
+                        {
+                            A.Calculated = false;
+                        }
+                    }
+
+                    Close();
+                }
+                else
+                {
                 }
             }
-
-            Close();
         }
     }
 }

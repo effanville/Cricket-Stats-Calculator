@@ -76,7 +76,7 @@
         <TextBox x:Name="P1RunsConc_Copy" HorizontalAlignment="Left" Height="22" Margin="362,22,0,0" TextWrapping="Wrap" Text="Runs" VerticalAlignment="Top" Width="80"/>
         <TextBox x:Name="P1Wkts_Copy" HorizontalAlignment="Left" Height="22" Margin="462,20,0,0" TextWrapping="Wrap" Text="Wickets" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.5,0.5"/>
         <TextBox x:Name="Byes_LegByes" HorizontalAlignment="Left" Height="22" Margin="35,380,0,0" TextWrapping="Wrap" Text="Byes/Leg Byes" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="B_LB_Input_Box" HorizontalAlignment="Left" Height="22" Margin="166,380,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80"/>
+        <TextBox x:Name="B_LB_Input_Box" HorizontalAlignment="Left" Height="22" Margin="166,380,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="80"/>
 
     </Grid>
 </Window>

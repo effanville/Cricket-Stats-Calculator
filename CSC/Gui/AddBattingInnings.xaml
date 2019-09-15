@@ -41,8 +41,8 @@
         <TextBox Name ="Player9_Runs" HorizontalAlignment="Left" Height="22" Margin="302,291,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <TextBox Name ="Player10_Runs" HorizontalAlignment="Left" Height="22" Margin="302,317,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <TextBox Name ="Player11_Runs" HorizontalAlignment="Left" Height="22" Margin="302,349,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="Extras" HorizontalAlignment="Left" Height="22" Margin="302,379,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <Button Name="Go_To_Bowling" Content="Next" HorizontalAlignment="Left" Margin="186,419,0,0" VerticalAlignment="Top" Width="75" Click="GoToBowling_Click" ClickMode="Press"/>
+        <TextBox Name ="Extras" HorizontalAlignment="Left" Height="22" Margin="302,379,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+        <Button Name="Go_To_Bowling" Content="Next" HorizontalAlignment="Left" Margin="186,410,0,0" VerticalAlignment="Top" Width="75" Click="GoToBowling_Click" ClickMode="Press"/>
         <TextBox x:Name ="Player1_Copy" HorizontalAlignment="Left" Height="22" Margin="37,18,0,0" TextWrapping="Wrap" Text="Player Name" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name ="Player1_Copy1" HorizontalAlignment="Left" Height="22" Margin="170,19,0,0" TextWrapping="Wrap" Text="How Out" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name ="Player1_Runs_Copy" HorizontalAlignment="Left" Height="22" Margin="302,19,0,0" TextWrapping="Wrap" Text="Runs Scored" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.472,-1.197"/>
