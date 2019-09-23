@@ -3,21 +3,82 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
-        Title="Cricket Statistics v0.1" Height="465.667" Width="564.001">
-    <Grid HorizontalAlignment="Left" Width="554">
-        <Button Name="Add_Pl_btn" Content="Add Player" HorizontalAlignment="Left" Margin="26,98,0,0" VerticalAlignment="Top" Width="150" Click="PlayerClick" ClickMode="Press" />
-        <Button Name="Add_Match_btn" Content="Add Match" HorizontalAlignment="Left" Margin="26,23,0,0" VerticalAlignment="Top" Width="150" Click="MatchClick" ClickMode="Press" />
-        <Button Name="VEMatch" Content="View/Edit Match" HorizontalAlignment="Left" Margin="26,59,0,0" VerticalAlignment="Top" Width="150" Click="viewedit_match_Click" ClickMode="Press" />
-        <Button Name="Stats_btn" Content="Create Statistics" HorizontalAlignment="Left" Margin="26,136,0,0" VerticalAlignment="Top" Width="150" Click="StatsClick" ClickMode="Press" />
-        <Button Name="Save_btn" Content="Save Database" HorizontalAlignment="Left" Margin="26,176,0,0" VerticalAlignment="Top" Width="150" Click="SaveClick" ClickMode="Press" />
-        <ListBox Name ="Players" HorizontalAlignment="Left" Height="367" Margin="195,43,0,0" VerticalAlignment="Top" Width="149"/>
-        <Button Name="PopulateList" Content="GeneratePlayerList" HorizontalAlignment="Left" Margin="195,13,0,0" VerticalAlignment="Top" Width="150" Click="button1_Click" ClickMode="Press" />
+        Title="Cricket Statistics v1" 
+        Height="400"
+        Width="560">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Activated" >
+            <i:InvokeCommandAction Command="{Binding OnActivatedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Border BorderBrush="#FF000000" BorderThickness="1" CornerRadius="8">
+        <StackPanel Orientation="Horizontal">
+        <StackPanel>
+            <Button Name="Add_Pl_btn" 
+                    Content="Add Player" 
+                    Margin="20,40,20,20"
+                    Width="150"
+                    Click="PlayerClick"
+                    ClickMode="Press" />
+            <Button Name="Add_Match_btn" 
+                    Content="Add Match" 
+                    Margin="20,20,20,20" 
+                    Width="150" 
+                    Click="MatchClick" 
+                    ClickMode="Press" />
+            <Button Name="VEMatch"
+                    Content="View/Edit Match"  
+                    Margin="20,20,20,20"
+                    Width="150"
+                    Click="viewedit_match_Click" 
+                    ClickMode="Press" />
+            <Button Name="Stats_btn" 
+                Content="Create Statistics"
+                Margin="20,20,20,20"
+                Width="150"
+                Click="StatsClick" 
+                ClickMode="Press" />
+                <Button Name="Save_btn" 
+                Content="Save Database"
+                Margin="20,20,20,20"
+                Width="150" 
+                Click="SaveClick"
+                ClickMode="Press" />
+            </StackPanel>
+        <StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="8" Margin="0 20 10 0" MinWidth="150">
+                    <Label Content="Players"      
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"
+                           />
+                </Border>
+                <ListBox Name ="Players"
+                    ItemsSource="{Binding PlayerList, Mode=TwoWay}" 
+                    MinHeight="300"
+                    Margin="0,10,10,10"
+                    MinWidth="150"/>
+        </StackPanel>
+
         
-        <Button Name="PopulateListMatch" Content="GenerateMatchList" HorizontalAlignment="Left" Margin="360,11,0,0" VerticalAlignment="Top" Width="150" Click="match_button_Click" ClickMode="Press" />
+            <StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="8" Margin="0 20 10 0" MinWidth="150">
+                    <Label Content="Matches"      
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"
+                           />
+                </Border>
+                <ListBox Name ="Matches"
+                 ItemsSource ="{Binding ViewingData, Mode=TwoWay}" 
+                 MinHeight="300" 
+                 Margin="0,10,10,10" 
+                 MinWidth="150"/>
+            </StackPanel>
 
-        <ListBox Name ="Matches" HorizontalAlignment="Left" Height="363" Margin="360,44,0,0" VerticalAlignment="Top" Width="150"/>
 
-    </Grid>
+        </StackPanel>
+    </Border>
+
 </Window>

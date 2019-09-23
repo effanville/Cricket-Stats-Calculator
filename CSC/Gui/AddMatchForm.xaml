@@ -5,43 +5,97 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Add Match Form" Height="386" Width="360">
+        Title="Add Match Form" 
+        MinHeight="420"
+        MinWidth="440"
+        Height="420" 
+        Width="440">
     <Grid Margin="0,0,4,5">
-        <Button Name="Go_To_Batting" Content="Next" HorizontalAlignment="Left" Margin="47,292,0,0" VerticalAlignment="Top" Width="146" Click="GoToBattingClick" ClickMode="Press" />
-        <Label Content="Player 1" HorizontalAlignment="Left" Margin="17,7,0,0" VerticalAlignment="Top"/>
-        <Label Content="Player 2" HorizontalAlignment="Left" Margin="17,31,0,0" VerticalAlignment="Top"/>
-        <Label Content="Player 3" HorizontalAlignment="Left" Margin="17,58,0,0" VerticalAlignment="Top"/>
-        <Label Content="Player 4" HorizontalAlignment="Left" Margin="16,80,0,0" VerticalAlignment="Top"/>
-        <Label Content="Player 5" HorizontalAlignment="Left" Margin="18,106,0,0" VerticalAlignment="Top"/>
-        <Label Content="Player 6" HorizontalAlignment="Left" Margin="18,128,0,0" VerticalAlignment="Top"/>
-        <Label Content="Player 7" HorizontalAlignment="Left" Margin="17,155,0,0" VerticalAlignment="Top"/>
-        <Label Content="Player 8" HorizontalAlignment="Left" Margin="18,179,0,0" VerticalAlignment="Top"/>
-        <Label Content="Player 9" HorizontalAlignment="Left" Margin="18,204,0,0" VerticalAlignment="Top"/>
-        <Label Content="Player 10" HorizontalAlignment="Left" Margin="14,230,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.845,-1.833"/>
-        <Label Content="Player 11" HorizontalAlignment="Left" Margin="13,257,0,0" VerticalAlignment="Top"/>
-        <ComboBox Name="ChoosePlayer1" HorizontalAlignment="Left" Margin="72,12,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer1_SelectionChanged"/>
-        <ComboBox Name="ChoosePlayer2" HorizontalAlignment="Left" Margin="72,36,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer2_SelectionChanged"/>
-        <ComboBox Name="ChoosePlayer3" HorizontalAlignment="Left" Margin="72,61,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer3_SelectionChanged"/>
-        <ComboBox Name="ChoosePlayer4" HorizontalAlignment="Left" Margin="72,84,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer4_SelectionChanged"/>
-        <ComboBox Name="ChoosePlayer5" HorizontalAlignment="Left" Margin="72,108,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer5_SelectionChanged"/>
-        <ComboBox Name="ChoosePlayer6" HorizontalAlignment="Left" Margin="72,132,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer6_SelectionChanged"/>
 
-        <ComboBox Name="ChoosePlayer7" HorizontalAlignment="Left" Margin="72,157,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer7_SelectionChanged"/>
-        <ComboBox Name="ChoosePlayer8" HorizontalAlignment="Left" Margin="72,182,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer8_SelectionChanged"/>
+        <StackPanel>
+            <StackPanel Height="20"></StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel >
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Player 1" Width="60" Margin="2,2,2,2"/>
+                    <ComboBox Name="ChoosePlayer1" Margin="2,2,2,2" Width="120" SelectionChanged="ChoosePlayer1_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Player 2" Width="60" Margin="2,2,2,2" />
+                    <ComboBox Name="ChoosePlayer2" Margin="2,2,2,2" Width="120" SelectionChanged="ChoosePlayer2_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Player 3" Width="60" Margin="2,2,2,2" />
+                    <ComboBox Name="ChoosePlayer3" Margin="2,2,2,2" Width="120" SelectionChanged="ChoosePlayer3_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Player 4" Width="60" Margin="2,2,2,2" />
+                    <ComboBox Name="ChoosePlayer4" Margin="2,2,2,2" Width="120" SelectionChanged="ChoosePlayer4_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Player 5" Width="60" Margin="2,2,2,2"/>
+                    <ComboBox Name="ChoosePlayer5" Margin="2,2,2,2" Width="120" SelectionChanged="ChoosePlayer5_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Player 6" Width="60" Margin="2,2,2,2"/>
+                    <ComboBox Name="ChoosePlayer6" Margin="2,2,2,2" Width="120" SelectionChanged="ChoosePlayer6_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Player 7" Width="60" Margin="2,2,2,2"/>
+                    <ComboBox Name="ChoosePlayer7" Margin="2,2,2,2" Width="120" SelectionChanged="ChoosePlayer7_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Player 8" Width="60" Margin="2,2,2,2"/>
+                    <ComboBox Name="ChoosePlayer8" Margin="2,2,2,2" Width="120" SelectionChanged="ChoosePlayer8_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Player 9" Width="60" Margin="2,2,2,2"/>
+                    <ComboBox Name="ChoosePlayer9" Margin="2,2,2,2" Width="120" SelectionChanged="ChoosePlayer9_SelectionChanged" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Player 10" Width="60" Margin="2,2,2,2"/>
+                    <ComboBox Name="ChoosePlayer10" Margin="2,2,2,2" Width="120" SelectionChanged="ChoosePlayer10_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Player 11" Width="60" Margin="2,2,2,2"/>
+                    <ComboBox Name="ChoosePlayer11" Margin="2,2,2,2" Width="120" SelectionChanged="ChoosePlayer11_SelectionChanged"/>
+                </StackPanel>
+            </StackPanel>
 
-        <ComboBox Name="ChoosePlayer9" HorizontalAlignment="Left" Margin="72,207,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer9_SelectionChanged" />
-        <ComboBox Name="ChoosePlayer10" HorizontalAlignment="Left" Margin="72,232,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer10_SelectionChanged"/>
-        <ComboBox Name="ChoosePlayer11" HorizontalAlignment="Left" Margin="72,257,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ChoosePlayer11_SelectionChanged"/>
-        <TextBox Name ="OppositionNameBox" HorizontalAlignment="Left" Height="23" Margin="217,89,0,0" TextWrapping="Wrap" Text="Opposition Name" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name ="ManOfMatchBox" HorizontalAlignment="Left" Margin="215,154,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding MoMList}"/>
-        <TextBox Name ="DateBox" HorizontalAlignment="Left" Height="23" Margin="215,21,0,0" TextWrapping="Wrap" Text="Date" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="PlaceBox" HorizontalAlignment="Left" Height="23" Margin="216,55,0,0" TextWrapping="Wrap" Text="Place" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name ="ResultBox" HorizontalAlignment="Left" Margin="214,213,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="216,248,0,0" TextWrapping="Wrap" Text="MatchType" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="215,185,0,0" TextWrapping="Wrap" Text="Result" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name ="MatchTypeBox" HorizontalAlignment="Left" Margin="218,279,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="215,127,0,0" TextWrapping="Wrap" Text="Man of the Match" VerticalAlignment="Top" Width="120"/>
+
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Opposition" Width="100" Margin="2,2,2,2"/>
+                    <TextBox Name ="OppositionNameBox" Height="23" Margin="2,2,2,2" TextWrapping="Wrap" Text="Opposition Name" Width="120"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Date" Width="100" Margin="2,2,2,2"/>
+                    <TextBox Name ="DateBox" Height="23" Margin="2,2,0,0" TextWrapping="Wrap" Text="Date" Width="120"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Place" Width="100" Margin="2,2,2,2"/>
+                    <TextBox Name ="PlaceBox" Height="23" Margin="2,2,0,0" TextWrapping="Wrap" Text="Place" Width="120"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="MatchType" Height="23" Margin="2,2,0,0"  Width="100"/>
+
+                    <ComboBox x:Name ="MatchTypeBox" Margin="2,2,0,0" Width="120"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Man of Match" Width="100" Margin="2,2,0,0" />
+                    <ComboBox Name ="ManOfMatchBox" Margin="2,2,0,0" Width="120" ItemsSource="{Binding MoMList}"/>
+                </StackPanel>
 
 
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Result"  Height="23" Margin="2,2,0,0" Width="100"/>
+                    <ComboBox Name ="ResultBox" Margin="2,2,0,0" Width="120"/>
+                </StackPanel>
+
+            </StackPanel>
+        </StackPanel >
+            
+            <Button Name="Go_To_Batting" Content="Next" HorizontalAlignment="Center" Margin="4,4,4,4" VerticalAlignment="Center" Width="146" Click="GoToBattingClick" ClickMode="Press" />
+        </StackPanel>
     </Grid>
 </Window>

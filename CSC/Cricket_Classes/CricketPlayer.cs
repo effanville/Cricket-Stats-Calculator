@@ -23,7 +23,7 @@ namespace Cricket
         public string Name
         {
             get { return name; }
-            private set { name = value; }
+            set { name = value; }
         }
 
         public void EditName(string newName)
@@ -65,7 +65,7 @@ namespace Cricket
             {
                 return total_innings;
             }
-            private set
+            set
             {
                 total_innings = value;
             }
@@ -78,7 +78,7 @@ namespace Cricket
             {
                 return total_not_out;
             }
-            private set
+            set
             {
                 total_not_out = value;
             }
@@ -91,7 +91,7 @@ namespace Cricket
             {
                 return total_runs;
             }
-            private set
+            set
             {
                 total_runs = value;
             }
@@ -104,7 +104,7 @@ namespace Cricket
             {
                 return batting_average;
             }
-            private set
+            set
             {
                 batting_average = value;
             }
@@ -114,7 +114,7 @@ namespace Cricket
         public string Bestbatting
         {
             get { return bestbatting; }
-            private set { bestbatting = value; }
+            set { bestbatting = value; }
         }
         // still need statistic holder for types of dismissal
 
@@ -122,34 +122,34 @@ namespace Cricket
         private int total_overs;
         public int Total_overs
         { get { return total_overs; }
-            private set { total_overs = value; }
+            set { total_overs = value; }
         }
 
         private int total_wickets;
         public int Total_wickets
         {
             get { return total_wickets; }
-            private set { total_wickets = value; }
+            set { total_wickets = value; }
         }
 
         private int total_runs_conceded;
         public int Total_runs_conceded
         {
             get { return total_runs_conceded; }
-            private set { total_runs_conceded = value; }
+            set { total_runs_conceded = value; }
         }
 
         private int total_maidens;
         public int Total_maidens
         {
             get { return total_maidens; }
-            private set { total_maidens = value; }
+            set { total_maidens = value; }
         }
         private double bowling_average;
         public double Bowling_average
         {
             get { return bowling_average; }
-            private set
+            set
             {
                 bowling_average = value;
             }
@@ -159,14 +159,14 @@ namespace Cricket
         public double Bowling_economy
         {
             get { return bowling_economy; }
-            private set { bowling_economy = value; }
+            set { bowling_economy = value; }
         }
 
         private string best_bowl_figures;
         public string Best_bowl_figures
         {
             get { return best_bowl_figures;}
-            private set { best_bowl_figures = value; }
+            set { best_bowl_figures = value; }
         }
 
         // statistic for types of dismissal as well
@@ -176,13 +176,13 @@ namespace Cricket
         public int Total_catches
         {
             get { return total_catches; }
-            private set { total_catches = value; }
+            set { total_catches = value; }
          }
 
         private int total_run_out;
         public int Total_run_out
         { get { return total_run_out; }
-            private set { total_run_out = value;  }
+            set { total_run_out = value;  }
         }
 
         // wicketkeeper_statistics
@@ -190,25 +190,25 @@ namespace Cricket
         private int total_catches_w;
         public int Total_catches_w
         { get { return total_catches_w; }
-            private set { total_catches_w = value; } }
+            set { total_catches_w = value; } }
 
         private int total_stumpings_w;
         public int Total_stumpings_w
         { get { return total_stumpings_w; }
-            private set { total_stumpings_w = value; }
+            set { total_stumpings_w = value; }
         }
 
         private int total_fielding_dismissals;
         public int Total_fielding_dismissals
         { get { return total_fielding_dismissals; }
-            private set { total_fielding_dismissals = value; }
+            set { total_fielding_dismissals = value; }
         }
 
         private int total_keeper_dismissals;
         public int Total_keeper_dismissals
         {
             get { return total_keeper_dismissals; }
-            private set { total_keeper_dismissals = value; }
+            set { total_keeper_dismissals = value; }
         }
 
         // functions producing statistics 

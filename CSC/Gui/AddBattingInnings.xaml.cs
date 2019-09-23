@@ -190,7 +190,6 @@ namespace CricketStatsCalc
                 }
             }
 
-
             
 
             if (!ErrorReports.OkNotOk())

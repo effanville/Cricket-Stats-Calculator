@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,6 +65,7 @@
     </ApplicationDefinition>
     <Compile Include="Cricket_Classes\BattingInnings.cs" />
     <Compile Include="Cricket_Classes\BowlingInnings.cs" />
+    <Compile Include="Cricket_Classes\MatchViewData.cs" />
     <Compile Include="Cricket_Classes\CricketTeam.cs" />
     <Compile Include="Cricket_Classes\CricketMatch.cs" />
     <Compile Include="Cricket_Classes\CricketPlayer.cs" />
@@ -97,6 +99,11 @@
       <DependentUpon>AddPlayerForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Cricket_Classes\CricketDatabaseEditingFunctions.cs" />
+    <Compile Include="Gui\AddPlayerFormViewModel.cs" />
+    <Compile Include="Gui\RelayCommand.cs" />
+    <Compile Include="Gui\EventRaiser.cs" />
+    <Compile Include="Gui\EventArgs.cs" />
+    <Compile Include="Gui\MainWindowViewModel.cs" />
     <Compile Include="Gui\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -132,7 +139,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Gui\AddBattingInnings.xaml">
       <SubType>Designer</SubType>

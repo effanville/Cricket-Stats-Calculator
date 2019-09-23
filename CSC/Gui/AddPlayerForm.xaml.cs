@@ -1,7 +1,6 @@
-﻿using System.Windows;
-using Cricket;
+﻿using System;
+using System.Windows;
 using ReportingStructures;
-using CricketDatabaseEditing;
 
 namespace CricketStatsCalc
 {
@@ -12,33 +11,18 @@ namespace CricketStatsCalc
     {
         public AddPlayerForm()
         {
+            Action closethis = new Action(this.Close);
+            Action ErrorReporting = new Action(function);
+            AddPlayerFormViewModel Data = new AddPlayerFormViewModel(closethis, ErrorReporting);
             InitializeComponent();
 
+            DataContext = Data;
         }
 
-        void AddNameClick(object sender, RoutedEventArgs e)
+        public void function()
         {
-            if (PlayerAddBox.Text != "Input Player Name Here")
-            {
-                if (CricketDatabaseEditingFunctions.AddPlayer(PlayerAddBox.Text))
-                {
-                    PlayerAddBox.Clear();
-                    Close();
-                }
-            }
-            else
-            {
-                ErrorReports.AddError("User has not specified a name for new player.");
-            }
-
-            if (ErrorReports.GetErrors().Count != 0)
-            {
-                ErrorReportsWindow errorReportsWindow = new ErrorReportsWindow();
-                errorReportsWindow.Show();
-            }
-
+            ErrorReportsWindow ErrorsWindow = new ErrorReportsWindow();
+            ErrorsWindow.ShowDialog();
         }
-
-
     }
 }
