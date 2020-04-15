@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30002.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CricketStatisticsDatabase", "CricketStatisticsDatabase\CricketStatisticsDatabase.csproj", "{895194F1-9054-46B9-B7F7-927F9F92115A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSD_Tests", "CSD_Tests\CSD_Tests.csproj", "{971AC22D-6882-4ADC-A40A-C8C5DFD8167D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{895194F1-9054-46B9-B7F7-927F9F92115A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{895194F1-9054-46B9-B7F7-927F9F92115A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{895194F1-9054-46B9-B7F7-927F9F92115A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{895194F1-9054-46B9-B7F7-927F9F92115A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{971AC22D-6882-4ADC-A40A-C8C5DFD8167D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{971AC22D-6882-4ADC-A40A-C8C5DFD8167D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{971AC22D-6882-4ADC-A40A-C8C5DFD8167D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{971AC22D-6882-4ADC-A40A-C8C5DFD8167D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8B71ACF-CAE1-495A-8B33-BA032DF9EAFD}
+	EndGlobalSection
+EndGlobal
