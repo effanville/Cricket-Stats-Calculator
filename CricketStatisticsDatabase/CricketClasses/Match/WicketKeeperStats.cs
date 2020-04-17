@@ -10,7 +10,7 @@ namespace Cricket.Match
         public PlayerName Name
         {
             get;
-            private set;
+            set;
         }
 
         public int Stumpings
@@ -28,6 +28,11 @@ namespace Cricket.Match
         public WicketKeeperStats(PlayerName name)
         {
             Name = name;
+        }
+
+        public WicketKeeperStats()
+        {
+            Name = new PlayerName();
         }
     }
 }

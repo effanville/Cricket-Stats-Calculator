@@ -7,7 +7,7 @@ namespace Cricket.Match
         public PlayerName Name
         {
             get;
-            private set;
+            set;
         }
 
         public int Catches
@@ -40,5 +40,8 @@ namespace Cricket.Match
             Name = name;
             keeperFielding = new WicketKeeperStats(name);
         }
+
+        public FieldingEntry()
+        { }
     }
 }

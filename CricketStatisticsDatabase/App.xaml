@@ -1,9 +1,8 @@
 ﻿<Application x:Class="CricketStatisticsDatabase.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:CricketStatisticsDatabase"
              StartupUri="/GUI/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary Source="GUI/Dictionaries.xaml"/>
     </Application.Resources>
 </Application>

@@ -2,7 +2,7 @@
 using GUISupport.Services;
 using System.Windows;
 
-namespace CricketStatisticsDatabase
+namespace GUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

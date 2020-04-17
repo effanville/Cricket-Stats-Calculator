@@ -12,7 +12,7 @@ namespace Cricket.Match
         public MatchInfo MatchData
         { 
             get { return fMatchData; }
-            private set { fMatchData = value; }
+            set { fMatchData = value; }
         }
 
         private ResultType fResult;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using Cricket.Interfaces;
 using Cricket.Player;
 
@@ -8,13 +9,15 @@ namespace Cricket.Team
 {
     public class CricketTeam : ICricketTeam
     {
+        private List<CricketPlayer> fTeamPlayers = new List<CricketPlayer>();
         public List<CricketPlayer> TeamPlayers
         {
-            get;
-            set;
+            get { return fTeamPlayers; }
+            set { fTeamPlayers = value; }
         }
 
         /// <inheritdoc/>
+        [XmlIgnoreAttribute]
         public List<ICricketPlayer> Players
         {
             get 
@@ -23,13 +26,15 @@ namespace Cricket.Team
             }
         }
 
+        private List<CricketSeason> fTeamSeasons = new List<CricketSeason>();
         public List<CricketSeason> TeamSeasons
         {
-            get; 
-            set; 
+            get { return fTeamSeasons; }
+            set { fTeamSeasons = value; } 
         }
 
         /// <inheritdoc/>
+        [XmlIgnoreAttribute]
         public List<ICricketSeason> Seasons
         {
             get 
@@ -40,7 +45,6 @@ namespace Cricket.Team
 
         public CricketTeam()
         {
-
         }
 
         /// <inheritdoc/>

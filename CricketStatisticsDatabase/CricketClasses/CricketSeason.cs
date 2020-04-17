@@ -1,8 +1,10 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Match;
+using Cricket.Player;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 
 namespace Cricket
 {
@@ -37,17 +39,24 @@ namespace Cricket
         public string Name
         { 
             get; 
-            private set; 
+            set; 
         }
 
         /// <inheritdoc/>
         public DateTime Year
         { 
             get; 
-            private set; 
+            set; 
+        }
+
+        public List<CricketPlayer> SeasonsPlayers
+        {
+            get;
+            set;
         }
 
         /// <inheritdoc/>
+        [XmlIgnoreAttribute]
         public List<ICricketPlayer> Players
         {
             get 
@@ -59,10 +68,11 @@ namespace Cricket
         public List<CricketMatch> SeasonsMatches
         { 
             get; 
-            private set; 
+            set; 
         }
 
         /// <inheritdoc/>
+        [XmlIgnoreAttribute]
         public List<ICricketMatch> Matches
         {
             get 
@@ -78,6 +88,20 @@ namespace Cricket
             return new CricketMatch();
         }
 
+        public bool AddMatch()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ContainsMatch()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveMatch()
+        {
+            throw new NotImplementedException();
+        }
 
         public CricketSeason()
         {

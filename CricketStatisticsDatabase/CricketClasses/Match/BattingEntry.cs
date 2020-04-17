@@ -7,35 +7,35 @@ namespace Cricket.Match
         public PlayerName Name
         {
             get;
-            private set;
+            set;
         }
 
         private int fRunsScored;
         public int RunsScored
         {
             get { return fRunsScored; }
-            private set { fRunsScored = value; }
+            set { fRunsScored = value; }
         }
 
         private BattingWicketLossType fMethodOut;
         public BattingWicketLossType MethodOut
         {
             get { return fMethodOut; }
-            private set { fMethodOut = value; }
+            set { fMethodOut = value; }
         }
 
         private PlayerName fFielder;
         public PlayerName Fielder
         {
             get { return fFielder; }
-            private set { fFielder = value; }
+            set { fFielder = value; }
         }
 
         private PlayerName fBowler;
         public PlayerName Bowler
         {
             get { return fBowler; }
-            private set { fBowler = value; }
+            set { fBowler = value; }
         }
 
         public bool Out()
@@ -55,5 +55,8 @@ namespace Cricket.Match
         {
             Name = name;
         }
+
+        public BattingEntry()
+        { }
     }
 }

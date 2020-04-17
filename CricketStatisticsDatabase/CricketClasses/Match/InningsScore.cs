@@ -7,10 +7,10 @@
             return Runs + " - " + Wickets;
         }
         public int Runs
-        { get; private set; }
+        { get; set; }
 
         public int Wickets
-        { get; private set; }
+        { get; set; }
 
         public InningsScore()
         { }
