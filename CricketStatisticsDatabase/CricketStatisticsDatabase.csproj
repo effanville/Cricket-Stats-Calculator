@@ -10,4 +10,16 @@
     <OutputPath>..\bin</OutputPath>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Update="GUI\SeasonEditView\CreateSeasonDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="GUI\SeasonEditView\CreateSeasonDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

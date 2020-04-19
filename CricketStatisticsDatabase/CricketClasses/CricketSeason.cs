@@ -32,7 +32,7 @@ namespace Cricket
 
         public override string ToString()
         {
-            return Year.Year.ToString() + Name;
+            return Year.Year.ToString() + " " +  Name;
         }
 
         /// <inheritdoc/>
@@ -49,10 +49,11 @@ namespace Cricket
             set; 
         }
 
+        List<CricketPlayer> fSeasonsPlayers = new List<CricketPlayer>();
         public List<CricketPlayer> SeasonsPlayers
         {
-            get;
-            set;
+            get { return fSeasonsPlayers; }
+            set { fSeasonsPlayers = value; }
         }
 
         /// <inheritdoc/>
@@ -61,14 +62,15 @@ namespace Cricket
         {
             get 
             {
-                return new List<ICricketPlayer>();
+                return SeasonsPlayers.Select(player => (ICricketPlayer)player).ToList();
             }
         }
 
+        List<CricketMatch> fSeasonsMatches = new List<CricketMatch>();
         public List<CricketMatch> SeasonsMatches
-        { 
-            get; 
-            set; 
+        {
+            get { return fSeasonsMatches; }
+            set { fSeasonsMatches = value; } 
         }
 
         /// <inheritdoc/>
@@ -82,25 +84,43 @@ namespace Cricket
         }
 
         /// <inheritdoc/>
+        public void EditSeasonName(DateTime year, string name)
+        {
+            Year = year;
+            Name = name;
+        }
+
+        /// <inheritdoc/>
         /// This is currently not implemented.
-        public ICricketMatch GetMatch()
+        public ICricketMatch GetMatch(DateTime date, string opposition)
         {
-            return new CricketMatch();
+            if (ContainsMatch(date, opposition))
+            {
+                return SeasonsMatches.First(match => match.SameMatch(date, opposition));
+            }
+
+            return null;
         }
 
-        public bool AddMatch()
+        public bool AddMatch(MatchInfo info)
         {
-            throw new NotImplementedException();
+            if (!ContainsMatch(info.Date, info.Opposition))
+            {
+                SeasonsMatches.Add(new CricketMatch(info));
+                return true;
+            }
+
+            return false;
         }
 
-        public bool ContainsMatch()
+        public bool ContainsMatch(DateTime date, string opposition)
         {
-            throw new NotImplementedException();
+            return SeasonsMatches.Any(match => match.SameMatch(date, opposition));
         }
 
-        public bool RemoveMatch()
+        public bool RemoveMatch(DateTime date, string opposition)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public CricketSeason()

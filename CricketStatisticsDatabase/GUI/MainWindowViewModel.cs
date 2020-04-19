@@ -37,11 +37,16 @@ namespace GUI.ViewModels
             DisplayTabs.Add(new PlayerEditViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
             DisplayTabs.Add(new SeasonEditViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
         }
-        public Action<Action<ICricketTeam>> UpdateDatabase => action => UpdateSubWindows(action);
+        public Action<Action<ICricketTeam>> UpdateDatabase => action => UpdateDatabaseFromAction(action);
 
-        private void UpdateSubWindows(Action<ICricketTeam> updateTeam)
+        private void UpdateDatabaseFromAction(Action<ICricketTeam> updateTeam)
         {
             updateTeam(TeamToPlayWith);
+            UpdateSubWindows();
+        }
+
+        private void UpdateSubWindows()
+        {
             foreach (var tab in DisplayTabs)
             {
                 if (tab is ViewModelBase vmb)
@@ -51,6 +56,7 @@ namespace GUI.ViewModels
             }
         }
 
+
         public ICommand NewTeamCommand { get; }
 
         private void ExecuteNewTeamCommand(object obj)
@@ -59,6 +65,7 @@ namespace GUI.ViewModels
             if (result == System.Windows.MessageBoxResult.Yes)
             {
                 TeamToPlayWith = new CricketTeam();
+                UpdateSubWindows();
             }
         }
 
@@ -70,9 +77,10 @@ namespace GUI.ViewModels
             if (result.Success != null && (bool)result.Success)
             {
                 var database = XmlFileAccess.ReadFromXmlFile<CricketTeam>(result.FilePath, out string error);
-                if (error != null)
+                if (error == null)
                 {
                     TeamToPlayWith = database;
+                    UpdateSubWindows();
                 }
             }
         }
@@ -84,9 +92,6 @@ namespace GUI.ViewModels
             if (result.Success != null && (bool)result.Success)
             {
                 XmlFileAccess.WriteToXmlFile<CricketTeam>(result.FilePath, TeamToPlayWith, out string error);
-                if (error != null)
-                {
-                }
             }
         }
     }

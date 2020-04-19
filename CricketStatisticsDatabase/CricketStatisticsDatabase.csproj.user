@@ -13,7 +13,22 @@
     <Compile Update="GUI\PlayerEditView\PlayerEditView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="GUI\SeasonEditView\MatchEditDialogs\CreateMatchDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GUI\SeasonEditView\MatchEditDialogs\EditBattingDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GUI\SeasonEditView\MatchEditDialogs\EditBowlingDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GUI\SeasonEditView\MatchEditDialogs\EditFieldingDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="GUI\SeasonEditView\SeasonEditView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GUI\SeasonEditView\SelectedSeasonEditView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="GUI\TeamOverview.xaml.cs">
@@ -33,7 +48,25 @@
     <Page Update="GUI\PlayerEditView\PlayerEditView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="GUI\SeasonEditView\MatchEditDialogs\CreateMatchDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GUI\SeasonEditView\CreateSeasonDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GUI\SeasonEditView\MatchEditDialogs\EditBattingDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GUI\SeasonEditView\MatchEditDialogs\EditBowlingDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GUI\SeasonEditView\MatchEditDialogs\EditFieldingDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="GUI\SeasonEditView\SeasonEditView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GUI\SeasonEditView\SelectedSeasonEditView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="GUI\TeamOverview.xaml">

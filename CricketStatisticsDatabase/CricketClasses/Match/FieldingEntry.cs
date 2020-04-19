@@ -22,6 +22,18 @@ namespace Cricket.Match
             set; 
         }
 
+        public int KeeperStumpings
+        {
+            get { return keeperFielding.Stumpings; }
+            set { keeperFielding.Stumpings = value; } 
+        }
+
+        public int KeeperCatches
+        {
+            get {return keeperFielding.Catches; }
+            set { keeperFielding.Catches = value; } 
+        }
+
         public WicketKeeperStats keeperFielding
         { 
             get; 
@@ -42,6 +54,6 @@ namespace Cricket.Match
         }
 
         public FieldingEntry()
-        { }
+        { keeperFielding = new WicketKeeperStats(); }
     }
 }

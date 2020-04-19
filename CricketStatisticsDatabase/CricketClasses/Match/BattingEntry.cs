@@ -10,13 +10,6 @@ namespace Cricket.Match
             set;
         }
 
-        private int fRunsScored;
-        public int RunsScored
-        {
-            get { return fRunsScored; }
-            set { fRunsScored = value; }
-        }
-
         private BattingWicketLossType fMethodOut;
         public BattingWicketLossType MethodOut
         {
@@ -36,6 +29,13 @@ namespace Cricket.Match
         {
             get { return fBowler; }
             set { fBowler = value; }
+        }
+
+        private int fRunsScored;
+        public int RunsScored
+        {
+            get { return fRunsScored; }
+            set { fRunsScored = value; }
         }
 
         public bool Out()

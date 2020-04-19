@@ -19,4 +19,24 @@
     <DataTemplate DataType="{x:Type vm:SeasonEditViewModel}">
         <gui:SeasonEditView/>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dvm:CreateSeasonDialogViewModel}">
+        <dialog:CreateSeasonDialog/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dvm:CreateMatchDialogViewModel}">
+        <dialog:CreateMatchDialog/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dvm:EditBowlingDialogViewModel}">
+        <dialog:EditBowlingDialog/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dvm:EditBattingDialogViewModel}">
+        <dialog:EditBattingDialog/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dvm:EditFieldingDialogViewModel}">
+        <dialog:EditFieldingDialog/>
+    </DataTemplate>
 </ResourceDictionary>

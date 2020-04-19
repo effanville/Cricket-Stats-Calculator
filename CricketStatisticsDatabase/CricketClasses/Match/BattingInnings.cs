@@ -21,8 +21,13 @@ namespace Cricket.Match
                 fBattingInfo = value;
             }
         }
+        private int fExtras;
 
-        public int Extras;
+        public int Extras
+        { 
+            get { return fExtras; }
+            set { fExtras = value; }
+        }
 
         public bool SetScores(PlayerName player, BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
         {
@@ -63,6 +68,14 @@ namespace Cricket.Match
             }
 
             return new InningsScore(runs, wickets);
+        }
+        public BattingInnings Copy()
+        {
+            return new BattingInnings()
+            {
+                Extras = this.Extras,
+                BattingInfo = new List<BattingEntry>(this.BattingInfo)
+            };
         }
 
         public BattingInnings(List<PlayerName> playerNames)

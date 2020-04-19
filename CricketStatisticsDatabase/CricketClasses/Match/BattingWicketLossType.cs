@@ -5,13 +5,13 @@
     /// </summary>
     public enum BattingWicketLossType
     {
-        NotOut = 0,
-        Bowled = 1,
-        Caught = 2,
-        LBW = 3,
-        Stumped = 4,
-        RunOut = 5,
-        HitWicket = 6,
-        DidNotBat = 7
+        DidNotBat = 0,
+        NotOut = 1,
+        Bowled = 2,
+        Caught = 3,
+        LBW = 4,
+        Stumped = 5,
+        RunOut = 6,
+        HitWicket = 7
     }
 }
