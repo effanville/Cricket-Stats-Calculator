@@ -52,6 +52,12 @@ namespace Cricket.Interfaces
 
         bool EditManOfMatch(PlayerName player);
 
+        BattingEntry GetBatting(PlayerName player);
+
+        BowlingEntry GetBowling(PlayerName player);
+
+        FieldingEntry GetFielding(PlayerName player);
+
         bool AddPlayer(PlayerName player);
 
         void SetBatting(BattingInnings innings);

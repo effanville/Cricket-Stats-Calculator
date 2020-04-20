@@ -49,21 +49,10 @@ namespace Cricket
             set; 
         }
 
-        List<CricketPlayer> fSeasonsPlayers = new List<CricketPlayer>();
-        public List<CricketPlayer> SeasonsPlayers
-        {
-            get { return fSeasonsPlayers; }
-            set { fSeasonsPlayers = value; }
-        }
-
         /// <inheritdoc/>
-        [XmlIgnoreAttribute]
-        public List<ICricketPlayer> Players
+        public List<PlayerName> Players
         {
-            get 
-            {
-                return SeasonsPlayers.Select(player => (ICricketPlayer)player).ToList();
-            }
+            get { return SeasonsMatches.SelectMany(match => match.PlayerNames).Distinct().ToList(); }
         }
 
         List<CricketMatch> fSeasonsMatches = new List<CricketMatch>();

@@ -22,7 +22,7 @@
                   SelectedItem="{Binding SelectedSeason}"
                   Grid.Column="0"
                   Grid.Row="0"
-                  Margin="5"></ComboBox>
+                  Margin="5"/>
         <StackPanel Orientation="Vertical" 
                         Grid.Column="0"
                     Grid.Row="1">
