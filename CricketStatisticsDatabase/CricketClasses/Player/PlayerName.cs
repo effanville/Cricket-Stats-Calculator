@@ -1,11 +1,25 @@
 ﻿using Validation;
 using System.Linq;
 using System.Collections.Generic;
+using ExtensionMethods;
 
 namespace Cricket.Player
 {
     public class PlayerName : IValidity
     {
+        public static bool IsNullOrEmpty(PlayerName name)
+        {
+            if (name != null)
+            {
+                if (!string.IsNullOrEmpty(name.Forename) && !string.IsNullOrEmpty(name.Surname))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public PlayerName(string surname, string forename)
         {
             Surname = surname;
@@ -111,20 +125,8 @@ namespace Cricket.Player
         public List<ValidationResult> Validation()
         {
             var output = new List<ValidationResult>();
-
-            if (string.IsNullOrEmpty(Surname))
-            {
-                var result = new ValidationResult() { IsValid = false, PropertyName = nameof(Surname) };
-                result.AddMessage("A non empty or non null surname should be provided.");
-                output.Add(result);
-            }
-
-            if (string.IsNullOrEmpty(Forename))
-            {
-                var result = new ValidationResult() { IsValid = false, PropertyName = nameof(Forename) };
-                result.AddMessage("A non empty or non null forename should be provided.");
-                output.Add(result);
-            }
+            output.AddIfNotNull(Validating.IsNotNullOrEmpty(Surname, nameof(Surname)));
+            output.AddIfNotNull(Validating.IsNotNullOrEmpty(Forename, nameof(Forename)));
             return output;
         }
     }

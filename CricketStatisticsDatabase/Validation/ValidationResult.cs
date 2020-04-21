@@ -7,7 +7,7 @@ namespace Validation
         /// <summary>
         /// whether the result is valid or not.
         /// </summary>
-        public bool IsValid{ get; set; }
+        public bool IsValid { get; set; }
 
         /// <summary>
         /// The name of the property that is valid or not.
@@ -37,17 +37,5 @@ namespace Validation
             Messages.Add(message);
         }
 
-    }
-    public interface IValidity
-    {
-        /// <summary>
-        /// Enacts the validity and returns whether valid or not.
-        /// </summary>
-        bool Validate();
-
-        /// <summary>
-        /// Returns the list of errors from the validation.
-        /// </summary>
-        List<ValidationResult> Validation();
     }
 }

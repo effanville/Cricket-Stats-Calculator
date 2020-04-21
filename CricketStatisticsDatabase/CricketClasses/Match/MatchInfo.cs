@@ -1,8 +1,12 @@
-﻿using System;
+﻿using ExtensionMethods;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Validation;
 
 namespace Cricket.Match
 {
-    public class MatchInfo
+    public class MatchInfo : IValidity
     {
         private string fOpposition;
         public string Opposition
@@ -47,6 +51,18 @@ namespace Cricket.Match
             Date = date;
             Place = place;
             Type = matchType;
+        }
+
+        public bool Validate()
+        {
+            return !Validation().Any(validation => !validation.IsValid);
+        }
+
+        public List<ValidationResult> Validation()
+        {
+            var results = new List<ValidationResult>();
+            results.AddIfNotNull(Validating.IsNotNullOrEmpty(Opposition, nameof(Opposition)));
+            return results;
         }
     }
 }
