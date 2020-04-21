@@ -1,6 +1,10 @@
-﻿namespace Cricket.Player
+﻿using Validation;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Cricket.Player
 {
-    public class PlayerName
+    public class PlayerName : IValidity
     {
         public PlayerName(string surname, string forename)
         {
@@ -97,6 +101,31 @@
         public PlayerName Copy()
         {
             return new PlayerName(this);
+        }
+
+        public bool Validate()
+        {
+            return !Validation().Any(validation => !validation.IsValid);
+        }
+
+        public List<ValidationResult> Validation()
+        {
+            var output = new List<ValidationResult>();
+
+            if (string.IsNullOrEmpty(Surname))
+            {
+                var result = new ValidationResult() { IsValid = false, PropertyName = nameof(Surname) };
+                result.AddMessage("A non empty or non null surname should be provided.");
+                output.Add(result);
+            }
+
+            if (string.IsNullOrEmpty(Forename))
+            {
+                var result = new ValidationResult() { IsValid = false, PropertyName = nameof(Forename) };
+                result.AddMessage("A non empty or non null forename should be provided.");
+                output.Add(result);
+            }
+            return output;
         }
     }
 }

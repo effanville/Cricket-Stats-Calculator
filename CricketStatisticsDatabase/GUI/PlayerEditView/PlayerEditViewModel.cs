@@ -46,6 +46,7 @@ namespace GUI.ViewModels
         }
 
         private PlayerName fSelectedPlayerName;
+
         public PlayerName SelectedPlayerName
         {
             get { return fSelectedPlayerName; }
@@ -88,6 +89,7 @@ namespace GUI.ViewModels
         }
 
         public ICommand DeletePlayerCommand { get; }
+
         private void ExecuteDeletePlayer(object obj)
         {
             if (SelectedPlayer != null)

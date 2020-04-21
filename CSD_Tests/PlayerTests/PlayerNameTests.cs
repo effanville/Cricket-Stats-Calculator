@@ -65,6 +65,16 @@ namespace CricketClasses.PlayerTests
             Assert.AreEqual(surname, name.Surname);
             Assert.AreEqual(forename + " " + surname, name.ToString());
         }
+
+        [TestCase("Bloggs", "Joe", true)]
+        [TestCase("Bloggs", "", false)]
+        [TestCase("", "Joe", false)]
+        public void TestValidity(string surname, string forename, bool isValid)
+        {
+            var name = new PlayerName(surname, forename);
+            var valid = name.Validate();
+            Assert.AreEqual(isValid, valid);
+        }
     }
 
     [TestFixture]
