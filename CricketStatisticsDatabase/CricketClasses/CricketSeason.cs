@@ -5,10 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using Validation;
 
 namespace Cricket
 {
-    public class CricketSeason : ICricketSeason
+    public class CricketSeason : ICricketSeason, IValidity
     {
         public override bool Equals(object obj)
         {
@@ -140,6 +141,28 @@ namespace Cricket
             }
 
             throw new Exception($"Had {removed} matches with info {date} and {opposition}, but should have at most 1.");
+        }
+
+        public bool Validate()
+        {
+            return !Validation().Any(validation => !validation.IsValid);
+        }
+
+        public List<ValidationResult> Validation()
+        {
+            var results = new List<ValidationResult>();
+            foreach (var match in SeasonsMatches)
+            {
+                results.AddRange(match.Validation());
+            }
+            if (Year == null)
+            {
+                var yearNotSet = new ValidationResult();
+                yearNotSet.IsValid = false;
+                yearNotSet.PropertyName = nameof(Year);
+                yearNotSet.AddMessage($"{nameof(Year)} must be set.");
+            }
+            return results;
         }
 
         public CricketSeason()
