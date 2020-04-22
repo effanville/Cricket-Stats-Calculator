@@ -1,5 +1,8 @@
 ﻿using Cricket.Player;
+using CSD_Tests;
 using NUnit.Framework;
+using System.Collections.Generic;
+using Validation;
 
 namespace CricketClasses.PlayerTests
 {
@@ -66,14 +69,59 @@ namespace CricketClasses.PlayerTests
             Assert.AreEqual(forename + " " + surname, name.ToString());
         }
 
+        [TestCase("Smith", "Steve", true)]
         [TestCase("Bloggs", "Joe", true)]
         [TestCase("Bloggs", "", false)]
         [TestCase("", "Joe", false)]
+        [TestCase("Bloggs", null, false)]
+        [TestCase(null, "Joe", false)]
+        [TestCase(null, null, false)]
         public void TestValidity(string surname, string forename, bool isValid)
         {
             var name = new PlayerName(surname, forename);
             var valid = name.Validate();
             Assert.AreEqual(isValid, valid);
+        }
+
+        [TestCase("Smith", "Steve", true, new string[] { })]
+        [TestCase("Bloggs", "Joe", true, new string[] { })]
+        [TestCase("Bloggs", "", false, new string[] { "Forename cannot be empty or null." })]
+        [TestCase("", "Joe", false, new string[] { "Surname cannot be empty or null." })]
+        [TestCase("Bloggs", null, false, new string[] { "Forename cannot be empty or null." })]
+        [TestCase(null, "Joe", false, new string[] { "Surname cannot be empty or null." })]
+        public void TestValidityMessage(string surname, string forename, bool isValid, string[] isValidMessage )
+        {
+            var name = new CricketPlayer(surname, forename);
+            var valid = name.Validation();
+            var expectedList = new List<ValidationResult>();
+            if (!isValid)
+            {
+                var expected = new ValidationResult();
+                expected.IsValid = isValid;
+                expected.Messages.AddRange(isValidMessage);
+                expectedList.Add(expected);
+            }
+            
+            Assertions.AreEqualResults(expectedList, valid);
+        }
+
+        [Test]
+        public void TestValidityMessageBothNamesNull()
+        {
+            var name = new CricketPlayer(null, null);
+            var valid = name.Validation();
+            var expectedList = new List<ValidationResult>();
+            var expectedSurnameError = new ValidationResult();
+            expectedSurnameError.IsValid = false;
+            expectedSurnameError.Messages.AddRange(new string[] { "Surname cannot be empty or null." });
+            expectedList.Add(expectedSurnameError);
+
+            var expectedForenameError = new ValidationResult();
+            expectedForenameError.IsValid = false;
+            expectedForenameError.Messages.AddRange(new string[] { "Forename cannot be empty or null." });
+            expectedList.Add(expectedForenameError);
+
+            Assertions.AreEqualResults(expectedList, valid);
         }
     }
 
@@ -83,6 +131,9 @@ namespace CricketClasses.PlayerTests
         [TestCase("Bloggs", "Joe")]
         [TestCase("Bloggs", "")]
         [TestCase("", "Joe")]
+        [TestCase("Bloggs", null)]
+        [TestCase(null, "Joe")]
+        [TestCase(null, null)]
         public void ConvertCorrectly(string surname, string forename)
         {
             var name = new PlayerName(surname, forename);
@@ -96,6 +147,9 @@ namespace CricketClasses.PlayerTests
         [TestCase("Bloggs", "Joe")]
         [TestCase("Bloggs", "")]
         [TestCase("", "Joe")]
+        [TestCase("Bloggs", null)]
+        [TestCase(null, "Joe")]
+        [TestCase(null, null)]
         public void ConvertBackCorrectly(string surname, string forename)
         {
             var name = new PlayerName(surname, forename);
