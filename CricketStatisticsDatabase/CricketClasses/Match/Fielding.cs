@@ -44,6 +44,14 @@ namespace Cricket.Match
             return removed == 1;
         }
 
+        public Fielding Copy()
+        {
+            return new Fielding()
+            {
+                FieldingInfo = new List<FieldingEntry>(this.FieldingInfo)
+            };
+        }
+
         public Fielding(List<PlayerName> playerNames)
         {
             foreach (var name in playerNames)

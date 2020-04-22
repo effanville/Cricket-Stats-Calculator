@@ -7,7 +7,7 @@ namespace Cricket.Match
         public PlayerName Name
         {
             get;
-            private set;
+            set;
         }
 
         private int fOversBowled;
@@ -50,5 +50,8 @@ namespace Cricket.Match
         {
             Name = name;
         }
+
+        public BowlingEntry()
+        { }
     }
 }

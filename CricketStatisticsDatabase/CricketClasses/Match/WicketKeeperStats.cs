@@ -1,7 +1,4 @@
 ﻿using Cricket.Player;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Cricket.Match
 {
@@ -10,7 +7,7 @@ namespace Cricket.Match
         public PlayerName Name
         {
             get;
-            private set;
+            set;
         }
 
         public int Stumpings
@@ -28,6 +25,11 @@ namespace Cricket.Match
         public WicketKeeperStats(PlayerName name)
         {
             Name = name;
+        }
+
+        public WicketKeeperStats()
+        {
+            Name = new PlayerName();
         }
     }
 }

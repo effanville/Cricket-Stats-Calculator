@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace GUISupport
+namespace GUISupport.ViewModels
 {
-    internal class PropertyChangedBase : INotifyPropertyChanged
+    public class PropertyChangedBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

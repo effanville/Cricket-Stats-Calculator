@@ -7,7 +7,7 @@ namespace Cricket.Match
         public PlayerName Name
         {
             get;
-            private set;
+            set;
         }
 
         public int Catches
@@ -20,6 +20,18 @@ namespace Cricket.Match
         { 
             get; 
             set; 
+        }
+
+        public int KeeperStumpings
+        {
+            get { return keeperFielding.Stumpings; }
+            set { keeperFielding.Stumpings = value; } 
+        }
+
+        public int KeeperCatches
+        {
+            get {return keeperFielding.Catches; }
+            set { keeperFielding.Catches = value; } 
         }
 
         public WicketKeeperStats keeperFielding
@@ -40,5 +52,8 @@ namespace Cricket.Match
             Name = name;
             keeperFielding = new WicketKeeperStats(name);
         }
+
+        public FieldingEntry()
+        { keeperFielding = new WicketKeeperStats(); }
     }
 }

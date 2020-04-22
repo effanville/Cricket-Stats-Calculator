@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:GUI.ViewModels"
+                    xmlns:dvm="clr-namespace:GUI.Dialogs.ViewModels"
+                    xmlns:dialog="clr-namespace:GUI.Dialogs"
+                    xmlns:gui="clr-namespace:GUI">
+    <DataTemplate DataType="{x:Type vm:TeamOverviewViewModel }">
+        <gui:TeamOverview/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:PlayerEditViewModel}">
+        <gui:PlayerEditView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dvm:CreatePlayerDialogViewModel}">
+        <dialog:CreatePlayerDialog/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:SeasonEditViewModel}">
+        <gui:SeasonEditView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dvm:CreateSeasonDialogViewModel}">
+        <dialog:CreateSeasonDialog/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dvm:CreateMatchDialogViewModel}">
+        <dialog:CreateMatchDialog/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dvm:EditBowlingDialogViewModel}">
+        <dialog:EditBowlingDialog/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dvm:EditBattingDialogViewModel}">
+        <dialog:EditBattingDialog/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dvm:EditFieldingDialogViewModel}">
+        <dialog:EditFieldingDialog/>
+    </DataTemplate>
+</ResourceDictionary>

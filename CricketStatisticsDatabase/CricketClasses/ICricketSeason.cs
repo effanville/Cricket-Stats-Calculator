@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cricket.Match;
+using System;
 using System.Collections.Generic;
 
 namespace Cricket.Interfaces
@@ -37,6 +38,8 @@ namespace Cricket.Interfaces
             get;
         }
 
+        void EditSeasonName(DateTime year, string name);
+
         /// <summary>
         /// Queries whether the given data is the same as this seasons.
         /// </summary>
@@ -53,7 +56,7 @@ namespace Cricket.Interfaces
         /// <remarks>
         /// What to do if it can return two?
         /// </remarks>
-        bool AddMatch();
+        bool AddMatch(MatchInfo info);
 
         /// <summary>
         /// Returns the match in the list with a given identifier.
@@ -61,7 +64,7 @@ namespace Cricket.Interfaces
         /// <remarks>
         /// What to do if it can return two?
         /// </remarks>
-        ICricketMatch GetMatch();
+        ICricketMatch GetMatch(DateTime date, string opposition);
 
         /// <summary>
         /// Returns whether the match with a given identifier exists.
@@ -69,7 +72,7 @@ namespace Cricket.Interfaces
         /// <remarks>
         /// What to do if it can return two?
         /// </remarks>
-        bool ContainsMatch();
+        bool ContainsMatch(DateTime date, string opposition);
 
         /// <summary>
         /// Removes the match in the list with a given identifier.
@@ -77,6 +80,6 @@ namespace Cricket.Interfaces
         /// <remarks>
         /// What to do if it can return two?
         /// </remarks>
-        bool RemoveMatch();
+        bool RemoveMatch(DateTime date, string opposition);
     }
 }

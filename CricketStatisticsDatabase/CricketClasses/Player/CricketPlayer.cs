@@ -7,6 +7,10 @@ namespace Cricket.Player
     /// </summary>
     public class CricketPlayer : ICricketPlayer
     {
+        public override string ToString()
+        {
+            return Name.ToString();
+        }
         public CricketPlayer()
         {
         }
@@ -34,7 +38,7 @@ namespace Cricket.Player
         public PlayerName Name
         {
             get;
-            private set;
+            set;
         }
         // collections of statistics to set for each player
 

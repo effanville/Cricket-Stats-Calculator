@@ -76,6 +76,15 @@ namespace Cricket.Match
             }
         }
 
+        public BowlingInnings Copy()
+        {
+            return new BowlingInnings()
+            {
+                ByesLegByes = this.ByesLegByes,
+                BowlingInfo = new List<BowlingEntry>(this.BowlingInfo)
+            };
+        }
+
         /// <summary>
         /// Standard default generator
         /// </summary>

@@ -37,5 +37,16 @@ namespace Cricket.Match
             get { return fType; }
             set { fType = value; }
         }
+
+        public MatchInfo()
+        { }
+
+        public MatchInfo(string opposition, DateTime date, string place, MatchType matchType)
+        {
+            Opposition = opposition;
+            Date = date;
+            Place = place;
+            Type = matchType;
+        }
     }
 }
