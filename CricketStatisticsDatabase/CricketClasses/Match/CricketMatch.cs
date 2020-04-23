@@ -2,6 +2,7 @@
 using Cricket.Player;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Cricket.Match
 {
@@ -126,15 +127,7 @@ namespace Cricket.Match
         /// </summary>
         public bool PlayNotPlay(PlayerName person)
         {
-            for (int playerIndex = 0; playerIndex < fPlayerNames.Count; ++playerIndex)
-            {
-                if (fPlayerNames[playerIndex].Equals(person))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return PlayerNames.Contains(person);
         }
 
 
@@ -181,10 +174,6 @@ namespace Cricket.Match
             {
                 if (!Batting.PlayerListed(entry.Name))
                 {
-                    if (!PlayerNames.Contains(entry.Name))
-                    {
-                        PlayerNames.Add(entry.Name);
-                    }
                     AddBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Fielder, entry.Bowler);
                 }
                 else
@@ -198,7 +187,7 @@ namespace Cricket.Match
         {
             if (!Batting.PlayerListed(player))
             {
-                if (!PlayerNames.Contains(player))
+                if (!PlayNotPlay(player))
                 {
                     PlayerNames.Add(player);
                 }
@@ -212,7 +201,7 @@ namespace Cricket.Match
 
         public bool EditBattingEntry(PlayerName player, BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null) 
         {
-            if (PlayerNames.Contains(player) && Batting.PlayerListed(player))
+            if (Batting.PlayerListed(player))
             {
                 Batting.SetScores(player, howOut, runs, fielder, bowler);
                 return true;
@@ -225,6 +214,10 @@ namespace Cricket.Match
         {
             if (Batting.PlayerListed(player))
             {
+                if (!Bowling.PlayerListed(player) && !FieldingStats.PlayerListed(player))
+                {
+                    PlayerNames.Remove(player);
+                }
                 return Batting.Remove(player);
             }
 
@@ -237,10 +230,6 @@ namespace Cricket.Match
             {
                 if (!Bowling.PlayerListed(entry.Name))
                 {
-                    if (!PlayerNames.Contains(entry.Name))
-                    {
-                        PlayerNames.Add(entry.Name);
-                    }
                     AddBowlingEntry(entry.Name, entry.OversBowled, entry.Maidens, entry.RunsConceded, entry.Wickets);
                 }
                 else 
@@ -254,7 +243,7 @@ namespace Cricket.Match
         {
             if (!Bowling.PlayerListed(player))
             {
-                if (!PlayerNames.Contains(player))
+                if (!PlayNotPlay(player))
                 {
                     PlayerNames.Add(player);
                 }
@@ -269,7 +258,7 @@ namespace Cricket.Match
 
         public bool EditBowlingEntry(PlayerName player, int overs, int maidens, int runsConceded, int wickets)
         {
-            if (PlayerNames.Contains(player) && Bowling.PlayerListed(player))
+            if (Bowling.PlayerListed(player))
             {
                 Bowling.SetScores(player, overs, maidens, runsConceded, wickets);
                 return true;
@@ -282,13 +271,12 @@ namespace Cricket.Match
         {
             if (Bowling.PlayerListed(player))
             {
+                if (!Batting.PlayerListed(player) && !FieldingStats.PlayerListed(player))
+                {
+                    PlayerNames.Remove(player);
+                }
                 return Bowling.Remove(player);
             }
-            if (!Batting.PlayerListed(player))
-            {
-                PlayerNames.Remove(player);
-            }
-
             return false;
         }
 
@@ -298,10 +286,6 @@ namespace Cricket.Match
             {
                 if (!FieldingStats.PlayerListed(entry.Name))
                 {
-                    if (!PlayerNames.Contains(entry.Name))
-                    {
-                        PlayerNames.Add(entry.Name);
-                    }
                     AddFieldingEntry(entry.Name, entry.Catches, entry.RunOuts, entry.keeperFielding.Stumpings, entry.keeperFielding.Catches);
                 }
                 else
@@ -313,8 +297,12 @@ namespace Cricket.Match
 
         public bool AddFieldingEntry(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches) 
         {
-            if (PlayerNames.Contains(player) && !FieldingStats.PlayerListed(player))
+            if (!FieldingStats.PlayerListed(player))
             {
+                if (!PlayerNames.Contains(player))
+                {
+                    PlayerNames.Add(player);
+                }
                 FieldingStats.AddPlayer(player);
                 FieldingStats.SetFielding(player, catches, runOuts, stumpings, keeperCatches);
                 return true;
@@ -322,9 +310,10 @@ namespace Cricket.Match
 
             return false;
         }
+
         public bool EditFieldingEntry(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches) 
         {
-            if (PlayerNames.Contains(player) && FieldingStats.PlayerListed(player))
+            if (FieldingStats.PlayerListed(player))
             {
                 FieldingStats.SetFielding(player, catches, runOuts, stumpings, keeperCatches);
                 return true;
@@ -337,10 +326,44 @@ namespace Cricket.Match
         {
             if (FieldingStats.PlayerListed(player))
             {
+                if (!Batting.PlayerListed(player) && !Bowling.PlayerListed(player))
+                {
+                    PlayerNames.Remove(player);
+                }
                 return FieldingStats.Remove(player);
             }
 
             return false;
+        }
+
+        public BattingEntry GetBatting(PlayerName player)
+        {
+            if (Batting.PlayerListed(player))
+            {
+                return Batting.BattingInfo.First(batsman => batsman.Name.Equals(player));
+            }
+
+            return null;
+        }
+
+        public BowlingEntry GetBowling(PlayerName player)
+        {
+            if (Bowling.PlayerListed(player))
+            {
+                return Bowling.BowlingInfo.First(bowler => bowler.Name.Equals(player));
+            }
+
+            return null;
+        }
+
+        public FieldingEntry GetFielding(PlayerName player)
+        {
+            if (FieldingStats.PlayerListed(player))
+            {
+                return FieldingStats.FieldingInfo.First(fielder => fielder.Name.Equals(player));
+            }
+
+            return null;
         }
     }
 

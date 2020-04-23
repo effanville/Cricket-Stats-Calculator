@@ -1,4 +1,5 @@
 ﻿using Cricket.Match;
+using Cricket.Player;
 using System;
 using System.Collections.Generic;
 
@@ -25,7 +26,7 @@ namespace Cricket.Interfaces
         /// <summary>
         /// The players that played in this season.
         /// </summary>
-        List<ICricketPlayer> Players
+        List<PlayerName> Players
         { 
             get;
         }

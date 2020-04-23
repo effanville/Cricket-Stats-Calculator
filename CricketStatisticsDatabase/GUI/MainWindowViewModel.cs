@@ -36,6 +36,7 @@ namespace GUI.ViewModels
             DisplayTabs.Add(new TeamOverviewViewModel(UpdateDatabase, TeamToPlayWith.Players, TeamToPlayWith.Seasons));
             DisplayTabs.Add(new PlayerEditViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
             DisplayTabs.Add(new SeasonEditViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
+            DisplayTabs.Add(new StatsViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
         }
         public Action<Action<ICricketTeam>> UpdateDatabase => action => UpdateDatabaseFromAction(action);
 

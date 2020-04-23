@@ -39,4 +39,8 @@
     <DataTemplate DataType="{x:Type dvm:EditFieldingDialogViewModel}">
         <dialog:EditFieldingDialog/>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:StatsViewModel}">
+        <gui:StatsView/>
+    </DataTemplate>
 </ResourceDictionary>
