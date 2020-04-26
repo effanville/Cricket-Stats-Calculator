@@ -47,6 +47,39 @@
         {
             if (obj is PlayerName otherName)
             {
+                if (otherName == null)
+                {
+                    return false;
+                }
+                if (string.IsNullOrEmpty(Surname) && string.IsNullOrEmpty(Forename))
+                {
+                    if (string.IsNullOrEmpty(otherName.Surname) && string.IsNullOrEmpty(otherName.Forename))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+                if (string.IsNullOrEmpty(Surname))
+                {
+                    if (string.IsNullOrEmpty(otherName.Surname))
+                    {
+                        return Forename.Equals(otherName.Forename);
+                    }
+
+                    return false;
+                }
+
+                if (string.IsNullOrEmpty(Forename))
+                {
+                    if (string.IsNullOrEmpty(otherName.Forename))
+                    {
+                        return Surname.Equals(otherName.Surname);
+                    }
+
+                    return false;
+                }
+
                 if (Surname.Equals(otherName.Surname) && Forename.Equals(otherName.Forename))
                 {
                     return true;

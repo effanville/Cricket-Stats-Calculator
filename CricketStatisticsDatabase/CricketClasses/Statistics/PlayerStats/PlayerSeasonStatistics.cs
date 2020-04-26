@@ -87,7 +87,7 @@ namespace Cricket.Statistics
             FieldingStats.SetSeasonStats(season);
 
             TotalGamesPlayed = season.Matches.FindAll(match => match.PlayNotPlay(Name)).Count;
-            TotalMom = season.Matches.FindAll(match => match.ManOfMatch.Equals(Name)).Count;
+            TotalMom = season.Matches.FindAll(match => Name.Equals(match.ManOfMatch)).Count;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Cricket.Statistics
 {
     public class BestBowling : IComparable
     {
-        public double Wickets;
+        public int Wickets;
         public int Runs;
         public string Opposition;
         public DateTime Date;
@@ -20,7 +20,8 @@ namespace Cricket.Statistics
                 }
                 if (!Runs.Equals(otherBowling.Runs))
                 {
-                    return Runs.CompareTo(otherBowling.Runs);
+                    // inverted as the lower the runs the better.
+                    return otherBowling.Runs.CompareTo(Runs);
                 }
             }
 
@@ -29,6 +30,10 @@ namespace Cricket.Statistics
 
         public override string ToString()
         {
+            if (string.IsNullOrEmpty(Opposition))
+            {
+                return Wickets + "-" + Runs + " vs unknown opposition";
+            }
             return Wickets + "-" + Runs + " vs " + Opposition + " on " + Date.ToUkDateString();
         }
     }

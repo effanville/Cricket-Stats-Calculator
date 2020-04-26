@@ -40,7 +40,7 @@ namespace Cricket.Match
 
         public bool Out()
         {
-            return MethodOut != BattingWicketLossType.NotOut;
+            return !(MethodOut == BattingWicketLossType.NotOut || MethodOut == BattingWicketLossType.DidNotBat);
         }
 
         public void SetScores(BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)

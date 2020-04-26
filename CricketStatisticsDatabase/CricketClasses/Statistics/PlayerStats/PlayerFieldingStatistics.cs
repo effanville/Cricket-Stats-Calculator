@@ -66,6 +66,12 @@ namespace Cricket.Statistics
             Name = name;
         }
 
+        public PlayerFieldingStatistics(PlayerName name, ICricketSeason season)
+        {
+            Name = name;
+            SetSeasonStats(season);
+        }
+
         public void SetSeasonStats(ICricketSeason season)
         {
             Catches = 0;

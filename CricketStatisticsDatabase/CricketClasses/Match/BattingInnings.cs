@@ -31,7 +31,7 @@ namespace Cricket.Match
 
         public bool SetScores(PlayerName player, BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
         {
-            var result = BattingInfo.Find(entry => entry.Name == player);
+            var result = BattingInfo.Find(entry => entry.Name.Equals(player));
             if (result != null)
             {
                 result.SetScores(howOut, runs, fielder, bowler);

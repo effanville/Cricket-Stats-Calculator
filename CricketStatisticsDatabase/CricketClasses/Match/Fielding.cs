@@ -18,7 +18,7 @@ namespace Cricket.Match
 
         public bool SetFielding(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches)
         {
-            var result = FieldingInfo.Find(entry => entry.Name == player);
+            var result = FieldingInfo.Find(entry => entry.Name.Equals(player));
             if (result != null)
             {
                 result.SetScores(catches, runOuts, stumpings, keeperCatches);
