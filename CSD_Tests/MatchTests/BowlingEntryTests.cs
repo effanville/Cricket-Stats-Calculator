@@ -2,7 +2,7 @@
 using Cricket.Match;
 using Cricket.Player;
 
-namespace MatchTests
+namespace CricketClasses.MatchTests
 {
     [TestFixture]
     public sealed class BowlingEntryTests

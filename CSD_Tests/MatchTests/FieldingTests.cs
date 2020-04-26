@@ -1,11 +1,9 @@
 ﻿using Cricket.Match;
 using Cricket.Player;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace MatchTests
+namespace CricketClasses.MatchTests
 {
     [TestFixture]
     class FieldingTests

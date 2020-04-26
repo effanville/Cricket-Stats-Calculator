@@ -3,7 +3,7 @@ using Cricket.Match;
 using NUnit.Framework;
 using System;
 
-namespace SeasonTests
+namespace CricketClasses.SeasonTests
 {
     [TestFixture]
     public class CricketSeasonTests

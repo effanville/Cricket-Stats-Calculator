@@ -1,7 +1,7 @@
 ﻿using Cricket.Player;
 using NUnit.Framework;
 
-namespace PlayerTests
+namespace CricketClasses.PlayerTests
 {
     [TestFixture]
     public sealed class PlayerNameTests

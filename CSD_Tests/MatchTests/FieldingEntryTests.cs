@@ -2,7 +2,7 @@
 using Cricket.Player;
 using NUnit.Framework;
 
-namespace MatchTests
+namespace CricketClasses.MatchTests
 {
     [TestFixture]
     public sealed class FieldingEntryTests

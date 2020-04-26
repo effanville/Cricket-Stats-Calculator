@@ -3,7 +3,7 @@ using Cricket.Player;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace MatchTests
+namespace CricketClasses.MatchTests
 {
     [TestFixture]
     public class BattingInningsTests

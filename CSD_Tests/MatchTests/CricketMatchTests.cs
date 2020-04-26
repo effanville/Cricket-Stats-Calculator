@@ -2,11 +2,9 @@
 using Cricket.Match;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using Cricket.Player;
 
-namespace MatchTests
+namespace CricketClasses.MatchTests
 {
     [TestFixture]
     public sealed class CricketMatchTests

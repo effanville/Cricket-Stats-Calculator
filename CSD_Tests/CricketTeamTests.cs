@@ -3,7 +3,7 @@ using Cricket.Team;
 using NUnit.Framework;
 using System;
 
-namespace TeamTests
+namespace CricketClasses.TeamTests
 {
     [TestFixture]
     public class CricketTeamTests
