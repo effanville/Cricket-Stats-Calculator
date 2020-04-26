@@ -14,6 +14,16 @@ namespace Cricket
         {
             if (obj is CricketSeason season)
             {
+                if (string.IsNullOrEmpty(Name))
+                {
+                    if (string.IsNullOrEmpty(season.Name))
+                    {
+                        return Year.Equals(season.Year);
+                    }
+
+                    return false;
+                }
+
                 return Name.Equals(season.Name) && Year.Equals(season.Year);
             }
 
@@ -22,6 +32,16 @@ namespace Cricket
 
         public bool SameSeason(DateTime year, string name)
         {
+            if (string.IsNullOrEmpty(Name))
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    return Year.Equals(year);
+                }
+
+                return false;
+            }
+
             return Year.Equals(year) && Name.Equals(name);
         }
 
@@ -109,7 +129,17 @@ namespace Cricket
 
         public bool RemoveMatch(DateTime date, string opposition)
         {
-            return false;
+            int removed = SeasonsMatches.RemoveAll(match => match.SameMatch(date, opposition));
+            if (removed == 1)
+            {
+                return true;
+            }
+            if (removed == 0)
+            {
+                return false;
+            }
+
+            throw new Exception($"Had {removed} matches with info {date} and {opposition}, but should have at most 1.");
         }
 
         public CricketSeason()

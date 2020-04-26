@@ -16,9 +16,22 @@ namespace Cricket.Match
 
         public bool SameMatch(DateTime date, string opposition)
         {
-            if(MatchData.Date.Equals(date) && MatchData.Opposition.Equals(opposition))
-            { 
-                return true;
+            if(MatchData.Date.Equals(date) )
+            {
+                if (string.IsNullOrEmpty(MatchData.Opposition))
+                {
+                    if (string.IsNullOrEmpty(opposition))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                if (MatchData.Opposition.Equals(opposition))
+                {
+                    return true;
+                }
             }
 
             return false;
