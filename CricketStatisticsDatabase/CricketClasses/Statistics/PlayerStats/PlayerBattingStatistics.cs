@@ -65,7 +65,7 @@ namespace Cricket.Statistics
             }
         }
 
-        private List<int> fWicketLossNumbers = new List<int>(Enum.GetValues(typeof(Match.BattingWicketLossType)).Length);
+        private List<int> fWicketLossNumbers = new List<int>(new int[Enum.GetValues(typeof(Match.BattingWicketLossType)).Length]);
         public List<int> WicketLossNumbers
         {
             get { return fWicketLossNumbers; }
@@ -88,6 +88,12 @@ namespace Cricket.Statistics
             Name = name;
         }
 
+        public PlayerBattingStatistics(PlayerName name, ICricketSeason season)
+        {
+            Name = name;
+            SetSeasonStats(season);
+        }
+
         public void SetSeasonStats(ICricketSeason season)
         {
             TotalInnings = 0;
@@ -107,7 +113,8 @@ namespace Cricket.Statistics
                         {
                             TotalNotOut++;
                         }
-                        WicketLossNumbers[(int)batting.MethodOut] += 1;
+                        int index = (int)batting.MethodOut;
+                        WicketLossNumbers[index] += 1;
                         TotalRuns += batting.RunsScored;
 
                         var possibleBest = new BestBatting()

@@ -73,6 +73,12 @@ namespace Cricket.Statistics
             Name = name;
         }
 
+        public PlayerBowlingStatistics(PlayerName name, ICricketSeason season)
+        {
+            Name = name;
+            SetSeasonStats(season);
+        }
+
         public void SetSeasonStats(ICricketSeason season)
         {
             TotalOvers = 0;

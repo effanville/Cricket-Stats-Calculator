@@ -41,7 +41,13 @@ namespace Cricket.Statistics
 
         public override string ToString()
         {
-            var outname = HowOut == BattingWicketLossType.NotOut ? " Not out" : "";
+            var outname = HowOut == BattingWicketLossType.NotOut ? " not out" : "";
+
+            if (string.IsNullOrEmpty(Opposition))
+            {
+                return Runs + outname + " vs unknown opposition";
+            }
+
             return Runs + outname + " vs " + Opposition + " on " + Date.ToUkDateString();
         }
     }
