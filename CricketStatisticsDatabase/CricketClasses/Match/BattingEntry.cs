@@ -82,9 +82,10 @@ namespace Cricket.Match
                     fielderShouldntBeSet.AddMessage($"{nameof(Fielder)} cannot be set with DidnotBat.");
                     results.Add(fielderShouldntBeSet);
                 }
+                results.AddIfNotNull(Validating.NotEqualTo(RunsScored, 0, nameof(RunsScored)));
             }
 
-            if (MethodOut == BattingWicketLossType.Bowled || MethodOut == BattingWicketLossType.LBW || MethodOut == BattingWicketLossType.Caught || MethodOut == BattingWicketLossType.HitWicket)
+            if (MethodOut == BattingWicketLossType.Bowled || MethodOut == BattingWicketLossType.LBW || MethodOut == BattingWicketLossType.Caught || MethodOut == BattingWicketLossType.HitWicket || MethodOut == BattingWicketLossType.Stumped)
             {
                 if (PlayerName.IsNullOrEmpty(Bowler))
                 {
@@ -105,6 +106,30 @@ namespace Cricket.Match
                     bowlerShouldBeSet.PropertyName = nameof(Fielder);
                     bowlerShouldBeSet.AddMessage($"{nameof(Fielder)} should be set with {MethodOut}.");
                     results.Add(bowlerShouldBeSet);
+                }
+            }
+
+            if (MethodOut == BattingWicketLossType.RunOut || MethodOut == BattingWicketLossType.NotOut)
+            {
+                if (!PlayerName.IsNullOrEmpty(Bowler))
+                {
+                    var bowlerShouldntBeSet = new ValidationResult();
+                    bowlerShouldntBeSet.IsValid = false;
+                    bowlerShouldntBeSet.PropertyName = nameof(Bowler);
+                    bowlerShouldntBeSet.AddMessage($"{nameof(Bowler)} should not be set with {MethodOut}.");
+                    results.Add(bowlerShouldntBeSet);
+                }
+            }
+
+            if (MethodOut == BattingWicketLossType.Bowled || MethodOut == BattingWicketLossType.NotOut || MethodOut == BattingWicketLossType.HitWicket || MethodOut == BattingWicketLossType.LBW)
+            {
+                if (!PlayerName.IsNullOrEmpty(Fielder))
+                {
+                    var fielderShouldntBeSet = new ValidationResult();
+                    fielderShouldntBeSet.IsValid = false;
+                    fielderShouldntBeSet.PropertyName = nameof(Fielder);
+                    fielderShouldntBeSet.AddMessage($"{nameof(Fielder)} should not be set with {MethodOut}.");
+                    results.Add(fielderShouldntBeSet);
                 }
             }
 

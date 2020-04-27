@@ -2,6 +2,8 @@
 using Cricket.Player;
 using NUnit.Framework;
 using System.Collections.Generic;
+using Validation;
+using CSD_Tests;
 
 namespace CricketClasses.MatchTests
 {
@@ -82,6 +84,46 @@ namespace CricketClasses.MatchTests
             Assert.AreEqual(0, innings.FieldingInfo[1].RunOuts);
             Assert.AreEqual(0, innings.FieldingInfo[1].KeeperStumpings);
             Assert.AreEqual(0, innings.FieldingInfo[1].KeeperCatches);
+        }
+
+        [TestCase(5, 5, true)]
+        [TestCase(12, 0, false)]
+        [TestCase(13, -5, false)]
+        public void ValidityTests(int numberPlayers, int taken, bool isValid)
+        {
+            var innings = new Fielding();
+            for (int i = 0; i < numberPlayers; i++)
+            {
+                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
+            }
+
+            var result = innings.Validate();
+
+            Assert.AreEqual(isValid, result);
+        }
+
+        [TestCase(5,  true, new string[] { })]
+        [TestCase(12, false, new string[] { "FieldingInfo cannot take values above 11." })]
+        public void ValidityMessageTests(int numberPlayers, bool isValid, string[] messages)
+        {
+            var innings = new Fielding();
+            for (int i = 0; i < numberPlayers; i++)
+            {
+                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
+            }
+
+            var valid = innings.Validation();
+
+            var expectedList = new List<ValidationResult>();
+            if (!isValid)
+            {
+                var expected = new ValidationResult();
+                expected.IsValid = isValid;
+                expected.Messages.AddRange(messages);
+                expectedList.Add(expected);
+            }
+
+            Assertions.AreEqualResults(expectedList, valid);
         }
     }
 }

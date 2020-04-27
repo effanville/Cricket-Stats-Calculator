@@ -68,7 +68,9 @@ namespace Cricket.Match
                 results.AddRange(info.Validation());
                 total += info.TotalDismissals();
             }
-            results.AddIfNotNull(Validating.NotGreaterThan(total, 10, nameof(Match.Fielding)));
+            
+            results.AddIfNotNull(Validating.NotGreaterThan(total, 10, nameof(Fielding)));
+            results.AddIfNotNull(Validating.NotGreaterThan(FieldingInfo.Count, 11, nameof(FieldingInfo)));
             return results;
         }
 

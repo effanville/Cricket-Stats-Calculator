@@ -44,6 +44,20 @@
             return null;
         }
 
+        public static ValidationResult NotEqualTo(double value, double expected, string propertyName)
+        {
+            if (!value.Equals(expected))
+            {
+                var notEqualTo = new ValidationResult();
+                notEqualTo.IsValid = false;
+                notEqualTo.PropertyName = propertyName;
+                notEqualTo.AddMessage($"{propertyName} was expected to be equal to {expected}.");
+                return notEqualTo;
+            }
+
+            return null;
+        }
+
         public static ValidationResult IsNotNullOrEmpty(string value, string propertyName)
         {
             if (string.IsNullOrEmpty(value))

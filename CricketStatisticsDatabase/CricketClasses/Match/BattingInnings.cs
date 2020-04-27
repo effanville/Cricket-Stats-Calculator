@@ -93,6 +93,8 @@ namespace Cricket.Match
                 results.AddRange(info.Validation());
             }
 
+            var teamResult = Score();
+            results.AddIfNotNull(Validating.NotGreaterThan(teamResult.Wickets, 10, nameof(teamResult.Wickets)));
             results.AddIfNotNull(Validating.NotGreaterThan(BattingInfo.Count, 11, nameof(BattingInfo)));
             results.AddIfNotNull(Validating.NotNegative(Extras, nameof(Extras)));
             return results;

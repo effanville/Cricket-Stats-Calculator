@@ -109,7 +109,7 @@ namespace Cricket.Match
             results.AddIfNotNull(Validating.NotNegative(RunOuts, nameof(RunOuts)));
             results.AddIfNotNull(Validating.NotNegative(KeeperStumpings, nameof(KeeperStumpings)));
             results.AddIfNotNull(Validating.NotNegative(KeeperCatches, nameof(KeeperCatches)));
-            results.AddIfNotNull(Validating.NotGreaterThan(TotalDismissals(), 10, nameof(Match.FieldingEntry)));
+            results.AddIfNotNull(Validating.NotGreaterThan(TotalDismissals(), 10, nameof(FieldingEntry)));
             return results;
         }
     }

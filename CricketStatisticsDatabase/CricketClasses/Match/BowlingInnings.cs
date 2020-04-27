@@ -103,6 +103,7 @@ namespace Cricket.Match
             }
 
             results.AddIfNotNull(Validating.NotGreaterThan(total, 10, nameof(BowlingInnings)));
+            results.AddIfNotNull(Validating.NotGreaterThan(BowlingInfo.Count, 11, nameof(BowlingInfo)));
             results.AddIfNotNull(Validating.NotNegative(ByesLegByes, nameof(ByesLegByes)));
             return results;
         }
