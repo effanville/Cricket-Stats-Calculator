@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace GUI.ViewModels
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel : PropertyChangedBase
     {
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
@@ -21,7 +21,14 @@ namespace GUI.ViewModels
             set;
         }
 
-        public ObservableCollection<object> DisplayTabs { get; set; } = new ObservableCollection<object>(); 
+        public ObservableCollection<object> DisplayTabs { get; set; } = new ObservableCollection<object>();
+
+        private ReportingViewModel fReportingView;
+        public ReportingViewModel ReportingView
+        {
+            get { return fReportingView; }
+            set { fReportingView = value; OnPropertyChanged(); }
+        }
 
         public MainWindowViewModel(IFileInteractionService fileService, IDialogCreationService dialogService)
         {
@@ -37,6 +44,8 @@ namespace GUI.ViewModels
             DisplayTabs.Add(new PlayerEditViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
             DisplayTabs.Add(new SeasonEditViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
             DisplayTabs.Add(new StatsViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
+
+            ReportingView = new ReportingViewModel(TeamToPlayWith);
         }
         public Action<Action<ICricketTeam>> UpdateDatabase => action => UpdateDatabaseFromAction(action);
 
@@ -55,6 +64,8 @@ namespace GUI.ViewModels
                     vmb.UpdateData(TeamToPlayWith);
                 }
             }
+
+            ReportingView?.UpdateData(TeamToPlayWith);
         }
 
 

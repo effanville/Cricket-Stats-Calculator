@@ -13,6 +13,9 @@
     <Compile Update="GUI\PlayerEditView\PlayerEditView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="GUI\ReportingWindow\ReportingView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="GUI\SeasonEditView\MatchEditDialogs\CreateMatchDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -49,6 +52,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="GUI\PlayerEditView\PlayerEditView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GUI\ReportingWindow\ReportingView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="GUI\SeasonEditView\MatchEditDialogs\CreateMatchDialog.xaml">

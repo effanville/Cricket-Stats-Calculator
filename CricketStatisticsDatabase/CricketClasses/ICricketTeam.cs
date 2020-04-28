@@ -1,10 +1,11 @@
 ﻿using Cricket.Player;
 using System;
 using System.Collections.Generic;
+using Validation;
 
 namespace Cricket.Interfaces
 {
-    public interface ICricketTeam
+    public interface ICricketTeam : IValidity
     {
         /// <summary>
         /// The players associated to this team.
