@@ -14,8 +14,8 @@ namespace Cricket.Match
             set;
         }
 
-        private BattingWicketLossType fMethodOut;
-        public BattingWicketLossType MethodOut
+        private Wicket fMethodOut;
+        public Wicket MethodOut
         {
             get { return fMethodOut; }
             set { fMethodOut = value; }
@@ -44,10 +44,10 @@ namespace Cricket.Match
 
         public bool Out()
         {
-            return !(MethodOut == BattingWicketLossType.NotOut || MethodOut == BattingWicketLossType.DidNotBat);
+            return !(MethodOut == Wicket.NotOut || MethodOut == Wicket.DidNotBat);
         }
 
-        public void SetScores(BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
+        public void SetScores(Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
         {
             MethodOut = howOut;
             RunsScored = runs;
@@ -64,7 +64,7 @@ namespace Cricket.Match
         {
             var results = Name.Validation();
             results.AddIfNotNull(Validating.NotNegative(RunsScored, nameof(RunsScored)));
-            if (MethodOut == BattingWicketLossType.DidNotBat)
+            if (MethodOut == Wicket.DidNotBat)
             {
                 if (!PlayerName.IsNullOrEmpty(Bowler))
                 {
@@ -85,7 +85,7 @@ namespace Cricket.Match
                 results.AddIfNotNull(Validating.NotEqualTo(RunsScored, 0, nameof(RunsScored)));
             }
 
-            if (MethodOut == BattingWicketLossType.Bowled || MethodOut == BattingWicketLossType.LBW || MethodOut == BattingWicketLossType.Caught || MethodOut == BattingWicketLossType.HitWicket || MethodOut == BattingWicketLossType.Stumped)
+            if (MethodOut == Wicket.Bowled || MethodOut == Wicket.LBW || MethodOut == Wicket.Caught || MethodOut == Wicket.HitWicket || MethodOut == Wicket.Stumped)
             {
                 if (PlayerName.IsNullOrEmpty(Bowler))
                 {
@@ -97,7 +97,7 @@ namespace Cricket.Match
                 }
             }
 
-            if (MethodOut == BattingWicketLossType.Caught || MethodOut == BattingWicketLossType.RunOut || MethodOut == BattingWicketLossType.Stumped)
+            if (MethodOut == Wicket.Caught || MethodOut == Wicket.RunOut || MethodOut == Wicket.Stumped)
             {
                 if (PlayerName.IsNullOrEmpty(Fielder))
                 {
@@ -109,7 +109,7 @@ namespace Cricket.Match
                 }
             }
 
-            if (MethodOut == BattingWicketLossType.RunOut || MethodOut == BattingWicketLossType.NotOut)
+            if (MethodOut == Wicket.RunOut || MethodOut == Wicket.NotOut)
             {
                 if (!PlayerName.IsNullOrEmpty(Bowler))
                 {
@@ -121,7 +121,7 @@ namespace Cricket.Match
                 }
             }
 
-            if (MethodOut == BattingWicketLossType.Bowled || MethodOut == BattingWicketLossType.NotOut || MethodOut == BattingWicketLossType.HitWicket || MethodOut == BattingWicketLossType.LBW)
+            if (MethodOut == Wicket.Bowled || MethodOut == Wicket.NotOut || MethodOut == Wicket.HitWicket || MethodOut == Wicket.LBW)
             {
                 if (!PlayerName.IsNullOrEmpty(Fielder))
                 {

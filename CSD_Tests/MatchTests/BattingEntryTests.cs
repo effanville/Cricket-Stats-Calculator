@@ -25,22 +25,22 @@ namespace CricketClasses.MatchTests
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
             var bowler = new PlayerName("Fish", "Simon");
-            batting.SetScores(BattingWicketLossType.Bowled, 23, name, bowler);
-            Assert.AreEqual(BattingWicketLossType.Bowled, batting.MethodOut);
+            batting.SetScores(Wicket.Bowled, 23, name, bowler);
+            Assert.AreEqual(Wicket.Bowled, batting.MethodOut);
             Assert.AreEqual(23, batting.RunsScored);
             Assert.AreEqual(name, batting.Fielder);
             Assert.AreEqual(bowler, batting.Bowler);
         }
 
-        [TestCase(BattingWicketLossType.Bowled, true)]
-        [TestCase(BattingWicketLossType.Caught, true)]
-        [TestCase(BattingWicketLossType.DidNotBat, false)]
-        [TestCase(BattingWicketLossType.HitWicket, true)]
-        [TestCase(BattingWicketLossType.LBW, true)]
-        [TestCase(BattingWicketLossType.NotOut, false)]
-        [TestCase(BattingWicketLossType.RunOut, true)]
-        [TestCase(BattingWicketLossType.Stumped, true)]
-        public void WasHeOut(BattingWicketLossType howOut, bool outOrNot)
+        [TestCase(Wicket.Bowled, true)]
+        [TestCase(Wicket.Caught, true)]
+        [TestCase(Wicket.DidNotBat, false)]
+        [TestCase(Wicket.HitWicket, true)]
+        [TestCase(Wicket.LBW, true)]
+        [TestCase(Wicket.NotOut, false)]
+        [TestCase(Wicket.RunOut, true)]
+        [TestCase(Wicket.Stumped, true)]
+        public void WasHeOut(Wicket howOut, bool outOrNot)
         {
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
@@ -48,36 +48,36 @@ namespace CricketClasses.MatchTests
             Assert.AreEqual(outOrNot, batting.Out());
         }
 
-        [TestCase(BattingWicketLossType.DidNotBat, 0, false, false, true)]
-        [TestCase(BattingWicketLossType.DidNotBat, 3, false, false, false)]
-        [TestCase(BattingWicketLossType.DidNotBat, 0, false, true, false)]
-        [TestCase(BattingWicketLossType.DidNotBat, 0, true, false, false)]
-        [TestCase(BattingWicketLossType.NotOut, 1,  false, false, true)]
-        [TestCase(BattingWicketLossType.NotOut, 1, true, false, false)]
-        [TestCase(BattingWicketLossType.NotOut, 1, false, true, false)]
-        [TestCase(BattingWicketLossType.Bowled, 3,  false, false, false)]
-        [TestCase(BattingWicketLossType.Bowled, 3, true, false, true)]
-        [TestCase(BattingWicketLossType.Bowled, -1, true, false, false)]
-        [TestCase(BattingWicketLossType.Bowled, 1, true, true, false)]
-        [TestCase(BattingWicketLossType.Caught, 3, true, true, true)]
-        [TestCase(BattingWicketLossType.Caught, 3, false, false, false)]
-        [TestCase(BattingWicketLossType.Caught, 3, true, false, false)]
-        [TestCase(BattingWicketLossType.Caught, 3, false, true, false)]
-        [TestCase(BattingWicketLossType.LBW, 3, true, false, true)]
-        [TestCase(BattingWicketLossType.LBW, 3, false, true, false)]
-        [TestCase(BattingWicketLossType.LBW, 3, false, false, false)]
-        [TestCase(BattingWicketLossType.Stumped, 3, true, true, true)]
-        [TestCase(BattingWicketLossType.Stumped, 3, true, false, false)]
-        [TestCase(BattingWicketLossType.Stumped, 3, false, true, false)]
-        [TestCase(BattingWicketLossType.Stumped, 3, false, false, false)]
-        [TestCase(BattingWicketLossType.RunOut, 3,  false, false, false)]
-        [TestCase(BattingWicketLossType.RunOut, 3, false, true, true)]
-        [TestCase(BattingWicketLossType.RunOut, 3, true, true, false)]
-        [TestCase(BattingWicketLossType.RunOut, 3, true, false, false)]
-        [TestCase(BattingWicketLossType.HitWicket, 3, true, false, true)]
-        [TestCase(BattingWicketLossType.HitWicket, 3, false, true, false)]
-        [TestCase(BattingWicketLossType.HitWicket, 3, true, true, false)]
-        public void ValidityTests(BattingWicketLossType howOut, int runs, bool bowlerInc, bool fielderInc, bool isValid)
+        [TestCase(Wicket.DidNotBat, 0, false, false, true)]
+        [TestCase(Wicket.DidNotBat, 3, false, false, false)]
+        [TestCase(Wicket.DidNotBat, 0, false, true, false)]
+        [TestCase(Wicket.DidNotBat, 0, true, false, false)]
+        [TestCase(Wicket.NotOut, 1,  false, false, true)]
+        [TestCase(Wicket.NotOut, 1, true, false, false)]
+        [TestCase(Wicket.NotOut, 1, false, true, false)]
+        [TestCase(Wicket.Bowled, 3,  false, false, false)]
+        [TestCase(Wicket.Bowled, 3, true, false, true)]
+        [TestCase(Wicket.Bowled, -1, true, false, false)]
+        [TestCase(Wicket.Bowled, 1, true, true, false)]
+        [TestCase(Wicket.Caught, 3, true, true, true)]
+        [TestCase(Wicket.Caught, 3, false, false, false)]
+        [TestCase(Wicket.Caught, 3, true, false, false)]
+        [TestCase(Wicket.Caught, 3, false, true, false)]
+        [TestCase(Wicket.LBW, 3, true, false, true)]
+        [TestCase(Wicket.LBW, 3, false, true, false)]
+        [TestCase(Wicket.LBW, 3, false, false, false)]
+        [TestCase(Wicket.Stumped, 3, true, true, true)]
+        [TestCase(Wicket.Stumped, 3, true, false, false)]
+        [TestCase(Wicket.Stumped, 3, false, true, false)]
+        [TestCase(Wicket.Stumped, 3, false, false, false)]
+        [TestCase(Wicket.RunOut, 3,  false, false, false)]
+        [TestCase(Wicket.RunOut, 3, false, true, true)]
+        [TestCase(Wicket.RunOut, 3, true, true, false)]
+        [TestCase(Wicket.RunOut, 3, true, false, false)]
+        [TestCase(Wicket.HitWicket, 3, true, false, true)]
+        [TestCase(Wicket.HitWicket, 3, false, true, false)]
+        [TestCase(Wicket.HitWicket, 3, true, true, false)]
+        public void ValidityTests(Wicket howOut, int runs, bool bowlerInc, bool fielderInc, bool isValid)
         {
             PlayerName bowler = null;
             PlayerName fielder = null;
@@ -97,32 +97,32 @@ namespace CricketClasses.MatchTests
             Assert.AreEqual(isValid, valid);
         }
 
-        [TestCase(BattingWicketLossType.DidNotBat, 0, false, false, true, new string[] { })]
-        [TestCase(BattingWicketLossType.DidNotBat, 3, false, false, false, new string[] { "RunsScored was expected to be equal to 0." })]
-        [TestCase(BattingWicketLossType.DidNotBat, 0, false, true, false, new string[] { "Fielder cannot be set with DidnotBat." })]
-        [TestCase(BattingWicketLossType.DidNotBat, 0, true, false, false, new string[] { "Bowler cannot be set with DidnotBat." })]
-        [TestCase(BattingWicketLossType.NotOut, 1, false, false, true, new string[] { })]
-        [TestCase(BattingWicketLossType.NotOut, 1, true, false, false, new string[] { "Bowler should not be set with NotOut." })]
-        [TestCase(BattingWicketLossType.NotOut, 1, false, true, false, new string[] { "Fielder should not be set with NotOut." })]
-        [TestCase(BattingWicketLossType.Bowled, 3, false, false, false, new string[] { "Bowler should be set with Bowled." })]
-        [TestCase(BattingWicketLossType.Bowled, 3, true, false, true, new string[] { })]
-        [TestCase(BattingWicketLossType.Bowled, -1, true, false, false, new string[] { "RunsScored cannot take a negative value." })]
-        [TestCase(BattingWicketLossType.Bowled, 1, true, true, false, new string[] { "Fielder should not be set with Bowled." })]
-        [TestCase(BattingWicketLossType.Caught, 3, true, true, true, new string[] { })]
-        [TestCase(BattingWicketLossType.Caught, 3, true, false, false, new string[] { "Fielder should be set with Caught." })]
-        [TestCase(BattingWicketLossType.Caught, 3, false, true, false, new string[] { "Bowler should be set with Caught." })]
-        [TestCase(BattingWicketLossType.LBW, 3, true, false, true, new string[] { })]
-        [TestCase(BattingWicketLossType.LBW, 3, false, false, false, new string[] { "Bowler should be set with LBW." })]
-        [TestCase(BattingWicketLossType.LBW, 3, true, true, false, new string[] { "Fielder should not be set with LBW." })]
-        [TestCase(BattingWicketLossType.Stumped, 3, true, true, true, new string[] { })]
-        [TestCase(BattingWicketLossType.Stumped, 3, true, false, false, new string[] { "Fielder should be set with Stumped." })]
-        [TestCase(BattingWicketLossType.Stumped, 3, false, true, false, new string[] { "Bowler should be set with Stumped." })]
-        [TestCase(BattingWicketLossType.RunOut, 3, false, false, false, new string[] { "Fielder should be set with RunOut." })]
-        [TestCase(BattingWicketLossType.RunOut, 3, false, true, true, new string[] { })]
-        [TestCase(BattingWicketLossType.RunOut, 3, true, true, false, new string[] { "Bowler should not be set with RunOut." })]
-        [TestCase(BattingWicketLossType.HitWicket, 3, true, false, true, new string[] { })]
-        [TestCase(BattingWicketLossType.HitWicket, 3, true, true, false, new string[] { "Fielder should not be set with HitWicket." })]
-        public void ValidityMessageTests(BattingWicketLossType howOut, int runs, bool bowlerInc, bool fielderInc, bool isValid, string[] validMessages)
+        [TestCase(Wicket.DidNotBat, 0, false, false, true, new string[] { })]
+        [TestCase(Wicket.DidNotBat, 3, false, false, false, new string[] { "RunsScored was expected to be equal to 0." })]
+        [TestCase(Wicket.DidNotBat, 0, false, true, false, new string[] { "Fielder cannot be set with DidnotBat." })]
+        [TestCase(Wicket.DidNotBat, 0, true, false, false, new string[] { "Bowler cannot be set with DidnotBat." })]
+        [TestCase(Wicket.NotOut, 1, false, false, true, new string[] { })]
+        [TestCase(Wicket.NotOut, 1, true, false, false, new string[] { "Bowler should not be set with NotOut." })]
+        [TestCase(Wicket.NotOut, 1, false, true, false, new string[] { "Fielder should not be set with NotOut." })]
+        [TestCase(Wicket.Bowled, 3, false, false, false, new string[] { "Bowler should be set with Bowled." })]
+        [TestCase(Wicket.Bowled, 3, true, false, true, new string[] { })]
+        [TestCase(Wicket.Bowled, -1, true, false, false, new string[] { "RunsScored cannot take a negative value." })]
+        [TestCase(Wicket.Bowled, 1, true, true, false, new string[] { "Fielder should not be set with Bowled." })]
+        [TestCase(Wicket.Caught, 3, true, true, true, new string[] { })]
+        [TestCase(Wicket.Caught, 3, true, false, false, new string[] { "Fielder should be set with Caught." })]
+        [TestCase(Wicket.Caught, 3, false, true, false, new string[] { "Bowler should be set with Caught." })]
+        [TestCase(Wicket.LBW, 3, true, false, true, new string[] { })]
+        [TestCase(Wicket.LBW, 3, false, false, false, new string[] { "Bowler should be set with LBW." })]
+        [TestCase(Wicket.LBW, 3, true, true, false, new string[] { "Fielder should not be set with LBW." })]
+        [TestCase(Wicket.Stumped, 3, true, true, true, new string[] { })]
+        [TestCase(Wicket.Stumped, 3, true, false, false, new string[] { "Fielder should be set with Stumped." })]
+        [TestCase(Wicket.Stumped, 3, false, true, false, new string[] { "Bowler should be set with Stumped." })]
+        [TestCase(Wicket.RunOut, 3, false, false, false, new string[] { "Fielder should be set with RunOut." })]
+        [TestCase(Wicket.RunOut, 3, false, true, true, new string[] { })]
+        [TestCase(Wicket.RunOut, 3, true, true, false, new string[] { "Bowler should not be set with RunOut." })]
+        [TestCase(Wicket.HitWicket, 3, true, false, true, new string[] { })]
+        [TestCase(Wicket.HitWicket, 3, true, true, false, new string[] { "Fielder should not be set with HitWicket." })]
+        public void ValidityMessageTests(Wicket howOut, int runs, bool bowlerInc, bool fielderInc, bool isValid, string[] validMessages)
         {
             PlayerName bowler = null;
             PlayerName fielder = null;

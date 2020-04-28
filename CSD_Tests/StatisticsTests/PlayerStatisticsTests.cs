@@ -18,7 +18,7 @@ namespace CricketClasses.StatisticsTests
         {
             var values = GetValues(valueIndex);
             var player = new PlayerName("Root", "Joe");
-            var batting = new List<(int, BattingWicketLossType)>(values.Item1);
+            var batting = new List<(int, Wicket)>(values.Item1);
             var bowling = new List<(int, int, int, int)>(values.Item2) ;
             var fielding = new List<(int, int, int, int)>(values.Item3) ;
             var season = CreateTestSeason(player, batting, bowling, fielding);
@@ -37,7 +37,7 @@ namespace CricketClasses.StatisticsTests
         {
             var values = GetValues(valueIndex);
             var player = new PlayerName("Root", "Joe");
-            var batting = new List<(int, BattingWicketLossType)>(values.Item1);
+            var batting = new List<(int, Wicket)>(values.Item1);
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = CreateTestSeason(player, batting, bowling, fielding);
@@ -59,7 +59,7 @@ namespace CricketClasses.StatisticsTests
         {
             var values = GetValues(valueIndex);
             var player = new PlayerName("Root", "Joe");
-            var batting = new List<(int, BattingWicketLossType)>(values.Item1);
+            var batting = new List<(int, Wicket)>(values.Item1);
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = CreateTestSeason(player, batting, bowling, fielding);
@@ -79,7 +79,7 @@ namespace CricketClasses.StatisticsTests
         {
             var values = GetValues(valueIndex);
             var player = new PlayerName("Root", "Joe");
-            var batting = new List<(int, BattingWicketLossType)>(values.Item1);
+            var batting = new List<(int, Wicket)>(values.Item1);
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = CreateTestSeason(player, batting, bowling, fielding);
@@ -88,28 +88,28 @@ namespace CricketClasses.StatisticsTests
             Assert.AreEqual(expected[1], stats.TotalMom);
         }
 
-        private Tuple<(int, BattingWicketLossType)[], (int, int, int, int)[], (int, int, int, int)[]> GetValues(int valueIndex)
+        private Tuple<(int, Wicket)[], (int, int, int, int)[], (int, int, int, int)[]> GetValues(int valueIndex)
         {
-            (int, BattingWicketLossType)[] batting;
+            (int, Wicket)[] batting;
             (int, int, int, int)[] bowling;
             (int, int, int, int)[] fielding;
             switch (valueIndex)
             {
                 case 0:
                 default:
-                    batting = new (int, BattingWicketLossType)[] { (10, BattingWicketLossType.NotOut), (20, BattingWicketLossType.Bowled) };
+                    batting = new (int, Wicket)[] { (10, Wicket.NotOut), (20, Wicket.Bowled) };
                     bowling = new (int, int, int, int)[] {(4,2,20,1), (6,0,20,0) };
                     fielding = new (int, int, int, int)[] { (1,0,0,0), (0,1,0,0) };
-                    return new Tuple<(int, BattingWicketLossType)[], (int, int, int, int)[], (int, int, int, int)[]>(batting, bowling, fielding);
+                    return new Tuple<(int, Wicket)[], (int, int, int, int)[], (int, int, int, int)[]>(batting, bowling, fielding);
                 case 1:
-                    batting = new (int, BattingWicketLossType)[] { (0, BattingWicketLossType.NotOut), (20, BattingWicketLossType.Bowled), (21, BattingWicketLossType.Stumped) };
+                    batting = new (int, Wicket)[] { (0, Wicket.NotOut), (20, Wicket.Bowled), (21, Wicket.Stumped) };
                     bowling = new (int, int, int, int)[] { (4, 2, 20, 1), (6, 0, 20, 0), (0,0,0,0) };
                     fielding = new (int, int, int, int)[] { (1, 0, 0, 0), (0, 1, 0, 0), (2,0,0,0) };
-                    return new Tuple<(int, BattingWicketLossType)[], (int, int, int, int)[], (int, int, int, int)[]>(batting, bowling, fielding);
+                    return new Tuple<(int, Wicket)[], (int, int, int, int)[], (int, int, int, int)[]>(batting, bowling, fielding);
             }
         }
 
-        private ICricketSeason CreateTestSeason(PlayerName name, List<(int, BattingWicketLossType)> battingValues, List<(int, int, int, int)> bowlingValues, List<(int,int,int,int)> fieldingValues)
+        private ICricketSeason CreateTestSeason(PlayerName name, List<(int, Wicket)> battingValues, List<(int, int, int, int)> bowlingValues, List<(int,int,int,int)> fieldingValues)
         {
             Assert.AreEqual(battingValues.Count, bowlingValues.Count);
             Assert.AreEqual(battingValues.Count, fieldingValues.Count);

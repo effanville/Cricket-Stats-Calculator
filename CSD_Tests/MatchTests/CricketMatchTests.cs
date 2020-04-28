@@ -98,8 +98,8 @@ namespace CricketClasses.MatchTests
             var playerNames = new List<PlayerName>() { player1, player2 };
             var innings = new BattingInnings(playerNames);
 
-            innings.SetScores(player1, BattingWicketLossType.Bowled, 5);
-            innings.SetScores(player2, BattingWicketLossType.RunOut, 9);
+            innings.SetScores(player1, Wicket.Bowled, 5);
+            innings.SetScores(player2, Wicket.RunOut, 9);
             var match = new CricketMatch("Sandon", players);
 
             match.SetBatting(innings);
@@ -107,19 +107,19 @@ namespace CricketClasses.MatchTests
             Assert.AreEqual(3, match.PlayerNames.Count);
             Assert.AreEqual(3, match.Batting.BattingInfo.Count);
             var player1Scores = match.GetBatting(player1);
-            Assert.AreEqual(BattingWicketLossType.Bowled, player1Scores.MethodOut);
+            Assert.AreEqual(Wicket.Bowled, player1Scores.MethodOut);
             Assert.AreEqual(5, player1Scores.RunsScored);
             Assert.AreEqual(null, player1Scores.Fielder);
             Assert.AreEqual(null, player1Scores.Bowler);
 
             var player2Scores = match.GetBatting(player2);
-            Assert.AreEqual(BattingWicketLossType.RunOut, player2Scores.MethodOut);
+            Assert.AreEqual(Wicket.RunOut, player2Scores.MethodOut);
             Assert.AreEqual(9, player2Scores.RunsScored);
             Assert.AreEqual(null, player2Scores.Fielder);
             Assert.AreEqual(null, player2Scores.Bowler);
 
             var playerScores = match.GetBatting(new PlayerName("Smith", "Steve"));
-            Assert.AreEqual(BattingWicketLossType.DidNotBat, playerScores.MethodOut);
+            Assert.AreEqual(Wicket.DidNotBat, playerScores.MethodOut);
             Assert.AreEqual(0, playerScores.RunsScored);
             Assert.AreEqual(null, playerScores.Fielder);
             Assert.AreEqual(null, playerScores.Bowler);
@@ -131,7 +131,7 @@ namespace CricketClasses.MatchTests
         [TestCase("Smith", "Jobs", "Bowled", 7, false, false, true)]
         [TestCase("Smith", "Jobs", "Stumped", 9, false, false, true)]
         [TestCase("Smith", "Jobs", "Bowled", 5, true, false, true)]
-        public void CanAddBattingEntry(string surname, string forename, BattingWicketLossType howOut, int runs, bool fielderAdd, bool bowlerAdd, bool added)
+        public void CanAddBattingEntry(string surname, string forename, Wicket howOut, int runs, bool fielderAdd, bool bowlerAdd, bool added)
         {
             var players = new List<PlayerName>() { new PlayerName("Smith", "Steve"), new PlayerName("Root", "Joe") };
             var match = new CricketMatch("Sandon", players);
@@ -165,7 +165,7 @@ namespace CricketClasses.MatchTests
         [TestCase("Smith", "Steve", "Bowled", 7, false, false, true)]
         [TestCase("Smith", "Steve", "Stumped", 9, false, false, true)]
         [TestCase("Smith", "Steve", "Bowled", 5, true, false, true)]
-        public void CanEditBattingEntry(string surname, string forename, BattingWicketLossType howOut, int runs, bool fielderAdd, bool bowlerAdd, bool edited)
+        public void CanEditBattingEntry(string surname, string forename, Wicket howOut, int runs, bool fielderAdd, bool bowlerAdd, bool edited)
         {
             var players = new List<PlayerName>() { new PlayerName("Smith", "Steve"), new PlayerName("Root", "Joe") };
             var match = new CricketMatch("Sandon", players);

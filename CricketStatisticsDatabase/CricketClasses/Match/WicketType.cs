@@ -3,7 +3,7 @@
     /// <summary>
     /// enumeration listing type of wicket
     /// </summary>
-    public enum BattingWicketLossType
+    public enum Wicket
     {
         DidNotBat = 0,
         NotOut = 1,

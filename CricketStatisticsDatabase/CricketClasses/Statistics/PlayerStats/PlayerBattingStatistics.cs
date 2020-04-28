@@ -65,7 +65,7 @@ namespace Cricket.Statistics
             }
         }
 
-        private List<int> fWicketLossNumbers = new List<int>(new int[Enum.GetValues(typeof(Match.BattingWicketLossType)).Length]);
+        private List<int> fWicketLossNumbers = new List<int>(new int[Enum.GetValues(typeof(Match.Wicket)).Length]);
         public List<int> WicketLossNumbers
         {
             get { return fWicketLossNumbers; }
@@ -106,7 +106,7 @@ namespace Cricket.Statistics
                 var batting = match.GetBatting(Name);
                 if (batting != null)
                 {
-                    if (batting.MethodOut != Match.BattingWicketLossType.DidNotBat)
+                    if (batting.MethodOut != Match.Wicket.DidNotBat)
                     {
                         TotalInnings++;
                         if (!batting.Out())

@@ -7,7 +7,7 @@ namespace Cricket.Statistics
     public class BestBatting : IComparable
     {
         public int Runs;
-        public BattingWicketLossType HowOut;
+        public Wicket HowOut;
         public string Opposition;
         public DateTime Date;
 
@@ -17,17 +17,17 @@ namespace Cricket.Statistics
             {
                 if (Runs.Equals(otherBest.Runs))
                 {
-                    if (HowOut == BattingWicketLossType.NotOut && otherBest.HowOut == BattingWicketLossType.NotOut)
+                    if (HowOut == Wicket.NotOut && otherBest.HowOut == Wicket.NotOut)
                     {
                         return 0;
                     }
 
-                    if (HowOut == BattingWicketLossType.NotOut)
+                    if (HowOut == Wicket.NotOut)
                     {
                         return 1;
                     }
 
-                    if (otherBest.HowOut == BattingWicketLossType.NotOut)
+                    if (otherBest.HowOut == Wicket.NotOut)
                     {
                         return -1;
                     }
@@ -41,7 +41,7 @@ namespace Cricket.Statistics
 
         public override string ToString()
         {
-            var outname = HowOut == BattingWicketLossType.NotOut ? " not out" : "";
+            var outname = HowOut == Wicket.NotOut ? " not out" : "";
 
             if (string.IsNullOrEmpty(Opposition))
             {

@@ -197,7 +197,7 @@ namespace Cricket.Match
             }
         }
 
-        public bool AddBattingEntry(PlayerName player, BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
+        public bool AddBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
         {
             if (!Batting.PlayerListed(player))
             {
@@ -213,7 +213,7 @@ namespace Cricket.Match
             return false;
         }
 
-        public bool EditBattingEntry(PlayerName player, BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null) 
+        public bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null) 
         {
             if (Batting.PlayerListed(player))
             {
