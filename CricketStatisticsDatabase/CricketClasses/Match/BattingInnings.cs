@@ -1,10 +1,12 @@
 ﻿using Cricket.Player;
+using ExtensionMethods;
 using System.Collections.Generic;
 using System.Linq;
+using Validation;
 
 namespace Cricket.Match
 {
-    public class BattingInnings
+    public class BattingInnings : IValidity
     {
         /// <summary>
         /// list of players that play in this innings
@@ -29,7 +31,7 @@ namespace Cricket.Match
             set { fExtras = value; }
         }
 
-        public bool SetScores(PlayerName player, BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
+        public bool SetScores(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
         {
             var result = BattingInfo.Find(entry => entry.Name.Equals(player));
             if (result != null)
@@ -76,6 +78,26 @@ namespace Cricket.Match
                 Extras = this.Extras,
                 BattingInfo = new List<BattingEntry>(this.BattingInfo)
             };
+        }
+
+        public bool Validate()
+        {
+            return !Validation().Any(validation => !validation.IsValid);
+        }
+
+        public List<ValidationResult> Validation()
+        {
+            var results = new List<ValidationResult>();
+            foreach (var info in BattingInfo)
+            {
+                results.AddRange(info.Validation());
+            }
+
+            var teamResult = Score();
+            results.AddIfNotNull(Validating.NotGreaterThan(teamResult.Wickets, 10, nameof(teamResult.Wickets)));
+            results.AddIfNotNull(Validating.NotGreaterThan(BattingInfo.Count, 11, nameof(BattingInfo)));
+            results.AddIfNotNull(Validating.NotNegative(Extras, nameof(Extras)));
+            return results;
         }
 
         public BattingInnings(List<PlayerName> playerNames)

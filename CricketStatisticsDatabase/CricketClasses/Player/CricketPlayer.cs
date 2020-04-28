@@ -1,11 +1,14 @@
 ﻿using Cricket.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using Validation;
 
 namespace Cricket.Player
 {
     /// <summary>
     /// Class containing all information about a player of cricket
     /// </summary>
-    public class CricketPlayer : ICricketPlayer
+    public class CricketPlayer : ICricketPlayer, IValidity
     {
         public override string ToString()
         {
@@ -33,6 +36,16 @@ namespace Cricket.Player
             {
                 Name = newNames;
             }
+        }
+
+        public bool Validate()
+        {
+            return !Validation().Any(validation => !validation.IsValid);
+        }
+
+        public List<ValidationResult> Validation()
+        {
+            return Name.Validation();
         }
 
         public PlayerName Name

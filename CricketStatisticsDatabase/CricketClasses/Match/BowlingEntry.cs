@@ -1,8 +1,12 @@
 ﻿using Cricket.Player;
+using ExtensionMethods;
+using System.Collections.Generic;
+using System.Linq;
+using Validation;
 
 namespace Cricket.Match
 {
-    public class BowlingEntry
+    public class BowlingEntry : IValidity
     {
         public PlayerName Name
         {
@@ -44,6 +48,22 @@ namespace Cricket.Match
             Maidens = maidens;
             RunsConceded = runsConceded;
             Wickets = wickets;
+        }
+
+        public bool Validate()
+        {
+            return !Validation().Any(validation => !validation.IsValid);
+        }
+
+        public List<ValidationResult> Validation()
+        {
+            var results = Name.Validation();
+            results.AddIfNotNull(Validating.NotNegative(OversBowled, nameof(OversBowled)));
+            results.AddIfNotNull(Validating.NotNegative(Maidens, nameof(Maidens)));
+            results.AddIfNotNull(Validating.NotNegative(RunsConceded, nameof(RunsConceded)));
+            results.AddIfNotNull(Validating.NotNegative(Wickets, nameof(Wickets)));
+            results.AddIfNotNull(Validating.NotGreaterThan(Wickets, 10, nameof(Wickets)));
+            return results;
         }
 
         public BowlingEntry(PlayerName name)

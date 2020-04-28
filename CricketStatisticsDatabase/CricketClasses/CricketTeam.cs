@@ -4,10 +4,11 @@ using System.Linq;
 using System.Xml.Serialization;
 using Cricket.Interfaces;
 using Cricket.Player;
+using Validation;
 
 namespace Cricket.Team
 {
-    public class CricketTeam : ICricketTeam
+    public class CricketTeam : ICricketTeam, IValidity
     {
         private List<CricketPlayer> fTeamPlayers = new List<CricketPlayer>();
         public List<CricketPlayer> TeamPlayers
@@ -131,6 +132,26 @@ namespace Cricket.Team
             }
 
             throw new Exception($"Had {removed} seasons with name {name}, but should have at most 1.");
+        }
+
+        public bool Validate()
+        {
+            return !Validation().Any(validation => !validation.IsValid);
+        }
+
+        public List<ValidationResult> Validation()
+        {
+            var results = new List<ValidationResult>();
+            foreach (var player in TeamPlayers)
+            {
+                results.AddRange(player.Validation());
+            }
+            foreach (var match in TeamSeasons)
+            {
+                results.AddRange(match.Validation());
+            }
+
+            return results;
         }
     }
 }

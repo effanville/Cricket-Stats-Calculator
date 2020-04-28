@@ -1,7 +1,25 @@
-﻿namespace Cricket.Player
+﻿using Validation;
+using System.Linq;
+using System.Collections.Generic;
+using ExtensionMethods;
+
+namespace Cricket.Player
 {
-    public class PlayerName
+    public class PlayerName : IValidity
     {
+        public static bool IsNullOrEmpty(PlayerName name)
+        {
+            if (name != null)
+            {
+                if (!string.IsNullOrEmpty(name.Forename) && !string.IsNullOrEmpty(name.Surname))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public PlayerName(string surname, string forename)
         {
             Surname = surname;
@@ -97,6 +115,19 @@
         public PlayerName Copy()
         {
             return new PlayerName(this);
+        }
+
+        public bool Validate()
+        {
+            return !Validation().Any(validation => !validation.IsValid);
+        }
+
+        public List<ValidationResult> Validation()
+        {
+            var output = new List<ValidationResult>();
+            output.AddIfNotNull(Validating.IsNotNullOrEmpty(Surname, nameof(Surname)));
+            output.AddIfNotNull(Validating.IsNotNullOrEmpty(Forename, nameof(Forename)));
+            return output;
         }
     }
 }

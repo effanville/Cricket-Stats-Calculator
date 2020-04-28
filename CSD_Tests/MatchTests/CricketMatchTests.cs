@@ -3,6 +3,8 @@ using Cricket.Match;
 using System;
 using System.Collections.Generic;
 using Cricket.Player;
+using Validation;
+using CSD_Tests;
 
 namespace CricketClasses.MatchTests
 {
@@ -26,7 +28,7 @@ namespace CricketClasses.MatchTests
         [TestCase(null, "Sandon", "2000/2/1", "Aspenden", false)]
         [TestCase(null, "Sandon", "2000/2/1", null, false)]
         [TestCase(null, null, "2000/2/1", "Sandon", false)]
-        [TestCase("2000/2/1",null, "2000/2/1", "Sandon", false)]
+        [TestCase("2000/2/1", null, "2000/2/1", "Sandon", false)]
         public void EqualMatches(DateTime date1, string oppo1, DateTime date2, string oppo2, bool expectedResult)
         {
             var matchInfo1 = new MatchInfo(oppo1, date1, null, MatchType.League);
@@ -40,7 +42,7 @@ namespace CricketClasses.MatchTests
         [TestCase("Smith", "Jobs", false)]
         public void DidHePlay(string surname, string forename, bool expected)
         {
-            var players = new List<PlayerName>() { new PlayerName("Smith", "Steve"), new PlayerName("Root", "Joe")};
+            var players = new List<PlayerName>() { new PlayerName("Smith", "Steve"), new PlayerName("Root", "Joe") };
             var match = new CricketMatch("Sandon", players);
 
             Assert.AreEqual(expected, match.PlayNotPlay(new PlayerName(surname, forename)));
@@ -82,7 +84,7 @@ namespace CricketClasses.MatchTests
         {
             var players = new List<PlayerName>() { new PlayerName("Smith", "Steve"), new PlayerName("Root", "Joe") };
             var match = new CricketMatch("Sandon", players);
-            int length = players.Count + ( added ? 1 : 0); 
+            int length = players.Count + (added ? 1 : 0);
             bool result = match.AddPlayer(new PlayerName(surname, forename));
             Assert.AreEqual(added, result);
             Assert.AreEqual(length, match.PlayerNames.Count);
@@ -98,8 +100,8 @@ namespace CricketClasses.MatchTests
             var playerNames = new List<PlayerName>() { player1, player2 };
             var innings = new BattingInnings(playerNames);
 
-            innings.SetScores(player1, BattingWicketLossType.Bowled, 5);
-            innings.SetScores(player2, BattingWicketLossType.RunOut, 9);
+            innings.SetScores(player1, Wicket.Bowled, 5);
+            innings.SetScores(player2, Wicket.RunOut, 9);
             var match = new CricketMatch("Sandon", players);
 
             match.SetBatting(innings);
@@ -107,31 +109,31 @@ namespace CricketClasses.MatchTests
             Assert.AreEqual(3, match.PlayerNames.Count);
             Assert.AreEqual(3, match.Batting.BattingInfo.Count);
             var player1Scores = match.GetBatting(player1);
-            Assert.AreEqual(BattingWicketLossType.Bowled, player1Scores.MethodOut);
+            Assert.AreEqual(Wicket.Bowled, player1Scores.MethodOut);
             Assert.AreEqual(5, player1Scores.RunsScored);
             Assert.AreEqual(null, player1Scores.Fielder);
             Assert.AreEqual(null, player1Scores.Bowler);
 
             var player2Scores = match.GetBatting(player2);
-            Assert.AreEqual(BattingWicketLossType.RunOut, player2Scores.MethodOut);
+            Assert.AreEqual(Wicket.RunOut, player2Scores.MethodOut);
             Assert.AreEqual(9, player2Scores.RunsScored);
             Assert.AreEqual(null, player2Scores.Fielder);
             Assert.AreEqual(null, player2Scores.Bowler);
 
             var playerScores = match.GetBatting(new PlayerName("Smith", "Steve"));
-            Assert.AreEqual(BattingWicketLossType.DidNotBat, playerScores.MethodOut);
+            Assert.AreEqual(Wicket.DidNotBat, playerScores.MethodOut);
             Assert.AreEqual(0, playerScores.RunsScored);
             Assert.AreEqual(null, playerScores.Fielder);
             Assert.AreEqual(null, playerScores.Bowler);
         }
 
-        [TestCase("Smith", "Steve", "Bowled", 5,true, true, false)]
+        [TestCase("Smith", "Steve", "Bowled", 5, true, true, false)]
         [TestCase("Smith", "steve", "Bowled", 7, true, true, true)]
         [TestCase("Smith", "Jobs", "Bowled", 5, true, true, true)]
         [TestCase("Smith", "Jobs", "Bowled", 7, false, false, true)]
         [TestCase("Smith", "Jobs", "Stumped", 9, false, false, true)]
         [TestCase("Smith", "Jobs", "Bowled", 5, true, false, true)]
-        public void CanAddBattingEntry(string surname, string forename, BattingWicketLossType howOut, int runs, bool fielderAdd, bool bowlerAdd, bool added)
+        public void CanAddBattingEntry(string surname, string forename, Wicket howOut, int runs, bool fielderAdd, bool bowlerAdd, bool added)
         {
             var players = new List<PlayerName>() { new PlayerName("Smith", "Steve"), new PlayerName("Root", "Joe") };
             var match = new CricketMatch("Sandon", players);
@@ -165,7 +167,7 @@ namespace CricketClasses.MatchTests
         [TestCase("Smith", "Steve", "Bowled", 7, false, false, true)]
         [TestCase("Smith", "Steve", "Stumped", 9, false, false, true)]
         [TestCase("Smith", "Steve", "Bowled", 5, true, false, true)]
-        public void CanEditBattingEntry(string surname, string forename, BattingWicketLossType howOut, int runs, bool fielderAdd, bool bowlerAdd, bool edited)
+        public void CanEditBattingEntry(string surname, string forename, Wicket howOut, int runs, bool fielderAdd, bool bowlerAdd, bool edited)
         {
             var players = new List<PlayerName>() { new PlayerName("Smith", "Steve"), new PlayerName("Root", "Joe") };
             var match = new CricketMatch("Sandon", players);
@@ -215,7 +217,7 @@ namespace CricketClasses.MatchTests
             var playerNames = new List<PlayerName>() { player1, player2 };
             var innings = new BowlingInnings(playerNames);
 
-            innings.SetScores(player1, 4, 2,23,1);
+            innings.SetScores(player1, 4, 2, 23, 1);
             innings.SetScores(player2, 5, 1, 19, 4);
             var match = new CricketMatch("Sandon", players);
 
@@ -391,5 +393,41 @@ namespace CricketClasses.MatchTests
             var didDelete = match.DeleteFieldingEntry(new PlayerName(surname, forename));
             Assert.AreEqual(deleted, didDelete);
         }
+
+        [TestCase("", false)]
+        [TestCase(null, false)]
+        [TestCase("Sam", true)]
+        public void ValidityTests(string opposition, bool isValid)
+        {
+            var info = new MatchInfo();
+            info.Opposition = opposition;
+            var match = new CricketMatch(info);
+            var valid = match.Validate();
+            Assert.AreEqual(isValid, valid);
+        }
+
+        [TestCase("", false, new string[] { "Opposition cannot be empty or null." })]
+        [TestCase(null, false, new string[] { "Opposition cannot be empty or null." })]
+        [TestCase("Sam", true, new string[] { })]
+        public void ValidityMessageTests(string opposition, bool isValid, string[] messages)
+        {
+            var info = new MatchInfo();
+            info.Opposition = opposition;
+
+            var match = new CricketMatch(info);
+            var valid = match.Validation();
+
+            var expectedList = new List<ValidationResult>();
+            if (!isValid)
+            {
+                var expected = new ValidationResult();
+                expected.IsValid = isValid;
+                expected.Messages.AddRange(messages);
+                expectedList.Add(expected);
+            }
+
+            Assertions.AreEqualResults(expectedList, valid);
+        }
+
     }
 }

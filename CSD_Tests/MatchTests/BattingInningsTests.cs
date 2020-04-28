@@ -1,7 +1,9 @@
 ﻿using Cricket.Match;
 using Cricket.Player;
+using CSD_Tests;
 using NUnit.Framework;
 using System.Collections.Generic;
+using Validation;
 
 namespace CricketClasses.MatchTests
 {
@@ -76,20 +78,20 @@ namespace CricketClasses.MatchTests
 
             Assert.AreEqual(2, innings.BattingInfo.Count);
             Assert.AreEqual(0, innings.Extras);
-            innings.SetScores(player1, BattingWicketLossType.Bowled, 5);
+            innings.SetScores(player1, Wicket.Bowled, 5);
 
             Assert.AreEqual(5, innings.BattingInfo[0].RunsScored);
-            Assert.AreEqual(BattingWicketLossType.Bowled, innings.BattingInfo[0].MethodOut);
+            Assert.AreEqual(Wicket.Bowled, innings.BattingInfo[0].MethodOut);
 
             Assert.AreEqual(0, innings.BattingInfo[1].RunsScored);
-            Assert.AreEqual(BattingWicketLossType.DidNotBat, innings.BattingInfo[1].MethodOut);
+            Assert.AreEqual(Wicket.DidNotBat, innings.BattingInfo[1].MethodOut);
         }
 
-        [TestCase(new int[] { 0,0,0,0,0,0,0,0,0,0,0,0}, new[] { BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut },0, 11,0)]
-        [TestCase(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new[] { BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut, BattingWicketLossType.RunOut }, 5, 11, 5)]
-        [TestCase(new int[] { 58, 73, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new[] { BattingWicketLossType.NotOut, BattingWicketLossType.NotOut, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat }, 5, 0, 136)]
-        [TestCase(new int[] { 58, 73, 8, 22, 5, 0, 0, 0, 0, 0, 0, 0 }, new[] { BattingWicketLossType.Bowled, BattingWicketLossType.Stumped, BattingWicketLossType.NotOut, BattingWicketLossType.Caught, BattingWicketLossType.NotOut, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat, BattingWicketLossType.DidNotBat }, 5, 3, 171)]
-        public void CanGetTotalMatchScore(int[] runs, BattingWicketLossType[] wicketTypes,int extras, int expectedWickets, int expectedRuns)
+        [TestCase(new int[] { 0,0,0,0,0,0,0,0,0,0,0,0}, new[] { Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut },0, 11,0)]
+        [TestCase(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new[] { Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut, Wicket.RunOut }, 5, 11, 5)]
+        [TestCase(new int[] { 58, 73, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new[] { Wicket.NotOut, Wicket.NotOut, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat }, 5, 0, 136)]
+        [TestCase(new int[] { 58, 73, 8, 22, 5, 0, 0, 0, 0, 0, 0, 0 }, new[] { Wicket.Bowled, Wicket.Stumped, Wicket.NotOut, Wicket.Caught, Wicket.NotOut, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat }, 5, 3, 171)]
+        public void CanGetTotalMatchScore(int[] runs, Wicket[] wicketTypes,int extras, int expectedWickets, int expectedRuns)
         {
             var playerNames = new List<PlayerName>();
             for (int i = 0; i < 11; i++)
@@ -112,6 +114,53 @@ namespace CricketClasses.MatchTests
 
             Assert.AreEqual(expectedWickets, score.Wickets, "Wickets not correct");
             Assert.AreEqual(expectedRuns, score.Runs, "Runs not correct");
+        }
+
+        [TestCase(5, 5, true)]
+        [TestCase(5, -5, false)]
+        [TestCase(12, 0, false)]
+        [TestCase(13, -5, false)]
+        public void ValidityTests(int numberPlayers, int extras, bool isValid)
+        {
+            
+            var innings = new BattingInnings();
+            for (int i = 0; i < numberPlayers; i++)
+            {
+                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
+            }
+
+            innings.Extras = extras;
+
+            var result = innings.Validate();
+
+            Assert.AreEqual(isValid, result);
+        }
+
+        [TestCase(5, 5, true, new string[] { })]
+        [TestCase(5, -5, false, new string[] { "Extras cannot take a negative value." })]
+        [TestCase(12, 0, false, new string[] { "BattingInfo cannot take values above 11." })]
+        public void ValidityMessageTests(int numberPlayers, int extras, bool isValid, string[] messages)
+        {
+            var innings = new BattingInnings();
+            for (int i = 0; i < numberPlayers; i++)
+            {
+                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
+            }
+
+            innings.Extras = extras;
+
+            var valid = innings.Validation();
+
+            var expectedList = new List<ValidationResult>();
+            if (!isValid)
+            {
+                var expected = new ValidationResult();
+                expected.IsValid = isValid;
+                expected.Messages.AddRange(messages);
+                expectedList.Add(expected);
+            }
+
+            Assertions.AreEqualResults(expectedList, valid);
         }
     }
 }

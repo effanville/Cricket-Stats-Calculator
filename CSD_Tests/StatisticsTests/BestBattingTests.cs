@@ -16,7 +16,7 @@ namespace CricketClasses.StatisticsTests
         [TestCase(20, 1, 10, 1, 1)]
         [TestCase(0, 0, 0, 0, 0)]
         [TestCase(10, 3, 10, 4, 0)]
-        public void ComparisonTests(int runs, BattingWicketLossType howOut, int otherRuns, BattingWicketLossType otherHowOut, int expected)
+        public void ComparisonTests(int runs, Wicket howOut, int otherRuns, Wicket otherHowOut, int expected)
         {
             var best = new BestBatting();
             best.Runs = runs;
@@ -34,7 +34,7 @@ namespace CricketClasses.StatisticsTests
         [TestCase(10, 2, "Sandon", "2010/1/1", "10 vs Sandon on 1/1/2010")]
         [TestCase(10, 1, null, null, "10 not out vs unknown opposition")]
         [TestCase(10, 2, null, null, "10 vs unknown opposition")]
-        public void ToStringTests(int runs, BattingWicketLossType howOut, string opposition, DateTime date, string expected)
+        public void ToStringTests(int runs, Wicket howOut, string opposition, DateTime date, string expected)
         {
             var best = new BestBatting();
             best.Runs = runs;

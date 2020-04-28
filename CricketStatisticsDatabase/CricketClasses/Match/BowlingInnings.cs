@@ -1,10 +1,12 @@
 ﻿using Cricket.Player;
+using ExtensionMethods;
 using System.Collections.Generic;
 using System.Linq;
+using Validation;
 
 namespace Cricket.Match
 {
-    public class BowlingInnings
+    public class BowlingInnings : IValidity
     {
         /// <summary>
         /// list of players that play in this innings
@@ -83,6 +85,27 @@ namespace Cricket.Match
                 ByesLegByes = this.ByesLegByes,
                 BowlingInfo = new List<BowlingEntry>(this.BowlingInfo)
             };
+        }
+
+        public bool Validate()
+        {
+            return !Validation().Any(validation => !validation.IsValid);
+        }
+
+        public List<ValidationResult> Validation()
+        {
+            var results = new List<ValidationResult>();
+            int total = 0;
+            foreach (var info in BowlingInfo)
+            {
+                results.AddRange(info.Validation());
+                total += info.Wickets;
+            }
+
+            results.AddIfNotNull(Validating.NotGreaterThan(total, 10, nameof(BowlingInnings)));
+            results.AddIfNotNull(Validating.NotGreaterThan(BowlingInfo.Count, 11, nameof(BowlingInfo)));
+            results.AddIfNotNull(Validating.NotNegative(ByesLegByes, nameof(ByesLegByes)));
+            return results;
         }
 
         /// <summary>

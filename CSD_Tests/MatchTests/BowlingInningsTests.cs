@@ -1,7 +1,9 @@
 ﻿using Cricket.Match;
 using Cricket.Player;
+using CSD_Tests;
 using NUnit.Framework;
 using System.Collections.Generic;
+using Validation;
 
 namespace CricketClasses.MatchTests
 {
@@ -111,6 +113,59 @@ namespace CricketClasses.MatchTests
 
             Assert.AreEqual(expectedWickets, score.Wickets, "Wickets not correct");
             Assert.AreEqual(expectedRuns, score.Runs, "Runs not correct");
+        }
+
+        [TestCase(5, 5,0, true)]
+        [TestCase(5, -5,0, false)]
+        [TestCase(12, 0,0, false)]
+        [TestCase(13, -5,0, false)]
+        [TestCase(9, 0, 12, false)]
+        public void ValidityTests(int numberPlayers, int extras, int wicketsTaken, bool isValid)
+        {
+
+            var innings = new BowlingInnings();
+            for (int i = 0; i < numberPlayers; i++)
+            {
+                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
+                if (i == 0|| i==1)
+                {
+                    innings.SetScores(new PlayerName("Surname" + i, "forename"), 4, 0, 5, wicketsTaken/2);
+                }
+            }
+
+
+            innings.ByesLegByes = extras;
+
+            var result = innings.Validate();
+
+            Assert.AreEqual(isValid, result);
+        }
+
+        [TestCase(5, 5, true, new string[] { })]
+        [TestCase(5, -5, false, new string[] { "ByesLegByes cannot take a negative value." })]
+        [TestCase(12, 0, false, new string[] { "BowlingInfo cannot take values above 11." })]
+        public void ValidityMessageTests(int numberPlayers, int extras, bool isValid, string[] messages)
+        {
+            var innings = new BowlingInnings();
+            for (int i = 0; i < numberPlayers; i++)
+            {
+                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
+            }
+
+            innings.ByesLegByes = extras;
+
+            var valid = innings.Validation();
+
+            var expectedList = new List<ValidationResult>();
+            if (!isValid)
+            {
+                var expected = new ValidationResult();
+                expected.IsValid = isValid;
+                expected.Messages.AddRange(messages);
+                expectedList.Add(expected);
+            }
+
+            Assertions.AreEqualResults(expectedList, valid);
         }
     }
 }

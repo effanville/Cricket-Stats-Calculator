@@ -62,9 +62,9 @@ namespace Cricket.Interfaces
 
         void SetBatting(BattingInnings innings);
 
-        bool AddBattingEntry(PlayerName player, BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null);
+        bool AddBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null);
 
-        bool EditBattingEntry(PlayerName player, BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null);
+        bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null);
 
         bool DeleteBattingEntry(PlayerName player);
 

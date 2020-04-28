@@ -1,10 +1,12 @@
 ﻿using Cricket.Player;
+using ExtensionMethods;
 using System.Collections.Generic;
 using System.Linq;
+using Validation;
 
 namespace Cricket.Match
 {
-    public class Fielding
+    public class Fielding : IValidity
     {
         /// <summary>
         /// list of players that play in this innings
@@ -50,6 +52,26 @@ namespace Cricket.Match
             {
                 FieldingInfo = new List<FieldingEntry>(this.FieldingInfo)
             };
+        }
+
+        public bool Validate()
+        {
+            return !Validation().Any(validation => !validation.IsValid);
+        }
+
+        public List<ValidationResult> Validation()
+        {
+            var results = new List<ValidationResult>();
+            int total = 0;
+            foreach (var info in FieldingInfo)
+            {
+                results.AddRange(info.Validation());
+                total += info.TotalDismissals();
+            }
+            
+            results.AddIfNotNull(Validating.NotGreaterThan(total, 10, nameof(Fielding)));
+            results.AddIfNotNull(Validating.NotGreaterThan(FieldingInfo.Count, 11, nameof(FieldingInfo)));
+            return results;
         }
 
         public Fielding(List<PlayerName> playerNames)

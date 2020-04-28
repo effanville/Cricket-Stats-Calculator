@@ -3,10 +3,11 @@ using Cricket.Player;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Validation;
 
 namespace Cricket.Match
 {
-    public class CricketMatch : ICricketMatch
+    public class CricketMatch : ICricketMatch, IValidity
     {
         public override string ToString()
         {
@@ -196,7 +197,7 @@ namespace Cricket.Match
             }
         }
 
-        public bool AddBattingEntry(PlayerName player, BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
+        public bool AddBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
         {
             if (!Batting.PlayerListed(player))
             {
@@ -212,7 +213,7 @@ namespace Cricket.Match
             return false;
         }
 
-        public bool EditBattingEntry(PlayerName player, BattingWicketLossType howOut, int runs, PlayerName fielder = null, PlayerName bowler = null) 
+        public bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null) 
         {
             if (Batting.PlayerListed(player))
             {
@@ -377,6 +378,22 @@ namespace Cricket.Match
             }
 
             return null;
+        }
+
+        public bool Validate()
+        {
+            return !Validation().Any(validation => !validation.IsValid);
+        }
+
+        public List<ValidationResult> Validation()
+        {
+            var results = new List<ValidationResult>();
+            results.AddRange(MatchData.Validation());
+            results.AddRange(Batting.Validation());
+            results.AddRange(Bowling.Validation());
+            results.AddRange(FieldingStats.Validation());
+
+            return results;
         }
     }
 
