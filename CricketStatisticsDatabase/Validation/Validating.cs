@@ -18,7 +18,7 @@
 
         public static ValidationResult NotLessThan(double value, double lowerLimit, string propertyName)
         {
-            if (value > lowerLimit)
+            if (value < lowerLimit)
             {
                 var notLessThanResult = new ValidationResult();
                 notLessThanResult.IsValid = false;

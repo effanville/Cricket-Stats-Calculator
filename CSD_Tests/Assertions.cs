@@ -56,8 +56,21 @@ namespace CSD_Tests
 
         public static void AreEqualResults(ValidationResult expected, ValidationResult actual)
         {
-            Assert.AreEqual(expected.IsValid, actual.IsValid, "Both results should be valid or not valid.");
-            Assert.AreEqual(expected.Messages, actual.Messages);
+            if (expected == null)
+            {
+                Assert.IsNull(actual);
+            }
+
+            if (actual == null)
+            {
+                Assert.IsNull(expected);
+            }
+
+            if (expected != null && actual != null)
+            {
+                Assert.AreEqual(expected.IsValid, actual.IsValid, "Both results should be valid or not valid.");
+                Assert.AreEqual(expected.Messages, actual.Messages);
+            }
         }
     }
 }
