@@ -59,5 +59,19 @@ namespace Validation
             Messages.Add(message);
         }
 
+        /// <summary>
+        /// Amends a "parent" location to the start of the location.
+        /// </summary>
+        public void AmendLocation(string amending)
+        {
+            Location = amending + "." + Location;
+        }
+
+        public ValidationResult(bool isValid = false, string propertyName = null, string location = null)
+        {
+            IsValid = isValid;
+            PropertyName = propertyName;
+            Location = location;
+        }
     }
 }

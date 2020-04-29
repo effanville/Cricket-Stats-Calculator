@@ -8,6 +8,11 @@ namespace Cricket.Match
 {
     public class BowlingEntry : IValidity
     {
+        public override string ToString()
+        {
+            return "Bowler-" + Name.ToString();
+        }
+
         public PlayerName Name
         {
             get;
@@ -58,11 +63,11 @@ namespace Cricket.Match
         public List<ValidationResult> Validation()
         {
             var results = Name.Validation();
-            results.AddIfNotNull(Validating.NotNegative(OversBowled, nameof(OversBowled)));
-            results.AddIfNotNull(Validating.NotNegative(Maidens, nameof(Maidens)));
-            results.AddIfNotNull(Validating.NotNegative(RunsConceded, nameof(RunsConceded)));
-            results.AddIfNotNull(Validating.NotNegative(Wickets, nameof(Wickets)));
-            results.AddIfNotNull(Validating.NotGreaterThan(Wickets, 10, nameof(Wickets)));
+            results.AddIfNotNull(Validating.NotNegative(OversBowled, nameof(OversBowled), ToString()));
+            results.AddIfNotNull(Validating.NotNegative(Maidens, nameof(Maidens), ToString()));
+            results.AddIfNotNull(Validating.NotNegative(RunsConceded, nameof(RunsConceded), ToString()));
+            results.AddIfNotNull(Validating.NotNegative(Wickets, nameof(Wickets), ToString()));
+            results.AddIfNotNull(Validating.NotGreaterThan(Wickets, 10, nameof(Wickets), ToString()));
             return results;
         }
 

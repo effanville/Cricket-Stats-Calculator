@@ -16,7 +16,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new Fielding(playerNames);
+            var innings = new Fielding(null, playerNames);
 
             Assert.AreEqual(2, innings.FieldingInfo.Count);
         }
@@ -26,7 +26,7 @@ namespace CricketClasses.MatchTests
         {
             var player1 = new PlayerName("Bloggs", "Joe");
             var playerNames = new List<PlayerName>() { player1 };
-            var innings = new Fielding(playerNames);
+            var innings = new Fielding(null, playerNames);
 
             Assert.AreEqual(1, innings.FieldingInfo.Count);
 
@@ -42,7 +42,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new Fielding(playerNames);
+            var innings = new Fielding(null, playerNames);
 
             Assert.AreEqual(2, innings.FieldingInfo.Count);
 
@@ -56,7 +56,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new Fielding(playerNames);
+            var innings = new Fielding(null, playerNames);
 
             Assert.AreEqual(2, innings.FieldingInfo.Count);
 
@@ -70,7 +70,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new Fielding(playerNames);
+            var innings = new Fielding(null, playerNames);
 
             Assert.AreEqual(2, innings.FieldingInfo.Count);
             innings.SetFielding(player1, 4, 2, 7, 5);

@@ -1,5 +1,6 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Player;
+using ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,7 @@ namespace Cricket.Match
     {
         public override string ToString()
         {
-            var date = MatchData.Date;
-            return date.Year + "/" + date.Month + "/"+ date.Day + " " + MatchData.Opposition;
+            return MatchData.ToString();
         }
 
         public bool SameMatch(DateTime date, string opposition)
@@ -38,44 +38,38 @@ namespace Cricket.Match
             return false;
         }
 
-        private MatchInfo fMatchData = new MatchInfo();
-
         public MatchInfo MatchData
-        { 
-            get { return fMatchData; }
-            set { fMatchData = value; }
+        {
+            get;
+            set;
         }
 
-        private ResultType fResult;
         public ResultType Result
         {
-            get { return fResult; }
-            set { fResult = value; }
+            get;
+            set;
         }
 
         /// <summary>
         /// list of players that play in this match
         /// </summary>
-        private List<PlayerName> fPlayerNames = new List<PlayerName>();
         public List<PlayerName> PlayerNames
         {
-            get { return fPlayerNames; }
-            set { fPlayerNames = value; }
-        }
+            get;
+            set;
+        } = new List<PlayerName>();
 
-        private BattingInnings fBatting = new BattingInnings();
         public BattingInnings Batting
         {
-            get { return fBatting; }
-            set { fBatting = value; }
-        }
+            get;
+            set;
+        } = new BattingInnings();
 
-        private BowlingInnings fBowling = new BowlingInnings();
         public BowlingInnings Bowling
         {
-            get { return fBowling; }
-            set { fBowling = value; }
-        }
+            get;
+            set;
+        } = new BowlingInnings();
 
         private Fielding fFieldingStats = new Fielding();
         public Fielding FieldingStats
@@ -104,9 +98,9 @@ namespace Cricket.Match
             };
 
             PlayerNames = playerNames;
-            Batting = new BattingInnings(PlayerNames);
-            Bowling = new BowlingInnings(PlayerNames);
-            FieldingStats = new Fielding(PlayerNames);
+            Batting = new BattingInnings(MatchData, PlayerNames);
+            Bowling = new BowlingInnings(MatchData, PlayerNames);
+            FieldingStats = new Fielding(MatchData, PlayerNames);
         }
 
         public CricketMatch(string oppos, DateTime date1, string place, ResultType result, MatchType TypeofMatch, PlayerName moM, List<PlayerName> playerNames)
@@ -122,9 +116,9 @@ namespace Cricket.Match
             PlayerNames = playerNames;
             Result = result;
             ManOfMatch = moM;
-            Batting = new BattingInnings(PlayerNames);
-            Bowling = new BowlingInnings(PlayerNames);
-            FieldingStats = new Fielding(PlayerNames);
+            Batting = new BattingInnings(MatchData, PlayerNames);
+            Bowling = new BowlingInnings(MatchData, PlayerNames);
+            FieldingStats = new Fielding(MatchData, PlayerNames);
         }
 
         public CricketMatch(MatchInfo info)
@@ -156,6 +150,9 @@ namespace Cricket.Match
             MatchData.Date = date;
             MatchData.Place = place;
             MatchData.Type = typeOfMatch;
+            Bowling.MatchData = MatchData;
+            Batting.MatchData = MatchData;
+            FieldingStats.MatchData = MatchData;
             return true;
         }
 
@@ -388,10 +385,10 @@ namespace Cricket.Match
         public List<ValidationResult> Validation()
         {
             var results = new List<ValidationResult>();
-            results.AddRange(MatchData.Validation());
-            results.AddRange(Batting.Validation());
-            results.AddRange(Bowling.Validation());
-            results.AddRange(FieldingStats.Validation());
+            results.AddValidations(MatchData.Validation(), ToString());
+            results.AddValidations(Batting.Validation(), ToString());
+            results.AddValidations(Bowling.Validation(), ToString());
+            results.AddValidations(FieldingStats.Validation(), ToString());
 
             return results;
         }

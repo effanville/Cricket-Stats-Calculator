@@ -8,6 +8,11 @@ namespace Cricket.Match
 {
     public class BattingEntry : IValidity
     {
+        public override string ToString()
+        {
+            return "Batsman-" + Name.ToString();
+        }
+
         public PlayerName Name
         {
             get;
@@ -63,35 +68,29 @@ namespace Cricket.Match
         public List<ValidationResult> Validation()
         {
             var results = Name.Validation();
-            results.AddIfNotNull(Validating.NotNegative(RunsScored, nameof(RunsScored)));
+            results.AddIfNotNull(Validating.NotNegative(RunsScored, nameof(RunsScored), ToString()));
             if (MethodOut == Wicket.DidNotBat)
             {
                 if (!PlayerName.IsNullOrEmpty(Bowler))
                 {
-                    var bowlerShouldntBeSet = new ValidationResult();
-                    bowlerShouldntBeSet.IsValid = false;
-                    bowlerShouldntBeSet.PropertyName = nameof(Bowler);
+                    var bowlerShouldntBeSet = new ValidationResult(false, nameof(Bowler), ToString());
                     bowlerShouldntBeSet.AddMessage($"{nameof(Bowler)} cannot be set with DidnotBat.");
                     results.Add(bowlerShouldntBeSet);
                 }
                 if (!PlayerName.IsNullOrEmpty(Fielder))
                 {
-                    var fielderShouldntBeSet = new ValidationResult();
-                    fielderShouldntBeSet.IsValid = false;
-                    fielderShouldntBeSet.PropertyName = nameof(Fielder);
+                    var fielderShouldntBeSet = new ValidationResult(false, nameof(Fielder), ToString());
                     fielderShouldntBeSet.AddMessage($"{nameof(Fielder)} cannot be set with DidnotBat.");
                     results.Add(fielderShouldntBeSet);
                 }
-                results.AddIfNotNull(Validating.NotEqualTo(RunsScored, 0, nameof(RunsScored)));
+                results.AddIfNotNull(Validating.NotEqualTo(RunsScored, 0, nameof(RunsScored), ToString()));
             }
 
             if (MethodOut == Wicket.Bowled || MethodOut == Wicket.LBW || MethodOut == Wicket.Caught || MethodOut == Wicket.HitWicket || MethodOut == Wicket.Stumped)
             {
                 if (PlayerName.IsNullOrEmpty(Bowler))
                 {
-                    var bowlerShouldBeSet = new ValidationResult();
-                    bowlerShouldBeSet.IsValid = false;
-                    bowlerShouldBeSet.PropertyName = nameof(Bowler);
+                    var bowlerShouldBeSet = new ValidationResult(false, nameof(Bowler), ToString());
                     bowlerShouldBeSet.AddMessage($"{nameof(Bowler)} should be set with {MethodOut}.");
                     results.Add(bowlerShouldBeSet);
                 }
@@ -101,9 +100,7 @@ namespace Cricket.Match
             {
                 if (PlayerName.IsNullOrEmpty(Fielder))
                 {
-                    var bowlerShouldBeSet = new ValidationResult();
-                    bowlerShouldBeSet.IsValid = false;
-                    bowlerShouldBeSet.PropertyName = nameof(Fielder);
+                    var bowlerShouldBeSet = new ValidationResult(false, nameof(Fielder), ToString());
                     bowlerShouldBeSet.AddMessage($"{nameof(Fielder)} should be set with {MethodOut}.");
                     results.Add(bowlerShouldBeSet);
                 }
@@ -113,9 +110,7 @@ namespace Cricket.Match
             {
                 if (!PlayerName.IsNullOrEmpty(Bowler))
                 {
-                    var bowlerShouldntBeSet = new ValidationResult();
-                    bowlerShouldntBeSet.IsValid = false;
-                    bowlerShouldntBeSet.PropertyName = nameof(Bowler);
+                    var bowlerShouldntBeSet = new ValidationResult(false, nameof(Bowler), ToString());
                     bowlerShouldntBeSet.AddMessage($"{nameof(Bowler)} should not be set with {MethodOut}.");
                     results.Add(bowlerShouldntBeSet);
                 }
@@ -125,9 +120,7 @@ namespace Cricket.Match
             {
                 if (!PlayerName.IsNullOrEmpty(Fielder))
                 {
-                    var fielderShouldntBeSet = new ValidationResult();
-                    fielderShouldntBeSet.IsValid = false;
-                    fielderShouldntBeSet.PropertyName = nameof(Fielder);
+                    var fielderShouldntBeSet = new ValidationResult(false, nameof(Fielder), ToString());
                     fielderShouldntBeSet.AddMessage($"{nameof(Fielder)} should not be set with {MethodOut}.");
                     results.Add(fielderShouldntBeSet);
                 }

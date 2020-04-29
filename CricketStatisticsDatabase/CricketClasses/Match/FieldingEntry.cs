@@ -9,6 +9,11 @@ namespace Cricket.Match
 {
     public class FieldingEntry : IValidity
     {
+        public override string ToString()
+        {
+            return "Fielder-" + Name.ToString();
+        }
+
         public PlayerName Name
         {
             get;
@@ -105,11 +110,11 @@ namespace Cricket.Match
         public List<ValidationResult> Validation()
         {
             var results = Name.Validation();
-            results.AddIfNotNull(Validating.NotNegative(Catches, nameof(Catches)));
-            results.AddIfNotNull(Validating.NotNegative(RunOuts, nameof(RunOuts)));
-            results.AddIfNotNull(Validating.NotNegative(KeeperStumpings, nameof(KeeperStumpings)));
-            results.AddIfNotNull(Validating.NotNegative(KeeperCatches, nameof(KeeperCatches)));
-            results.AddIfNotNull(Validating.NotGreaterThan(TotalDismissals(), 10, nameof(FieldingEntry)));
+            results.AddIfNotNull(Validating.NotNegative(Catches, nameof(Catches), ToString()));
+            results.AddIfNotNull(Validating.NotNegative(RunOuts, nameof(RunOuts), ToString()));
+            results.AddIfNotNull(Validating.NotNegative(KeeperStumpings, nameof(KeeperStumpings), ToString()));
+            results.AddIfNotNull(Validating.NotNegative(KeeperCatches, nameof(KeeperCatches), ToString()));
+            results.AddIfNotNull(Validating.NotGreaterThan(TotalDismissals(), 10, nameof(FieldingEntry), ToString()));
             return results;
         }
     }

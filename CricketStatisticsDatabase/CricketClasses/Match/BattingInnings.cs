@@ -8,6 +8,21 @@ namespace Cricket.Match
 {
     public class BattingInnings : IValidity
     {
+        public override string ToString()
+        {
+            if (MatchData != null)
+            {
+                return MatchData.ToString();
+            }
+            return "BattingInnings";
+        }
+
+        public MatchInfo MatchData
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// list of players that play in this innings
         /// </summary>
@@ -75,6 +90,7 @@ namespace Cricket.Match
         {
             return new BattingInnings()
             {
+                MatchData = this.MatchData,
                 Extras = this.Extras,
                 BattingInfo = new List<BattingEntry>(this.BattingInfo)
             };
@@ -90,18 +106,19 @@ namespace Cricket.Match
             var results = new List<ValidationResult>();
             foreach (var info in BattingInfo)
             {
-                results.AddRange(info.Validation());
+                results.AddValidations(info.Validation(), this.GetType().Name);
             }
 
             var teamResult = Score();
-            results.AddIfNotNull(Validating.NotGreaterThan(teamResult.Wickets, 10, nameof(teamResult.Wickets)));
-            results.AddIfNotNull(Validating.NotGreaterThan(BattingInfo.Count, 11, nameof(BattingInfo)));
-            results.AddIfNotNull(Validating.NotNegative(Extras, nameof(Extras)));
+            results.AddIfNotNull(Validating.NotGreaterThan(teamResult.Wickets, 10, nameof(teamResult.Wickets), ToString()));
+            results.AddIfNotNull(Validating.NotGreaterThan(BattingInfo.Count, 11, nameof(BattingInfo), ToString()));
+            results.AddIfNotNull(Validating.NotNegative(Extras, nameof(Extras), ToString()));
             return results;
         }
 
-        public BattingInnings(List<PlayerName> playerNames)
+        public BattingInnings(MatchInfo info, List<PlayerName> playerNames)
         {
+            MatchData = info;
             foreach (var name in playerNames)
             {
                 BattingInfo.Add(new BattingEntry(name));

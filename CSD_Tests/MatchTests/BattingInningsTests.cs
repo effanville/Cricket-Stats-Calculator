@@ -16,7 +16,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BattingInnings(playerNames);
+            var innings = new BattingInnings(null, playerNames);
 
             Assert.AreEqual(2, innings.BattingInfo.Count);
             Assert.AreEqual(0, innings.Extras);
@@ -27,7 +27,7 @@ namespace CricketClasses.MatchTests
         {
             var player1 = new PlayerName("Bloggs", "Joe");
             var playerNames = new List<PlayerName>() { player1 };
-            var innings = new BattingInnings(playerNames);
+            var innings = new BattingInnings(null, playerNames);
 
             Assert.AreEqual(1, innings.BattingInfo.Count);
             Assert.AreEqual(0, innings.Extras);
@@ -44,7 +44,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BattingInnings(playerNames);
+            var innings = new BattingInnings(null, playerNames);
 
             Assert.AreEqual(2, innings.BattingInfo.Count);
             Assert.AreEqual(0, innings.Extras);
@@ -59,7 +59,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BattingInnings(playerNames);
+            var innings = new BattingInnings(null, playerNames);
 
             Assert.AreEqual(2, innings.BattingInfo.Count);
             Assert.AreEqual(0, innings.Extras);
@@ -74,7 +74,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BattingInnings(playerNames);
+            var innings = new BattingInnings(null, playerNames);
 
             Assert.AreEqual(2, innings.BattingInfo.Count);
             Assert.AreEqual(0, innings.Extras);
@@ -100,7 +100,7 @@ namespace CricketClasses.MatchTests
                 string forename = "Joe" + i;
                 playerNames.Add(new PlayerName(surname, forename));
             }
-            var innings = new BattingInnings(playerNames);
+            var innings = new BattingInnings(null, playerNames);
 
             Assert.AreEqual(11, innings.BattingInfo.Count);
             Assert.AreEqual(0, innings.Extras);
