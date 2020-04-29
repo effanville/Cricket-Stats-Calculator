@@ -37,6 +37,7 @@ namespace GUI.ViewModels
             get { return fSelectedMatch; }
             set { fSelectedMatch = value; OnPropertyChanged(nameof(SelectedMatch)); SelectedBowling = value?.Bowling; SelectedBatting = value?.Batting; }
         }
+
         private BowlingInnings fSelectedBowling;
         public BowlingInnings SelectedBowling
         {
