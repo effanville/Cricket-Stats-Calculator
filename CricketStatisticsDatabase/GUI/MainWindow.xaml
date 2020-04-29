@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <ToolBarTray Grid.Row="0">
@@ -33,5 +34,10 @@
                 </Style>
             </TabControl.ItemContainerStyle>
         </TabControl>
+
+        <Expander Grid.Row="2" 
+                  Content="{Binding ReportingView}" 
+                  IsExpanded="True"
+                  Header="Team Validation Reports"/>
     </Grid>
 </Window>

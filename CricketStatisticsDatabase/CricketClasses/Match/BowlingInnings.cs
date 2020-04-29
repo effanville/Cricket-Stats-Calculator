@@ -8,6 +8,21 @@ namespace Cricket.Match
 {
     public class BowlingInnings : IValidity
     {
+        public override string ToString()
+        {
+            if (MatchData != null)
+            {
+                return MatchData.ToString();
+            }
+            return "BowlingInnings";
+        }
+
+        public MatchInfo MatchData
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// list of players that play in this innings
         /// </summary>
@@ -70,8 +85,9 @@ namespace Cricket.Match
             return new InningsScore(runs, wickets);
         }
 
-        public BowlingInnings(List<PlayerName> playerNames)
+        public BowlingInnings(MatchInfo info, List<PlayerName> playerNames)
         {
+            MatchData = info;
             foreach (var name in playerNames)
             {
                 BowlingInfo.Add(new BowlingEntry(name));
@@ -82,6 +98,7 @@ namespace Cricket.Match
         {
             return new BowlingInnings()
             {
+                MatchData = this.MatchData,
                 ByesLegByes = this.ByesLegByes,
                 BowlingInfo = new List<BowlingEntry>(this.BowlingInfo)
             };
@@ -98,13 +115,13 @@ namespace Cricket.Match
             int total = 0;
             foreach (var info in BowlingInfo)
             {
-                results.AddRange(info.Validation());
+                results.AddValidations(info.Validation(), ToString());
                 total += info.Wickets;
             }
 
-            results.AddIfNotNull(Validating.NotGreaterThan(total, 10, nameof(BowlingInnings)));
-            results.AddIfNotNull(Validating.NotGreaterThan(BowlingInfo.Count, 11, nameof(BowlingInfo)));
-            results.AddIfNotNull(Validating.NotNegative(ByesLegByes, nameof(ByesLegByes)));
+            results.AddIfNotNull(Validating.NotGreaterThan(total, 10, nameof(BowlingInnings), ToString()));
+            results.AddIfNotNull(Validating.NotGreaterThan(BowlingInfo.Count, 11, nameof(BowlingInfo), ToString()));
+            results.AddIfNotNull(Validating.NotNegative(ByesLegByes, nameof(ByesLegByes), ToString()));
             return results;
         }
 

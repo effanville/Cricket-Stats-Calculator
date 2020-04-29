@@ -1,11 +1,20 @@
 ﻿using Cricket.Player;
 using System;
 using System.Collections.Generic;
+using Validation;
 
 namespace Cricket.Interfaces
 {
-    public interface ICricketTeam
+    public interface ICricketTeam : IValidity
     {
+        /// <summary>
+        /// The name of the team in question.
+        /// </summary>
+        public string TeamName
+        { 
+            get;
+        }
+
         /// <summary>
         /// The players associated to this team.
         /// </summary>
@@ -21,6 +30,12 @@ namespace Cricket.Interfaces
         { 
             get;
         }
+
+        /// <summary>
+        /// Sets the name of the team.
+        /// </summary>
+        /// <param name="name"></param>
+        void SetTeamName(string name);
 
         /// <summary>
         /// Adds a player to the teams player list.

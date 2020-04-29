@@ -125,8 +125,8 @@ namespace Cricket.Player
         public List<ValidationResult> Validation()
         {
             var output = new List<ValidationResult>();
-            output.AddIfNotNull(Validating.IsNotNullOrEmpty(Surname, nameof(Surname)));
-            output.AddIfNotNull(Validating.IsNotNullOrEmpty(Forename, nameof(Forename)));
+            output.AddIfNotNull(Validating.IsNotNullOrEmpty(Surname, nameof(Surname), ToString()));
+            output.AddIfNotNull(Validating.IsNotNullOrEmpty(Forename, nameof(Forename), ToString()));
             return output;
         }
     }

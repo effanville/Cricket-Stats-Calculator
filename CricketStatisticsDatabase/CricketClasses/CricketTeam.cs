@@ -10,6 +10,23 @@ namespace Cricket.Team
 {
     public class CricketTeam : ICricketTeam, IValidity
     {
+        public override string ToString()
+        {
+            return TeamName;
+        }
+
+        public string TeamName
+        {
+            get;
+            set;
+        } = "MyCricketTeam";
+
+        public void SetTeamName(string name)
+        {
+            TeamName = name;
+        }
+
+
         private List<CricketPlayer> fTeamPlayers = new List<CricketPlayer>();
         public List<CricketPlayer> TeamPlayers
         {
@@ -146,9 +163,9 @@ namespace Cricket.Team
             {
                 results.AddRange(player.Validation());
             }
-            foreach (var match in TeamSeasons)
+            foreach (var season in TeamSeasons)
             {
-                results.AddRange(match.Validation());
+                results.AddRange(season.Validation());
             }
 
             return results;

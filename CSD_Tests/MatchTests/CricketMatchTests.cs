@@ -98,7 +98,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Root", "Joe");
             var player2 = new PlayerName("Smith", "Jobs");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BattingInnings(playerNames);
+            var innings = new BattingInnings(null, playerNames);
 
             innings.SetScores(player1, Wicket.Bowled, 5);
             innings.SetScores(player2, Wicket.RunOut, 9);
@@ -215,7 +215,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Root", "Joe");
             var player2 = new PlayerName("Smith", "Jobs");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BowlingInnings(playerNames);
+            var innings = new BowlingInnings(null, playerNames);
 
             innings.SetScores(player1, 4, 2, 23, 1);
             innings.SetScores(player2, 5, 1, 19, 4);
@@ -309,7 +309,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Root", "Joe");
             var player2 = new PlayerName("Smith", "Jobs");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new Fielding(playerNames);
+            var innings = new Fielding(null, playerNames);
 
             innings.SetFielding(player1, 4, 2, 23, 1);
             innings.SetFielding(player2, 5, 1, 19, 4);

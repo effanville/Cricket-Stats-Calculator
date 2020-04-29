@@ -1,4 +1,5 @@
 ﻿using ExtensionMethods;
+using StringFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,11 @@ namespace Cricket.Match
 {
     public class MatchInfo : IValidity
     {
+        public override string ToString()
+        {
+            return Date.ToUkDateString() + "-" +Opposition;
+        }
+
         private string fOpposition;
         public string Opposition
         {
@@ -61,7 +67,7 @@ namespace Cricket.Match
         public List<ValidationResult> Validation()
         {
             var results = new List<ValidationResult>();
-            results.AddIfNotNull(Validating.IsNotNullOrEmpty(Opposition, nameof(Opposition)));
+            results.AddIfNotNull(Validating.IsNotNullOrEmpty(Opposition, nameof(Opposition), ToString()));
             return results;
         }
     }

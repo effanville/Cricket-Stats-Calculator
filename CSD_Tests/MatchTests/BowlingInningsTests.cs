@@ -15,7 +15,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BowlingInnings(playerNames);
+            var innings = new BowlingInnings(null, playerNames);
 
             Assert.AreEqual(2, innings.BowlingInfo.Count);
             Assert.AreEqual(0, innings.ByesLegByes);
@@ -26,7 +26,7 @@ namespace CricketClasses.MatchTests
         {
             var player1 = new PlayerName("Bloggs", "Joe");
             var playerNames = new List<PlayerName>() { player1 };
-            var innings = new BowlingInnings(playerNames);
+            var innings = new BowlingInnings(null, playerNames);
 
             Assert.AreEqual(1, innings.BowlingInfo.Count);
 
@@ -42,7 +42,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BowlingInnings(playerNames);
+            var innings = new BowlingInnings(null, playerNames);
 
             Assert.AreEqual(2, innings.BowlingInfo.Count);
 
@@ -56,7 +56,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BowlingInnings(playerNames);
+            var innings = new BowlingInnings(null, playerNames);
 
             Assert.AreEqual(2, innings.BowlingInfo.Count);
 
@@ -70,7 +70,7 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BowlingInnings(playerNames);
+            var innings = new BowlingInnings(null, playerNames);
 
             Assert.AreEqual(2, innings.BowlingInfo.Count);
             innings.SetScores(player1, 4,2,7, 5);
@@ -99,7 +99,7 @@ namespace CricketClasses.MatchTests
                 string forename = "Joe" + i;
                 playerNames.Add(new PlayerName(surname, forename));
             }
-            var innings = new BowlingInnings(playerNames);
+            var innings = new BowlingInnings(null, playerNames);
 
             Assert.AreEqual(11, innings.BowlingInfo.Count);
             Assert.AreEqual(0, innings.ByesLegByes);

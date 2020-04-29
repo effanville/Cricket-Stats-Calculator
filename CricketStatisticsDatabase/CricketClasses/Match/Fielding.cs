@@ -8,6 +8,21 @@ namespace Cricket.Match
 {
     public class Fielding : IValidity
     {
+        public override string ToString()
+        {
+            if (MatchData != null)
+            {
+                return MatchData.ToString();
+            }
+            return "Fielding";
+        }
+
+        public MatchInfo MatchData
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// list of players that play in this innings
         /// </summary>
@@ -50,6 +65,7 @@ namespace Cricket.Match
         {
             return new Fielding()
             {
+                MatchData = this.MatchData,
                 FieldingInfo = new List<FieldingEntry>(this.FieldingInfo)
             };
         }
@@ -65,17 +81,18 @@ namespace Cricket.Match
             int total = 0;
             foreach (var info in FieldingInfo)
             {
-                results.AddRange(info.Validation());
+                results.AddValidations(info.Validation(), ToString());
                 total += info.TotalDismissals();
             }
             
-            results.AddIfNotNull(Validating.NotGreaterThan(total, 10, nameof(Fielding)));
-            results.AddIfNotNull(Validating.NotGreaterThan(FieldingInfo.Count, 11, nameof(FieldingInfo)));
+            results.AddIfNotNull(Validating.NotGreaterThan(total, 10, nameof(Fielding), ToString()));
+            results.AddIfNotNull(Validating.NotGreaterThan(FieldingInfo.Count, 11, nameof(FieldingInfo), ToString()));
             return results;
         }
 
-        public Fielding(List<PlayerName> playerNames)
+        public Fielding(MatchInfo info, List<PlayerName> playerNames)
         {
+            MatchData = info;
             foreach (var name in playerNames)
             {
                 FieldingInfo.Add(new FieldingEntry(name));

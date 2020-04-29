@@ -4,6 +4,10 @@
                     xmlns:dvm="clr-namespace:GUI.Dialogs.ViewModels"
                     xmlns:dialog="clr-namespace:GUI.Dialogs"
                     xmlns:gui="clr-namespace:GUI">
+    <DataTemplate DataType="{x:Type vm:ReportingViewModel}">
+        <gui:ReportingView/>
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type vm:TeamOverviewViewModel }">
         <gui:TeamOverview/>
     </DataTemplate>

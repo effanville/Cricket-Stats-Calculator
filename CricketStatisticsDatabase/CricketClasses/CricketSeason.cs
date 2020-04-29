@@ -1,6 +1,7 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
+using ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -153,7 +154,7 @@ namespace Cricket
             var results = new List<ValidationResult>();
             foreach (var match in SeasonsMatches)
             {
-                results.AddRange(match.Validation());
+                results.AddValidations(match.Validation(), ToString());
             }
             if (Year == null)
             {
