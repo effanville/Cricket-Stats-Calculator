@@ -65,8 +65,8 @@ namespace GUI.ViewModels
                 {
                     if (array.Length == 2)
                     {
-                        var date = DateTime.Parse(array[0].ToString());
-                        SelectedSeason.EditSeasonName(date, array[1].ToString());
+                        var year = int.Parse(array[0].ToString());
+                        SelectedSeason.EditSeasonName(new DateTime(year,1,1), array[1].ToString());
                     }
                 }
             }
