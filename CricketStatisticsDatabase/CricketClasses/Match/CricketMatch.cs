@@ -1,5 +1,6 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Player;
+using Cricket.Statistics;
 using ExtensionMethods;
 using System;
 using System.Collections.Generic;
@@ -185,16 +186,16 @@ namespace Cricket.Match
             {
                 if (!Batting.PlayerListed(entry.Name))
                 {
-                    AddBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Fielder, entry.Bowler);
+                    AddBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Order, entry.WicketFellAt, entry.TeamScoreAtWicket, entry.Fielder, entry.Bowler);
                 }
                 else
                 {
-                    EditBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Fielder, entry.Bowler);
+                    EditBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Order, entry.WicketFellAt, entry.TeamScoreAtWicket, entry.Fielder, entry.Bowler);
                 }
             }
         }
 
-        public bool AddBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
+        public bool AddBattingEntry(PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
         {
             if (!Batting.PlayerListed(player))
             {
@@ -203,18 +204,18 @@ namespace Cricket.Match
                     PlayerNames.Add(player);
                 }
                 Batting.AddPlayer(player);
-                Batting.SetScores(player, howOut, runs, fielder, bowler);
+                Batting.SetScores(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, bowler);
                 return true;
             }
 
             return false;
         }
 
-        public bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null) 
+        public bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null) 
         {
             if (Batting.PlayerListed(player))
             {
-                Batting.SetScores(player, howOut, runs, fielder, bowler);
+                Batting.SetScores(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, bowler);
                 return true;
             }
 

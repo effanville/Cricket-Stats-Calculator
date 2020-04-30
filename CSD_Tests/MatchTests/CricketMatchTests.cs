@@ -100,8 +100,8 @@ namespace CricketClasses.MatchTests
             var playerNames = new List<PlayerName>() { player1, player2 };
             var innings = new BattingInnings(null, playerNames);
 
-            innings.SetScores(player1, Wicket.Bowled, 5);
-            innings.SetScores(player2, Wicket.RunOut, 9);
+            innings.SetScores(player1, Wicket.Bowled, 5, 1, 1, 0);
+            innings.SetScores(player2, Wicket.RunOut, 9, 1, 1, 0);
             var match = new CricketMatch("Sandon", players);
 
             match.SetBatting(innings);
@@ -148,7 +148,7 @@ namespace CricketClasses.MatchTests
                 bowler = new PlayerName("Steyn", "Dale");
             }
 
-            var didAdd = match.AddBattingEntry(new PlayerName(surname, forename), howOut, runs, fielder, bowler);
+            var didAdd = match.AddBattingEntry(new PlayerName(surname, forename), howOut, runs, 1, 1, 0, fielder, bowler);
             Assert.AreEqual(added, didAdd);
 
             if (added)
@@ -182,7 +182,7 @@ namespace CricketClasses.MatchTests
                 bowler = new PlayerName("Steyn", "Dale");
             }
 
-            var didEdit = match.EditBattingEntry(new PlayerName(surname, forename), howOut, runs, fielder, bowler);
+            var didEdit = match.EditBattingEntry(new PlayerName(surname, forename), howOut, runs, 1, 1, 0, fielder, bowler);
             Assert.AreEqual(edited, didEdit);
 
             if (edited)

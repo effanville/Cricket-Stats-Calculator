@@ -25,7 +25,7 @@ namespace CricketClasses.MatchTests
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
             var bowler = new PlayerName("Fish", "Simon");
-            batting.SetScores(Wicket.Bowled, 23, name, bowler);
+            batting.SetScores(Wicket.Bowled, 23,1, 1, 0, name, bowler);
             Assert.AreEqual(Wicket.Bowled, batting.MethodOut);
             Assert.AreEqual(23, batting.RunsScored);
             Assert.AreEqual(name, batting.Fielder);
@@ -44,7 +44,7 @@ namespace CricketClasses.MatchTests
         {
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
-            batting.SetScores(howOut, 23);
+            batting.SetScores(howOut, 23,1, 1, 0);
             Assert.AreEqual(outOrNot, batting.Out());
         }
 
@@ -91,7 +91,7 @@ namespace CricketClasses.MatchTests
             }
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
-            batting.SetScores(howOut, runs, fielder, bowler);
+            batting.SetScores(howOut, runs,1, 1, 0, fielder, bowler);
 
             var valid = batting.Validate();
             Assert.AreEqual(isValid, valid);
@@ -136,7 +136,7 @@ namespace CricketClasses.MatchTests
             }
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
-            batting.SetScores(howOut, runs, fielder, bowler);
+            batting.SetScores(howOut, runs,1, 1, 0, fielder, bowler);
 
             var valid = batting.Validation();
             int number = isValid ? 0 : 1;

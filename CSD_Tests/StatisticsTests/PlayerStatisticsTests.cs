@@ -121,7 +121,7 @@ namespace CricketClasses.StatisticsTests
                 DateTime date = new DateTime(2000, 1, 1);
                 season.AddMatch(new MatchInfo(oppo, date, null, MatchType.League));
                 var match = season.GetMatch(date, oppo);
-                match.AddBattingEntry(name, battingValues[i].Item2, battingValues[i].Item1);
+                match.AddBattingEntry(name, battingValues[i].Item2, battingValues[i].Item1, 1, 1, 0);
                 match.AddBowlingEntry(name, bowlingValues[i].Item1, bowlingValues[i].Item2, bowlingValues[i].Item3, bowlingValues[i].Item4);
                 match.AddFieldingEntry(name, fieldingValues[i].Item1, fieldingValues[i].Item2, fieldingValues[i].Item3, fieldingValues[i].Item4);
             }

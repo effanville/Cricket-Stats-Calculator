@@ -46,15 +46,16 @@ namespace Cricket.Match
             set { fExtras = value; }
         }
 
-        public bool SetScores(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
+        public bool SetScores(PlayerName player, Wicket howOut, int runs, int order, int wicketToFallAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
         {
             var result = BattingInfo.Find(entry => entry.Name.Equals(player));
             if (result != null)
             {
-                result.SetScores(howOut, runs, fielder, bowler);
+                result.SetScores(howOut, runs, order, wicketToFallAt, teamScoreAtWicket, fielder, bowler);
                 return true;
             }
 
+            BattingInfo.Sort((entry, entryOther) => entry.Order.CompareTo(entryOther.Order));
             return false;
         }
 

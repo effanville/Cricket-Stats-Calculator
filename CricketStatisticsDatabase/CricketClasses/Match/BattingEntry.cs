@@ -6,6 +6,9 @@ using Validation;
 
 namespace Cricket.Match
 {
+    /// <summary>
+    /// Represents an entry on the batting part of a cricket scorecard.
+    /// </summary>
     public class BattingEntry : IValidity
     {
         public override string ToString()
@@ -13,58 +16,114 @@ namespace Cricket.Match
             return "Batsman-" + Name.ToString();
         }
 
+        /// <summary>
+        /// At what point in the innings did this batsman bat.
+        /// This is the number the batsman went into bat.
+        /// </summary>
+        public int Order
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// The name of the player on this batting entry.
+        /// </summary>
         public PlayerName Name
         {
             get;
             set;
         }
 
-        private Wicket fMethodOut;
+        /// <summary>
+        /// How this batsman was out.
+        /// </summary>
         public Wicket MethodOut
         {
-            get { return fMethodOut; }
-            set { fMethodOut = value; }
+            get;
+            set;
         }
 
-        private PlayerName fFielder;
+        /// <summary>
+        /// Any possible fielder associated with the wicket.
+        /// This could (and should) be null if not needed.
+        /// </summary>
         public PlayerName Fielder
         {
-            get { return fFielder; }
-            set { fFielder = value; }
+            get;
+            set;
         }
 
-        private PlayerName fBowler;
+        /// <summary>
+        /// Any possible bowler associated with the wicket.
+        /// This could (and should) be null if not needed.
+        /// </summary>
         public PlayerName Bowler
         {
-            get { return fBowler; }
-            set { fBowler = value; }
+            get;
+            set;
         }
 
-        private int fRunsScored;
+        /// <summary>
+        /// The runs the batsman scored.
+        /// </summary>
         public int RunsScored
         {
-            get { return fRunsScored; }
-            set { fRunsScored = value; }
+            get;
+            set;
         }
 
+        /// <summary>
+        /// The Wicket of the team this batsman fell at. 
+        /// </summary>
+        public int WicketFellAt
+        { 
+            get; 
+            set; 
+        }
+
+        /// <summary>
+        /// The number of runs the team had scored when the batsman was out.
+        /// </summary>
+        public int TeamScoreAtWicket
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Was this batsman out.
+        /// </summary>
         public bool Out()
         {
             return !(MethodOut == Wicket.NotOut || MethodOut == Wicket.DidNotBat);
         }
 
-        public void SetScores(Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
+        /// <summary>
+        /// Input the values into this batting entry.
+        /// </summary>
+        public void SetScores(Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
         {
             MethodOut = howOut;
             RunsScored = runs;
+            Order = order;
+            WicketFellAt = wicketFellAt;
+            TeamScoreAtWicket = teamScoreAtWicket;
             Fielder = fielder;
             Bowler = bowler;
         }
 
+        /// <summary>
+        /// Returns whether there are any errors with this entry.
+        /// </summary>
         public bool Validate()
         {
             return !Validation().Any(validation => !validation.IsValid);
         }
 
+        /// <summary>
+        /// Returns the errors with this entry.
+        /// </summary>
         public List<ValidationResult> Validation()
         {
             var results = Name.Validation();
