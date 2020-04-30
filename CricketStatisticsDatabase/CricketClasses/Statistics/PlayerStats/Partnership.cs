@@ -3,7 +3,7 @@ using System;
 
 namespace Cricket.Statistics
 {
-    public class Partnership : IComparable
+    public sealed class Partnership : IComparable
     {
         public int CompareTo(object obj)
         {
@@ -19,9 +19,9 @@ namespace Cricket.Statistics
         }
 
         public PlayerName PlayerOne
-        { 
-            get; 
-            set; 
+        {
+            get;
+            set;
         }
 
         public PlayerName PlayerTwo

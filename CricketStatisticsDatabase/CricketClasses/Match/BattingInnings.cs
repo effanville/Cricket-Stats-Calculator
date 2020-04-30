@@ -7,7 +7,7 @@ using Validation;
 
 namespace Cricket.Match
 {
-    public class BattingInnings : IValidity
+    public sealed class BattingInnings : IValidity
     {
         public override string ToString()
         {
@@ -42,7 +42,7 @@ namespace Cricket.Match
         private int fExtras;
 
         public int Extras
-        { 
+        {
             get { return fExtras; }
             set { fExtras = value; }
         }
@@ -53,16 +53,22 @@ namespace Cricket.Match
             if (result != null)
             {
                 result.SetScores(howOut, runs, order, wicketToFallAt, teamScoreAtWicket, fielder, bowler);
+                BattingInfo.Sort((entry, entryOther) => entry.Order.CompareTo(entryOther.Order));
                 return true;
             }
 
-            BattingInfo.Sort((entry, entryOther) => entry.Order.CompareTo(entryOther.Order));
             return false;
         }
 
         public void AddPlayer(PlayerName player)
         {
             BattingInfo.Add(new BattingEntry(player));
+        }
+
+        public void AddScore(PlayerName player, Wicket howOut, int runs, int order, int wicketToFallAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
+        {
+            AddPlayer(player);
+            SetScores(player, howOut, runs, order, wicketToFallAt, teamScoreAtWicket, fielder, bowler);
         }
 
         public bool PlayerListed(PlayerName player)
@@ -135,11 +141,15 @@ namespace Cricket.Match
                 if (batsmanOne.WicketFellAt < batsmanTwo.WicketFellAt)
                 {
                     partnershipRuns = batsmanOne.TeamScoreAtWicket - lastWicketScore;
-                    batsmanOne = BattingInfo[nextBatsmanIndex];
+                    batsmanOne = batsmanTwo;
                 }
                 else
                 {
                     partnershipRuns = batsmanTwo.TeamScoreAtWicket - lastWicketScore;
+                }
+
+                if (nextBatsmanIndex < 11)
+                {
                     batsmanTwo = BattingInfo[nextBatsmanIndex];
                 }
 

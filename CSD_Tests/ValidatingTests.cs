@@ -22,7 +22,7 @@ namespace CSD_Tests
                 
             var valid = Validating.NotNegative(value, property, null);
 
-            Assertions.AreEqualResults(expected, valid);
+            Assertions.ValidationEqual(expected, valid);
         }
 
         [TestCase(1, 0, "property", true, new string[] { })]
@@ -44,7 +44,7 @@ namespace CSD_Tests
 
             var valid = Validating.NotLessThan(value, limit, property, null);
 
-            Assertions.AreEqualResults(expected, valid);
+            Assertions.ValidationEqual(expected, valid);
         }
 
         [TestCase(-1, 0, "property", true, new string[] { })]
@@ -66,7 +66,7 @@ namespace CSD_Tests
 
             var valid = Validating.NotGreaterThan(value, limit, property, null);
 
-            Assertions.AreEqualResults(expected, valid);
+            Assertions.ValidationEqual(expected, valid);
         }
 
         [TestCase(-1, 0, "property", false, new string[] { "property was expected to be equal to 0." })]
@@ -88,7 +88,7 @@ namespace CSD_Tests
 
             var valid = Validating.NotEqualTo(value, equality, property, null);
 
-            Assertions.AreEqualResults(expected, valid);
+            Assertions.ValidationEqual(expected, valid);
         }
 
         [TestCase("hello", "property", true, new string[] { })]
@@ -106,7 +106,7 @@ namespace CSD_Tests
 
             var valid = Validating.IsNotNullOrEmpty(value, property, null);
 
-            Assertions.AreEqualResults(expected, valid);
+            Assertions.ValidationEqual(expected, valid);
         }
     }
 }

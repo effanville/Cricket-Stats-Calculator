@@ -80,11 +80,11 @@ namespace CricketClasses.PlayerTests
                 expected.Messages.AddRange(isValidMessage);
                 var expectedList = new List<ValidationResult>();
                 expectedList.Add(expected);
-                Assertions.AreEqualResults(expectedList, valid);
+                Assertions.ValidationListsEqual(expectedList, valid);
             }
             else 
             {
-                Assertions.AreEqualResults(new List<ValidationResult>(), valid);
+                Assertions.ValidationListsEqual(new List<ValidationResult>(), valid);
             }
         }
 
@@ -102,7 +102,7 @@ namespace CricketClasses.PlayerTests
             var expectedList = new List<ValidationResult>();
             expectedList.Add(expected1);
             expectedList.Add(expected2);
-            Assertions.AreEqualResults(expectedList, valid);
+            Assertions.ValidationListsEqual(expectedList, valid);
         }
     }
 }

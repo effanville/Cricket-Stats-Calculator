@@ -9,7 +9,7 @@ using Validation;
 
 namespace Cricket.Match
 {
-    public class CricketMatch : ICricketMatch, IValidity
+    public sealed class CricketMatch : ICricketMatch, IValidity
     {
         public override string ToString()
         {
@@ -18,7 +18,7 @@ namespace Cricket.Match
 
         public bool SameMatch(DateTime date, string opposition)
         {
-            if(MatchData.Date.Equals(date) )
+            if (MatchData.Date.Equals(date))
             {
                 if (string.IsNullOrEmpty(MatchData.Opposition))
                 {
@@ -142,7 +142,7 @@ namespace Cricket.Match
 
         public bool EditInfo(string opposition, DateTime date, string place, MatchType typeOfMatch, ResultType result)
         {
-            return EditMatchInfo(opposition, date, place, typeOfMatch) & EditResult(result); 
+            return EditMatchInfo(opposition, date, place, typeOfMatch) & EditResult(result);
         }
 
         public bool EditMatchInfo(string opposition, DateTime date, string place, MatchType typeOfMatch)
@@ -157,14 +157,14 @@ namespace Cricket.Match
             return true;
         }
 
-        public bool EditResult(ResultType result) 
+        public bool EditResult(ResultType result)
         {
             Result = result;
             return true;
         }
 
-        public bool EditManOfMatch(PlayerName player) 
-        { 
+        public bool EditManOfMatch(PlayerName player)
+        {
             ManOfMatch = player;
             return true;
         }

@@ -77,9 +77,9 @@ namespace Cricket.Match
         /// The Wicket of the team this batsman fell at. 
         /// </summary>
         public int WicketFellAt
-        { 
-            get; 
-            set; 
+        {
+            get;
+            set;
         }
 
         /// <summary>

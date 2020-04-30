@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace CricketStatistics
 {
-    public class TeamSeasonStatistics
+    public sealed class TeamSeasonStatistics
     {
         public List<PlayerSeasonStatistics> SeasonPlayerStats 
         {
-            get; 
-            set; 
+            get;
+            set;
         } = new List<PlayerSeasonStatistics>();
 
         public List<Partnership> PartnershipsByWicket

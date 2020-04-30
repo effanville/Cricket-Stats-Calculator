@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="GUI\SeasonEditView\CreateSeasonDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
