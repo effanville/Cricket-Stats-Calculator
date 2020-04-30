@@ -393,6 +393,11 @@ namespace Cricket.Match
 
             return results;
         }
+
+        public List<Partnership> Partnerships()
+        {
+            return Batting.Partnerships();
+        }
     }
 
     public enum ResultType

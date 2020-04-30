@@ -1,4 +1,5 @@
 ﻿using Cricket.Player;
+using Cricket.Statistics;
 using ExtensionMethods;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,6 +116,40 @@ namespace Cricket.Match
             results.AddIfNotNull(Validating.NotGreaterThan(BattingInfo.Count, 11, nameof(BattingInfo), ToString()));
             results.AddIfNotNull(Validating.NotNegative(Extras, nameof(Extras), ToString()));
             return results;
+        }
+
+        /// <summary>
+        /// Calculate the partnerships of the team for this match.
+        /// </summary>
+        public List<Partnership> Partnerships()
+        {
+            var partnerships = new List<Partnership>(new Partnership[10]);
+            var batsmanOne = BattingInfo[0];
+            var batsmanTwo = BattingInfo[1];
+            int nextBatsmanIndex = 2;
+            int lastWicketScore = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                var partnership = new Partnership(batsmanOne.Name, batsmanTwo.Name);
+                int partnershipRuns;
+                if (batsmanOne.WicketFellAt < batsmanTwo.WicketFellAt)
+                {
+                    partnershipRuns = batsmanOne.TeamScoreAtWicket - lastWicketScore;
+                    batsmanOne = BattingInfo[nextBatsmanIndex];
+                }
+                else
+                {
+                    partnershipRuns = batsmanTwo.TeamScoreAtWicket - lastWicketScore;
+                    batsmanTwo = BattingInfo[nextBatsmanIndex];
+                }
+
+                partnership.SetScores(i + 1, partnershipRuns);
+                partnerships[i] = partnership;
+                lastWicketScore += partnershipRuns;
+                nextBatsmanIndex++;
+            }
+
+            return partnerships;
         }
 
         public BattingInnings(MatchInfo info, List<PlayerName> playerNames)
