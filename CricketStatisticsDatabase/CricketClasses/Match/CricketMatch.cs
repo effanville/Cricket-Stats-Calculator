@@ -1,5 +1,6 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Player;
+using Cricket.Statistics;
 using ExtensionMethods;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using Validation;
 
 namespace Cricket.Match
 {
-    public class CricketMatch : ICricketMatch, IValidity
+    public sealed class CricketMatch : ICricketMatch, IValidity
     {
         public override string ToString()
         {
@@ -17,7 +18,7 @@ namespace Cricket.Match
 
         public bool SameMatch(DateTime date, string opposition)
         {
-            if(MatchData.Date.Equals(date) )
+            if (MatchData.Date.Equals(date))
             {
                 if (string.IsNullOrEmpty(MatchData.Opposition))
                 {
@@ -141,7 +142,7 @@ namespace Cricket.Match
 
         public bool EditInfo(string opposition, DateTime date, string place, MatchType typeOfMatch, ResultType result)
         {
-            return EditMatchInfo(opposition, date, place, typeOfMatch) & EditResult(result); 
+            return EditMatchInfo(opposition, date, place, typeOfMatch) & EditResult(result);
         }
 
         public bool EditMatchInfo(string opposition, DateTime date, string place, MatchType typeOfMatch)
@@ -156,14 +157,14 @@ namespace Cricket.Match
             return true;
         }
 
-        public bool EditResult(ResultType result) 
+        public bool EditResult(ResultType result)
         {
             Result = result;
             return true;
         }
 
-        public bool EditManOfMatch(PlayerName player) 
-        { 
+        public bool EditManOfMatch(PlayerName player)
+        {
             ManOfMatch = player;
             return true;
         }
@@ -185,16 +186,16 @@ namespace Cricket.Match
             {
                 if (!Batting.PlayerListed(entry.Name))
                 {
-                    AddBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Fielder, entry.Bowler);
+                    AddBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Order, entry.WicketFellAt, entry.TeamScoreAtWicket, entry.Fielder, entry.Bowler);
                 }
                 else
                 {
-                    EditBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Fielder, entry.Bowler);
+                    EditBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Order, entry.WicketFellAt, entry.TeamScoreAtWicket, entry.Fielder, entry.Bowler);
                 }
             }
         }
 
-        public bool AddBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
+        public bool AddBattingEntry(PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
         {
             if (!Batting.PlayerListed(player))
             {
@@ -203,18 +204,18 @@ namespace Cricket.Match
                     PlayerNames.Add(player);
                 }
                 Batting.AddPlayer(player);
-                Batting.SetScores(player, howOut, runs, fielder, bowler);
+                Batting.SetScores(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, bowler);
                 return true;
             }
 
             return false;
         }
 
-        public bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null) 
+        public bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null) 
         {
             if (Batting.PlayerListed(player))
             {
-                Batting.SetScores(player, howOut, runs, fielder, bowler);
+                Batting.SetScores(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, bowler);
                 return true;
             }
 
@@ -391,6 +392,11 @@ namespace Cricket.Match
             results.AddValidations(FieldingStats.Validation(), ToString());
 
             return results;
+        }
+
+        public List<Partnership> Partnerships()
+        {
+            return Batting.Partnerships();
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using Cricket.Player;
+using Cricket.Statistics;
 using ExtensionMethods;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using Validation;
 
 namespace Cricket.Match
 {
-    public class BattingInnings : IValidity
+    public sealed class BattingInnings : IValidity
     {
         public override string ToString()
         {
@@ -41,17 +42,18 @@ namespace Cricket.Match
         private int fExtras;
 
         public int Extras
-        { 
+        {
             get { return fExtras; }
             set { fExtras = value; }
         }
 
-        public bool SetScores(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null)
+        public bool SetScores(PlayerName player, Wicket howOut, int runs, int order, int wicketToFallAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
         {
             var result = BattingInfo.Find(entry => entry.Name.Equals(player));
             if (result != null)
             {
-                result.SetScores(howOut, runs, fielder, bowler);
+                result.SetScores(howOut, runs, order, wicketToFallAt, teamScoreAtWicket, fielder, bowler);
+                BattingInfo.Sort((entry, entryOther) => entry.Order.CompareTo(entryOther.Order));
                 return true;
             }
 
@@ -61,6 +63,12 @@ namespace Cricket.Match
         public void AddPlayer(PlayerName player)
         {
             BattingInfo.Add(new BattingEntry(player));
+        }
+
+        public void AddScore(PlayerName player, Wicket howOut, int runs, int order, int wicketToFallAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
+        {
+            AddPlayer(player);
+            SetScores(player, howOut, runs, order, wicketToFallAt, teamScoreAtWicket, fielder, bowler);
         }
 
         public bool PlayerListed(PlayerName player)
@@ -114,6 +122,47 @@ namespace Cricket.Match
             results.AddIfNotNull(Validating.NotGreaterThan(BattingInfo.Count, 11, nameof(BattingInfo), ToString()));
             results.AddIfNotNull(Validating.NotNegative(Extras, nameof(Extras), ToString()));
             return results;
+        }
+
+        /// <summary>
+        /// Calculate the partnerships of the team for this match.
+        /// </summary>
+        public List<Partnership> Partnerships()
+        {
+            var partnerships = new List<Partnership>(new Partnership[10]);
+            if (BattingInfo.Count > 2)
+            {
+                var batsmanOne = BattingInfo[0];
+                var batsmanTwo = BattingInfo[1];
+                int nextBatsmanIndex = 2;
+                int lastWicketScore = 0;
+                for (int i = 0; i < 10; i++)
+                {
+                    var partnership = new Partnership(batsmanOne.Name, batsmanTwo.Name);
+                    int partnershipRuns;
+                    if (batsmanOne.WicketFellAt < batsmanTwo.WicketFellAt)
+                    {
+                        partnershipRuns = batsmanOne.TeamScoreAtWicket - lastWicketScore;
+                        batsmanOne = batsmanTwo;
+                    }
+                    else
+                    {
+                        partnershipRuns = batsmanTwo.TeamScoreAtWicket - lastWicketScore;
+                    }
+
+                    if (nextBatsmanIndex < 11)
+                    {
+                        batsmanTwo = BattingInfo[nextBatsmanIndex];
+                    }
+
+                    partnership.SetScores(i + 1, partnershipRuns);
+                    partnerships[i] = partnership;
+                    lastWicketScore += partnershipRuns;
+                    nextBatsmanIndex++;
+                }
+            }
+
+            return partnerships;
         }
 
         public BattingInnings(MatchInfo info, List<PlayerName> playerNames)

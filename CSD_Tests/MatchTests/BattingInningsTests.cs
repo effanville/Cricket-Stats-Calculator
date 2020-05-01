@@ -78,7 +78,7 @@ namespace CricketClasses.MatchTests
 
             Assert.AreEqual(2, innings.BattingInfo.Count);
             Assert.AreEqual(0, innings.Extras);
-            innings.SetScores(player1, Wicket.Bowled, 5);
+            innings.SetScores(player1, Wicket.Bowled, 5,1, 1,0);
 
             Assert.AreEqual(5, innings.BattingInfo[0].RunsScored);
             Assert.AreEqual(Wicket.Bowled, innings.BattingInfo[0].MethodOut);
@@ -108,7 +108,7 @@ namespace CricketClasses.MatchTests
 
             for (int i = 0; i < 11; i++)
             {
-                innings.SetScores(playerNames[i], wicketTypes[i], runs[i]);
+                innings.SetScores(playerNames[i], wicketTypes[i], runs[i], 1, 1, 0);
             }
             var score = innings.Score();
 
@@ -160,7 +160,7 @@ namespace CricketClasses.MatchTests
                 expectedList.Add(expected);
             }
 
-            Assertions.AreEqualResults(expectedList, valid);
+            Assertions.ValidationListsEqual(expectedList, valid);
         }
     }
 }

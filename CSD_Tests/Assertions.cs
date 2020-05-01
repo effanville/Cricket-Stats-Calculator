@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Cricket.Statistics;
+using NUnit.Framework;
 using System.Collections.Generic;
 using Validation;
 
@@ -45,16 +46,16 @@ namespace CSD_Tests
             }
         }
 
-        public static void AreEqualResults(List<ValidationResult> expected, List<ValidationResult> actual)
+        public static void ValidationListsEqual(List<ValidationResult> expected, List<ValidationResult> actual)
         {
             Assert.AreEqual(expected.Count, actual.Count);
             for (int i = 0; i < expected.Count; i++)
             {
-                AreEqualResults(expected[i], actual[i]);
+                ValidationEqual(expected[i], actual[i]);
             }
         }
 
-        public static void AreEqualResults(ValidationResult expected, ValidationResult actual)
+        public static void ValidationEqual(ValidationResult expected, ValidationResult actual)
         {
             if (expected == null)
             {
@@ -70,6 +71,37 @@ namespace CSD_Tests
             {
                 Assert.AreEqual(expected.IsValid, actual.IsValid, "Both results should be valid or not valid.");
                 Assert.AreEqual(expected.Messages, actual.Messages);
+            }
+        }
+
+        public static void PartnershipsEqual(List<Partnership> expected, List<Partnership> actual)
+        {
+            Assert.AreEqual(expected.Count, actual.Count);
+            for (int i = 0; i < expected.Count; i++)
+            {
+                PartnershipEqual(expected[i], actual[i]);
+            }
+        }
+
+        public static void PartnershipEqual(Partnership expected, Partnership actual)
+        {
+            if (expected == null)
+            {
+                Assert.IsNull(actual);
+            }
+
+            if (actual == null)
+            {
+                Assert.IsNull(expected);
+            }
+
+            if (expected != null && actual != null)
+            {
+                //Assert.AreEqual(expected, actual);
+                Assert.AreEqual(expected.PlayerOne, actual.PlayerOne);
+                Assert.AreEqual(expected.PlayerTwo, actual.PlayerTwo);
+                Assert.AreEqual(expected.Wicket, actual.Wicket);
+                Assert.AreEqual(expected.Runs, actual.Runs);
             }
         }
     }

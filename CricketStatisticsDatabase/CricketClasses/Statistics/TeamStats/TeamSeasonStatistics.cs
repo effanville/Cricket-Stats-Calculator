@@ -5,9 +5,19 @@ using System.Collections.Generic;
 
 namespace CricketStatistics
 {
-    public class TeamSeasonStatistics
+    public sealed class TeamSeasonStatistics
     {
-        public List<PlayerSeasonStatistics> SeasonPlayerStats { get; set; } = new List<PlayerSeasonStatistics>();
+        public List<PlayerSeasonStatistics> SeasonPlayerStats
+        {
+            get;
+            set;
+        } = new List<PlayerSeasonStatistics>();
+
+        public List<Partnership> PartnershipsByWicket
+        {
+            get;
+            set;
+        } = new List<Partnership>(new Partnership[10]);
 
         public string SeasonName
         {
@@ -60,6 +70,7 @@ namespace CricketStatistics
             SeasonYear = season.Year;
             CalculateTeamStats(season);
             CalculatePlayerStats(season);
+            CalculatePartnerships(season);
         }
 
         public void CalculateTeamStats(ICricketSeason season)
@@ -108,6 +119,29 @@ namespace CricketStatistics
             {
                 var playerStats = new PlayerSeasonStatistics(player, season);
                 SeasonPlayerStats.Add(playerStats);
+            }
+        }
+
+        public void CalculatePartnerships(ICricketSeason season)
+        {
+            foreach (var match in season.Matches)
+            {
+                var partnerships = match.Partnerships();
+                for (int i = 0; i < partnerships.Count; i++)
+                {
+                    if (PartnershipsByWicket[i] == null)
+                    {
+                        PartnershipsByWicket[i] = partnerships[i];
+
+                    }
+                    else
+                    {
+                        if (PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
+                        {
+                            PartnershipsByWicket[i] = partnerships[i];
+                        }
+                    }
+                }
             }
         }
     }

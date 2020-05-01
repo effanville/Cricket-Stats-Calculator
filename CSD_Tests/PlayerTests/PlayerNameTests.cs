@@ -102,7 +102,7 @@ namespace CricketClasses.PlayerTests
                 expectedList.Add(expected);
             }
             
-            Assertions.AreEqualResults(expectedList, valid);
+            Assertions.ValidationListsEqual(expectedList, valid);
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace CricketClasses.PlayerTests
             expectedForenameError.Messages.AddRange(new string[] { "Forename cannot be empty or null." });
             expectedList.Add(expectedForenameError);
 
-            Assertions.AreEqualResults(expectedList, valid);
+            Assertions.ValidationListsEqual(expectedList, valid);
         }
     }
 

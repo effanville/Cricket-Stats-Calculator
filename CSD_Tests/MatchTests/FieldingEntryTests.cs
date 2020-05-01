@@ -72,7 +72,7 @@ namespace CricketClasses.MatchTests
                 expectedList.Add(expected);
             }
 
-            Assertions.AreEqualResults(expectedList, valid);
+            Assertions.ValidationListsEqual(expectedList, valid);
         }
 
         [TestCase(1, 1, 1, 1, true, new string[] { }, true, new string[] { })]
@@ -110,7 +110,7 @@ namespace CricketClasses.MatchTests
                 expectedList.Add(expected);
             }
 
-            Assertions.AreEqualResults(expectedList, valid);
+            Assertions.ValidationListsEqual(expectedList, valid);
         }
     }
 }

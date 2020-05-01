@@ -123,7 +123,7 @@ namespace CricketClasses.MatchTests
                 expectedList.Add(expected);
             }
 
-            Assertions.AreEqualResults(expectedList, valid);
+            Assertions.ValidationListsEqual(expectedList, valid);
         }
     }
 }

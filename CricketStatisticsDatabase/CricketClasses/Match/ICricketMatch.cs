@@ -1,5 +1,6 @@
 ﻿using Cricket.Match;
 using Cricket.Player;
+using Cricket.Statistics;
 using System;
 using System.Collections.Generic;
 
@@ -62,9 +63,9 @@ namespace Cricket.Interfaces
 
         void SetBatting(BattingInnings innings);
 
-        bool AddBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null);
+        bool AddBattingEntry(PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null);
 
-        bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, PlayerName fielder = null, PlayerName bowler = null);
+        bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null);
 
         bool DeleteBattingEntry(PlayerName player);
 
@@ -82,5 +83,7 @@ namespace Cricket.Interfaces
         bool EditFieldingEntry(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches);
 
         bool DeleteFieldingEntry(PlayerName player);
+
+        List<Partnership> Partnerships();
     }
 }
