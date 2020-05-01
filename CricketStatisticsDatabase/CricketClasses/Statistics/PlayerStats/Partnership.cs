@@ -18,6 +18,20 @@ namespace Cricket.Statistics
             return 0;
         }
 
+        public bool ContainsPlayer(PlayerName player)
+        {
+            if (PlayerOne.Equals(player))
+            {
+                return true;
+            }
+            if (PlayerTwo.Equals(player))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public PlayerName PlayerOne
         {
             get;

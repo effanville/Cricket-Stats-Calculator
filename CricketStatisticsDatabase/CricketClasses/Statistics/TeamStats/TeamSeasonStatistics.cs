@@ -7,7 +7,7 @@ namespace CricketStatistics
 {
     public sealed class TeamSeasonStatistics
     {
-        public List<PlayerSeasonStatistics> SeasonPlayerStats 
+        public List<PlayerSeasonStatistics> SeasonPlayerStats
         {
             get;
             set;
@@ -129,9 +129,17 @@ namespace CricketStatistics
                 var partnerships = match.Partnerships();
                 for (int i = 0; i < partnerships.Count; i++)
                 {
-                    if (PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
+                    if (PartnershipsByWicket[i] == null)
                     {
                         PartnershipsByWicket[i] = partnerships[i];
+
+                    }
+                    else
+                    {
+                        if (PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
+                        {
+                            PartnershipsByWicket[i] = partnerships[i];
+                        }
                     }
                 }
             }

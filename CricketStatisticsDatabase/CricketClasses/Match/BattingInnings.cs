@@ -130,33 +130,36 @@ namespace Cricket.Match
         public List<Partnership> Partnerships()
         {
             var partnerships = new List<Partnership>(new Partnership[10]);
-            var batsmanOne = BattingInfo[0];
-            var batsmanTwo = BattingInfo[1];
-            int nextBatsmanIndex = 2;
-            int lastWicketScore = 0;
-            for (int i = 0; i < 10; i++)
+            if (BattingInfo.Count > 2)
             {
-                var partnership = new Partnership(batsmanOne.Name, batsmanTwo.Name);
-                int partnershipRuns;
-                if (batsmanOne.WicketFellAt < batsmanTwo.WicketFellAt)
+                var batsmanOne = BattingInfo[0];
+                var batsmanTwo = BattingInfo[1];
+                int nextBatsmanIndex = 2;
+                int lastWicketScore = 0;
+                for (int i = 0; i < 10; i++)
                 {
-                    partnershipRuns = batsmanOne.TeamScoreAtWicket - lastWicketScore;
-                    batsmanOne = batsmanTwo;
-                }
-                else
-                {
-                    partnershipRuns = batsmanTwo.TeamScoreAtWicket - lastWicketScore;
-                }
+                    var partnership = new Partnership(batsmanOne.Name, batsmanTwo.Name);
+                    int partnershipRuns;
+                    if (batsmanOne.WicketFellAt < batsmanTwo.WicketFellAt)
+                    {
+                        partnershipRuns = batsmanOne.TeamScoreAtWicket - lastWicketScore;
+                        batsmanOne = batsmanTwo;
+                    }
+                    else
+                    {
+                        partnershipRuns = batsmanTwo.TeamScoreAtWicket - lastWicketScore;
+                    }
 
-                if (nextBatsmanIndex < 11)
-                {
-                    batsmanTwo = BattingInfo[nextBatsmanIndex];
-                }
+                    if (nextBatsmanIndex < 11)
+                    {
+                        batsmanTwo = BattingInfo[nextBatsmanIndex];
+                    }
 
-                partnership.SetScores(i + 1, partnershipRuns);
-                partnerships[i] = partnership;
-                lastWicketScore += partnershipRuns;
-                nextBatsmanIndex++;
+                    partnership.SetScores(i + 1, partnershipRuns);
+                    partnerships[i] = partnership;
+                    lastWicketScore += partnershipRuns;
+                    nextBatsmanIndex++;
+                }
             }
 
             return partnerships;

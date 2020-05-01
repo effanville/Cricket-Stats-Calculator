@@ -1,6 +1,7 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Player;
 using System;
+using System.Collections.Generic;
 
 namespace Cricket.Statistics
 {
@@ -40,18 +41,22 @@ namespace Cricket.Statistics
             set;
         }
 
-        private int fTotalMom;
+        public List<Partnership> PartnershipsByWicket
+        {
+            get;
+            set;
+        } = new List<Partnership>(new Partnership[10]);
+
         public int TotalMom
         {
-            get { return fTotalMom; }
-            set { fTotalMom = value; }
+            get;
+            set;
         }
 
-        private int fTotalGames;
         public int TotalGamesPlayed
         {
-            get { return fTotalGames; }
-            set { fTotalGames = value; }
+            get;
+            set;
         }
 
         public PlayerSeasonStatistics()
@@ -88,6 +93,33 @@ namespace Cricket.Statistics
 
             TotalGamesPlayed = season.Matches.FindAll(match => match.PlayNotPlay(Name)).Count;
             TotalMom = season.Matches.FindAll(match => Name.Equals(match.ManOfMatch)).Count;
+
+            CalculatePartnerships(season);
+        }
+
+        public void CalculatePartnerships(ICricketSeason season)
+        {
+            foreach (var match in season.Matches)
+            {
+                var partnerships = match.Partnerships();
+                for (int i = 0; i < partnerships.Count; i++)
+                {
+                    if (partnerships[i] == null)
+                    {
+                        PartnershipsByWicket[i] = partnerships[i];
+                    }
+                    else
+                    {
+                        if (partnerships[i].ContainsPlayer(Name))
+                        {
+                            if (PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
+                            {
+                                PartnershipsByWicket[i] = partnerships[i];
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
