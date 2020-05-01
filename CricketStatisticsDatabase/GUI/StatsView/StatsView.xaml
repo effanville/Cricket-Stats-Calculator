@@ -6,41 +6,87 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolConverter"/>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <ComboBox ItemsSource="{Binding Team.Seasons}"
                   SelectedItem="{Binding SelectedSeason}"
                   Grid.Column="0"
                   Grid.Row="0"
                   Margin="5"/>
 
+        <ComboBox ItemsSource="{Binding SelectedSeason.Players}"
+                  SelectedItem="{Binding SelectedPlayer}"
+                  Grid.Column="0"
+                  Grid.Row="1"
+                  Margin="5"/>
+        <Button Content="Export season stats"
+                                  Grid.Column="0"
+                  Grid.Row="3"
+                Command="{Binding ExportStatsCommand}"/>
+
         <UserControl Grid.Column="1"
-                     Grid.Row="1">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal">
+                     Grid.ColumnSpan="2"
+                     Grid.Row="0"
+                     Grid.RowSpan="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0"
+                      VerticalAlignment="Top"
+                      Visibility="{Binding SeasonStatsSet, Converter={StaticResource BoolConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="3"
+                               Text="{Binding SelectedSeasonStats.SeasonYear.Year}"/>
+                    <StackPanel Grid.Column="0"
+                                Grid.Row="1"
+                                Orientation="Horizontal">
                         <Label Content="Played"/>
                         <TextBlock Text="{Binding SelectedSeasonStats.GamesPlayed}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Grid.Column="1"
+                                Grid.Row="1"
+                                Orientation="Horizontal">
                         <Label Content="Wins"/>
                         <TextBlock Text="{Binding SelectedSeasonStats.NumberWins}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Grid.Column="2"
+                                Grid.Row="1"
+                                Orientation="Horizontal">
                         <Label Content="Losses"/>
                         <TextBlock Text="{Binding SelectedSeasonStats.NumberLosses}"/>
                     </StackPanel>
-                </StackPanel>
-                <ListBox ItemsSource="{Binding SelectedSeasonStats.SeasonPlayerStats}"
-                         Margin="5"/>
-            </StackPanel>
+                </Grid>
+
+                <ContentControl Grid.Row="1"
+                                Content="{Binding SelectedPlayerStats}"
+                                Visibility="{Binding PlayerStatsSet, Converter={StaticResource BoolConverter}}"/>
+            </Grid>
         </UserControl>
     </Grid>
 </UserControl>

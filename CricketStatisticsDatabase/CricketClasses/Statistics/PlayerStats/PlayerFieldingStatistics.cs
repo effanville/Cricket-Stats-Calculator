@@ -6,9 +6,9 @@ namespace Cricket.Statistics
     public class PlayerFieldingStatistics
     {
         public PlayerName Name
-        { 
-            get; 
-            set; 
+        {
+            get;
+            set;
         }
 
         public int Catches

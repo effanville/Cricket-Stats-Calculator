@@ -144,5 +144,10 @@ namespace CricketStatistics
                 }
             }
         }
+
+        public void ExportStats(string filePath)
+        {
+
+        }
     }
 }
