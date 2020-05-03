@@ -7,6 +7,16 @@ namespace Cricket.Statistics
 {
     public class PlayerBattingStatistics
     {
+        public static string CsvHeader()
+        {
+            return nameof(Name) + "," + nameof(TotalInnings) + "," + nameof(TotalNotOut) + "," + nameof(TotalRuns) + "," + nameof(Average) + "," + "Bestbatting";
+        }
+
+        public override string ToString()
+        {
+            return Name.ToString() + "," + TotalInnings + "," + TotalNotOut + "," + TotalRuns + "," + Average + "," + Best.ToString();
+        }
+
         public PlayerName Name
         {
             get;
@@ -129,7 +139,7 @@ namespace Cricket.Statistics
                         {
                             Best = possibleBest;
                         }
-                    } 
+                    }
                 }
             }
 
