@@ -244,14 +244,14 @@ namespace Cricket.Match
                 {
                     AddBowlingEntry(entry.Name, entry.OversBowled, entry.Maidens, entry.RunsConceded, entry.Wickets);
                 }
-                else 
+                else
                 {
                     EditBowlingEntry(entry.Name, entry.OversBowled, entry.Maidens, entry.RunsConceded, entry.Wickets);
                 }
             }
         }
 
-        public bool AddBowlingEntry(PlayerName player, int overs, int maidens, int runsConceded, int wickets) 
+        public bool AddBowlingEntry(PlayerName player, double overs, int maidens, int runsConceded, int wickets) 
         {
             if (!Bowling.PlayerListed(player))
             {
@@ -268,7 +268,7 @@ namespace Cricket.Match
             return false;
         }
 
-        public bool EditBowlingEntry(PlayerName player, int overs, int maidens, int runsConceded, int wickets)
+        public bool EditBowlingEntry(PlayerName player, double overs, int maidens, int runsConceded, int wickets)
         {
             if (Bowling.PlayerListed(player))
             {
