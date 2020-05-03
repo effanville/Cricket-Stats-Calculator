@@ -6,6 +6,7 @@
              xmlns:guiSupport="clr-namespace:GUISupport"
              mc:Ignorable="d" 
              MinHeight="100"
+             MaxHeight="200"
              d:DesignHeight="150"
              d:DesignWidth="800">
     <Grid>
@@ -16,16 +17,22 @@
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <Button Grid.Column="0"
                 Height="40"
                 Margin="5"
                 Content="Validate"
                 Command="{Binding ValidateCommand}"/>
         <DataGrid Grid.Column="1" 
+                  Grid.Row="0"
                   Margin="5"
+                  MaxHeight="150"
                   AutoGenerateColumns="False"
                   GridLinesVisibility="None"
-                  ItemsSource="{Binding Validations, Mode=OneWay}">
+                  ItemsSource="{Binding Validations, Mode=OneWay}"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="IsValid" Binding="{Binding IsValid, Converter={StaticResource BoolYesNoValueConverter}}"/>
                 <DataGridTextColumn Header="Property" Binding="{Binding PropertyName}"/>

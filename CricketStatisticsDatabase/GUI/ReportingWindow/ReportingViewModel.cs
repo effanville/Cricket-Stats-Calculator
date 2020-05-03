@@ -34,6 +34,8 @@ namespace GUI.ViewModels
         public override void UpdateData(ICricketTeam portfolio)
         {
             TeamToPlayWith = portfolio;
+            Validations = null;
+            Validations = new List<ValidationResult>();
         }
 
         public ReportingViewModel(ICricketTeam team)
