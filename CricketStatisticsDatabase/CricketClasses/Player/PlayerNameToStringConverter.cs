@@ -26,6 +26,10 @@ namespace Cricket.Player
                 {
                     return new PlayerName(splitted[1], splitted[0]);
                 }
+                if (splitted.Length == 1)
+                {
+                    return new PlayerName(splitted[0], "");
+                }
 
                 return new PlayerName();
             }
