@@ -129,6 +129,7 @@ namespace Cricket.Match
         /// </summary>
         public List<Partnership> Partnerships()
         {
+            var inningsScore = Score();
             var partnerships = new List<Partnership>(new Partnership[10]);
             if (BattingInfo.Count > 2)
             {
@@ -136,21 +137,38 @@ namespace Cricket.Match
                 var batsmanTwo = BattingInfo[1];
                 int nextBatsmanIndex = 2;
                 int lastWicketScore = 0;
-                for (int i = 0; i < 10; i++)
+                int numberPartnerships = System.Math.Min(inningsScore.Wickets + 1, BattingInfo.Count - 1);
+                for (int i = 0; i < numberPartnerships; i++)
                 {
                     var partnership = new Partnership(batsmanOne.Name, batsmanTwo.Name);
                     int partnershipRuns;
-                    if (batsmanOne.WicketFellAt < batsmanTwo.WicketFellAt)
+                    if (!batsmanOne.Out() && !batsmanTwo.Out())
+                    {
+                        partnershipRuns = inningsScore.Runs - lastWicketScore;
+                    }
+                    else if (!batsmanTwo.Out() && batsmanOne.Out())
                     {
                         partnershipRuns = batsmanOne.TeamScoreAtWicket - lastWicketScore;
                         batsmanOne = batsmanTwo;
                     }
-                    else
+                    else if (!batsmanOne.Out() && batsmanTwo.Out())
                     {
                         partnershipRuns = batsmanTwo.TeamScoreAtWicket - lastWicketScore;
                     }
+                    else
+                    {
+                        if (batsmanOne.WicketFellAt < batsmanTwo.WicketFellAt)
+                        {
+                            partnershipRuns = batsmanOne.TeamScoreAtWicket - lastWicketScore;
+                            batsmanOne = batsmanTwo;
+                        }
+                        else
+                        {
+                            partnershipRuns = batsmanTwo.TeamScoreAtWicket - lastWicketScore;
+                        }
+                    }
 
-                    if (nextBatsmanIndex < 11)
+                    if (nextBatsmanIndex < BattingInfo.Count)
                     {
                         batsmanTwo = BattingInfo[nextBatsmanIndex];
                     }

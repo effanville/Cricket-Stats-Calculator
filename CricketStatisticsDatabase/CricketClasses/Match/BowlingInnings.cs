@@ -46,7 +46,7 @@ namespace Cricket.Match
             set { byesLegByes = value; }
         }
 
-        public bool SetScores(PlayerName player, int overs, int maidens, int runsConceded, int wickets)
+        public bool SetScores(PlayerName player, double overs, int maidens, int runsConceded, int wickets)
         {
             var result = BowlingInfo.Find(entry => entry.Name.Equals(player));
             if (result != null)

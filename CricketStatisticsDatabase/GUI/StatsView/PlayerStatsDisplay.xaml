@@ -8,12 +8,12 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <StackPanel Orientation="Horizontal">
-                <Label Content="PlayerGames Played"/>
-                <TextBlock Text="{Binding SelectedPlayerStats.TotalGamesPlayed}"/>
+                <Label Content="PlayerGames"/>
+                <TextBlock Text="{Binding TotalGamesPlayed}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="MoM"/>
-                <TextBlock Text="{Binding SelectedPlayerStats.TotalMom}"/>
+                <TextBlock Text="{Binding TotalMom}"/>
             </StackPanel>
         </StackPanel>
 

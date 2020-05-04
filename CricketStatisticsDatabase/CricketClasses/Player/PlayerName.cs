@@ -11,7 +11,7 @@ namespace Cricket.Player
         {
             if (name != null)
             {
-                if (!string.IsNullOrEmpty(name.Forename) && !string.IsNullOrEmpty(name.Surname))
+                if (!string.IsNullOrEmpty(name.Forename) || !string.IsNullOrEmpty(name.Surname))
                 {
                     return false;
                 }
@@ -109,7 +109,7 @@ namespace Cricket.Player
 
         public override int GetHashCode()
         {
-            return Surname.GetHashCode() + 10^12 * Forename.GetHashCode();
+            return Surname == null ? 0 : Surname.GetHashCode() + 10 ^ 12 * (Forename == null ? 0 : Forename.GetHashCode());
         }
 
         public PlayerName Copy()

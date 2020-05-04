@@ -71,9 +71,9 @@ namespace Cricket.Interfaces
 
         void SetBowling(BowlingInnings innings);
 
-        bool AddBowlingEntry(PlayerName player, int overs, int maidens, int runsConceded, int wickets);
+        bool AddBowlingEntry(PlayerName player, double overs, int maidens, int runsConceded, int wickets);
 
-        bool EditBowlingEntry(PlayerName player, int overs, int maidens, int runsConceded, int wickets);
+        bool EditBowlingEntry(PlayerName player, double overs, int maidens, int runsConceded, int wickets);
 
         bool DeleteBowlingEntry(PlayerName player);
 

@@ -21,8 +21,8 @@ namespace Cricket.Statistics
             set;
         }
 
-        private int fTotalOvers;
-        public int TotalOvers
+        private double fTotalOvers;
+        public double TotalOvers
         {
             get { return fTotalOvers; }
             set { fTotalOvers = value; }

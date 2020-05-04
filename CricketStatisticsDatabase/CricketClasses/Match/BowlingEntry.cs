@@ -19,8 +19,8 @@ namespace Cricket.Match
             set;
         }
 
-        private int fOversBowled;
-        public int OversBowled
+        private double fOversBowled;
+        public double OversBowled
         {
             get { return fOversBowled; }
             set { fOversBowled = value; }
@@ -47,7 +47,7 @@ namespace Cricket.Match
             set { fWickets = value; }
         }
 
-        public void SetBowling(int overs, int maidens, int runsConceded, int wickets)
+        public void SetBowling(double overs, int maidens, int runsConceded, int wickets)
         {
             OversBowled = overs;
             Maidens = maidens;

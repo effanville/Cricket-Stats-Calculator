@@ -171,6 +171,10 @@ namespace CricketStatistics
 
             streamWriter.WriteLine("Best Bowling," + bestBowling.Name.ToString() + "," + bestBowling.BestFigures.ToString());
 
+            var fielding = SeasonPlayerStats.Select(player => player.FieldingStats).ToList();
+            var mostKeeper = fielding.Max(player => player.TotalKeeperDismissals);
+            var keepers = fielding.Where(player => player.TotalKeeperDismissals.Equals(mostKeeper)).Select(player => player.Name).ToList();
+            streamWriter.WriteLine("Most Dismissals as keeper," + mostKeeper + "," + string.Join(",", keepers));
             streamWriter.WriteLine("");
 
             streamWriter.WriteLine("Batting Stats");
@@ -178,7 +182,9 @@ namespace CricketStatistics
             streamWriter.WriteLine("");
 
             var batting = SeasonPlayerStats.Select(player => player.BattingStats).ToList();
-            batting.Sort((x, y) => -x.Average.CompareTo(y.Average));
+            batting.RemoveAll(batting => batting.TotalInnings.Equals(0));
+
+            batting.Sort((x, y) => y.Average.CompareTo(x.Average));
             streamWriter.WriteLine(PlayerBattingStatistics.CsvHeader());
             foreach (var bat in batting)
             {
@@ -202,7 +208,8 @@ namespace CricketStatistics
             streamWriter.WriteLine("");
 
             var bowling = SeasonPlayerStats.Select(player => player.BowlingStats).ToList();
-            bowling.Sort((x, y) => y.Average.CompareTo(x.Average));
+            bowling.RemoveAll(bowling => bowling.TotalOvers.Equals(0));
+            bowling.Sort((x, y) => x.Average.CompareTo(y.Average));
             streamWriter.WriteLine(PlayerBowlingStatistics.CsvHeader());
             foreach (var bowl in bowling)
             {
@@ -212,8 +219,9 @@ namespace CricketStatistics
             streamWriter.WriteLine("");
             streamWriter.WriteLine("Fielding Stats");
             streamWriter.WriteLine("");
-            var fielding = SeasonPlayerStats.Select(player => player.FieldingStats).ToList();
-            fielding.Sort((x, y) => x.TotalDismissals.CompareTo(y.TotalDismissals));
+
+            fielding.RemoveAll(fielding => fielding.TotalDismissals.Equals(0));
+            fielding.Sort((x, y) => y.TotalDismissals.CompareTo(x.TotalDismissals));
             streamWriter.WriteLine(PlayerFieldingStatistics.CsvHeader());
             foreach (var field in fielding)
             {

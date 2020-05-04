@@ -104,17 +104,20 @@ namespace Cricket.Statistics
                 var partnerships = match.Partnerships();
                 for (int i = 0; i < partnerships.Count; i++)
                 {
-                    if (partnerships[i] == null)
+                    if (partnerships[i] != null)
                     {
-                        PartnershipsByWicket[i] = partnerships[i];
-                    }
-                    else
-                    {
-                        if (partnerships[i].ContainsPlayer(Name))
+                        if (PartnershipsByWicket[i] == null)
                         {
-                            if (PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
+                            PartnershipsByWicket[i] = partnerships[i];
+                        }
+                        else
+                        {
+                            if (partnerships[i].ContainsPlayer(Name))
                             {
-                                PartnershipsByWicket[i] = partnerships[i];
+                                if (PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
+                                {
+                                    PartnershipsByWicket[i] = partnerships[i];
+                                }
                             }
                         }
                     }
