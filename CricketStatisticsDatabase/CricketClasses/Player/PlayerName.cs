@@ -11,7 +11,7 @@ namespace Cricket.Player
         {
             if (name != null)
             {
-                if (!string.IsNullOrEmpty(name.Forename) && !string.IsNullOrEmpty(name.Surname))
+                if (!string.IsNullOrEmpty(name.Forename) || !string.IsNullOrEmpty(name.Surname))
                 {
                     return false;
                 }

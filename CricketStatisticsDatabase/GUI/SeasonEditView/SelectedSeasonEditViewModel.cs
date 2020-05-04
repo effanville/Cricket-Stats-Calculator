@@ -153,7 +153,7 @@ namespace GUI.ViewModels
                 SelectedMatch = null;
                 SelectedSeason = selectedSeason;
                 SelectedMatches = selectedSeason?.Matches;
-                if (index > 0)
+                if (index > 0 && index < SelectedMatches.Count)
                 {
                     SelectedMatch = SelectedMatches[index];
                 }
