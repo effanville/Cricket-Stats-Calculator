@@ -5,10 +5,20 @@ namespace Cricket.Statistics
 {
     public class PlayerFieldingStatistics
     {
+        public static string CsvHeader()
+        {
+            return nameof(Name) + "," + nameof(Catches) + "," + nameof(RunOuts) + "," + "Stumpings" + "," + nameof(KeeperCatches) + "," + "Total" + "," + nameof(TotalKeeperDismissals);
+        }
+
+        public override string ToString()
+        {
+            return Name.ToString() + "," + Catches + "," + RunOuts + "," + KeeperStumpings + "," + KeeperCatches + "," + TotalDismissals + "," + TotalKeeperDismissals;
+        }
+
         public PlayerName Name
-        { 
-            get; 
-            set; 
+        {
+            get;
+            set;
         }
 
         public int Catches
@@ -82,7 +92,7 @@ namespace Cricket.Statistics
             {
                 var fielding = match.GetFielding(Name);
                 if (fielding != null)
-                { 
+                {
                     Catches += fielding.Catches;
                     RunOuts += fielding.RunOuts;
                     KeeperCatches += fielding.KeeperCatches;

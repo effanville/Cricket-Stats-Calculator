@@ -11,7 +11,7 @@ namespace Cricket.Interfaces
         /// The name associated to this season.
         /// </summary>
         string Name
-        { 
+        {
             get;
         }
 
@@ -19,7 +19,7 @@ namespace Cricket.Interfaces
         /// The year this season was held in.
         /// </summary>
         DateTime Year
-        { 
+        {
             get;
         }
 
@@ -27,7 +27,7 @@ namespace Cricket.Interfaces
         /// The players that played in this season.
         /// </summary>
         List<PlayerName> Players
-        { 
+        {
             get;
         }
 
@@ -35,7 +35,7 @@ namespace Cricket.Interfaces
         /// All matches played in this season.
         /// </summary>
         List<ICricketMatch> Matches
-        { 
+        {
             get;
         }
 

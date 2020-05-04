@@ -32,6 +32,11 @@ namespace Cricket.Statistics
             return false;
         }
 
+        public override string ToString()
+        {
+            return Wicket + "," + PlayerOne.ToString() + "," + PlayerTwo.ToString() + "," + Runs;
+        }
+
         public PlayerName PlayerOne
         {
             get;
@@ -45,7 +50,7 @@ namespace Cricket.Statistics
         }
 
         public int Wicket
-        { 
+        {
             get;
             set;
         }

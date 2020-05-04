@@ -5,6 +5,16 @@ namespace Cricket.Statistics
 {
     public class PlayerBowlingStatistics
     {
+        public static string CsvHeader()
+        {
+            return nameof(Name) + "," + nameof(TotalOvers) + "," + nameof(TotalMaidens) + "," + nameof(TotalRunsConceded) + "," + nameof(TotalWickets) + "," + nameof(Average) + "," + nameof(Economy) + "," + "Best figures";
+        }
+
+        public override string ToString()
+        {
+            return Name.ToString() + "," + TotalOvers + "," + TotalMaidens + "," + TotalRunsConceded + "," + TotalWickets + "," + Average + "," + Economy + "," + BestFigures.ToString();
+        }
+
         public PlayerName Name
         {
             get;
@@ -116,7 +126,7 @@ namespace Cricket.Statistics
             {
                 Average = (double)TotalRunsConceded / (double)TotalWickets;
             }
-            else 
+            else
             {
                 Average = double.NaN;
             }
@@ -125,8 +135,8 @@ namespace Cricket.Statistics
             {
                 Economy = (double)TotalRunsConceded / (double)TotalOvers;
             }
-            else 
-            { 
+            else
+            {
                 Economy = double.NaN;
             }
         }

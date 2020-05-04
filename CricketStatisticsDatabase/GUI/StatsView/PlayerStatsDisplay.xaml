@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="GUI.PlayerStatsDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="PlayerGames Played"/>
+                <TextBlock Text="{Binding SelectedPlayerStats.TotalGamesPlayed}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="MoM"/>
+                <TextBlock Text="{Binding SelectedPlayerStats.TotalMom}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            
+            <Label Grid.Column="0"
+                   Grid.Row="0"
+                   Content="Innings"/>
+            <TextBlock Grid.Column="1"
+                       Grid.Row="0"
+                       Text="{Binding BattingStats.TotalInnings}"/>
+
+            <Label Grid.Column="0"
+                   Grid.Row="1"
+                   Content="Total Runs"/>
+            <TextBlock Grid.Column="1"
+                       Grid.Row="1"
+                       Text="{Binding BattingStats.TotalRuns}"/>
+
+            <Label Grid.Column="0"
+                   Grid.Row="2"
+                   Content="Average"/>
+            <TextBlock Grid.Column="1"
+                       Grid.Row="2"
+                       Text="{Binding BattingStats.Average}"/>
+
+            <Label Grid.Column="2"
+                   Grid.Row="0"
+                   Content="Overs Bowled"/>
+            <TextBlock Grid.Column="3"
+                       Grid.Row="0"
+                       Text="{Binding BowlingStats.TotalOvers}"/>
+
+            <Label Grid.Column="2"
+                   Grid.Row="1"
+                   Content="Maidens"/>
+            <TextBlock Grid.Column="3"
+                       Grid.Row="1"
+                       Text="{Binding BowlingStats.TotalMaidens}"/>
+            
+            <Label Grid.Column="2"
+                   Grid.Row="2"
+                   Content="Runs Conceded"/>
+            <TextBlock Grid.Column="3"
+                       Grid.Row="2"
+                       Text="{Binding BowlingStats.TotalRunsConceded}"/>
+      
+            <Label Grid.Column="2"
+                   Grid.Row="3"
+                   Content="Wickets"/>
+                
+            <TextBlock Grid.Column="3"
+                       Grid.Row="3"
+                       Text="{Binding BowlingStats.TotalWickets}"/>
+
+            <Label Grid.Column="2"
+                   Grid.Row="4"
+                   Content="Average"/>
+            <TextBlock Grid.Column="3"
+                       Grid.Row="4"
+                       Text="{Binding BowlingStats.Average}"/>
+            
+            <Label Grid.Column="2"
+                   Grid.Row="5"
+                   Content="Economy"/>
+            <TextBlock Grid.Column="3"
+                       Grid.Row="5"
+                       Text="{Binding BowlingStats.Economy}"/>
+
+            <Label Grid.Column="4"
+                   Grid.Row="0"
+                   Content="Total"/>
+            <TextBlock Grid.Column="5"
+                       Grid.Row="0"
+                       Text="{Binding FieldingStats.TotalDismissals}"/>
+            
+            <Label Grid.Column="4"
+                   Grid.Row="1"
+                   Content="Catches"/>
+            <TextBlock Grid.Column="5"
+                       Grid.Row="1"
+                       Text="{Binding FieldingStats.Catches}"/>
+
+            <Label Grid.Column="4"
+                   Grid.Row="2"
+                   Content="RunOuts"/>
+            <TextBlock Grid.Column="5"
+                       Grid.Row="2"
+                       Text="{Binding FieldingStats.RunOuts}"/>
+
+            <Label Grid.Column="4"
+                   Grid.Row="3"
+                   Content="KeeperCatches"/>
+            <TextBlock Grid.Column="5"
+                       Grid.Row="3"
+                       Text="{Binding FieldingStats.KeeperCatches}"/>
+
+            <Label Grid.Column="4"
+                   Grid.Row="4"
+                   Content="Stumpings"/>
+            <TextBlock Grid.Column="5"
+                       Grid.Row="4"
+                       Text="{Binding FieldingStats.KeeperStumpings}"/>
+        </Grid>
+    </StackPanel>
+</UserControl>
