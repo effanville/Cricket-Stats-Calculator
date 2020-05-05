@@ -11,6 +11,13 @@ namespace Cricket.Match
 {
     public sealed class CricketMatch : ICricketMatch, IValidity
     {
+        public event EventHandler PlayerAdded;
+
+        private void OnPlayerAdded(PlayerName newPlayerName)
+        {
+            PlayerAdded?.Invoke(newPlayerName, new EventArgs());
+        }
+
         public override string ToString()
         {
             return MatchData.ToString();
@@ -174,6 +181,7 @@ namespace Cricket.Match
             if (!PlayNotPlay(player))
             {
                 PlayerNames.Add(player);
+                OnPlayerAdded(player);
                 return true;
             }
 
@@ -201,8 +209,9 @@ namespace Cricket.Match
             {
                 if (!PlayNotPlay(player))
                 {
-                    PlayerNames.Add(player);
+                    AddPlayer(player);
                 }
+
                 Batting.AddPlayer(player);
                 Batting.SetScores(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, bowler);
                 return true;
@@ -257,7 +266,7 @@ namespace Cricket.Match
             {
                 if (!PlayNotPlay(player))
                 {
-                    PlayerNames.Add(player);
+                    AddPlayer(player);
                 }
 
                 Bowling.AddPlayer(player);
@@ -313,7 +322,7 @@ namespace Cricket.Match
             {
                 if (!PlayerNames.Contains(player))
                 {
-                    PlayerNames.Add(player);
+                    AddPlayer(player);
                 }
                 FieldingStats.AddPlayer(player);
                 FieldingStats.SetFielding(player, catches, runOuts, stumpings, keeperCatches);

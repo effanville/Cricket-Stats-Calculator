@@ -10,6 +10,17 @@ namespace Cricket.Team
 {
     public class CricketTeam : ICricketTeam, IValidity
     {
+        private void OnPlayerAdded(object obj, EventArgs args)
+        {
+            if (obj is PlayerName name)
+            {
+                if (!ContainsPlayer(name))
+                {
+                    TeamPlayers.Add(new CricketPlayer(name));
+                }
+            }
+        }
+
         public override string ToString()
         {
             return TeamName;
@@ -114,7 +125,9 @@ namespace Cricket.Team
         {
             if (!ContainsSeason(year, name))
             {
-                TeamSeasons.Add(new CricketSeason(year, name));
+                var season = new CricketSeason(year, name);
+                season.PlayerAdded += OnPlayerAdded;
+                TeamSeasons.Add(season);
                 return true;
             }
 

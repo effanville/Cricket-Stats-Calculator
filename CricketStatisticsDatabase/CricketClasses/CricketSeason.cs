@@ -12,6 +12,13 @@ namespace Cricket
 {
     public class CricketSeason : ICricketSeason, IValidity
     {
+        public event EventHandler PlayerAdded;
+
+        private void OnPlayerAdded(object obj, EventArgs args)
+        {
+            PlayerAdded?.Invoke(obj, args);
+        }
+
         public override bool Equals(object obj)
         {
             if (obj is CricketSeason season)
@@ -117,7 +124,9 @@ namespace Cricket
         {
             if (!ContainsMatch(info.Date, info.Opposition))
             {
-                SeasonsMatches.Add(new CricketMatch(info));
+                var match = new CricketMatch(info);
+                match.PlayerAdded += OnPlayerAdded;
+                SeasonsMatches.Add(match);
                 return true;
             }
 
