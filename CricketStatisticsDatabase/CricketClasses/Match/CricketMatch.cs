@@ -79,18 +79,16 @@ namespace Cricket.Match
             set;
         } = new BowlingInnings();
 
-        private Fielding fFieldingStats = new Fielding();
         public Fielding FieldingStats
         {
-            get { return fFieldingStats; }
-            set { fFieldingStats = value; }
-        }
+            get;
+            set;
+        } = new Fielding();
 
-        private PlayerName fMoM;
         public PlayerName ManOfMatch
         {
-            get { return fMoM; }
-            set { fMoM = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -145,7 +143,6 @@ namespace Cricket.Match
         {
             return PlayerNames.Contains(person);
         }
-
 
         public bool EditInfo(string opposition, DateTime date, string place, MatchType typeOfMatch, ResultType result)
         {
@@ -220,7 +217,7 @@ namespace Cricket.Match
             return false;
         }
 
-        public bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null) 
+        public bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
         {
             if (Batting.PlayerListed(player))
             {
@@ -231,7 +228,7 @@ namespace Cricket.Match
             return false;
         }
 
-        public bool DeleteBattingEntry(PlayerName player) 
+        public bool DeleteBattingEntry(PlayerName player)
         {
             if (Batting.PlayerListed(player))
             {
@@ -260,7 +257,7 @@ namespace Cricket.Match
             }
         }
 
-        public bool AddBowlingEntry(PlayerName player, double overs, int maidens, int runsConceded, int wickets) 
+        public bool AddBowlingEntry(PlayerName player, double overs, int maidens, int runsConceded, int wickets)
         {
             if (!Bowling.PlayerListed(player))
             {
@@ -316,7 +313,7 @@ namespace Cricket.Match
             }
         }
 
-        public bool AddFieldingEntry(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches) 
+        public bool AddFieldingEntry(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches)
         {
             if (!FieldingStats.PlayerListed(player))
             {
@@ -332,7 +329,7 @@ namespace Cricket.Match
             return false;
         }
 
-        public bool EditFieldingEntry(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches) 
+        public bool EditFieldingEntry(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches)
         {
             if (FieldingStats.PlayerListed(player))
             {

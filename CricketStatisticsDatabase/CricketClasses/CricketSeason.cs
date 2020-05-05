@@ -61,44 +61,46 @@ namespace Cricket
 
         public override string ToString()
         {
-            return Year.Year.ToString() + " " +  Name;
+            return Year.Year.ToString() + " " + Name;
         }
 
         /// <inheritdoc/>
         public string Name
-        { 
-            get; 
-            set; 
+        {
+            get;
+            set;
         }
 
         /// <inheritdoc/>
         public DateTime Year
-        { 
-            get; 
-            set; 
+        {
+            get;
+            set;
         }
 
         /// <inheritdoc/>
         public List<PlayerName> Players
         {
-            get { return SeasonsMatches.SelectMany(match => match.PlayerNames).Distinct().ToList(); }
+            get
+            {
+                return SeasonsMatches.SelectMany(match => match.PlayerNames).Distinct().ToList();
+            }
         }
 
-        List<CricketMatch> fSeasonsMatches = new List<CricketMatch>();
         public List<CricketMatch> SeasonsMatches
         {
-            get { return fSeasonsMatches; }
-            set { fSeasonsMatches = value; } 
-        }
+            get;
+            set;
+        } = new List<CricketMatch>();
 
         /// <inheritdoc/>
         [XmlIgnoreAttribute]
         public List<ICricketMatch> Matches
         {
-            get 
-            { 
-                return SeasonsMatches.Select(match => (ICricketMatch)match).ToList(); 
-            } 
+            get
+            {
+                return SeasonsMatches.Select(match => (ICricketMatch)match).ToList();
+            }
         }
 
         /// <inheritdoc/>

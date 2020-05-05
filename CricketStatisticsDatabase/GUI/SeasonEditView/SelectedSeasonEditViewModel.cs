@@ -110,8 +110,11 @@ namespace GUI.ViewModels
         public ICommand AddMatchCommand { get; }
         private void ExecuteAddMatch(object obj)
         {
-            Action<MatchInfo> getName = (info) => UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name).AddMatch(info));
-            fDialogService.DisplayCustomDialog(new CreateMatchDialogViewModel(getName));
+            if (SelectedSeason != null)
+            {
+                Action<MatchInfo> getName = (info) => UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name)?.AddMatch(info));
+                fDialogService.DisplayCustomDialog(new CreateMatchDialogViewModel(getName));
+            }
         }
 
         public ICommand EditMatchCommand { get; }

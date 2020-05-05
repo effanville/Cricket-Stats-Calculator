@@ -37,38 +37,35 @@ namespace Cricket.Team
             TeamName = name;
         }
 
-
-        private List<CricketPlayer> fTeamPlayers = new List<CricketPlayer>();
         public List<CricketPlayer> TeamPlayers
         {
-            get { return fTeamPlayers; }
-            set { fTeamPlayers = value; }
-        }
+            get;
+            set;
+        } = new List<CricketPlayer>();
 
         /// <inheritdoc/>
         [XmlIgnoreAttribute]
         public List<ICricketPlayer> Players
         {
-            get 
-            { 
-                return TeamPlayers.Select(player => (ICricketPlayer)player).ToList(); 
+            get
+            {
+                return TeamPlayers.Select(player => (ICricketPlayer)player).ToList();
             }
         }
 
-        private List<CricketSeason> fTeamSeasons = new List<CricketSeason>();
         public List<CricketSeason> TeamSeasons
         {
-            get { return fTeamSeasons; }
-            set { fTeamSeasons = value; } 
-        }
+            get;
+            set;
+        } = new List<CricketSeason>();
 
         /// <inheritdoc/>
         [XmlIgnoreAttribute]
         public List<ICricketSeason> Seasons
         {
-            get 
-            { 
-                return TeamSeasons.Select(season => (ICricketSeason)season).ToList(); 
+            get
+            {
+                return TeamSeasons.Select(season => (ICricketSeason)season).ToList();
             }
         }
 
@@ -161,7 +158,7 @@ namespace Cricket.Team
                 return false;
             }
 
-            throw new Exception($"Had {removed} seasons with name {name}, but should have at most 1.");
+            throw new Exception($"Had {removed} seasons with year {year} and name {name}, but should have at most 1.");
         }
 
         public bool Validate()
