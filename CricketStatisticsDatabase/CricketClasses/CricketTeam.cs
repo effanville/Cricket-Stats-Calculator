@@ -21,6 +21,15 @@ namespace Cricket.Team
             }
         }
 
+        public void SetupEventListening()
+        {
+            foreach (var season in TeamSeasons)
+            {
+                season.PlayerAdded += OnPlayerAdded;
+                season.SetupEventListening();
+            }
+        }
+
         public override string ToString()
         {
             return TeamName;

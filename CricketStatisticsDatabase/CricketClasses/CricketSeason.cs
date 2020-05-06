@@ -19,6 +19,14 @@ namespace Cricket
             PlayerAdded?.Invoke(obj, args);
         }
 
+        public void SetupEventListening()
+        {
+            foreach (var match in SeasonsMatches)
+            {
+                match.PlayerAdded += OnPlayerAdded;
+            }
+        }
+
         public override bool Equals(object obj)
         {
             if (obj is CricketSeason season)
