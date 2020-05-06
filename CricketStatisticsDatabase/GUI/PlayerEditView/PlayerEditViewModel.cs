@@ -15,6 +15,7 @@ namespace GUI.ViewModels
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
+        private ICricketTeam teamHere;
 
         List<ICricketPlayer> fPlayers;
         public List<ICricketPlayer> Players
@@ -26,22 +27,22 @@ namespace GUI.ViewModels
         public ICricketPlayer SelectedPlayer
         {
             get
-            { 
-                return fSelectedPlayer; 
+            {
+                return fSelectedPlayer;
             }
-            set 
-            { 
+            set
+            {
                 fSelectedPlayer = value;
                 if (fSelectedPlayer != null)
                 {
                     var name = fSelectedPlayer.Name.Copy();
                     SelectedPlayerName = name;
                 }
-                else 
+                else
                 {
                     SelectedPlayerName = new PlayerName("", "");
                 }
-                OnPropertyChanged(); 
+                OnPropertyChanged();
             }
         }
 
@@ -53,23 +54,36 @@ namespace GUI.ViewModels
             set { fSelectedPlayerName = value; OnPropertyChanged(); }
         }
 
-        
         public PlayerEditViewModel(ICricketTeam team, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)
-            : base ("Player Edit")
+            : base("Player Edit")
         {
             fFileService = fileService;
             fDialogService = dialogService;
             UpdateTeam = updateTeam;
             Players = team.Players;
+            teamHere = team;
             AddPlayerCommand = new BasicCommand(ExecuteAddPlayer);
             EditPlayerCommand = new BasicCommand(ExecuteEditPlayer);
             DeletePlayerCommand = new BasicCommand(ExecuteDeletePlayer);
+
+            AddFromTeamPlayerCommand = new BasicCommand(Execute);
+        }
+        public ICommand AddFromTeamPlayerCommand { get; }
+        private void Execute(object obj)
+        {
+            foreach (var season in teamHere.Seasons)
+            {
+                foreach (var name in season.Players)
+                {
+                    UpdateTeam(team => team.AddPlayer(name));
+                }
+            }
         }
 
         public ICommand AddPlayerCommand { get; }
         private void ExecuteAddPlayer(object obj)
         {
-            Action<PlayerName> getName = (name) => UpdateTeam( team => team.AddPlayer(name));
+            Action<PlayerName> getName = (name) => UpdateTeam(team => team.AddPlayer(name));
             fDialogService.DisplayCustomDialog(new CreatePlayerDialogViewModel(getName));
         }
 
@@ -101,6 +115,8 @@ namespace GUI.ViewModels
         public override void UpdateData(ICricketTeam team)
         {
             Players = team.Players;
+            teamHere = null;
+            teamHere = team;
         }
     }
 }
