@@ -1,4 +1,5 @@
 ﻿using Cricket.Player;
+using Cricket.Match;
 using System;
 
 namespace Cricket.Statistics
@@ -9,9 +10,9 @@ namespace Cricket.Statistics
         {
             if (obj is Partnership ship)
             {
-                if (PlayerOne.Equals(ship.PlayerOne) && PlayerTwo.Equals(ship.PlayerTwo) && Wicket.Equals(ship.Wicket))
+                if (Wicket.Equals(ship.Wicket))
                 {
-                    return Runs.CompareTo(ship.Runs);
+                    return ship.Runs.CompareTo(Runs);
                 }
             }
 
@@ -34,7 +35,7 @@ namespace Cricket.Statistics
 
         public override string ToString()
         {
-            return Wicket + "," + PlayerOne.ToString() + "," + PlayerTwo.ToString() + "," + Runs;
+            return Wicket + "," + PlayerOne.ToString() + "," + PlayerTwo.ToString() + "," + Runs + "," + MatchData?.ToString();
         }
 
         public PlayerName PlayerOne
@@ -61,16 +62,24 @@ namespace Cricket.Statistics
             set;
         }
 
-        public Partnership(PlayerName playerOne, PlayerName playerTwo)
+        public MatchInfo MatchData
+        {
+            get;
+            set;
+        }
+
+        public Partnership(PlayerName playerOne, PlayerName playerTwo, MatchInfo matchData = null)
         {
             PlayerOne = playerOne;
             PlayerTwo = playerTwo;
+            MatchData = matchData;
         }
 
         public Partnership(PlayerName playerOne, PlayerName playerTwo, int wicket, int runs)
         {
             PlayerOne = playerOne;
             PlayerTwo = playerTwo;
+
             SetScores(wicket, runs);
         }
 
