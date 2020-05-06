@@ -47,13 +47,7 @@ namespace Cricket.Statistics
             set;
         } = new List<Partnership>(new Partnership[10]);
 
-        public int TotalMom
-        {
-            get;
-            set;
-        }
-
-        public int TotalGamesPlayed
+        public PlayerAttendanceStatistics Played
         {
             get;
             set;
@@ -64,6 +58,7 @@ namespace Cricket.Statistics
             BattingStats = new PlayerBattingStatistics();
             BowlingStats = new PlayerBowlingStatistics();
             FieldingStats = new PlayerFieldingStatistics();
+            Played = new PlayerAttendanceStatistics();
         }
 
         public PlayerSeasonStatistics(PlayerName name)
@@ -72,6 +67,7 @@ namespace Cricket.Statistics
             BattingStats = new PlayerBattingStatistics(name);
             BowlingStats = new PlayerBowlingStatistics(name);
             FieldingStats = new PlayerFieldingStatistics(name);
+            Played = new PlayerAttendanceStatistics(name);
         }
 
         public PlayerSeasonStatistics(PlayerName name, ICricketSeason season)
@@ -80,6 +76,7 @@ namespace Cricket.Statistics
             BattingStats = new PlayerBattingStatistics(name);
             BowlingStats = new PlayerBowlingStatistics(name);
             FieldingStats = new PlayerFieldingStatistics(name);
+            Played = new PlayerAttendanceStatistics(name);
             SetSeasonStats(season);
         }
 
@@ -90,9 +87,7 @@ namespace Cricket.Statistics
             BattingStats.SetSeasonStats(season);
             BowlingStats.SetSeasonStats(season);
             FieldingStats.SetSeasonStats(season);
-
-            TotalGamesPlayed = season.Matches.FindAll(match => match.PlayNotPlay(Name)).Count;
-            TotalMom = season.Matches.FindAll(match => Name.Equals(match.ManOfMatch)).Count;
+            Played.SetSeasonStats(season);
 
             CalculatePartnerships(season);
         }
@@ -112,12 +107,9 @@ namespace Cricket.Statistics
                         }
                         else
                         {
-                            if (partnerships[i].ContainsPlayer(Name))
+                            if (partnerships[i].ContainsPlayer(Name) && PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
                             {
-                                if (PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
-                                {
-                                    PartnershipsByWicket[i] = partnerships[i];
-                                }
+                                PartnershipsByWicket[i] = partnerships[i];
                             }
                         }
                     }

@@ -179,6 +179,18 @@ namespace CricketStatistics
                 streamWriter.WriteLine("Most Dismissals as keeper," + mostKeeper + "," + string.Join(",", keepers));
                 streamWriter.WriteLine("");
 
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("Attendance");
+                streamWriter.WriteLine("");
+                var played = SeasonPlayerStats.Select(player => player.Played).ToList();
+                played.Sort((x, y) => y.TotalGamesPlayed.CompareTo(x.TotalGamesPlayed));
+                streamWriter.WriteLine(PlayerAttendanceStatistics.CsvHeader());
+                foreach (var playing in played)
+                {
+                    streamWriter.WriteLine(playing.ToString());
+                }
+
+                streamWriter.WriteLine("");
                 streamWriter.WriteLine("Batting Stats");
 
                 streamWriter.WriteLine("");
