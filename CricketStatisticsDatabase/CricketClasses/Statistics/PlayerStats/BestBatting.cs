@@ -15,6 +15,16 @@ namespace Cricket.Statistics
         {
             if (obj is BestBatting otherBest)
             {
+                if (string.IsNullOrEmpty(Opposition))
+                {
+                    return -1;
+                }
+
+                if (string.IsNullOrEmpty(otherBest.Opposition))
+                {
+                    return 1;
+                }
+
                 if (Runs.Equals(otherBest.Runs))
                 {
                     if (HowOut == Wicket.NotOut && otherBest.HowOut == Wicket.NotOut)

@@ -59,7 +59,8 @@
                 </Grid>
             </Border>
             <StackPanel Orientation="Horizontal" 
-                        Grid.Row="2" >
+                        Grid.Row="2" 
+                        Grid.ColumnSpan="2">
                 <Button Content="Add Player"
                 Margin="5"
                 Command="{Binding AddPlayerCommand}"/>
@@ -80,6 +81,9 @@
                 Content="Delete Player"
                 Margin="5"
                 Command="{Binding DeletePlayerCommand}"/>
+                <Button Content="Add From Matches Player"
+                Margin="5"
+                Command="{Binding AddFromTeamPlayerCommand}"/>
             </StackPanel>
         </Grid>
     </Grid>

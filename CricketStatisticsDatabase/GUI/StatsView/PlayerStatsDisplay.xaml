@@ -9,11 +9,11 @@
         <StackPanel Orientation="Horizontal">
             <StackPanel Orientation="Horizontal">
                 <Label Content="PlayerGames"/>
-                <TextBlock Text="{Binding TotalGamesPlayed}"/>
+                <TextBlock Text="{Binding Played.TotalGamesPlayed}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="MoM"/>
-                <TextBlock Text="{Binding TotalMom}"/>
+                <TextBlock Text="{Binding Played.TotalMom}"/>
             </StackPanel>
         </StackPanel>
 

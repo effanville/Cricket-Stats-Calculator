@@ -10,8 +10,8 @@ namespace Cricket.Interfaces
         /// <summary>
         /// The name of the team in question.
         /// </summary>
-        public string TeamName
-        { 
+        string TeamName
+        {
             get;
         }
 
@@ -19,7 +19,7 @@ namespace Cricket.Interfaces
         /// The players associated to this team.
         /// </summary>
         List<ICricketPlayer> Players
-        { 
+        {
             get;
         }
 
@@ -27,7 +27,7 @@ namespace Cricket.Interfaces
         /// The seasons for which this team has played games.
         /// </summary>
         List<ICricketSeason> Seasons
-        { 
+        {
             get;
         }
 

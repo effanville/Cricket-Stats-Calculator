@@ -92,6 +92,7 @@ namespace GUI.ViewModels
                 if (error == null)
                 {
                     TeamToPlayWith = database;
+                    TeamToPlayWith.SetupEventListening();
                     UpdateSubWindows();
                 }
             }

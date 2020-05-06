@@ -140,7 +140,7 @@ namespace Cricket.Match
                 int numberPartnerships = System.Math.Min(inningsScore.Wickets + 1, BattingInfo.Count - 1);
                 for (int i = 0; i < numberPartnerships; i++)
                 {
-                    var partnership = new Partnership(batsmanOne.Name, batsmanTwo.Name);
+                    var partnership = new Partnership(batsmanOne.Name, batsmanTwo.Name, MatchData);
                     int partnershipRuns;
                     if (!batsmanOne.Out() && !batsmanTwo.Out())
                     {
