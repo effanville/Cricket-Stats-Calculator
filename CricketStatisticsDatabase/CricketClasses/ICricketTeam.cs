@@ -10,7 +10,7 @@ namespace Cricket.Interfaces
         /// <summary>
         /// The name of the team in question.
         /// </summary>
-        public string TeamName
+        string TeamName
         {
             get;
         }

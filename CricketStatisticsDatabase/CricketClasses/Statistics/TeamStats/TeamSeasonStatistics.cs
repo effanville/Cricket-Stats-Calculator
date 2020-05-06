@@ -182,7 +182,7 @@ namespace CricketStatistics
             streamWriter.WriteLine("");
 
             var batting = SeasonPlayerStats.Select(player => player.BattingStats).ToList();
-            batting.RemoveAll(batting => batting.TotalInnings.Equals(0));
+            batting.RemoveAll(bat => bat.TotalInnings.Equals(0));
 
             batting.Sort((x, y) => y.Average.CompareTo(x.Average));
             streamWriter.WriteLine(PlayerBattingStatistics.CsvHeader());
@@ -208,7 +208,7 @@ namespace CricketStatistics
             streamWriter.WriteLine("");
 
             var bowling = SeasonPlayerStats.Select(player => player.BowlingStats).ToList();
-            bowling.RemoveAll(bowling => bowling.TotalOvers.Equals(0));
+            bowling.RemoveAll(bowl => bowl.TotalOvers.Equals(0));
             bowling.Sort((x, y) => x.Average.CompareTo(y.Average));
             streamWriter.WriteLine(PlayerBowlingStatistics.CsvHeader());
             foreach (var bowl in bowling)
@@ -220,7 +220,7 @@ namespace CricketStatistics
             streamWriter.WriteLine("Fielding Stats");
             streamWriter.WriteLine("");
 
-            fielding.RemoveAll(fielding => fielding.TotalDismissals.Equals(0));
+            fielding.RemoveAll(field => field.TotalDismissals.Equals(0));
             fielding.Sort((x, y) => y.TotalDismissals.CompareTo(x.TotalDismissals));
             streamWriter.WriteLine(PlayerFieldingStatistics.CsvHeader());
             foreach (var field in fielding)
