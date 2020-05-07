@@ -406,7 +406,15 @@ namespace Cricket.Match
 
         public List<Partnership> Partnerships()
         {
-            return Batting.Partnerships();
+            var partnerships = Batting.Partnerships();
+            foreach (var ship in partnerships)
+            {
+                if (ship != null && ship.MatchData == null)
+                {
+                    ship.MatchData = MatchData;
+                }
+            }
+            return partnerships;
         }
     }
 
