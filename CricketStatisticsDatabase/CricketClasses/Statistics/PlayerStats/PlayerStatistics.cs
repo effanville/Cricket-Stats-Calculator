@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Cricket.Statistics
 {
-    public class PlayerSeasonStatistics
+    public class PlayerStatistics
     {
         public PlayerName Name
         {
@@ -53,7 +53,7 @@ namespace Cricket.Statistics
             set;
         }
 
-        public PlayerSeasonStatistics()
+        public PlayerStatistics()
         {
             BattingStats = new PlayerBattingStatistics();
             BowlingStats = new PlayerBowlingStatistics();
@@ -61,7 +61,7 @@ namespace Cricket.Statistics
             Played = new PlayerAttendanceStatistics();
         }
 
-        public PlayerSeasonStatistics(PlayerName name)
+        public PlayerStatistics(PlayerName name)
         {
             Name = name;
             BattingStats = new PlayerBattingStatistics(name);
@@ -70,7 +70,7 @@ namespace Cricket.Statistics
             Played = new PlayerAttendanceStatistics(name);
         }
 
-        public PlayerSeasonStatistics(PlayerName name, ICricketSeason season)
+        public PlayerStatistics(PlayerName name, ICricketSeason season)
         {
             Name = name;
             BattingStats = new PlayerBattingStatistics(name);
@@ -92,6 +92,26 @@ namespace Cricket.Statistics
             CalculatePartnerships(season);
         }
 
+        public PlayerStatistics(PlayerName name, ICricketTeam match)
+        {
+            Name = name;
+            BattingStats = new PlayerBattingStatistics(name);
+            BowlingStats = new PlayerBowlingStatistics(name);
+            FieldingStats = new PlayerFieldingStatistics(name);
+            Played = new PlayerAttendanceStatistics(name);
+            SetTeamStats(match);
+        }
+
+        public void SetTeamStats(ICricketTeam team)
+        {
+            BattingStats.SetTeamStats(team);
+            BowlingStats.SetTeamStats(team);
+            FieldingStats.SetTeamStats(team);
+            Played.SetTeamStats(team);
+
+            CalculatePartnerships(team);
+        }
+
         public void CalculatePartnerships(ICricketSeason season)
         {
             foreach (var match in season.Matches)
@@ -110,6 +130,34 @@ namespace Cricket.Statistics
                             if (partnerships[i].ContainsPlayer(Name) && PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
                             {
                                 PartnershipsByWicket[i] = partnerships[i];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void CalculatePartnerships(ICricketTeam team)
+        {
+            foreach (var season in team.Seasons)
+            {
+                foreach (var match in season.Matches)
+                {
+                    var partnerships = match.Partnerships();
+                    for (int i = 0; i < partnerships.Count; i++)
+                    {
+                        if (partnerships[i] != null)
+                        {
+                            if (PartnershipsByWicket[i] == null)
+                            {
+                                PartnershipsByWicket[i] = partnerships[i];
+                            }
+                            else
+                            {
+                                if (partnerships[i].ContainsPlayer(Name) && PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
+                                {
+                                    PartnershipsByWicket[i] = partnerships[i];
+                                }
                             }
                         }
                     }

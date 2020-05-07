@@ -148,5 +148,53 @@ namespace Cricket.Statistics
                 Average = (double)TotalRuns / ((double)TotalInnings - (double)TotalNotOut);
             }
         }
+
+        public void SetTeamStats(ICricketTeam team)
+        {
+            TotalInnings = 0;
+            TotalNotOut = 0;
+            TotalRuns = 0;
+            Best = new BestBatting();
+
+            foreach (var season in team.Seasons)
+            {
+                foreach (var match in season.Matches)
+                {
+                    var batting = match.GetBatting(Name);
+                    if (batting != null)
+                    {
+                        if (batting.MethodOut != Match.Wicket.DidNotBat)
+                        {
+                            TotalInnings++;
+                            if (!batting.Out())
+                            {
+                                TotalNotOut++;
+                            }
+                            int index = (int)batting.MethodOut;
+                            WicketLossNumbers[index] += 1;
+                            TotalRuns += batting.RunsScored;
+
+                            var possibleBest = new BestBatting()
+                            {
+                                Runs = batting.RunsScored,
+                                HowOut = batting.MethodOut,
+                                Opposition = match.MatchData.Opposition,
+                                Date = match.MatchData.Date
+                            };
+
+                            if (possibleBest.CompareTo(Best) > 0)
+                            {
+                                Best = possibleBest;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (TotalInnings != TotalNotOut)
+            {
+                Average = (double)TotalRuns / ((double)TotalInnings - (double)TotalNotOut);
+            }
+        }
     }
 }

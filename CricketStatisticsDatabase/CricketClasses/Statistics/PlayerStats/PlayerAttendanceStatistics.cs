@@ -94,5 +94,35 @@ namespace Cricket.Statistics
                 }
             }
         }
+
+        public void SetTeamStats(ICricketTeam team)
+        {
+            TotalGamesWon = 0;
+            TotalGamesPlayed = 0;
+            TotalGamesLost = 0;
+            TotalMom = 0;
+            foreach (var season in team.Seasons)
+            {
+                foreach (var match in season.Matches)
+                {
+                    if (match.PlayNotPlay(Name))
+                    {
+                        TotalGamesPlayed += 1;
+                        if (Name.Equals(match.ManOfMatch))
+                        {
+                            TotalMom += 1;
+                        }
+                        if (match.Result == Match.ResultType.Win)
+                        {
+                            TotalGamesWon += 1;
+                        }
+                        if (match.Result == Match.ResultType.Loss)
+                        {
+                            TotalGamesLost += 1;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

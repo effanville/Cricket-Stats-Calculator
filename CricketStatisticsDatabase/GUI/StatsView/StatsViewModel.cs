@@ -57,8 +57,8 @@ namespace GUI.ViewModels
             get { return fPlayerStatsSet; }
             set { fPlayerStatsSet = value; OnPropertyChanged(nameof(PlayerStatsSet)); }
         }
-        private PlayerSeasonStatistics fSelectedPlayerStats;
-        public PlayerSeasonStatistics SelectedPlayerStats
+        private PlayerStatistics fSelectedPlayerStats;
+        public PlayerStatistics SelectedPlayerStats
         {
             get { return fSelectedPlayerStats; }
             set { fSelectedPlayerStats = value; OnPropertyChanged(nameof(SelectedPlayerStats)); PlayerStatsSet = value == null ? false : true; }
@@ -72,6 +72,7 @@ namespace GUI.ViewModels
             UpdateTeam = updateTeam;
             Team = team;
             ExportStatsCommand = new BasicCommand(ExecuteExportStatsCommand);
+            ExportAllStatsCommand = new BasicCommand(ExecuteExportAllStatsCommand);
         }
 
         public ICommand ExportStatsCommand
@@ -85,6 +86,21 @@ namespace GUI.ViewModels
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
                 SelectedSeasonStats.ExportStats(gotFile.FilePath);
+            }
+        }
+
+        public ICommand ExportAllStatsCommand
+        {
+            get;
+        }
+
+        private void ExecuteExportAllStatsCommand(object obj)
+        {
+            var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
+            if (gotFile.Success != null && (bool)gotFile.Success)
+            {
+                var allTimeStats = new TeamAllTimeStatistics(Team);
+                allTimeStats.ExportStats(gotFile.FilePath);
             }
         }
 

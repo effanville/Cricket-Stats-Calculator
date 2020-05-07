@@ -18,6 +18,7 @@
             <RowDefinition Height="40"/>
 
             <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -36,6 +37,10 @@
                                   Grid.Column="0"
                   Grid.Row="3"
                 Command="{Binding ExportStatsCommand}"/>
+        <Button Content="Export All Time stats"
+                Grid.Column="0"
+                  Grid.Row="4"
+                Command="{Binding ExportAllStatsCommand}"/>
 
         <UserControl Grid.Column="1"
                      Grid.ColumnSpan="2"
