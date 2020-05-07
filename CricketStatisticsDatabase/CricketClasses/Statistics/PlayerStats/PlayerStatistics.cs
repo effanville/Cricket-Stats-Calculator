@@ -2,6 +2,7 @@
 using Cricket.Player;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Cricket.Statistics
 {
@@ -123,7 +124,10 @@ namespace Cricket.Statistics
                     {
                         if (PartnershipsByWicket[i] == null)
                         {
-                            PartnershipsByWicket[i] = partnerships[i];
+                            if (partnerships[i].ContainsPlayer(Name))
+                            {
+                                PartnershipsByWicket[i] = partnerships[i];
+                            }
                         }
                         else
                         {
@@ -150,7 +154,10 @@ namespace Cricket.Statistics
                         {
                             if (PartnershipsByWicket[i] == null)
                             {
-                                PartnershipsByWicket[i] = partnerships[i];
+                                if (partnerships[i].ContainsPlayer(Name))
+                                {
+                                    PartnershipsByWicket[i] = partnerships[i];
+                                }
                             }
                             else
                             {
@@ -162,6 +169,69 @@ namespace Cricket.Statistics
                         }
                     }
                 }
+            }
+        }
+
+        public void ExportStats(string filePath)
+        {
+            try
+            {
+                StreamWriter streamWriter = new StreamWriter(filePath);
+                streamWriter.WriteLine("Exporting Stats");
+                streamWriter.WriteLine($"For player {Name.ToString()}");
+
+                streamWriter.WriteLine("");
+
+                streamWriter.WriteLine("Player Overall");
+                streamWriter.WriteLine($"Games Played:, {Played.TotalGamesPlayed}");
+
+                streamWriter.WriteLine($"Wins:, {Played.TotalGamesWon}");
+                streamWriter.WriteLine($"Losses:, {Played.TotalGamesLost}");
+
+                streamWriter.WriteLine("Best Batting," + BattingStats.Best.ToString());
+
+                streamWriter.WriteLine("Best Bowling," + BowlingStats.BestFigures.ToString());
+
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("Attendance");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine(PlayerAttendanceStatistics.CsvHeader());
+                streamWriter.WriteLine(Played.ToString());
+
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("Batting Stats");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine(PlayerBattingStatistics.CsvHeader());
+                streamWriter.WriteLine(BattingStats.ToString());
+
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("Highest Partnerships");
+                streamWriter.WriteLine("");
+
+                foreach (var partnership in PartnershipsByWicket)
+                {
+                    if (partnership != null)
+                    {
+                        streamWriter.WriteLine(partnership.ToString());
+                    }
+                }
+
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("Bowling Stats");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine(PlayerBowlingStatistics.CsvHeader());
+                streamWriter.WriteLine(BowlingStats.ToString());
+
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("Fielding Stats");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine(PlayerFieldingStatistics.CsvHeader());
+                streamWriter.WriteLine(FieldingStats.ToString());
+
+                streamWriter.Close();
+            }
+            catch (Exception ex)
+            {
             }
         }
     }

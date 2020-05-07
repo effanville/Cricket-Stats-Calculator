@@ -19,6 +19,7 @@
 
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -33,13 +34,17 @@
                   Grid.Column="0"
                   Grid.Row="1"
                   Margin="5"/>
-        <Button Content="Export season stats"
+        <Button Content="Export player stats"
                                   Grid.Column="0"
                   Grid.Row="3"
+                Command="{Binding ExportPlayerStatsCommand}"/>
+        <Button Content="Export season stats"
+                                  Grid.Column="0"
+                  Grid.Row="4"
                 Command="{Binding ExportStatsCommand}"/>
         <Button Content="Export All Time stats"
                 Grid.Column="0"
-                  Grid.Row="4"
+                  Grid.Row="5"
                 Command="{Binding ExportAllStatsCommand}"/>
 
         <UserControl Grid.Column="1"

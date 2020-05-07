@@ -71,8 +71,23 @@ namespace GUI.ViewModels
             fDialogService = dialogService;
             UpdateTeam = updateTeam;
             Team = team;
+            ExportPlayerStatsCommand = new BasicCommand(ExecuteExportPlayerStatsCommand);
             ExportStatsCommand = new BasicCommand(ExecuteExportStatsCommand);
             ExportAllStatsCommand = new BasicCommand(ExecuteExportAllStatsCommand);
+        }
+
+        public ICommand ExportPlayerStatsCommand
+        {
+            get;
+        }
+
+        private void ExecuteExportPlayerStatsCommand(object obj)
+        {
+            var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
+            if (gotFile.Success != null && (bool)gotFile.Success)
+            {
+                SelectedPlayerStats.ExportStats(gotFile.FilePath);
+            }
         }
 
         public ICommand ExportStatsCommand
