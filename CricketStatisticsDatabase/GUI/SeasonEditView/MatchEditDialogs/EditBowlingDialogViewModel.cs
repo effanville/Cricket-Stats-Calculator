@@ -30,8 +30,8 @@ namespace GUI.Dialogs.ViewModels
         private void ExecuteSubmitCommand(object obj)
         {
             UpdateInnings(Innings);
-            if(obj is ICloseable window)
-            { 
+            if (obj is ICloseable window)
+            {
                 window.Close();
             }
         }

@@ -33,13 +33,6 @@ namespace GUI.Dialogs.ViewModels
             set { fSelectedEntry = value; OnPropertyChanged(); }
         }
 
-        private int fExtras;
-        public int Extras
-        {
-            get { return fExtras; }
-            set { fExtras = value; OnPropertyChanged(nameof(Extras)); }
-        }
-
         public EditBattingDialogViewModel(Action<BattingInnings> updateInnings, BattingInnings innings)
             : base("Batting Innings Edit")
         {
@@ -86,7 +79,7 @@ namespace GUI.Dialogs.ViewModels
         {
             var newInnings = new BattingInnings();
             newInnings.BattingInfo = Info;
-            newInnings.Extras = Extras;
+            newInnings.Extras = Innings.Extras;
             UpdateInnings(newInnings);
             if (obj is ICloseable window)
             {

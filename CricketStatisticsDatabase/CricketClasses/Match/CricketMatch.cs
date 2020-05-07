@@ -198,6 +198,8 @@ namespace Cricket.Match
                     EditBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Order, entry.WicketFellAt, entry.TeamScoreAtWicket, entry.Fielder, entry.Bowler);
                 }
             }
+
+            Batting.Extras = innings.Extras;
         }
 
         public bool AddBattingEntry(PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
@@ -255,6 +257,8 @@ namespace Cricket.Match
                     EditBowlingEntry(entry.Name, entry.OversBowled, entry.Maidens, entry.RunsConceded, entry.Wickets);
                 }
             }
+
+            Bowling.ByesLegByes = innings.ByesLegByes;
         }
 
         public bool AddBowlingEntry(PlayerName player, double overs, int maidens, int runsConceded, int wickets)
