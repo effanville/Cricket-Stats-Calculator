@@ -6,50 +6,39 @@
                     xmlns:stats="clr-namespace:Cricket.Statistics"
                     xmlns:gui="clr-namespace:GUI">
     <DataTemplate DataType="{x:Type vm:ReportingViewModel}">
-        <gui:ReportingView/>
+        <gui:ReportingView />
     </DataTemplate>
-    
     <DataTemplate DataType="{x:Type vm:TeamOverviewViewModel }">
-        <gui:TeamOverview/>
+        <gui:TeamOverview />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type vm:PlayerEditViewModel}">
-        <gui:PlayerEditView/>
+        <gui:PlayerEditView />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type dvm:CreatePlayerDialogViewModel}">
-        <dialog:CreatePlayerDialog/>
+        <dialog:CreatePlayerDialog />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type vm:SeasonEditViewModel}">
-        <gui:SeasonEditView/>
+        <gui:SeasonEditView />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type dvm:CreateSeasonDialogViewModel}">
-        <dialog:CreateSeasonDialog/>
+        <dialog:CreateSeasonDialog />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type dvm:CreateMatchDialogViewModel}">
-        <dialog:CreateMatchDialog/>
+        <dialog:CreateMatchDialog />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type dvm:EditBowlingDialogViewModel}">
-        <dialog:EditBowlingDialog/>
+        <dialog:EditBowlingDialog />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type dvm:EditBattingDialogViewModel}">
-        <dialog:EditBattingDialog/>
+        <dialog:EditBattingDialog />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type dvm:EditFieldingDialogViewModel}">
-        <dialog:EditFieldingDialog/>
+        <dialog:EditFieldingDialog />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type vm:StatsViewModel}">
-        <gui:StatsView/>
+        <gui:StatsView />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type stats:PlayerStatistics}">
-        <gui:PlayerStatsDisplay/>
+        <gui:PlayerStatsDisplay />
     </DataTemplate>
 </ResourceDictionary>
