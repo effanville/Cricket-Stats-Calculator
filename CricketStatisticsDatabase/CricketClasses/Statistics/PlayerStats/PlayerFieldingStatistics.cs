@@ -100,5 +100,27 @@ namespace Cricket.Statistics
                 }
             }
         }
+        public void SetTeamStats(ICricketTeam team)
+        {
+            Catches = 0;
+            RunOuts = 0;
+            KeeperStumpings = 0;
+            KeeperCatches = 0;
+            foreach (var season in team.Seasons)
+            {
+                foreach (var match in season.Matches)
+                {
+                    var fielding = match.GetFielding(Name);
+                    if (fielding != null)
+                    {
+                        Catches += fielding.Catches;
+                        RunOuts += fielding.RunOuts;
+                        KeeperCatches += fielding.KeeperCatches;
+                        KeeperStumpings += fielding.KeeperStumpings;
+                    }
+                }
+            }
+        }
+
     }
 }

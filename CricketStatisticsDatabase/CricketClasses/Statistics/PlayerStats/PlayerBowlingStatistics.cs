@@ -140,5 +140,59 @@ namespace Cricket.Statistics
                 Economy = double.NaN;
             }
         }
+
+        public void SetTeamStats(ICricketTeam team)
+        {
+            TotalOvers = 0;
+            TotalMaidens = 0;
+            TotalRunsConceded = 0;
+            TotalWickets = 0;
+            BestFigures = new BestBowling();
+            foreach (var season in team.Seasons)
+            {
+                foreach (var match in season.Matches)
+                {
+                    var bowling = match.GetBowling(Name);
+                    if (bowling != null)
+                    {
+                        TotalOvers += bowling.OversBowled;
+                        TotalMaidens += bowling.Maidens;
+                        TotalRunsConceded += bowling.RunsConceded;
+                        TotalWickets += bowling.Wickets;
+
+                        var possibleBest = new BestBowling()
+                        {
+                            Wickets = bowling.Wickets,
+                            Runs = bowling.RunsConceded,
+                            Opposition = match.MatchData.Opposition,
+                            Date = match.MatchData.Date
+                        };
+
+                        if (possibleBest.CompareTo(BestFigures) > 0)
+                        {
+                            BestFigures = possibleBest;
+                        }
+                    }
+                }
+            }
+
+            if (TotalWickets != 0)
+            {
+                Average = (double)TotalRunsConceded / (double)TotalWickets;
+            }
+            else
+            {
+                Average = double.NaN;
+            }
+
+            if (TotalOvers != 0)
+            {
+                Economy = (double)TotalRunsConceded / (double)TotalOvers;
+            }
+            else
+            {
+                Economy = double.NaN;
+            }
+        }
     }
 }

@@ -49,7 +49,7 @@
         <gui:StatsView/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type stats:PlayerSeasonStatistics}">
+    <DataTemplate DataType="{x:Type stats:PlayerStatistics}">
         <gui:PlayerStatsDisplay/>
     </DataTemplate>
 </ResourceDictionary>

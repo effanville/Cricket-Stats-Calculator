@@ -1,13 +1,12 @@
 ﻿using Cricket.Interfaces;
-using Cricket.Statistics;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace CricketStatistics
+namespace Cricket.Statistics
 {
-    public sealed class TeamSeasonStatistics
+    public class TeamAllTimeStatistics
     {
         public List<PlayerStatistics> SeasonPlayerStats
         {
@@ -20,18 +19,6 @@ namespace CricketStatistics
             get;
             set;
         } = new List<Partnership>(new Partnership[10]);
-
-        public string SeasonName
-        {
-            get;
-            set;
-        }
-
-        public DateTime SeasonYear
-        {
-            get;
-            set;
-        }
 
         public int GamesPlayed
         {
@@ -63,84 +50,78 @@ namespace CricketStatistics
             set;
         }
 
-        public TeamSeasonStatistics()
+        public TeamAllTimeStatistics()
         { }
 
-        public TeamSeasonStatistics(ICricketSeason season)
+        public TeamAllTimeStatistics(ICricketTeam team)
         {
-            SeasonName = season.Name;
-            SeasonYear = season.Year;
-            CalculateTeamStats(season);
-            CalculatePlayerStats(season);
-            CalculatePartnerships(season);
+            CalculateTeamStats(team);
+            CalculatePlayerStats(team);
+            CalculatePartnerships(team);
         }
 
-        public void CalculateTeamStats(ICricketSeason season)
+        public void CalculateTeamStats(ICricketTeam team)
         {
-            if (!season.Year.Equals(SeasonYear))
-            {
-                return;
-            }
-
             GamesPlayed = 0;
             NumberWins = 0;
             NumberLosses = 0;
             NumberDraws = 0;
             NumberTies = 0;
-            foreach (var match in season.Matches)
+            foreach (var season in team.Seasons)
             {
-                GamesPlayed++;
+                foreach (var match in season.Matches)
+                {
+                    GamesPlayed++;
 
-                if (match.Result == Cricket.Match.ResultType.Win)
-                {
-                    NumberWins++;
-                }
-                if (match.Result == Cricket.Match.ResultType.Loss)
-                {
-                    NumberLosses++;
-                }
-                if (match.Result == Cricket.Match.ResultType.Draw)
-                {
-                    NumberDraws++;
-                }
-                if (match.Result == Cricket.Match.ResultType.Tie)
-                {
-                    NumberTies++;
+                    if (match.Result == Cricket.Match.ResultType.Win)
+                    {
+                        NumberWins++;
+                    }
+                    if (match.Result == Cricket.Match.ResultType.Loss)
+                    {
+                        NumberLosses++;
+                    }
+                    if (match.Result == Cricket.Match.ResultType.Draw)
+                    {
+                        NumberDraws++;
+                    }
+                    if (match.Result == Cricket.Match.ResultType.Tie)
+                    {
+                        NumberTies++;
+                    }
                 }
             }
         }
 
-        public void CalculatePlayerStats(ICricketSeason season)
+        public void CalculatePlayerStats(ICricketTeam team)
         {
-            if (!season.Year.Equals(SeasonYear))
+            foreach (var player in team.Players)
             {
-                return;
-            }
-
-            foreach (var player in season.Players)
-            {
-                var playerStats = new PlayerStatistics(player, season);
+                var playerStats = new PlayerStatistics(player.Name, team);
                 SeasonPlayerStats.Add(playerStats);
             }
         }
 
-        public void CalculatePartnerships(ICricketSeason season)
+        public void CalculatePartnerships(ICricketTeam team)
         {
-            foreach (var match in season.Matches)
+            foreach (var season in team.Seasons)
             {
-                var partnerships = match.Partnerships();
-                for (int i = 0; i < partnerships.Count; i++)
+                foreach (var match in season.Matches)
                 {
-                    if (PartnershipsByWicket[i] == null)
+                    var partnerships = match.Partnerships();
+                    for (int i = 0; i < partnerships.Count; i++)
                     {
-                        PartnershipsByWicket[i] = partnerships[i];
-
-                    }
-                    else
-                    {
-                        if (PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
+                        if (PartnershipsByWicket[i] == null)
                         {
                             PartnershipsByWicket[i] = partnerships[i];
+
+                        }
+                        else
+                        {
+                            if (PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
+                            {
+                                PartnershipsByWicket[i] = partnerships[i];
+                            }
                         }
                     }
                 }
@@ -153,7 +134,6 @@ namespace CricketStatistics
             {
                 StreamWriter streamWriter = new StreamWriter(filePath);
                 streamWriter.WriteLine($"Exporting Team {1 + 1}");
-                streamWriter.WriteLine($"For season {SeasonYear.Year}-{SeasonName}");
 
                 streamWriter.WriteLine("");
 
