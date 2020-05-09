@@ -2,16 +2,16 @@
 using Cricket.Player;
 using Cricket.Statistics;
 using CricketStatistics;
-using GUISupport;
-using GUISupport.Services;
-using GUISupport.ViewModels;
+using UICommon.Services;
+using UICommon.ViewModelBases;
 using System;
 using System.Linq;
 using System.Windows.Input;
+using UICommon.Commands;
 
 namespace GUI.ViewModels
 {
-    public class StatsViewModel : ViewModelBase
+    public class StatsViewModel : ViewModelBase<ICricketTeam>
     {
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
@@ -71,9 +71,9 @@ namespace GUI.ViewModels
             fDialogService = dialogService;
             UpdateTeam = updateTeam;
             Team = team;
-            ExportPlayerStatsCommand = new BasicCommand(ExecuteExportPlayerStatsCommand);
-            ExportStatsCommand = new BasicCommand(ExecuteExportStatsCommand);
-            ExportAllStatsCommand = new BasicCommand(ExecuteExportAllStatsCommand);
+            ExportPlayerStatsCommand = new RelayCommand(ExecuteExportPlayerStatsCommand);
+            ExportStatsCommand = new RelayCommand(ExecuteExportStatsCommand);
+            ExportAllStatsCommand = new RelayCommand(ExecuteExportAllStatsCommand);
         }
 
         public ICommand ExportPlayerStatsCommand
@@ -81,7 +81,7 @@ namespace GUI.ViewModels
             get;
         }
 
-        private void ExecuteExportPlayerStatsCommand(object obj)
+        private void ExecuteExportPlayerStatsCommand()
         {
             var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
@@ -95,7 +95,7 @@ namespace GUI.ViewModels
             get;
         }
 
-        private void ExecuteExportStatsCommand(object obj)
+        private void ExecuteExportStatsCommand()
         {
             var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
@@ -109,7 +109,7 @@ namespace GUI.ViewModels
             get;
         }
 
-        private void ExecuteExportAllStatsCommand(object obj)
+        private void ExecuteExportAllStatsCommand()
         {
             var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
@@ -119,10 +119,10 @@ namespace GUI.ViewModels
             }
         }
 
-        public override void UpdateData(ICricketTeam portfolio)
+        public override void UpdateData(ICricketTeam cricketTeam)
         {
             Team = null;
-            Team = portfolio;
+            Team = cricketTeam;
         }
     }
 }

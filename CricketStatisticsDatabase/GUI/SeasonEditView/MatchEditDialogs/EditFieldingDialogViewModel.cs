@@ -1,13 +1,14 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Match;
-using GUISupport;
-using GUISupport.ViewModels;
 using System;
 using System.Windows.Input;
+using UICommon.Commands;
+using UICommon.Interfaces;
+using UICommon.ViewModelBases;
 
 namespace GUI.Dialogs.ViewModels
 {
-    public class EditFieldingDialogViewModel : ViewModelBase
+    public class EditFieldingDialogViewModel : ViewModelBase<ICricketTeam>
     {
         Action<Fielding> UpdateInnings;
 
@@ -22,17 +23,14 @@ namespace GUI.Dialogs.ViewModels
         {
             UpdateInnings = updateInnings;
             Innings = innings;
-            SubmitCommand = new BasicCommand(ExecuteSubmitCommand);
+            SubmitCommand = new RelayCommand<ICloseable>(ExecuteSubmitCommand);
         }
 
         public ICommand SubmitCommand { get; }
-        private void ExecuteSubmitCommand(object obj)
+        private void ExecuteSubmitCommand(ICloseable window)
         {
             UpdateInnings(Innings);
-            if (obj is ICloseable window)
-            {
-                window.Close();
-            }
+            window.Close();
         }
 
         public override void UpdateData(ICricketTeam portfolio)

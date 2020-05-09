@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:guiSupport="clr-namespace:GUISupport" xmlns:gui="clr-namespace:GUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:uiC="clr-namespace:UICommon.Converters;assembly=UICommon"
     <Grid>
         <Grid.Resources>
-            <guiSupport:ArrayMultiValueConverter x:Key="ArrayMultiValueConverter"/>
+            <uiC:ArrayMultiValueConverter x:Key="ArrayMultiValueConverter" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>

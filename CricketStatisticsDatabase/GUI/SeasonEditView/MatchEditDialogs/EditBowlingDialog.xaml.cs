@@ -14,7 +14,7 @@ namespace GUI.Dialogs
             InitializeComponent();
         }
 
-        private void DataGrid_AutoGeneratingColumn(object sender, System.Windows.Controls.DataGridAutoGeneratingColumnEventArgs e)
+        private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             //your date time property
             if (e.PropertyType == typeof(PlayerName))

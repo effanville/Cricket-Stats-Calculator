@@ -1,11 +1,11 @@
 ﻿using Cricket.Interfaces;
-using GUISupport.ViewModels;
+using UICommon.ViewModelBases;
 using System;
 using System.Collections.Generic;
 
 namespace GUI.ViewModels
 {
-    public class TeamOverviewViewModel : ViewModelBase
+    public class TeamOverviewViewModel : ViewModelBase<ICricketTeam>
     {
         List<ICricketPlayer> fPlayers;
         public List<ICricketPlayer> Players
@@ -25,13 +25,13 @@ namespace GUI.ViewModels
         ICricketSeason fSelectedSeason;
 
         public ICricketSeason SelectedSeason
-        { 
+        {
             get { return fSelectedSeason; }
             set { fSelectedSeason = value; OnPropertyChanged(); }
         }
 
         public TeamOverviewViewModel(Action<Action<ICricketTeam>> updateTeam, List<ICricketPlayer> players, List<ICricketSeason> seasons)
-            : base ("Team Overview")
+            : base("Team Overview")
         {
             Players = players;
             Seasons = seasons;

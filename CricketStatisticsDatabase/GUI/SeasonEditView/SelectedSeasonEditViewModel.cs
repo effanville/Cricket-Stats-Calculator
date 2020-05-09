@@ -1,17 +1,17 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Match;
 using GUI.Dialogs.ViewModels;
-using GUISupport;
-using GUISupport.Services;
-using GUISupport.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using UICommon.Commands;
+using UICommon.Services;
+using UICommon.ViewModelBases;
 
 namespace GUI.ViewModels
 {
-    public class SelectedSeasonEditViewModel : ViewModelBase
+    public class SelectedSeasonEditViewModel : ViewModelBase<ICricketTeam>
     {
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
@@ -68,16 +68,16 @@ namespace GUI.ViewModels
             fDialogService = dialogService;
             UpdateTeam = updateTeam;
             SelectedSeason = season;
-            AddMatchCommand = new BasicCommand(ExecuteAddMatch);
-            EditMatchCommand = new BasicCommand(ExecuteEditMatch);
-            DeleteMatchCommand = new BasicCommand(ExecuteDeleteMatch);
-            EditBattingCommand = new BasicCommand(ExecuteEditBatting);
-            EditBowlingCommand = new BasicCommand(ExecuteEditBowling);
-            EditFieldingCommand = new BasicCommand(ExecuteEditFielding);
+            AddMatchCommand = new RelayCommand(ExecuteAddMatch);
+            EditMatchCommand = new RelayCommand<object[]>(ExecuteEditMatch);
+            DeleteMatchCommand = new RelayCommand(ExecuteDeleteMatch);
+            EditBattingCommand = new RelayCommand(ExecuteEditBatting);
+            EditBowlingCommand = new RelayCommand(ExecuteEditBowling);
+            EditFieldingCommand = new RelayCommand(ExecuteEditFielding);
         }
 
         public ICommand EditBattingCommand { get; }
-        private void ExecuteEditBatting(object obj)
+        private void ExecuteEditBatting()
         {
             if (SelectedMatch != null)
             {
@@ -87,7 +87,7 @@ namespace GUI.ViewModels
         }
 
         public ICommand EditBowlingCommand { get; }
-        private void ExecuteEditBowling(object obj)
+        private void ExecuteEditBowling()
         {
             if (SelectedMatch != null)
             {
@@ -98,7 +98,7 @@ namespace GUI.ViewModels
 
 
         public ICommand EditFieldingCommand { get; }
-        private void ExecuteEditFielding(object obj)
+        private void ExecuteEditFielding()
         {
             if (SelectedMatch != null)
             {
@@ -108,7 +108,7 @@ namespace GUI.ViewModels
         }
 
         public ICommand AddMatchCommand { get; }
-        private void ExecuteAddMatch(object obj)
+        private void ExecuteAddMatch()
         {
             if (SelectedSeason != null)
             {
@@ -118,29 +118,26 @@ namespace GUI.ViewModels
         }
 
         public ICommand EditMatchCommand { get; }
-        private void ExecuteEditMatch(object obj)
+        private void ExecuteEditMatch(object[] array)
         {
             if (SelectedSeason != null)
             {
-                if (obj is object[] array)
+                if (array.Length == 5)
                 {
-                    if (array.Length == 5)
-                    {
-                        var dateParse = DateTime.TryParse(array[1].ToString(), out DateTime dateResult);
+                    var dateParse = DateTime.TryParse(array[1].ToString(), out DateTime dateResult);
 
-                        var matchTypeParse = Enum.TryParse<MatchType>(array[3].ToString(), out MatchType resultMatch);
-                        var resultTypeParse = Enum.TryParse<ResultType>(array[4].ToString(), out ResultType resultResult);
-                        if (dateParse && matchTypeParse && resultTypeParse)
-                        {
-                            UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name).GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.Opposition).EditInfo(array[0].ToString(), dateResult, array[2].ToString(), resultMatch, resultResult));
-                        }
+                    var matchTypeParse = Enum.TryParse<MatchType>(array[3].ToString(), out MatchType resultMatch);
+                    var resultTypeParse = Enum.TryParse<ResultType>(array[4].ToString(), out ResultType resultResult);
+                    if (dateParse && matchTypeParse && resultTypeParse)
+                    {
+                        UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name).GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.Opposition).EditInfo(array[0].ToString(), dateResult, array[2].ToString(), resultMatch, resultResult));
                     }
                 }
             }
         }
 
         public ICommand DeleteMatchCommand { get; }
-        private void ExecuteDeleteMatch(object obj)
+        private void ExecuteDeleteMatch()
         {
             if (SelectedMatch != null)
             {

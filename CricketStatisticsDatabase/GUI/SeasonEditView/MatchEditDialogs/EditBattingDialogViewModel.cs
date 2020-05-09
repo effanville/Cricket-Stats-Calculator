@@ -1,14 +1,15 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Match;
-using GUISupport;
-using GUISupport.ViewModels;
 using System;
 using System.Windows.Input;
 using System.Collections.Generic;
+using UICommon.ViewModelBases;
+using UICommon.Commands;
+using UICommon.Interfaces;
 
 namespace GUI.Dialogs.ViewModels
 {
-    public class EditBattingDialogViewModel : ViewModelBase
+    public class EditBattingDialogViewModel : ViewModelBase<ICricketTeam>
     {
         Action<BattingInnings> UpdateInnings;
 
@@ -39,13 +40,13 @@ namespace GUI.Dialogs.ViewModels
             UpdateInnings = updateInnings;
             Innings = innings;
             Info = Innings.BattingInfo;
-            SubmitCommand = new BasicCommand(ExecuteSubmitCommand);
-            MoveUpCommand = new BasicCommand(ExecuteMoveUp);
-            MoveDownCommand = new BasicCommand(ExecuteMoveDown);
+            SubmitCommand = new RelayCommand<ICloseable>(ExecuteSubmitCommand);
+            MoveUpCommand = new RelayCommand(ExecuteMoveUp);
+            MoveDownCommand = new RelayCommand(ExecuteMoveDown);
         }
 
         public ICommand MoveUpCommand { get; }
-        private void ExecuteMoveUp(object obj)
+        private void ExecuteMoveUp()
         {
             var newList = new List<BattingEntry>();
             newList.AddRange(Info);
@@ -60,12 +61,12 @@ namespace GUI.Dialogs.ViewModels
         }
 
         public ICommand MoveDownCommand { get; }
-        private void ExecuteMoveDown(object obj)
+        private void ExecuteMoveDown()
         {
             var newList = new List<BattingEntry>();
             newList.AddRange(Info);
             int index = newList.IndexOf(SelectedEntry);
-            if (index == Innings.BattingInfo.Count -1)
+            if (index == Innings.BattingInfo.Count - 1)
             {
                 return;
             }
@@ -75,16 +76,13 @@ namespace GUI.Dialogs.ViewModels
         }
 
         public ICommand SubmitCommand { get; }
-        private void ExecuteSubmitCommand(object obj)
+        private void ExecuteSubmitCommand(ICloseable window)
         {
             var newInnings = new BattingInnings();
             newInnings.BattingInfo = Info;
             newInnings.Extras = Innings.Extras;
             UpdateInnings(newInnings);
-            if (obj is ICloseable window)
-            {
-                window.Close();
-            }
+            window.Close();
         }
 
         public override void UpdateData(ICricketTeam portfolio)
