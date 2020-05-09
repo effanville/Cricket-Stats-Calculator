@@ -8,23 +8,25 @@ namespace CricketClasses.StatisticsTests
     [TestFixture]
     public sealed class BestBattingTests
     {
-        [TestCase(10, 0, 10,0,0)]
+        [TestCase(10, 0, 10, 0, 0)]
         [TestCase(10, 0, 5, 0, 1)]
         [TestCase(10, 1, 10, 2, 1)]
         [TestCase(5, 0, 10, 0, -1)]
-        [TestCase(10,3, 10, 1, -1)]
+        [TestCase(10, 3, 10, 1, -1)]
         [TestCase(20, 1, 10, 1, 1)]
         [TestCase(0, 0, 0, 0, 0)]
         [TestCase(10, 3, 10, 4, 0)]
         public void ComparisonTests(int runs, Wicket howOut, int otherRuns, Wicket otherHowOut, int expected)
         {
             var best = new BestBatting();
+            best.Opposition = "Sandon";
             best.Runs = runs;
             best.HowOut = howOut;
 
             var otherBest = new BestBatting();
             otherBest.Runs = otherRuns;
             otherBest.HowOut = otherHowOut;
+            otherBest.Opposition = "Aston";
 
             int comparison = best.CompareTo(otherBest);
             Assert.AreEqual(expected, comparison);

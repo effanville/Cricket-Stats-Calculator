@@ -12,7 +12,9 @@ namespace Cricket.Statistics
             {
                 if (Wicket.Equals(ship.Wicket))
                 {
-                    return ship.Runs.CompareTo(Runs);
+                    // this is only sensible to be this way around
+                    // even if more null checks are needed elsewhere
+                    return Runs.CompareTo(ship.Runs);
                 }
             }
 

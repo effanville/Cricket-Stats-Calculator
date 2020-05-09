@@ -1,35 +1,32 @@
 ﻿<UserControl x:Class="GUI.TeamOverview"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-
-    <Grid >
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
         <ListBox Grid.Column="0"
-                     ItemsSource="{Binding Path=Players, Mode=OneWay}" 
-                     MinHeight="300"
-                     Margin="10,10,10,10"
-                     MinWidth="150"/>
-
+                 ItemsSource="{Binding Path=Players, Mode=OneWay}"
+                 MinHeight="300"
+                 Margin="10,10,10,10"
+                 MinWidth="150" />
         <ListBox Grid.Column="1"
-                     ItemsSource ="{Binding Path=Seasons, Mode=OneWay}" 
-                     SelectedItem="{Binding SelectedSeason}"
-                     MinHeight="300" 
-                     Margin="10,10,10,10" 
-                     MinWidth="150"/>
-
+                 ItemsSource="{Binding Path=Seasons, Mode=OneWay}"
+                 SelectedItem="{Binding SelectedSeason}"
+                 MinHeight="300"
+                 Margin="10,10,10,10"
+                 MinWidth="150" />
         <ListBox Grid.Column="2"
-                     ItemsSource ="{Binding Path=SelectedSeason.Matches, Mode=OneWay}"
-                     MinHeight="300" 
-                     Margin="10,10,10,10" 
-                     MinWidth="150"/>        
+                 ItemsSource="{Binding Path=SelectedSeason.Matches, Mode=OneWay}"
+                 MinHeight="300"
+                 Margin="10,10,10,10"
+                 MinWidth="150" />
     </Grid>
 </UserControl>

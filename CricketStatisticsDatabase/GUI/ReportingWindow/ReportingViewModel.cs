@@ -1,19 +1,19 @@
 ﻿using Cricket.Interfaces;
-using GUISupport;
-using GUISupport.ViewModels;
+using UICommon.ViewModelBases;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Validation;
+using UICommon.Commands;
 
 namespace GUI.ViewModels
 {
-    public class ReportingViewModel : ViewModelBase
+    public class ReportingViewModel : ViewModelBase<ICricketTeam>
     {
         private ICricketTeam team;
         public ICricketTeam TeamToPlayWith
         {
             get { return team; }
-            set {team = value; OnPropertyChanged(); }
+            set { team = value; OnPropertyChanged(); }
         }
         private List<ValidationResult> fValidations = new List<ValidationResult>();
         public List<ValidationResult> Validations
@@ -23,7 +23,7 @@ namespace GUI.ViewModels
         }
 
         public ICommand ValidateCommand { get; }
-        private void ExecuteValidateCommand(object obj)
+        private void ExecuteValidateCommand()
         {
             if (TeamToPlayWith != null)
             {
@@ -42,7 +42,7 @@ namespace GUI.ViewModels
             : base("ReportingView")
         {
             TeamToPlayWith = team;
-            ValidateCommand = new BasicCommand(ExecuteValidateCommand);
+            ValidateCommand = new RelayCommand(ExecuteValidateCommand);
         }
     }
 }

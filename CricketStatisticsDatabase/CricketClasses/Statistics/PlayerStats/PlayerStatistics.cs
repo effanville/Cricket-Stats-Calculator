@@ -131,7 +131,7 @@ namespace Cricket.Statistics
                         }
                         else
                         {
-                            if (partnerships[i].ContainsPlayer(Name) && PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
+                            if (partnerships[i].ContainsPlayer(Name) && partnerships[i].CompareTo(PartnershipsByWicket[i]) > 0)
                             {
                                 PartnershipsByWicket[i] = partnerships[i];
                             }
@@ -161,7 +161,7 @@ namespace Cricket.Statistics
                             }
                             else
                             {
-                                if (partnerships[i].ContainsPlayer(Name) && PartnershipsByWicket[i].CompareTo(partnerships[i]) > 0)
+                                if (partnerships[i].ContainsPlayer(Name) && partnerships[i].CompareTo(PartnershipsByWicket[i]) > 0)
                                 {
                                     PartnershipsByWicket[i] = partnerships[i];
                                 }

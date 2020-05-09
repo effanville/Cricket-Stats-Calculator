@@ -1,9 +1,9 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Team;
 using FileAccess;
-using GUISupport;
-using GUISupport.Services;
-using GUISupport.ViewModels;
+using UICommon.Commands;
+using UICommon.Services;
+using UICommon.ViewModelBases;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -36,9 +36,9 @@ namespace GUI.ViewModels
             fFileService = fileService;
             fDialogService = dialogService;
             TeamToPlayWith = new CricketTeam();
-            NewTeamCommand = new BasicCommand(ExecuteNewTeamCommand);
-            LoadTeamCommand = new BasicCommand(ExecuteLoadTeamCommand);
-            SaveTeamCommand = new BasicCommand(ExecuteSaveTeamCommand);
+            NewTeamCommand = new RelayCommand(ExecuteNewTeamCommand);
+            LoadTeamCommand = new RelayCommand(ExecuteLoadTeamCommand);
+            SaveTeamCommand = new RelayCommand(ExecuteSaveTeamCommand);
 
             DisplayTabs.Add(new TeamOverviewViewModel(UpdateDatabase, TeamToPlayWith.Players, TeamToPlayWith.Seasons));
             DisplayTabs.Add(new PlayerEditViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
@@ -47,7 +47,13 @@ namespace GUI.ViewModels
 
             ReportingView = new ReportingViewModel(TeamToPlayWith);
         }
-        public Action<Action<ICricketTeam>> UpdateDatabase => action => UpdateDatabaseFromAction(action);
+        public Action<Action<ICricketTeam>> UpdateDatabase
+        {
+            get
+            {
+                return action => UpdateDatabaseFromAction(action);
+            }
+        }
 
         private void UpdateDatabaseFromAction(Action<ICricketTeam> updateTeam)
         {
@@ -59,7 +65,7 @@ namespace GUI.ViewModels
         {
             foreach (var tab in DisplayTabs)
             {
-                if (tab is ViewModelBase vmb)
+                if (tab is ViewModelBase<ICricketTeam> vmb)
                 {
                     vmb.UpdateData(TeamToPlayWith);
                 }
@@ -71,7 +77,7 @@ namespace GUI.ViewModels
 
         public ICommand NewTeamCommand { get; }
 
-        private void ExecuteNewTeamCommand(object obj)
+        private void ExecuteNewTeamCommand()
         {
             var result = fDialogService.ShowMessageBox("Are you sure you want a new team?", "New Team?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
             if (result == System.Windows.MessageBoxResult.Yes)
@@ -83,7 +89,7 @@ namespace GUI.ViewModels
 
         public ICommand LoadTeamCommand { get; }
 
-        private void ExecuteLoadTeamCommand(object obj)
+        private void ExecuteLoadTeamCommand()
         {
             var result = fFileService.OpenFile(string.Empty);
             if (result.Success != null && (bool)result.Success)
@@ -99,7 +105,7 @@ namespace GUI.ViewModels
         }
 
         public ICommand SaveTeamCommand { get; }
-        private void ExecuteSaveTeamCommand(object obj)
+        private void ExecuteSaveTeamCommand()
         {
             var result = fFileService.SaveFile("xml", string.Empty, string.Empty, "XML Files|*.xml|All Files|*.*");
             if (result.Success != null && (bool)result.Success)

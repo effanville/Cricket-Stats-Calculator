@@ -1,16 +1,16 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Player;
 using GUI.Dialogs.ViewModels;
-using GUISupport;
-using GUISupport.Services;
-using GUISupport.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using UICommon.Commands;
+using UICommon.Services;
+using UICommon.ViewModelBases;
 
 namespace GUI.ViewModels
 {
-    public class PlayerEditViewModel : ViewModelBase
+    public class PlayerEditViewModel : ViewModelBase<ICricketTeam>
     {
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
@@ -62,14 +62,14 @@ namespace GUI.ViewModels
             UpdateTeam = updateTeam;
             Players = team.Players;
             teamHere = team;
-            AddPlayerCommand = new BasicCommand(ExecuteAddPlayer);
-            EditPlayerCommand = new BasicCommand(ExecuteEditPlayer);
-            DeletePlayerCommand = new BasicCommand(ExecuteDeletePlayer);
+            AddPlayerCommand = new RelayCommand(ExecuteAddPlayer);
+            EditPlayerCommand = new RelayCommand<object[]>(ExecuteEditPlayer);
+            DeletePlayerCommand = new RelayCommand(ExecuteDeletePlayer);
 
-            AddFromTeamPlayerCommand = new BasicCommand(Execute);
+            AddFromTeamPlayerCommand = new RelayCommand(Execute);
         }
         public ICommand AddFromTeamPlayerCommand { get; }
-        private void Execute(object obj)
+        private void Execute()
         {
             foreach (var season in teamHere.Seasons)
             {
@@ -81,30 +81,27 @@ namespace GUI.ViewModels
         }
 
         public ICommand AddPlayerCommand { get; }
-        private void ExecuteAddPlayer(object obj)
+        private void ExecuteAddPlayer()
         {
             Action<PlayerName> getName = (name) => UpdateTeam(team => team.AddPlayer(name));
             fDialogService.DisplayCustomDialog(new CreatePlayerDialogViewModel(getName));
         }
 
         public ICommand EditPlayerCommand { get; }
-        private void ExecuteEditPlayer(object obj)
+        private void ExecuteEditPlayer(object[] array)
         {
             if (SelectedPlayer != null)
             {
-                if (obj is object[] array)
+                if (array.Length == 2)
                 {
-                    if (array.Length == 2)
-                    {
-                        SelectedPlayer.EditName(array[0].ToString(), array[1].ToString());
-                    }
+                    SelectedPlayer.EditName(array[0].ToString(), array[1].ToString());
                 }
             }
         }
 
         public ICommand DeletePlayerCommand { get; }
 
-        private void ExecuteDeletePlayer(object obj)
+        private void ExecuteDeletePlayer()
         {
             if (SelectedPlayer != null)
             {

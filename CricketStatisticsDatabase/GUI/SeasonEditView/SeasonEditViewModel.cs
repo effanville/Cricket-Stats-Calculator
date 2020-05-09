@@ -1,15 +1,15 @@
 ﻿using Cricket.Interfaces;
 using GUI.Dialogs.ViewModels;
-using GUISupport;
-using GUISupport.Services;
-using GUISupport.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using UICommon.Commands;
+using UICommon.Services;
+using UICommon.ViewModelBases;
 
 namespace GUI.ViewModels
 {
-    public class SeasonEditViewModel : ViewModelBase
+    public class SeasonEditViewModel : ViewModelBase<ICricketTeam>
     {
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
@@ -44,36 +44,33 @@ namespace GUI.ViewModels
             UpdateTeam = updateTeam;
             Seasons = team.Seasons;
             SelectedSeasonViewModel = new SelectedSeasonEditViewModel(null, updateTeam, fileService, dialogService);
-            AddSeasonCommand = new BasicCommand(ExecuteAddSeason);
-            EditSeasonCommand = new BasicCommand(ExecuteEditSeason);
-            DeleteSeasonCommand = new BasicCommand(ExecuteDeleteSeason);
+            AddSeasonCommand = new RelayCommand(ExecuteAddSeason);
+            EditSeasonCommand = new RelayCommand<object[]>(ExecuteEditSeason);
+            DeleteSeasonCommand = new RelayCommand(ExecuteDeleteSeason);
         }
 
         public ICommand AddSeasonCommand { get; }
-        private void ExecuteAddSeason(object obj)
+        private void ExecuteAddSeason()
         {
             Action<DateTime, string> getName = (year, name) => UpdateTeam(team => team.AddSeason(year, name));
             fDialogService.DisplayCustomDialog(new CreateSeasonDialogViewModel(getName));
         }
 
         public ICommand EditSeasonCommand { get; }
-        private void ExecuteEditSeason(object obj)
+        private void ExecuteEditSeason(object[] array)
         {
             if (SelectedSeason != null)
             {
-                if (obj is object[] array)
+                if (array.Length == 2)
                 {
-                    if (array.Length == 2)
-                    {
-                        var year = int.Parse(array[0].ToString());
-                        SelectedSeason.EditSeasonName(new DateTime(year,1,1), array[1].ToString());
-                    }
+                    var year = int.Parse(array[0].ToString());
+                    SelectedSeason.EditSeasonName(new DateTime(year, 1, 1), array[1].ToString());
                 }
             }
         }
 
         public ICommand DeleteSeasonCommand { get; }
-        private void ExecuteDeleteSeason(object obj)
+        private void ExecuteDeleteSeason()
         {
             if (SelectedSeason != null)
             {

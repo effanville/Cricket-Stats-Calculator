@@ -1,12 +1,13 @@
 ﻿using Cricket.Interfaces;
-using GUISupport;
-using GUISupport.ViewModels;
 using System;
 using System.Windows.Input;
+using UICommon.Commands;
+using UICommon.Interfaces;
+using UICommon.ViewModelBases;
 
 namespace GUI.Dialogs.ViewModels
 {
-    public class CreateSeasonDialogViewModel : ViewModelBase
+    public class CreateSeasonDialogViewModel : ViewModelBase<ICricketTeam>
     {
         private string fYear;
         private string fName;
@@ -23,17 +24,13 @@ namespace GUI.Dialogs.ViewModels
             set { fName = value; OnPropertyChanged(); }
         }
         public ICommand SubmitCommand { get; }
-        private void ExecuteSubmitCommand(object obj)
+        private void ExecuteSubmitCommand(ICloseable window)
         {
             bool dateParse = int.TryParse(Year, out int result);
-            if (dateParse && result>1850 )
+            if (dateParse && result > 1850)
             {
-                ReportName(new DateTime(result,1,1), Name);
-
-                if (obj is ICloseable window)
-                {
-                    window.Close();
-                }
+                ReportName(new DateTime(result, 1, 1), Name);
+                window.Close();
             }
         }
 
@@ -47,7 +44,7 @@ namespace GUI.Dialogs.ViewModels
             : base("Create New Player")
         {
             ReportName = reportNameBack;
-            SubmitCommand = new BasicCommand(ExecuteSubmitCommand);
+            SubmitCommand = new RelayCommand<ICloseable>(ExecuteSubmitCommand);
         }
     }
 }

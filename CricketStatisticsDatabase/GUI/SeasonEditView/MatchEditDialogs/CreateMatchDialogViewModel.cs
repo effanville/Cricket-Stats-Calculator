@@ -1,15 +1,16 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Match;
-using GUISupport;
-using GUISupport.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using UICommon.Commands;
+using UICommon.Interfaces;
+using UICommon.ViewModelBases;
 
 namespace GUI.Dialogs.ViewModels
 {
-    public class CreateMatchDialogViewModel :ViewModelBase
+    public class CreateMatchDialogViewModel : ViewModelBase<ICricketTeam>
     {
         private string fOpposition;
         public string Opposition
@@ -55,18 +56,14 @@ namespace GUI.Dialogs.ViewModels
         }
 
         public ICommand SubmitCommand { get; }
-        private void ExecuteSubmitCommand(object obj)
+        private void ExecuteSubmitCommand(ICloseable window)
         {
             bool dateParse = DateTime.TryParse(date, out DateTime result);
             if (dateParse)
             {
                 var info = new MatchInfo(Opposition, result, Place, Type);
                 AddMatch(info);
-
-                if (obj is ICloseable window)
-                {
-                    window.Close();
-                }
+                window.Close();
             }
         }
 
@@ -78,7 +75,7 @@ namespace GUI.Dialogs.ViewModels
         public CreateMatchDialogViewModel(Action<MatchInfo> addMatch) : base("Create New Match")
         {
             AddMatch = addMatch;
-            SubmitCommand = new BasicCommand(ExecuteSubmitCommand);
+            SubmitCommand = new RelayCommand<ICloseable>(ExecuteSubmitCommand);
         }
     }
 }

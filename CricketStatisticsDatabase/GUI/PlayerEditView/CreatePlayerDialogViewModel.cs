@@ -1,17 +1,18 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Player;
-using GUISupport;
-using GUISupport.ViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using UICommon.Commands;
+using UICommon.Interfaces;
+using UICommon.ViewModelBases;
 
 namespace GUI.Dialogs.ViewModels
 {
-    public class CreatePlayerDialogViewModel : ViewModelBase, INotifyDataErrorInfo
+    public class CreatePlayerDialogViewModel : ViewModelBase<ICricketTeam>, INotifyDataErrorInfo
     {
         private readonly Dictionary<string, List<string>> fErrorsByPropertyName = new Dictionary<string, List<string>>();
 
@@ -37,16 +38,12 @@ namespace GUI.Dialogs.ViewModels
             set { fFirstName = value; OnPropertyChanged(); Validate(); }
         }
         public ICommand SubmitCommand { get; }
-        private void ExecuteSubmitCommand(object obj)
+        private void ExecuteSubmitCommand(ICloseable window)
         {
             if (!HasErrors)
             {
                 ReportName(new PlayerName(Surname, Forename));
-
-                if (obj is ICloseable window)
-                {
-                    window.Close();
-                }
+                window.Close();
             }
         }
 
@@ -61,11 +58,17 @@ namespace GUI.Dialogs.ViewModels
             : base("Create New Player")
         {
             ReportName = reportNameBack;
-            SubmitCommand = new BasicCommand(ExecuteSubmitCommand);
+            SubmitCommand = new RelayCommand<ICloseable>(ExecuteSubmitCommand);
             Validate();
         }
 
-        public bool HasErrors => fErrorsByPropertyName.Any();
+        public bool HasErrors
+        {
+            get
+            {
+                return fErrorsByPropertyName.Any();
+            }
+        }
 
         public IEnumerable GetErrors(string propertyName)
         {
@@ -73,9 +76,9 @@ namespace GUI.Dialogs.ViewModels
             {
                 return fErrorsByPropertyName.SelectMany(pair => pair.Value);
             }
-            else 
-            { 
-                return fErrorsByPropertyName.ContainsKey(propertyName) ? fErrorsByPropertyName[propertyName] : null; 
+            else
+            {
+                return fErrorsByPropertyName.ContainsKey(propertyName) ? fErrorsByPropertyName[propertyName] : null;
             }
         }
 
@@ -109,7 +112,7 @@ namespace GUI.Dialogs.ViewModels
         {
             if (fErrorsByPropertyName.ContainsKey(propertyName))
             {
-                fErrorsByPropertyName.Remove(propertyName);
+                _ = fErrorsByPropertyName.Remove(propertyName);
                 OnErrorsChanged(propertyName);
             }
         }
