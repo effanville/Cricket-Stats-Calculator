@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
-using Validation;
+using StructureCommon.Validation;
 
 namespace CSD_Tests
 {

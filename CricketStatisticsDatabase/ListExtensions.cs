@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Validation;
+﻿using StructureCommon.Validation;
+using System.Collections.Generic;
 
-namespace ExtensionMethods
+namespace StructureCommon.Extensions
 {
     public static class ListExtensions
     {

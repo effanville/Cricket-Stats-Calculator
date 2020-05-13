@@ -1,9 +1,8 @@
-﻿using ExtensionMethods;
-using StringFunctions;
+﻿using StructureCommon.Extensions;
+using StructureCommon.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Validation;
 
 namespace Cricket.Match
 {

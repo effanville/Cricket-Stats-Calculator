@@ -1,11 +1,11 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Player;
 using Cricket.Statistics;
-using ExtensionMethods;
+using StructureCommon.Extensions;
+using StructureCommon.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Validation;
 
 namespace Cricket.Match
 {

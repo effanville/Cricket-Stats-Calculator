@@ -1,4 +1,4 @@
-﻿namespace Validation
+﻿namespace StructureCommon.Validation
 {
     public static class Validating
     {

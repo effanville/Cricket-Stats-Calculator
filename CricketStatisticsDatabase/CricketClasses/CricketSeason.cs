@@ -1,12 +1,12 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
-using ExtensionMethods;
+using StructureCommon.Extensions;
+using StructureCommon.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using Validation;
 
 namespace Cricket
 {

@@ -4,7 +4,7 @@ using CSD_Tests;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using Validation;
+using StructureCommon.Validation;
 
 namespace CricketClasses.MatchTests
 {

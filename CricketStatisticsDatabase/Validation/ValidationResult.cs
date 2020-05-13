@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Validation
+namespace StructureCommon.Validation
 {
     public class ValidationResult
     {
