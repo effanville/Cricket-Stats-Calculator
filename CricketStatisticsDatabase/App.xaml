@@ -4,6 +4,6 @@
              DispatcherUnhandledException="Application_DispatcherUnhandledException"
              StartupUri="/GUI/MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary Source="GUI/Dictionaries.xaml"/>
+        <ResourceDictionary Source="GUI/StylesAndTemplates/Dictionaries.xaml"/>
     </Application.Resources>
 </Application>
