@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UICommon", "..\Common\UICommon\UICommon.csproj", "{AF6A7B95-7560-4DE4-A4ED-6A4AC6F7F433}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StructureCommon", "..\Common\StructureCommon\StructureCommon.csproj", "{0FB56B18-DECC-4E7B-8FCE-0C87B3F3266B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{AF6A7B95-7560-4DE4-A4ED-6A4AC6F7F433}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF6A7B95-7560-4DE4-A4ED-6A4AC6F7F433}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF6A7B95-7560-4DE4-A4ED-6A4AC6F7F433}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FB56B18-DECC-4E7B-8FCE-0C87B3F3266B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FB56B18-DECC-4E7B-8FCE-0C87B3F3266B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FB56B18-DECC-4E7B-8FCE-0C87B3F3266B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FB56B18-DECC-4E7B-8FCE-0C87B3F3266B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

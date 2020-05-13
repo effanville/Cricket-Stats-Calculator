@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\StructureCommon\StructureCommon.csproj" />
     <ProjectReference Include="..\..\Common\UICommon\UICommon.csproj" />
   </ItemGroup>
 

@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\StructureCommon\StructureCommon.csproj" />
     <ProjectReference Include="..\CricketStatisticsDatabase\CricketStatisticsDatabase.csproj" />
   </ItemGroup>
 
