@@ -11,12 +11,16 @@ namespace Cricket.Match
         }
 
         public int Stumpings
-        { get; set; }
+        {
+            get; set;
+        }
 
         public int Catches
-        { get; set; }
+        {
+            get; set;
+        }
 
-        public void SetScores( int stumpings, int catches)
+        public void SetScores(int stumpings, int catches)
         {
             Stumpings = stumpings;
             Catches = catches;

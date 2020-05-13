@@ -29,22 +29,43 @@ namespace GUI.Dialogs.ViewModels
         private string date;
         public string Date
         {
-            get { return date; }
-            set { date = value; OnPropertyChanged(); }
+            get
+            {
+                return date;
+            }
+            set
+            {
+                date = value;
+                OnPropertyChanged();
+            }
         }
 
         private string fPlace;
         public string Place
         {
-            get { return fPlace; }
-            set { fPlace = value; OnPropertyChanged(); }
+            get
+            {
+                return fPlace;
+            }
+            set
+            {
+                fPlace = value;
+                OnPropertyChanged();
+            }
         }
 
         private MatchType fType;
         public MatchType Type
         {
-            get { return fType; }
-            set { fType = value; OnPropertyChanged(nameof(Type)); }
+            get
+            {
+                return fType;
+            }
+            set
+            {
+                fType = value;
+                OnPropertyChanged(nameof(Type));
+            }
         }
 
         public List<MatchType> MatchTypes
@@ -55,7 +76,10 @@ namespace GUI.Dialogs.ViewModels
             }
         }
 
-        public ICommand SubmitCommand { get; }
+        public ICommand SubmitCommand
+        {
+            get;
+        }
         private void ExecuteSubmitCommand(ICloseable window)
         {
             bool dateParse = DateTime.TryParse(date, out DateTime result);

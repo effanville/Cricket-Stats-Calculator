@@ -1,5 +1,5 @@
-﻿using System;
-using StringFunctions;
+﻿using StringFunctions;
+using System;
 
 namespace FinancialStructures.Reporting
 {

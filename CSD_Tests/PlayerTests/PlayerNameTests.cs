@@ -89,19 +89,21 @@ namespace CricketClasses.PlayerTests
         [TestCase("", "Joe", false, new string[] { "Surname cannot be empty or null." })]
         [TestCase("Bloggs", null, false, new string[] { "Forename cannot be empty or null." })]
         [TestCase(null, "Joe", false, new string[] { "Surname cannot be empty or null." })]
-        public void TestValidityMessage(string surname, string forename, bool isValid, string[] isValidMessage )
+        public void TestValidityMessage(string surname, string forename, bool isValid, string[] isValidMessage)
         {
             var name = new CricketPlayer(surname, forename);
             var valid = name.Validation();
             var expectedList = new List<ValidationResult>();
             if (!isValid)
             {
-                var expected = new ValidationResult();
-                expected.IsValid = isValid;
+                var expected = new ValidationResult
+                {
+                    IsValid = isValid
+                };
                 expected.Messages.AddRange(isValidMessage);
                 expectedList.Add(expected);
             }
-            
+
             Assertions.ValidationListsEqual(expectedList, valid);
         }
 
@@ -111,13 +113,17 @@ namespace CricketClasses.PlayerTests
             var name = new CricketPlayer(null, null);
             var valid = name.Validation();
             var expectedList = new List<ValidationResult>();
-            var expectedSurnameError = new ValidationResult();
-            expectedSurnameError.IsValid = false;
+            var expectedSurnameError = new ValidationResult
+            {
+                IsValid = false
+            };
             expectedSurnameError.Messages.AddRange(new string[] { "Surname cannot be empty or null." });
             expectedList.Add(expectedSurnameError);
 
-            var expectedForenameError = new ValidationResult();
-            expectedForenameError.IsValid = false;
+            var expectedForenameError = new ValidationResult
+            {
+                IsValid = false
+            };
             expectedForenameError.Messages.AddRange(new string[] { "Forename cannot be empty or null." });
             expectedList.Add(expectedForenameError);
 

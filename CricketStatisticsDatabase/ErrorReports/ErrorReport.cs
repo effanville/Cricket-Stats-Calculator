@@ -47,8 +47,14 @@ namespace FinancialStructures.Reporting
         /// </summary>
         public ReportSeverity ErrorSeverity
         {
-            get { return fErrorSeverity; }
-            set { fErrorSeverity = value; }
+            get
+            {
+                return fErrorSeverity;
+            }
+            set
+            {
+                fErrorSeverity = value;
+            }
         }
 
         private ReportType fErrorType;
@@ -58,8 +64,14 @@ namespace FinancialStructures.Reporting
         /// </summary>
         public ReportType ErrorType
         {
-            get { return fErrorType; }
-            set { fErrorType = value; }
+            get
+            {
+                return fErrorType;
+            }
+            set
+            {
+                fErrorType = value;
+            }
         }
 
         private ReportLocation fErrorLocation;
@@ -69,8 +81,14 @@ namespace FinancialStructures.Reporting
         /// </summary>
         public ReportLocation ErrorLocation
         {
-            get { return fErrorLocation; }
-            set { fErrorLocation = value; }
+            get
+            {
+                return fErrorLocation;
+            }
+            set
+            {
+                fErrorLocation = value;
+            }
         }
 
         private string fMessage;
@@ -80,8 +98,14 @@ namespace FinancialStructures.Reporting
         /// </summary>
         public string Message
         {
-            get { return fMessage; }
-            set { fMessage = value; }
+            get
+            {
+                return fMessage;
+            }
+            set
+            {
+                fMessage = value;
+            }
         }
 
         public ErrorReport()

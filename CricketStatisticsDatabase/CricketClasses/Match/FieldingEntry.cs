@@ -27,27 +27,39 @@ namespace Cricket.Match
         }
 
         public int RunOuts
-        { 
-            get; 
-            set; 
+        {
+            get;
+            set;
         }
 
         public int KeeperStumpings
         {
-            get { return keeperFielding.Stumpings; }
-            set { keeperFielding.Stumpings = value; } 
+            get
+            {
+                return keeperFielding.Stumpings;
+            }
+            set
+            {
+                keeperFielding.Stumpings = value;
+            }
         }
 
         public int KeeperCatches
         {
-            get {return keeperFielding.Catches; }
-            set { keeperFielding.Catches = value; } 
+            get
+            {
+                return keeperFielding.Catches;
+            }
+            set
+            {
+                keeperFielding.Catches = value;
+            }
         }
 
         public WicketKeeperStats keeperFielding
-        { 
-            get; 
-            set; 
+        {
+            get;
+            set;
         }
 
         public int TotalDismissals()
@@ -79,8 +91,8 @@ namespace Cricket.Match
         }
 
         public FieldingEntry()
-        { 
-            keeperFielding = new WicketKeeperStats(); 
+        {
+            keeperFielding = new WicketKeeperStats();
         }
 
         public void SetSeasonStats(ICricketSeason season)

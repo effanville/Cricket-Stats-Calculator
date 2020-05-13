@@ -65,7 +65,7 @@ namespace CricketClasses.PlayerTests
         }
 
         [TestCase("Bloggs", "Joe", true, new string[] { })]
-        [TestCase("Bloggs", "", false, new string[] {"Forename cannot be empty or null."})]
+        [TestCase("Bloggs", "", false, new string[] { "Forename cannot be empty or null." })]
         [TestCase("", "Joe", false, new string[] { "Surname cannot be empty or null." })]
         [TestCase("Bloggs", null, false, new string[] { "Forename cannot be empty or null." })]
         [TestCase(null, "Joe", false, new string[] { "Surname cannot be empty or null." })]
@@ -78,11 +78,13 @@ namespace CricketClasses.PlayerTests
             {
                 expected.IsValid = isValid;
                 expected.Messages.AddRange(isValidMessage);
-                var expectedList = new List<ValidationResult>();
-                expectedList.Add(expected);
+                var expectedList = new List<ValidationResult>
+                {
+                    expected
+                };
                 Assertions.ValidationListsEqual(expectedList, valid);
             }
-            else 
+            else
             {
                 Assertions.ValidationListsEqual(new List<ValidationResult>(), valid);
             }
@@ -93,15 +95,21 @@ namespace CricketClasses.PlayerTests
         {
             var name = new CricketPlayer("", "");
             var valid = name.Validation();
-            var expected1 = new ValidationResult();
-            expected1.IsValid = false;
+            var expected1 = new ValidationResult
+            {
+                IsValid = false
+            };
             expected1.Messages.Add("Surname cannot be empty or null.");
-            var expected2 = new ValidationResult();
-            expected2.IsValid = false;
+            var expected2 = new ValidationResult
+            {
+                IsValid = false
+            };
             expected2.Messages.Add("Forename cannot be empty or null.");
-            var expectedList = new List<ValidationResult>();
-            expectedList.Add(expected1);
-            expectedList.Add(expected2);
+            var expectedList = new List<ValidationResult>
+            {
+                expected1,
+                expected2
+            };
             Assertions.ValidationListsEqual(expectedList, valid);
         }
     }

@@ -15,11 +15,13 @@ namespace CSD_Tests
             ValidationResult expected = null;
             if (!result)
             {
-                expected = new ValidationResult();
-                expected.IsValid = result;
+                expected = new ValidationResult
+                {
+                    IsValid = result
+                };
                 expected.Messages.AddRange(messages);
             }
-                
+
             var valid = Validating.NotNegative(value, property, null);
 
             Assertions.ValidationEqual(expected, valid);
@@ -37,8 +39,10 @@ namespace CSD_Tests
             ValidationResult expected = null;
             if (!result)
             {
-                expected = new ValidationResult();
-                expected.IsValid = result;
+                expected = new ValidationResult
+                {
+                    IsValid = result
+                };
                 expected.Messages.AddRange(messages);
             }
 
@@ -59,8 +63,10 @@ namespace CSD_Tests
             ValidationResult expected = null;
             if (!result)
             {
-                expected = new ValidationResult();
-                expected.IsValid = result;
+                expected = new ValidationResult
+                {
+                    IsValid = result
+                };
                 expected.Messages.AddRange(messages);
             }
 
@@ -81,8 +87,10 @@ namespace CSD_Tests
             ValidationResult expected = null;
             if (!result)
             {
-                expected = new ValidationResult();
-                expected.IsValid = result;
+                expected = new ValidationResult
+                {
+                    IsValid = result
+                };
                 expected.Messages.AddRange(messages);
             }
 
@@ -99,8 +107,10 @@ namespace CSD_Tests
             ValidationResult expected = null;
             if (!result)
             {
-                expected = new ValidationResult();
-                expected.IsValid = result;
+                expected = new ValidationResult
+                {
+                    IsValid = result
+                };
                 expected.Messages.AddRange(messages);
             }
 

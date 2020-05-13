@@ -194,6 +194,7 @@ namespace Cricket.Match
         }
 
         public BattingEntry()
-        { }
+        {
+        }
     }
 }

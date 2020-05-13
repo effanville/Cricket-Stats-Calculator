@@ -8,7 +8,7 @@ namespace Cricket.Interfaces
         /// The name by which this player is known.
         /// </summary>
         PlayerName Name
-        { 
+        {
             get;
         }
 

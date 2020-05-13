@@ -14,26 +14,47 @@ namespace GUI.ViewModels
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
-
-        List<ICricketSeason> fSeasons;
+        private List<ICricketSeason> fSeasons;
         public List<ICricketSeason> Seasons
         {
-            get { return fSeasons; }
-            set { fSeasons = value; OnPropertyChanged(); }
+            get
+            {
+                return fSeasons;
+            }
+            set
+            {
+                fSeasons = value;
+                OnPropertyChanged();
+            }
         }
 
-        ICricketSeason fSelectedSeason;
+        private ICricketSeason fSelectedSeason;
         public ICricketSeason SelectedSeason
         {
-            get { return fSelectedSeason; }
-            set { fSelectedSeason = value; OnPropertyChanged(); SelectedSeasonViewModel.UpdateSelected(value); }
+            get
+            {
+                return fSelectedSeason;
+            }
+            set
+            {
+                fSelectedSeason = value;
+                OnPropertyChanged();
+                SelectedSeasonViewModel.UpdateSelected(value);
+            }
         }
 
         private SelectedSeasonEditViewModel fSelectedSeasonViewModel;
         public SelectedSeasonEditViewModel SelectedSeasonViewModel
         {
-            get { return fSelectedSeasonViewModel; }
-            set { fSelectedSeasonViewModel = value; OnPropertyChanged(); }
+            get
+            {
+                return fSelectedSeasonViewModel;
+            }
+            set
+            {
+                fSelectedSeasonViewModel = value;
+                OnPropertyChanged();
+            }
         }
 
         public SeasonEditViewModel(ICricketTeam team, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)
@@ -49,14 +70,20 @@ namespace GUI.ViewModels
             DeleteSeasonCommand = new RelayCommand(ExecuteDeleteSeason);
         }
 
-        public ICommand AddSeasonCommand { get; }
+        public ICommand AddSeasonCommand
+        {
+            get;
+        }
         private void ExecuteAddSeason()
         {
             Action<DateTime, string> getName = (year, name) => UpdateTeam(team => team.AddSeason(year, name));
             fDialogService.DisplayCustomDialog(new CreateSeasonDialogViewModel(getName));
         }
 
-        public ICommand EditSeasonCommand { get; }
+        public ICommand EditSeasonCommand
+        {
+            get;
+        }
         private void ExecuteEditSeason(object[] array)
         {
             if (SelectedSeason != null)
@@ -69,7 +96,10 @@ namespace GUI.ViewModels
             }
         }
 
-        public ICommand DeleteSeasonCommand { get; }
+        public ICommand DeleteSeasonCommand
+        {
+            get;
+        }
         private void ExecuteDeleteSeason()
         {
             if (SelectedSeason != null)

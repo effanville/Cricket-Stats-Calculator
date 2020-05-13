@@ -22,29 +22,53 @@ namespace Cricket.Match
         private double fOversBowled;
         public double OversBowled
         {
-            get { return fOversBowled; }
-            set { fOversBowled = value; }
+            get
+            {
+                return fOversBowled;
+            }
+            set
+            {
+                fOversBowled = value;
+            }
         }
 
         private int fMaidens;
         public int Maidens
         {
-            get { return fMaidens; }
-            set { fMaidens = value; }
+            get
+            {
+                return fMaidens;
+            }
+            set
+            {
+                fMaidens = value;
+            }
         }
 
         private int fRunsConceded;
         public int RunsConceded
         {
-            get { return fRunsConceded; }
-            set { fRunsConceded = value; }
+            get
+            {
+                return fRunsConceded;
+            }
+            set
+            {
+                fRunsConceded = value;
+            }
         }
 
         private int fWickets;
         public int Wickets
         {
-            get { return fWickets; }
-            set { fWickets = value; }
+            get
+            {
+                return fWickets;
+            }
+            set
+            {
+                fWickets = value;
+            }
         }
 
         public void SetBowling(double overs, int maidens, int runsConceded, int wickets)
@@ -77,6 +101,7 @@ namespace Cricket.Match
         }
 
         public BowlingEntry()
-        { }
+        {
+        }
     }
 }

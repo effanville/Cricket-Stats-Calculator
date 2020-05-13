@@ -1,6 +1,6 @@
 ﻿using Cricket.Match;
-using System;
 using StringFunctions;
+using System;
 
 namespace Cricket.Statistics
 {

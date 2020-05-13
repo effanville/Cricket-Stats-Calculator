@@ -10,13 +10,20 @@ namespace GUI.Dialogs.ViewModels
 {
     public class EditFieldingDialogViewModel : ViewModelBase<ICricketTeam>
     {
-        Action<Fielding> UpdateInnings;
+        private Action<Fielding> UpdateInnings;
 
         private Fielding fInnings;
         public Fielding Innings
         {
-            get { return fInnings; }
-            set { fInnings = value; OnPropertyChanged(); }
+            get
+            {
+                return fInnings;
+            }
+            set
+            {
+                fInnings = value;
+                OnPropertyChanged();
+            }
         }
         public EditFieldingDialogViewModel(Action<Fielding> updateInnings, Fielding innings)
                : base("Fielding Edit")
@@ -26,7 +33,10 @@ namespace GUI.Dialogs.ViewModels
             SubmitCommand = new RelayCommand<ICloseable>(ExecuteSubmitCommand);
         }
 
-        public ICommand SubmitCommand { get; }
+        public ICommand SubmitCommand
+        {
+            get;
+        }
         private void ExecuteSubmitCommand(ICloseable window)
         {
             UpdateInnings(Innings);

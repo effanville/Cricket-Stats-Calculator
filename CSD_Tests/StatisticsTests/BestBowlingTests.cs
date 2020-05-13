@@ -19,13 +19,17 @@ namespace CricketClasses.StatisticsTests
         [TestCase(10, 4, 10, 2, 1)]
         public void ComparisonTests(int runs, int wickets, int otherRuns, int otherWickets, int expected)
         {
-            var best = new BestBowling();
-            best.Runs = runs;
-            best.Wickets = wickets;
+            var best = new BestBowling
+            {
+                Runs = runs,
+                Wickets = wickets
+            };
 
-            var otherBest = new BestBowling();
-            otherBest.Runs = otherRuns;
-            otherBest.Wickets = otherWickets;
+            var otherBest = new BestBowling
+            {
+                Runs = otherRuns,
+                Wickets = otherWickets
+            };
 
             int comparison = best.CompareTo(otherBest);
             Assert.AreEqual(expected, comparison);
@@ -37,11 +41,13 @@ namespace CricketClasses.StatisticsTests
         [TestCase(10, 2, null, null, "2-10 vs unknown opposition")]
         public void ToStringTests(int runs, int wickets, string opposition, DateTime date, string expected)
         {
-            var best = new BestBowling();
-            best.Runs = runs;
-            best.Wickets = wickets;
-            best.Opposition = opposition;
-            best.Date = date;
+            var best = new BestBowling
+            {
+                Runs = runs,
+                Wickets = wickets,
+                Opposition = opposition,
+                Date = date
+            };
             string value = best.ToString();
             Assert.AreEqual(expected, value);
         }

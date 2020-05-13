@@ -38,7 +38,9 @@ namespace FileAccess
             finally
             {
                 if (writer != null)
+                {
                     writer.Close();
+                }
             }
         }
 
@@ -67,7 +69,9 @@ namespace FileAccess
             finally
             {
                 if (reader != null)
+                {
                     reader.Close();
+                }
             }
         }
     }

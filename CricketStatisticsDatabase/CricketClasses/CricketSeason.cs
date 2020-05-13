@@ -177,9 +177,11 @@ namespace Cricket
             }
             if (Year == null)
             {
-                var yearNotSet = new ValidationResult();
-                yearNotSet.IsValid = false;
-                yearNotSet.PropertyName = nameof(Year);
+                var yearNotSet = new ValidationResult
+                {
+                    IsValid = false,
+                    PropertyName = nameof(Year)
+                };
                 yearNotSet.AddMessage($"{nameof(Year)} must be set.");
             }
             return results;

@@ -1,7 +1,7 @@
-﻿using Validation;
-using System.Linq;
+﻿using ExtensionMethods;
 using System.Collections.Generic;
-using ExtensionMethods;
+using System.Linq;
+using Validation;
 
 namespace Cricket.Player
 {
@@ -38,15 +38,27 @@ namespace Cricket.Player
         private string fForename;
         public string Forename
         {
-            get { return fForename; }
-            set { fForename = value; }
+            get
+            {
+                return fForename;
+            }
+            set
+            {
+                fForename = value;
+            }
         }
 
         private string fSurname;
         public string Surname
         {
-            get { return fSurname; }
-            set { fSurname = value; }
+            get
+            {
+                return fSurname;
+            }
+            set
+            {
+                fSurname = value;
+            }
         }
 
         public override string ToString()

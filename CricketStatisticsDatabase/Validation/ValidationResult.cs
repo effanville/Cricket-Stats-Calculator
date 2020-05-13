@@ -7,12 +7,18 @@ namespace Validation
         /// <summary>
         /// whether the result is valid or not.
         /// </summary>
-        public bool IsValid { get; set; }
+        public bool IsValid
+        {
+            get; set;
+        }
 
         /// <summary>
         /// The name of the property that is valid or not.
         /// </summary>
-        public string PropertyName { get; set; }
+        public string PropertyName
+        {
+            get; set;
+        }
 
         /// <summary>
         /// The first message about the validity.
@@ -40,13 +46,13 @@ namespace Validation
         /// Returns all messages in one string. Convenient for display.
         /// </summary>
         public string Message
-        { 
-            get 
-            { 
+        {
+            get
+            {
                 string output = string.Empty;
                 Messages.ForEach(message => output += message);
-                return output; 
-            } 
+                return output;
+            }
         }
 
         /// <summary>

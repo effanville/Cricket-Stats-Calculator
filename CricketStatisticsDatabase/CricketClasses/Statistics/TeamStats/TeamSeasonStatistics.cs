@@ -64,7 +64,8 @@ namespace CricketStatistics
         }
 
         public TeamSeasonStatistics()
-        { }
+        {
+        }
 
         public TeamSeasonStatistics(ICricketSeason season)
         {

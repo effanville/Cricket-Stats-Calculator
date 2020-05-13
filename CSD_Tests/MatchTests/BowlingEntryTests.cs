@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
-using Cricket.Match;
+﻿using Cricket.Match;
 using Cricket.Player;
+using CSD_Tests;
+using NUnit.Framework;
 using System.Collections.Generic;
 using Validation;
-using CSD_Tests;
 
 namespace CricketClasses.MatchTests
 {
@@ -68,8 +68,10 @@ namespace CricketClasses.MatchTests
             var expectedList = new List<ValidationResult>();
             if (!isValid)
             {
-                var expected = new ValidationResult();
-                expected.IsValid = isValid;
+                var expected = new ValidationResult
+                {
+                    IsValid = isValid
+                };
                 expected.Messages.AddRange(validMessages);
                 expectedList.Add(expected);
             }

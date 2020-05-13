@@ -28,16 +28,35 @@ namespace GUI.Dialogs.ViewModels
 
         public string Surname
         {
-            get { return fSurname; }
-            set { fSurname = value; OnPropertyChanged(); Validate(); }
+            get
+            {
+                return fSurname;
+            }
+            set
+            {
+                fSurname = value;
+                OnPropertyChanged();
+                Validate();
+            }
         }
 
         public string Forename
         {
-            get { return fFirstName; }
-            set { fFirstName = value; OnPropertyChanged(); Validate(); }
+            get
+            {
+                return fFirstName;
+            }
+            set
+            {
+                fFirstName = value;
+                OnPropertyChanged();
+                Validate();
+            }
         }
-        public ICommand SubmitCommand { get; }
+        public ICommand SubmitCommand
+        {
+            get;
+        }
         private void ExecuteSubmitCommand(ICloseable window)
         {
             if (!HasErrors)

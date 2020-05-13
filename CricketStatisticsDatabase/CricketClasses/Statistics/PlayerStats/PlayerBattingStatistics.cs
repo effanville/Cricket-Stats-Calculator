@@ -1,7 +1,7 @@
-﻿using Cricket.Player;
-using Cricket.Interfaces;
-using System.Collections.Generic;
+﻿using Cricket.Interfaces;
+using Cricket.Player;
 using System;
+using System.Collections.Generic;
 
 namespace Cricket.Statistics
 {
@@ -78,15 +78,27 @@ namespace Cricket.Statistics
         private List<int> fWicketLossNumbers = new List<int>(new int[Enum.GetValues(typeof(Match.Wicket)).Length]);
         public List<int> WicketLossNumbers
         {
-            get { return fWicketLossNumbers; }
-            set { fWicketLossNumbers = value; }
+            get
+            {
+                return fWicketLossNumbers;
+            }
+            set
+            {
+                fWicketLossNumbers = value;
+            }
         }
 
         private BestBatting fBest;
         public BestBatting Best
         {
-            get { return fBest; }
-            set { fBest = value; }
+            get
+            {
+                return fBest;
+            }
+            set
+            {
+                fBest = value;
+            }
         }
 
         public PlayerBattingStatistics()

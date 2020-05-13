@@ -65,8 +65,8 @@ namespace CricketClasses.SeasonTests
             Assert.AreEqual(year, season.Year);
             Assert.AreEqual(name, season.Name);
 
-            season.EditSeasonName(new DateTime(2002 , 1 , 1), "Fish");
-            Assert.AreEqual(new DateTime(2002,1,1), season.Year);
+            season.EditSeasonName(new DateTime(2002, 1, 1), "Fish");
+            Assert.AreEqual(new DateTime(2002, 1, 1), season.Year);
             Assert.AreEqual("Fish", season.Name);
         }
 
@@ -77,12 +77,14 @@ namespace CricketClasses.SeasonTests
             var name = "Why";
             var season = new CricketSeason(year, name);
 
-            var matchInfo = new MatchInfo();
-            matchInfo.Date = new DateTime(2010, 4, 3);
-            matchInfo.Opposition = "Sandon";
+            var matchInfo = new MatchInfo
+            {
+                Date = new DateTime(2010, 4, 3),
+                Opposition = "Sandon"
+            };
             season.AddMatch(matchInfo);
 
-            Assert.AreEqual(1,season.Matches.Count);
+            Assert.AreEqual(1, season.Matches.Count);
         }
 
         [TestCase("2010/4/3", "Sandon", true)]
@@ -94,9 +96,11 @@ namespace CricketClasses.SeasonTests
             var year = new DateTime(2010, 1, 1);
             var name = "Why";
             var season = new CricketSeason(year, name);
-            var matchInfo = new MatchInfo();
-            matchInfo.Date = new DateTime(2010, 4, 3);
-            matchInfo.Opposition = "Sandon";
+            var matchInfo = new MatchInfo
+            {
+                Date = new DateTime(2010, 4, 3),
+                Opposition = "Sandon"
+            };
             season.AddMatch(matchInfo);
 
             var contains = season.ContainsMatch(date, opposition);
@@ -112,9 +116,11 @@ namespace CricketClasses.SeasonTests
             var year = new DateTime(2010, 1, 1);
             var name = "Why";
             var season = new CricketSeason(year, name);
-            var matchInfo = new MatchInfo();
-            matchInfo.Date = new DateTime(2010, 4, 3);
-            matchInfo.Opposition = "Sandon";
+            var matchInfo = new MatchInfo
+            {
+                Date = new DateTime(2010, 4, 3),
+                Opposition = "Sandon"
+            };
             season.AddMatch(matchInfo);
 
             var removed = season.RemoveMatch(date, opposition);

@@ -16,49 +16,91 @@ namespace GUI.ViewModels
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
-
-        ICricketSeason fSelectedSeason;
+        private ICricketSeason fSelectedSeason;
         public ICricketSeason SelectedSeason
         {
-            get { return fSelectedSeason; }
-            set { fSelectedSeason = value; OnPropertyChanged(nameof(SelectedSeason)); }
+            get
+            {
+                return fSelectedSeason;
+            }
+            set
+            {
+                fSelectedSeason = value;
+                OnPropertyChanged(nameof(SelectedSeason));
+            }
         }
 
-        List<ICricketMatch> fSelectedMatches;
+        private List<ICricketMatch> fSelectedMatches;
         public List<ICricketMatch> SelectedMatches
         {
-            get { return fSelectedMatches; }
-            set { fSelectedMatches = value; OnPropertyChanged(nameof(SelectedMatches)); }
+            get
+            {
+                return fSelectedMatches;
+            }
+            set
+            {
+                fSelectedMatches = value;
+                OnPropertyChanged(nameof(SelectedMatches));
+            }
         }
 
         private ICricketMatch fSelectedMatch;
         public ICricketMatch SelectedMatch
         {
-            get { return fSelectedMatch; }
-            set { fSelectedMatch = value; OnPropertyChanged(nameof(SelectedMatch)); SelectedBowling = value?.Bowling; SelectedBatting = value?.Batting; }
+            get
+            {
+                return fSelectedMatch;
+            }
+            set
+            {
+                fSelectedMatch = value;
+                OnPropertyChanged(nameof(SelectedMatch));
+                SelectedBowling = value?.Bowling;
+                SelectedBatting = value?.Batting;
+            }
         }
 
         private BowlingInnings fSelectedBowling;
         public BowlingInnings SelectedBowling
         {
-            get { return fSelectedBowling; }
-            set { fSelectedBowling = value; OnPropertyChanged(nameof(SelectedBowling)); }
+            get
+            {
+                return fSelectedBowling;
+            }
+            set
+            {
+                fSelectedBowling = value;
+                OnPropertyChanged(nameof(SelectedBowling));
+            }
         }
         private BattingInnings fSelectedBatting;
         public BattingInnings SelectedBatting
         {
-            get { return fSelectedBatting; }
-            set { fSelectedBatting = value; OnPropertyChanged(nameof(SelectedBatting)); }
+            get
+            {
+                return fSelectedBatting;
+            }
+            set
+            {
+                fSelectedBatting = value;
+                OnPropertyChanged(nameof(SelectedBatting));
+            }
         }
 
         public List<MatchType> MatchTypes
         {
-            get { return Enum.GetValues(typeof(MatchType)).Cast<MatchType>().ToList(); }
+            get
+            {
+                return Enum.GetValues(typeof(MatchType)).Cast<MatchType>().ToList();
+            }
         }
 
         public List<ResultType> MatchResultTypes
         {
-            get { return Enum.GetValues(typeof(ResultType)).Cast<ResultType>().ToList(); }
+            get
+            {
+                return Enum.GetValues(typeof(ResultType)).Cast<ResultType>().ToList();
+            }
         }
 
         public SelectedSeasonEditViewModel(ICricketSeason season, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)
@@ -76,7 +118,10 @@ namespace GUI.ViewModels
             EditFieldingCommand = new RelayCommand(ExecuteEditFielding);
         }
 
-        public ICommand EditBattingCommand { get; }
+        public ICommand EditBattingCommand
+        {
+            get;
+        }
         private void ExecuteEditBatting()
         {
             if (SelectedMatch != null)
@@ -86,7 +131,10 @@ namespace GUI.ViewModels
             }
         }
 
-        public ICommand EditBowlingCommand { get; }
+        public ICommand EditBowlingCommand
+        {
+            get;
+        }
         private void ExecuteEditBowling()
         {
             if (SelectedMatch != null)
@@ -97,7 +145,10 @@ namespace GUI.ViewModels
         }
 
 
-        public ICommand EditFieldingCommand { get; }
+        public ICommand EditFieldingCommand
+        {
+            get;
+        }
         private void ExecuteEditFielding()
         {
             if (SelectedMatch != null)
@@ -107,7 +158,10 @@ namespace GUI.ViewModels
             }
         }
 
-        public ICommand AddMatchCommand { get; }
+        public ICommand AddMatchCommand
+        {
+            get;
+        }
         private void ExecuteAddMatch()
         {
             if (SelectedSeason != null)
@@ -117,7 +171,10 @@ namespace GUI.ViewModels
             }
         }
 
-        public ICommand EditMatchCommand { get; }
+        public ICommand EditMatchCommand
+        {
+            get;
+        }
         private void ExecuteEditMatch(object[] array)
         {
             if (SelectedSeason != null)
@@ -136,7 +193,10 @@ namespace GUI.ViewModels
             }
         }
 
-        public ICommand DeleteMatchCommand { get; }
+        public ICommand DeleteMatchCommand
+        {
+            get;
+        }
         private void ExecuteDeleteMatch()
         {
             if (SelectedMatch != null)

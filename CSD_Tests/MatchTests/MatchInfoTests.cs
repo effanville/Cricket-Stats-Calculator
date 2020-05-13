@@ -14,9 +14,11 @@ namespace CricketClasses.MatchTests
         [TestCase("Sam", true)]
         public void ValidityTests(string opposition, bool isValid)
         {
-            var info = new MatchInfo();
-            info.Opposition = opposition;
-            var result = info.Validate(); 
+            var info = new MatchInfo
+            {
+                Opposition = opposition
+            };
+            var result = info.Validate();
             Assert.AreEqual(isValid, result);
         }
 
@@ -25,15 +27,19 @@ namespace CricketClasses.MatchTests
         [TestCase("Sam", true, new string[] { })]
         public void ValidityMessageTests(string opposition, bool isValid, string[] messages)
         {
-            var info = new MatchInfo();
-            info.Opposition = opposition;
+            var info = new MatchInfo
+            {
+                Opposition = opposition
+            };
             var valid = info.Validation();
 
             var expectedList = new List<ValidationResult>();
             if (!isValid)
             {
-                var expected = new ValidationResult();
-                expected.IsValid = isValid;
+                var expected = new ValidationResult
+                {
+                    IsValid = isValid
+                };
                 expected.Messages.AddRange(messages);
                 expectedList.Add(expected);
             }
