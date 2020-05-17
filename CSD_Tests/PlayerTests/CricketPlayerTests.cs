@@ -65,10 +65,10 @@ namespace CricketClasses.PlayerTests
         }
 
         [TestCase("Bloggs", "Joe", true, new string[] { })]
-        [TestCase("Bloggs", "", false, new string[] { "Forename cannot be empty or null." })]
-        [TestCase("", "Joe", false, new string[] { "Surname cannot be empty or null." })]
-        [TestCase("Bloggs", null, false, new string[] { "Forename cannot be empty or null." })]
-        [TestCase(null, "Joe", false, new string[] { "Surname cannot be empty or null." })]
+        [TestCase("Bloggs", "", false, new string[] { "SecondaryName cannot be empty or null." })]
+        [TestCase("", "Joe", false, new string[] { "PrimaryName cannot be empty or null." })]
+        [TestCase("Bloggs", null, false, new string[] { "SecondaryName cannot be empty or null." })]
+        [TestCase(null, "Joe", false, new string[] { "PrimaryName cannot be empty or null." })]
         public void TestValidityMessage(string surname, string forename, bool isValid, string[] isValidMessage)
         {
             var name = new CricketPlayer(surname, forename);
@@ -99,12 +99,12 @@ namespace CricketClasses.PlayerTests
             {
                 IsValid = false
             };
-            expected1.Messages.Add("Surname cannot be empty or null.");
+            expected1.Messages.Add("PrimaryName cannot be empty or null.");
             var expected2 = new ValidationResult
             {
                 IsValid = false
             };
-            expected2.Messages.Add("Forename cannot be empty or null.");
+            expected2.Messages.Add("SecondaryName cannot be empty or null.");
             var expectedList = new List<ValidationResult>
             {
                 expected1,
