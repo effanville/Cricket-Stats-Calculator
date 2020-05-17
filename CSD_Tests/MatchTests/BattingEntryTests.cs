@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
-using Cricket.Match;
+﻿using Cricket.Match;
 using Cricket.Player;
-using System.Collections.Generic;
-using Validation;
 using CSD_Tests;
+using NUnit.Framework;
+using System.Collections.Generic;
+using StructureCommon.Validation;
 
 namespace CricketClasses.MatchTests
 {
@@ -25,7 +25,7 @@ namespace CricketClasses.MatchTests
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
             var bowler = new PlayerName("Fish", "Simon");
-            batting.SetScores(Wicket.Bowled, 23,1, 1, 0, name, bowler);
+            batting.SetScores(Wicket.Bowled, 23, 1, 1, 0, name, bowler);
             Assert.AreEqual(Wicket.Bowled, batting.MethodOut);
             Assert.AreEqual(23, batting.RunsScored);
             Assert.AreEqual(name, batting.Fielder);
@@ -44,7 +44,7 @@ namespace CricketClasses.MatchTests
         {
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
-            batting.SetScores(howOut, 23,1, 1, 0);
+            batting.SetScores(howOut, 23, 1, 1, 0);
             Assert.AreEqual(outOrNot, batting.Out());
         }
 
@@ -52,10 +52,10 @@ namespace CricketClasses.MatchTests
         [TestCase(Wicket.DidNotBat, 3, false, false, false)]
         [TestCase(Wicket.DidNotBat, 0, false, true, false)]
         [TestCase(Wicket.DidNotBat, 0, true, false, false)]
-        [TestCase(Wicket.NotOut, 1,  false, false, true)]
+        [TestCase(Wicket.NotOut, 1, false, false, true)]
         [TestCase(Wicket.NotOut, 1, true, false, false)]
         [TestCase(Wicket.NotOut, 1, false, true, false)]
-        [TestCase(Wicket.Bowled, 3,  false, false, false)]
+        [TestCase(Wicket.Bowled, 3, false, false, false)]
         [TestCase(Wicket.Bowled, 3, true, false, true)]
         [TestCase(Wicket.Bowled, -1, true, false, false)]
         [TestCase(Wicket.Bowled, 1, true, true, false)]
@@ -70,7 +70,7 @@ namespace CricketClasses.MatchTests
         [TestCase(Wicket.Stumped, 3, true, false, false)]
         [TestCase(Wicket.Stumped, 3, false, true, false)]
         [TestCase(Wicket.Stumped, 3, false, false, false)]
-        [TestCase(Wicket.RunOut, 3,  false, false, false)]
+        [TestCase(Wicket.RunOut, 3, false, false, false)]
         [TestCase(Wicket.RunOut, 3, false, true, true)]
         [TestCase(Wicket.RunOut, 3, true, true, false)]
         [TestCase(Wicket.RunOut, 3, true, false, false)]
@@ -91,7 +91,7 @@ namespace CricketClasses.MatchTests
             }
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
-            batting.SetScores(howOut, runs,1, 1, 0, fielder, bowler);
+            batting.SetScores(howOut, runs, 1, 1, 0, fielder, bowler);
 
             var valid = batting.Validate();
             Assert.AreEqual(isValid, valid);
@@ -136,7 +136,7 @@ namespace CricketClasses.MatchTests
             }
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
-            batting.SetScores(howOut, runs,1, 1, 0, fielder, bowler);
+            batting.SetScores(howOut, runs, 1, 1, 0, fielder, bowler);
 
             var valid = batting.Validation();
             int number = isValid ? 0 : 1;
@@ -145,8 +145,10 @@ namespace CricketClasses.MatchTests
             var expectedList = new List<ValidationResult>();
             if (!isValid)
             {
-                var expected = new ValidationResult();
-                expected.IsValid = isValid;
+                var expected = new ValidationResult
+                {
+                    IsValid = isValid
+                };
                 expected.Messages.AddRange(validMessages);
                 expectedList.Add(expected);
             }

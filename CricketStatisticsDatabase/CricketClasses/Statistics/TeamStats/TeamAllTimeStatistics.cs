@@ -51,7 +51,8 @@ namespace Cricket.Statistics
         }
 
         public TeamAllTimeStatistics()
-        { }
+        {
+        }
 
         public TeamAllTimeStatistics(ICricketTeam team)
         {

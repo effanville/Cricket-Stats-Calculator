@@ -4,7 +4,7 @@ using CSD_Tests;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using Validation;
+using StructureCommon.Validation;
 
 namespace CricketClasses.MatchTests
 {
@@ -154,8 +154,10 @@ namespace CricketClasses.MatchTests
             var expectedList = new List<ValidationResult>();
             if (!isValid)
             {
-                var expected = new ValidationResult();
-                expected.IsValid = isValid;
+                var expected = new ValidationResult
+                {
+                    IsValid = isValid
+                };
                 expected.Messages.AddRange(messages);
                 expectedList.Add(expected);
             }

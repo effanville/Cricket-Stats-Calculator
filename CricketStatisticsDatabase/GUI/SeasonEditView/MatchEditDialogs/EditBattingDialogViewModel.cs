@@ -1,37 +1,58 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Match;
 using System;
-using System.Windows.Input;
 using System.Collections.Generic;
-using UICommon.ViewModelBases;
+using System.Windows.Input;
 using UICommon.Commands;
 using UICommon.Interfaces;
+using UICommon.ViewModelBases;
 
 namespace GUI.Dialogs.ViewModels
 {
     public class EditBattingDialogViewModel : ViewModelBase<ICricketTeam>
     {
-        Action<BattingInnings> UpdateInnings;
+        private Action<BattingInnings> UpdateInnings;
 
         private BattingInnings fInnings;
         public BattingInnings Innings
         {
-            get { return fInnings; }
-            set { fInnings = value; OnPropertyChanged(nameof(Innings)); }
+            get
+            {
+                return fInnings;
+            }
+            set
+            {
+                fInnings = value;
+                OnPropertyChanged(nameof(Innings));
+            }
         }
 
         private List<BattingEntry> fInfo;
         public List<BattingEntry> Info
         {
-            get { return fInfo; }
-            set { fInfo = value; OnPropertyChanged(nameof(Info)); }
+            get
+            {
+                return fInfo;
+            }
+            set
+            {
+                fInfo = value;
+                OnPropertyChanged(nameof(Info));
+            }
         }
 
         private BattingEntry fSelectedEntry;
         public BattingEntry SelectedEntry
         {
-            get { return fSelectedEntry; }
-            set { fSelectedEntry = value; OnPropertyChanged(); }
+            get
+            {
+                return fSelectedEntry;
+            }
+            set
+            {
+                fSelectedEntry = value;
+                OnPropertyChanged();
+            }
         }
 
         public EditBattingDialogViewModel(Action<BattingInnings> updateInnings, BattingInnings innings)
@@ -45,7 +66,10 @@ namespace GUI.Dialogs.ViewModels
             MoveDownCommand = new RelayCommand(ExecuteMoveDown);
         }
 
-        public ICommand MoveUpCommand { get; }
+        public ICommand MoveUpCommand
+        {
+            get;
+        }
         private void ExecuteMoveUp()
         {
             var newList = new List<BattingEntry>();
@@ -60,7 +84,10 @@ namespace GUI.Dialogs.ViewModels
             Info = newList;
         }
 
-        public ICommand MoveDownCommand { get; }
+        public ICommand MoveDownCommand
+        {
+            get;
+        }
         private void ExecuteMoveDown()
         {
             var newList = new List<BattingEntry>();
@@ -75,12 +102,17 @@ namespace GUI.Dialogs.ViewModels
             Info = newList;
         }
 
-        public ICommand SubmitCommand { get; }
+        public ICommand SubmitCommand
+        {
+            get;
+        }
         private void ExecuteSubmitCommand(ICloseable window)
         {
-            var newInnings = new BattingInnings();
-            newInnings.BattingInfo = Info;
-            newInnings.Extras = Innings.Extras;
+            var newInnings = new BattingInnings
+            {
+                BattingInfo = Info,
+                Extras = Innings.Extras
+            };
             UpdateInnings(newInnings);
             window.Close();
         }

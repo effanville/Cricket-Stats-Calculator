@@ -1,14 +1,14 @@
 ﻿using Cricket.Match;
 using Cricket.Player;
+using CSD_Tests;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Validation;
-using CSD_Tests;
+using StructureCommon.Validation;
 
 namespace CricketClasses.MatchTests
 {
     [TestFixture]
-    class FieldingTests
+    internal class FieldingTests
     {
         [Test]
         public void CanCreate()
@@ -102,7 +102,7 @@ namespace CricketClasses.MatchTests
             Assert.AreEqual(isValid, result);
         }
 
-        [TestCase(5,  true, new string[] { })]
+        [TestCase(5, true, new string[] { })]
         [TestCase(12, false, new string[] { "FieldingInfo cannot take values above 11." })]
         public void ValidityMessageTests(int numberPlayers, bool isValid, string[] messages)
         {
@@ -117,8 +117,10 @@ namespace CricketClasses.MatchTests
             var expectedList = new List<ValidationResult>();
             if (!isValid)
             {
-                var expected = new ValidationResult();
-                expected.IsValid = isValid;
+                var expected = new ValidationResult
+                {
+                    IsValid = isValid
+                };
                 expected.Messages.AddRange(messages);
                 expectedList.Add(expected);
             }

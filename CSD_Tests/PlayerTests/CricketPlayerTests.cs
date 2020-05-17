@@ -2,7 +2,7 @@
 using CSD_Tests;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Validation;
+using StructureCommon.Validation;
 
 namespace CricketClasses.PlayerTests
 {
@@ -65,10 +65,10 @@ namespace CricketClasses.PlayerTests
         }
 
         [TestCase("Bloggs", "Joe", true, new string[] { })]
-        [TestCase("Bloggs", "", false, new string[] {"Forename cannot be empty or null."})]
-        [TestCase("", "Joe", false, new string[] { "Surname cannot be empty or null." })]
-        [TestCase("Bloggs", null, false, new string[] { "Forename cannot be empty or null." })]
-        [TestCase(null, "Joe", false, new string[] { "Surname cannot be empty or null." })]
+        [TestCase("Bloggs", "", false, new string[] { "SecondaryName cannot be empty or null." })]
+        [TestCase("", "Joe", false, new string[] { "PrimaryName cannot be empty or null." })]
+        [TestCase("Bloggs", null, false, new string[] { "SecondaryName cannot be empty or null." })]
+        [TestCase(null, "Joe", false, new string[] { "PrimaryName cannot be empty or null." })]
         public void TestValidityMessage(string surname, string forename, bool isValid, string[] isValidMessage)
         {
             var name = new CricketPlayer(surname, forename);
@@ -78,11 +78,13 @@ namespace CricketClasses.PlayerTests
             {
                 expected.IsValid = isValid;
                 expected.Messages.AddRange(isValidMessage);
-                var expectedList = new List<ValidationResult>();
-                expectedList.Add(expected);
+                var expectedList = new List<ValidationResult>
+                {
+                    expected
+                };
                 Assertions.ValidationListsEqual(expectedList, valid);
             }
-            else 
+            else
             {
                 Assertions.ValidationListsEqual(new List<ValidationResult>(), valid);
             }
@@ -93,15 +95,21 @@ namespace CricketClasses.PlayerTests
         {
             var name = new CricketPlayer("", "");
             var valid = name.Validation();
-            var expected1 = new ValidationResult();
-            expected1.IsValid = false;
-            expected1.Messages.Add("Surname cannot be empty or null.");
-            var expected2 = new ValidationResult();
-            expected2.IsValid = false;
-            expected2.Messages.Add("Forename cannot be empty or null.");
-            var expectedList = new List<ValidationResult>();
-            expectedList.Add(expected1);
-            expectedList.Add(expected2);
+            var expected1 = new ValidationResult
+            {
+                IsValid = false
+            };
+            expected1.Messages.Add("PrimaryName cannot be empty or null.");
+            var expected2 = new ValidationResult
+            {
+                IsValid = false
+            };
+            expected2.Messages.Add("SecondaryName cannot be empty or null.");
+            var expectedList = new List<ValidationResult>
+            {
+                expected1,
+                expected2
+            };
             Assertions.ValidationListsEqual(expectedList, valid);
         }
     }

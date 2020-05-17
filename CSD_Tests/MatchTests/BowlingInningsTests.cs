@@ -3,12 +3,12 @@ using Cricket.Player;
 using CSD_Tests;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Validation;
+using StructureCommon.Validation;
 
 namespace CricketClasses.MatchTests
 {
     public class BowlingInningsTests
-    { 
+    {
         [Test]
         public void CanCreate()
         {
@@ -73,7 +73,7 @@ namespace CricketClasses.MatchTests
             var innings = new BowlingInnings(null, playerNames);
 
             Assert.AreEqual(2, innings.BowlingInfo.Count);
-            innings.SetScores(player1, 4,2,7, 5);
+            innings.SetScores(player1, 4, 2, 7, 5);
 
             Assert.AreEqual(4, innings.BowlingInfo[0].OversBowled);
             Assert.AreEqual(2, innings.BowlingInfo[0].Maidens);
@@ -107,7 +107,7 @@ namespace CricketClasses.MatchTests
 
             for (int i = 0; i < 11; i++)
             {
-                innings.SetScores(playerNames[i], 0,0, runs[i], wicketsTaken[i]);
+                innings.SetScores(playerNames[i], 0, 0, runs[i], wicketsTaken[i]);
             }
             var score = innings.Score();
 
@@ -115,10 +115,10 @@ namespace CricketClasses.MatchTests
             Assert.AreEqual(expectedRuns, score.Runs, "Runs not correct");
         }
 
-        [TestCase(5, 5,0, true)]
-        [TestCase(5, -5,0, false)]
-        [TestCase(12, 0,0, false)]
-        [TestCase(13, -5,0, false)]
+        [TestCase(5, 5, 0, true)]
+        [TestCase(5, -5, 0, false)]
+        [TestCase(12, 0, 0, false)]
+        [TestCase(13, -5, 0, false)]
         [TestCase(9, 0, 12, false)]
         public void ValidityTests(int numberPlayers, int extras, int wicketsTaken, bool isValid)
         {
@@ -127,9 +127,9 @@ namespace CricketClasses.MatchTests
             for (int i = 0; i < numberPlayers; i++)
             {
                 innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
-                if (i == 0|| i==1)
+                if (i == 0 || i == 1)
                 {
-                    innings.SetScores(new PlayerName("Surname" + i, "forename"), 4, 0, 5, wicketsTaken/2);
+                    innings.SetScores(new PlayerName("Surname" + i, "forename"), 4, 0, 5, wicketsTaken / 2);
                 }
             }
 
@@ -159,8 +159,10 @@ namespace CricketClasses.MatchTests
             var expectedList = new List<ValidationResult>();
             if (!isValid)
             {
-                var expected = new ValidationResult();
-                expected.IsValid = isValid;
+                var expected = new ValidationResult
+                {
+                    IsValid = isValid
+                };
                 expected.Messages.AddRange(messages);
                 expectedList.Add(expected);
             }

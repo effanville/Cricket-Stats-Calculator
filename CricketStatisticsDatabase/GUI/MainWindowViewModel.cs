@@ -1,12 +1,12 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Team;
-using FileAccess;
-using UICommon.Commands;
-using UICommon.Services;
-using UICommon.ViewModelBases;
+using StructureCommon.FileAccess;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using UICommon.Commands;
+using UICommon.Services;
+using UICommon.ViewModelBases;
 
 namespace GUI.ViewModels
 {
@@ -26,8 +26,15 @@ namespace GUI.ViewModels
         private ReportingViewModel fReportingView;
         public ReportingViewModel ReportingView
         {
-            get { return fReportingView; }
-            set { fReportingView = value; OnPropertyChanged(); }
+            get
+            {
+                return fReportingView;
+            }
+            set
+            {
+                fReportingView = value;
+                OnPropertyChanged();
+            }
         }
 
         public MainWindowViewModel(IFileInteractionService fileService, IDialogCreationService dialogService)
@@ -75,7 +82,10 @@ namespace GUI.ViewModels
         }
 
 
-        public ICommand NewTeamCommand { get; }
+        public ICommand NewTeamCommand
+        {
+            get;
+        }
 
         private void ExecuteNewTeamCommand()
         {
@@ -87,7 +97,10 @@ namespace GUI.ViewModels
             }
         }
 
-        public ICommand LoadTeamCommand { get; }
+        public ICommand LoadTeamCommand
+        {
+            get;
+        }
 
         private void ExecuteLoadTeamCommand()
         {
@@ -104,7 +117,10 @@ namespace GUI.ViewModels
             }
         }
 
-        public ICommand SaveTeamCommand { get; }
+        public ICommand SaveTeamCommand
+        {
+            get;
+        }
         private void ExecuteSaveTeamCommand()
         {
             var result = fFileService.SaveFile("xml", string.Empty, string.Empty, "XML Files|*.xml|All Files|*.*");

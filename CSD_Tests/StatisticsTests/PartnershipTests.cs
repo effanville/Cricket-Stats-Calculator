@@ -20,13 +20,17 @@ namespace StatisticsTests
         {
             var playerOne = new PlayerName("player", "one");
             var playerTwo = new PlayerName("player", "two");
-            var best = new Partnership(playerOne, playerTwo);
-            best.Runs = runs;
-            best.Wicket = wicket;
+            var best = new Partnership(playerOne, playerTwo)
+            {
+                Runs = runs,
+                Wicket = wicket
+            };
 
-            var otherBest = new Partnership(playerOne, playerTwo);
-            otherBest.Runs = otherRuns;
-            otherBest.Wicket = otherWicket;
+            var otherBest = new Partnership(playerOne, playerTwo)
+            {
+                Runs = otherRuns,
+                Wicket = otherWicket
+            };
 
             int comparison = best.CompareTo(otherBest);
             Assert.AreEqual(expected, comparison);

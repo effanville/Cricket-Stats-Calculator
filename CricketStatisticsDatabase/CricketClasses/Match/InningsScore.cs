@@ -25,13 +25,18 @@ namespace Cricket.Match
         }
 
         public int Runs
-        { get; set; }
+        {
+            get; set;
+        }
 
         public int Wickets
-        { get; set; }
+        {
+            get; set;
+        }
 
         public InningsScore()
-        { }
+        {
+        }
 
         public InningsScore(int runs, int wickets)
         {

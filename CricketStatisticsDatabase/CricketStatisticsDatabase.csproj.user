@@ -45,9 +45,6 @@
     <Page Update="GUI\PlayerEditView\CreatePlayerDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="GUI\Dictionaries.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="GUI\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -82,9 +79,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="GUI\TeamOverview.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="GUI\ViewModelTemplates.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

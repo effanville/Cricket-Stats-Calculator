@@ -2,12 +2,12 @@
 using Cricket.Player;
 using Cricket.Statistics;
 using CricketStatistics;
-using UICommon.Services;
-using UICommon.ViewModelBases;
 using System;
 using System.Linq;
 using System.Windows.Input;
 using UICommon.Commands;
+using UICommon.Services;
+using UICommon.ViewModelBases;
 
 namespace GUI.ViewModels
 {
@@ -26,42 +26,88 @@ namespace GUI.ViewModels
         private bool fSeasonStatsSet;
         public bool SeasonStatsSet
         {
-            get { return fSeasonStatsSet; }
-            set { fSeasonStatsSet = value; OnPropertyChanged(nameof(SeasonStatsSet)); }
+            get
+            {
+                return fSeasonStatsSet;
+            }
+            set
+            {
+                fSeasonStatsSet = value;
+                OnPropertyChanged(nameof(SeasonStatsSet));
+            }
         }
 
         private TeamSeasonStatistics fSelectedSeasonStats;
         public TeamSeasonStatistics SelectedSeasonStats
         {
-            get { return fSelectedSeasonStats; }
-            set { fSelectedSeasonStats = value; OnPropertyChanged(nameof(SelectedSeasonStats)); SeasonStatsSet = value == null ? false : true; }
+            get
+            {
+                return fSelectedSeasonStats;
+            }
+            set
+            {
+                fSelectedSeasonStats = value;
+                OnPropertyChanged(nameof(SelectedSeasonStats));
+                SeasonStatsSet = value == null ? false : true;
+            }
         }
 
         private ICricketSeason fSelectedSeason;
         public ICricketSeason SelectedSeason
         {
-            get { return fSelectedSeason; }
-            set { fSelectedSeason = value; OnPropertyChanged(nameof(SelectedSeason)); SelectedSeasonStats = new TeamSeasonStatistics(value); }
+            get
+            {
+                return fSelectedSeason;
+            }
+            set
+            {
+                fSelectedSeason = value;
+                OnPropertyChanged(nameof(SelectedSeason));
+                SelectedSeasonStats = new TeamSeasonStatistics(value);
+            }
         }
 
         private PlayerName fSelectedPlayer;
         public PlayerName SelectedPlayer
         {
-            get { return fSelectedPlayer; }
-            set { fSelectedPlayer = value; OnPropertyChanged(nameof(SelectedPlayer)); SelectedPlayerStats = SelectedSeasonStats.SeasonPlayerStats.First(stats => stats.Name.Equals(SelectedPlayer)); }
+            get
+            {
+                return fSelectedPlayer;
+            }
+            set
+            {
+                fSelectedPlayer = value;
+                OnPropertyChanged(nameof(SelectedPlayer));
+                SelectedPlayerStats = SelectedSeasonStats.SeasonPlayerStats.First(stats => stats.Name.Equals(SelectedPlayer));
+            }
         }
 
         private bool fPlayerStatsSet;
         public bool PlayerStatsSet
         {
-            get { return fPlayerStatsSet; }
-            set { fPlayerStatsSet = value; OnPropertyChanged(nameof(PlayerStatsSet)); }
+            get
+            {
+                return fPlayerStatsSet;
+            }
+            set
+            {
+                fPlayerStatsSet = value;
+                OnPropertyChanged(nameof(PlayerStatsSet));
+            }
         }
         private PlayerStatistics fSelectedPlayerStats;
         public PlayerStatistics SelectedPlayerStats
         {
-            get { return fSelectedPlayerStats; }
-            set { fSelectedPlayerStats = value; OnPropertyChanged(nameof(SelectedPlayerStats)); PlayerStatsSet = value == null ? false : true; }
+            get
+            {
+                return fSelectedPlayerStats;
+            }
+            set
+            {
+                fSelectedPlayerStats = value;
+                OnPropertyChanged(nameof(SelectedPlayerStats));
+                PlayerStatsSet = value == null ? false : true;
+            }
         }
 
         public StatsViewModel(ICricketTeam team, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)

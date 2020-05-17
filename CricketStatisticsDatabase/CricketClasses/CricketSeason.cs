@@ -1,12 +1,12 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
-using ExtensionMethods;
+using StructureCommon.Extensions;
+using StructureCommon.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using Validation;
 
 namespace Cricket
 {
@@ -177,9 +177,11 @@ namespace Cricket
             }
             if (Year == null)
             {
-                var yearNotSet = new ValidationResult();
-                yearNotSet.IsValid = false;
-                yearNotSet.PropertyName = nameof(Year);
+                var yearNotSet = new ValidationResult
+                {
+                    IsValid = false,
+                    PropertyName = nameof(Year)
+                };
                 yearNotSet.AddMessage($"{nameof(Year)} must be set.");
             }
             return results;

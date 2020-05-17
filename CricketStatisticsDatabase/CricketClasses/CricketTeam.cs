@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Cricket.Interfaces;
+using Cricket.Player;
+using StructureCommon.Validation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using Cricket.Interfaces;
-using Cricket.Player;
-using Validation;
 
 namespace Cricket.Team
 {

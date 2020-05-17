@@ -1,5 +1,5 @@
-﻿using Cricket.Player;
-using Cricket.Interfaces;
+﻿using Cricket.Interfaces;
+using Cricket.Player;
 
 namespace Cricket.Statistics
 {
@@ -24,36 +24,63 @@ namespace Cricket.Statistics
         private double fTotalOvers;
         public double TotalOvers
         {
-            get { return fTotalOvers; }
-            set { fTotalOvers = value; }
+            get
+            {
+                return fTotalOvers;
+            }
+            set
+            {
+                fTotalOvers = value;
+            }
         }
 
         private int fTotalMaidens;
         public int TotalMaidens
         {
-            get { return fTotalMaidens; }
-            set { fTotalMaidens = value; }
+            get
+            {
+                return fTotalMaidens;
+            }
+            set
+            {
+                fTotalMaidens = value;
+            }
         }
 
         private int fTotalRunsConceded;
         public int TotalRunsConceded
         {
-            get { return fTotalRunsConceded; }
-            set { fTotalRunsConceded = value; }
+            get
+            {
+                return fTotalRunsConceded;
+            }
+            set
+            {
+                fTotalRunsConceded = value;
+            }
         }
 
 
         private int fTotalWickets;
         public int TotalWickets
         {
-            get { return fTotalWickets; }
-            set { fTotalWickets = value; }
+            get
+            {
+                return fTotalWickets;
+            }
+            set
+            {
+                fTotalWickets = value;
+            }
         }
 
         private double fAverage;
         public double Average
         {
-            get { return fAverage; }
+            get
+            {
+                return fAverage;
+            }
             set
             {
                 fAverage = value;
@@ -63,15 +90,27 @@ namespace Cricket.Statistics
         private double fEconomy;
         public double Economy
         {
-            get { return fEconomy; }
-            set { fEconomy = value; }
+            get
+            {
+                return fEconomy;
+            }
+            set
+            {
+                fEconomy = value;
+            }
         }
 
         private BestBowling fBestFigures;
         public BestBowling BestFigures
         {
-            get { return fBestFigures; }
-            set { fBestFigures = value; }
+            get
+            {
+                return fBestFigures;
+            }
+            set
+            {
+                fBestFigures = value;
+            }
         }
 
         public PlayerBowlingStatistics()

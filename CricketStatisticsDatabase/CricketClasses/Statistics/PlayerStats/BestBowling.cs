@@ -1,4 +1,4 @@
-﻿using StringFunctions;
+﻿using StructureCommon.Extensions;
 using System;
 
 namespace Cricket.Statistics

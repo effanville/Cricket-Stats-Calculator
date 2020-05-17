@@ -1,33 +1,54 @@
 ﻿using Cricket.Interfaces;
-using UICommon.ViewModelBases;
 using System;
 using System.Collections.Generic;
+using UICommon.ViewModelBases;
 
 namespace GUI.ViewModels
 {
     public class TeamOverviewViewModel : ViewModelBase<ICricketTeam>
     {
-        List<ICricketPlayer> fPlayers;
+        private List<ICricketPlayer> fPlayers;
         public List<ICricketPlayer> Players
         {
-            get { return fPlayers; }
-            set { fPlayers = value; OnPropertyChanged(); }
+            get
+            {
+                return fPlayers;
+            }
+            set
+            {
+                fPlayers = value;
+                OnPropertyChanged();
+            }
         }
 
-        List<ICricketSeason> fSeasons;
+        private List<ICricketSeason> fSeasons;
 
         public List<ICricketSeason> Seasons
         {
-            get { return fSeasons; }
-            set { fSeasons = value; OnPropertyChanged(); }
+            get
+            {
+                return fSeasons;
+            }
+            set
+            {
+                fSeasons = value;
+                OnPropertyChanged();
+            }
         }
 
-        ICricketSeason fSelectedSeason;
+        private ICricketSeason fSelectedSeason;
 
         public ICricketSeason SelectedSeason
         {
-            get { return fSelectedSeason; }
-            set { fSelectedSeason = value; OnPropertyChanged(); }
+            get
+            {
+                return fSelectedSeason;
+            }
+            set
+            {
+                fSelectedSeason = value;
+                OnPropertyChanged();
+            }
         }
 
         public TeamOverviewViewModel(Action<Action<ICricketTeam>> updateTeam, List<ICricketPlayer> players, List<ICricketSeason> seasons)

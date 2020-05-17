@@ -1,5 +1,5 @@
-﻿using Cricket.Player;
-using Cricket.Match;
+﻿using Cricket.Match;
+using Cricket.Player;
 using System;
 
 namespace Cricket.Statistics
@@ -86,7 +86,8 @@ namespace Cricket.Statistics
         }
 
         public Partnership()
-        { }
+        {
+        }
 
         public void SetScores(int wicket, int runs)
         {

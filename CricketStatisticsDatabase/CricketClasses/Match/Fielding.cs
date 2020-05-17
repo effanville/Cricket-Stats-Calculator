@@ -1,8 +1,8 @@
 ﻿using Cricket.Player;
-using ExtensionMethods;
+using StructureCommon.Extensions;
+using StructureCommon.Validation;
 using System.Collections.Generic;
 using System.Linq;
-using Validation;
 
 namespace Cricket.Match
 {
@@ -29,8 +29,14 @@ namespace Cricket.Match
         private List<FieldingEntry> fFielding = new List<FieldingEntry>();
         public List<FieldingEntry> FieldingInfo
         {
-            get { return fFielding; }
-            set{ fFielding = value; }
+            get
+            {
+                return fFielding;
+            }
+            set
+            {
+                fFielding = value;
+            }
         }
 
         public bool SetFielding(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches)
@@ -65,8 +71,8 @@ namespace Cricket.Match
         {
             return new Fielding()
             {
-                MatchData = this.MatchData,
-                FieldingInfo = new List<FieldingEntry>(this.FieldingInfo)
+                MatchData = MatchData,
+                FieldingInfo = new List<FieldingEntry>(FieldingInfo)
             };
         }
 
@@ -84,7 +90,7 @@ namespace Cricket.Match
                 results.AddValidations(info.Validation(), ToString());
                 total += info.TotalDismissals();
             }
-            
+
             results.AddIfNotNull(Validating.NotGreaterThan(total, 10, nameof(Fielding), ToString()));
             results.AddIfNotNull(Validating.NotGreaterThan(FieldingInfo.Count, 11, nameof(FieldingInfo), ToString()));
             return results;

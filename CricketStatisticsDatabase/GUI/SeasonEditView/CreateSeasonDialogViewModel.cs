@@ -14,16 +14,33 @@ namespace GUI.Dialogs.ViewModels
 
         public string Year
         {
-            get { return fYear; }
-            set { fYear = value; OnPropertyChanged(); }
+            get
+            {
+                return fYear;
+            }
+            set
+            {
+                fYear = value;
+                OnPropertyChanged();
+            }
         }
 
         public string Name
         {
-            get { return fName; }
-            set { fName = value; OnPropertyChanged(); }
+            get
+            {
+                return fName;
+            }
+            set
+            {
+                fName = value;
+                OnPropertyChanged();
+            }
         }
-        public ICommand SubmitCommand { get; }
+        public ICommand SubmitCommand
+        {
+            get;
+        }
         private void ExecuteSubmitCommand(ICloseable window)
         {
             bool dateParse = int.TryParse(Year, out int result);

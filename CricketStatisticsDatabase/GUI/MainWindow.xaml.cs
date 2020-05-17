@@ -1,6 +1,6 @@
 ﻿using GUI.ViewModels;
-using UICommon.Services;
 using System.Windows;
+using UICommon.Services;
 
 namespace GUI
 {
@@ -9,8 +9,8 @@ namespace GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        IFileInteractionService fFileService;
-        IDialogCreationService fDialogCreation;
+        private IFileInteractionService fFileService;
+        private IDialogCreationService fDialogCreation;
         public MainWindow()
         {
             InitializeComponent();

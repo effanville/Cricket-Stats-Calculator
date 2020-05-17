@@ -1,8 +1,8 @@
 ﻿using Cricket.Player;
-using ExtensionMethods;
+using StructureCommon.Extensions;
+using StructureCommon.Validation;
 using System.Collections.Generic;
 using System.Linq;
-using Validation;
 
 namespace Cricket.Match
 {
@@ -42,8 +42,14 @@ namespace Cricket.Match
         private int byesLegByes;
         public int ByesLegByes
         {
-            get { return byesLegByes; }
-            set { byesLegByes = value; }
+            get
+            {
+                return byesLegByes;
+            }
+            set
+            {
+                byesLegByes = value;
+            }
         }
 
         public bool SetScores(PlayerName player, double overs, int maidens, int runsConceded, int wickets)
@@ -98,9 +104,9 @@ namespace Cricket.Match
         {
             return new BowlingInnings()
             {
-                MatchData = this.MatchData,
-                ByesLegByes = this.ByesLegByes,
-                BowlingInfo = new List<BowlingEntry>(this.BowlingInfo)
+                MatchData = MatchData,
+                ByesLegByes = ByesLegByes,
+                BowlingInfo = new List<BowlingEntry>(BowlingInfo)
             };
         }
 

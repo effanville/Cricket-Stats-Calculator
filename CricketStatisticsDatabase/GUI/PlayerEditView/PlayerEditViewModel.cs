@@ -16,12 +16,18 @@ namespace GUI.ViewModels
         private readonly IDialogCreationService fDialogService;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
         private ICricketTeam teamHere;
-
-        List<ICricketPlayer> fPlayers;
+        private List<ICricketPlayer> fPlayers;
         public List<ICricketPlayer> Players
         {
-            get { return fPlayers; }
-            set { fPlayers = value; OnPropertyChanged(); }
+            get
+            {
+                return fPlayers;
+            }
+            set
+            {
+                fPlayers = value;
+                OnPropertyChanged();
+            }
         }
         private ICricketPlayer fSelectedPlayer;
         public ICricketPlayer SelectedPlayer
@@ -50,8 +56,15 @@ namespace GUI.ViewModels
 
         public PlayerName SelectedPlayerName
         {
-            get { return fSelectedPlayerName; }
-            set { fSelectedPlayerName = value; OnPropertyChanged(); }
+            get
+            {
+                return fSelectedPlayerName;
+            }
+            set
+            {
+                fSelectedPlayerName = value;
+                OnPropertyChanged();
+            }
         }
 
         public PlayerEditViewModel(ICricketTeam team, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)
@@ -68,7 +81,10 @@ namespace GUI.ViewModels
 
             AddFromTeamPlayerCommand = new RelayCommand(Execute);
         }
-        public ICommand AddFromTeamPlayerCommand { get; }
+        public ICommand AddFromTeamPlayerCommand
+        {
+            get;
+        }
         private void Execute()
         {
             foreach (var season in teamHere.Seasons)
@@ -80,14 +96,20 @@ namespace GUI.ViewModels
             }
         }
 
-        public ICommand AddPlayerCommand { get; }
+        public ICommand AddPlayerCommand
+        {
+            get;
+        }
         private void ExecuteAddPlayer()
         {
             Action<PlayerName> getName = (name) => UpdateTeam(team => team.AddPlayer(name));
             fDialogService.DisplayCustomDialog(new CreatePlayerDialogViewModel(getName));
         }
 
-        public ICommand EditPlayerCommand { get; }
+        public ICommand EditPlayerCommand
+        {
+            get;
+        }
         private void ExecuteEditPlayer(object[] array)
         {
             if (SelectedPlayer != null)
@@ -99,7 +121,10 @@ namespace GUI.ViewModels
             }
         }
 
-        public ICommand DeletePlayerCommand { get; }
+        public ICommand DeletePlayerCommand
+        {
+            get;
+        }
 
         private void ExecuteDeletePlayer()
         {

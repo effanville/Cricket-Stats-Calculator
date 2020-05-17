@@ -15,7 +15,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\UICommon\UICommon.csproj" />
+    <PackageReference Include="StructureCommon" Version="1.0.0" />
+    <PackageReference Include="UICommon" Version="1.0.0" />
   </ItemGroup>
+
+ <!-- Alternative locations for dlls, if Nuget links cannot be generated
+ <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <Reference Include="StructureCommon">
+      <HintPath>..\..\Publish\netcoreapp3.1\StructureCommon.dll</HintPath>
+    </Reference>
+	    <Reference Include="UICommon">
+      <HintPath>..\..\Publish\netcoreapp3.1\UICommon.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="StructureCommon">
+      <HintPath>..\..\Publish\net48\StructureCommon.dll</HintPath>
+    </Reference>
+	    <Reference Include="UICommon">
+      <HintPath>..\..\Publish\net48\UICommon.dll</HintPath>
+    </Reference>
+  </ItemGroup> -->
 
 </Project>

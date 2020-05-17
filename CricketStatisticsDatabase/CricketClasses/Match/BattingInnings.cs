@@ -1,9 +1,9 @@
 ﻿using Cricket.Player;
 using Cricket.Statistics;
-using ExtensionMethods;
+using StructureCommon.Extensions;
+using StructureCommon.Validation;
 using System.Collections.Generic;
 using System.Linq;
-using Validation;
 
 namespace Cricket.Match
 {
@@ -43,8 +43,14 @@ namespace Cricket.Match
 
         public int Extras
         {
-            get { return fExtras; }
-            set { fExtras = value; }
+            get
+            {
+                return fExtras;
+            }
+            set
+            {
+                fExtras = value;
+            }
         }
 
         public bool SetScores(PlayerName player, Wicket howOut, int runs, int order, int wicketToFallAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
@@ -98,9 +104,9 @@ namespace Cricket.Match
         {
             return new BattingInnings()
             {
-                MatchData = this.MatchData,
-                Extras = this.Extras,
-                BattingInfo = new List<BattingEntry>(this.BattingInfo)
+                MatchData = MatchData,
+                Extras = Extras,
+                BattingInfo = new List<BattingEntry>(BattingInfo)
             };
         }
 
@@ -114,7 +120,7 @@ namespace Cricket.Match
             var results = new List<ValidationResult>();
             foreach (var info in BattingInfo)
             {
-                results.AddValidations(info.Validation(), this.GetType().Name);
+                results.AddValidations(info.Validation(), GetType().Name);
             }
 
             var teamResult = Score();

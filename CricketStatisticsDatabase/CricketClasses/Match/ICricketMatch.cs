@@ -9,22 +9,22 @@ namespace Cricket.Interfaces
     public interface ICricketMatch
     {
         MatchInfo MatchData
-        { 
+        {
             get;
         }
 
         ResultType Result
-        { 
+        {
             get;
         }
 
         List<PlayerName> PlayerNames
-        { 
+        {
             get;
         }
 
         BattingInnings Batting
-        { 
+        {
             get;
         }
 
@@ -39,7 +39,7 @@ namespace Cricket.Interfaces
         }
 
         PlayerName ManOfMatch
-        { 
+        {
             get;
         }
 

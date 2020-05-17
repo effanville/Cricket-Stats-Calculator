@@ -1,9 +1,8 @@
-﻿using ExtensionMethods;
-using StringFunctions;
+﻿using StructureCommon.Extensions;
+using StructureCommon.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Validation;
 
 namespace Cricket.Match
 {
@@ -11,7 +10,7 @@ namespace Cricket.Match
     {
         public override string ToString()
         {
-            return Date.ToUkDateString() + "-" +Opposition;
+            return Date.ToUkDateString() + "-" + Opposition;
         }
 
         private string fOpposition;
@@ -30,26 +29,45 @@ namespace Cricket.Match
         private DateTime date;
         public DateTime Date
         {
-            get { return date; }
-            set { date = value; }
+            get
+            {
+                return date;
+            }
+            set
+            {
+                date = value;
+            }
         }
 
         private string fPlace;
         public string Place
         {
-            get { return fPlace; }
-            set { fPlace = value; }
+            get
+            {
+                return fPlace;
+            }
+            set
+            {
+                fPlace = value;
+            }
         }
 
         private MatchType fType;
         public MatchType Type
         {
-            get { return fType; }
-            set { fType = value; }
+            get
+            {
+                return fType;
+            }
+            set
+            {
+                fType = value;
+            }
         }
 
         public MatchInfo()
-        { }
+        {
+        }
 
         public MatchInfo(string opposition, DateTime date, string place, MatchType matchType)
         {

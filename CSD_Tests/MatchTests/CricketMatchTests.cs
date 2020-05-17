@@ -1,10 +1,10 @@
-﻿using NUnit.Framework;
-using Cricket.Match;
+﻿using Cricket.Match;
+using Cricket.Player;
+using CSD_Tests;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using Cricket.Player;
-using Validation;
-using CSD_Tests;
+using StructureCommon.Validation;
 
 namespace CricketClasses.MatchTests
 {
@@ -14,8 +14,10 @@ namespace CricketClasses.MatchTests
         [Test]
         public void CanCreate()
         {
-            var matchInfo = new MatchInfo();
-            matchInfo.Opposition = "Evil";
+            var matchInfo = new MatchInfo
+            {
+                Opposition = "Evil"
+            };
             var match = new CricketMatch(matchInfo);
 
             Assert.AreEqual("Evil", match.MatchData.Opposition);
@@ -51,8 +53,10 @@ namespace CricketClasses.MatchTests
         [Test]
         public void CanEditMatchInfo()
         {
-            var matchInfo = new MatchInfo();
-            matchInfo.Opposition = "Evil";
+            var matchInfo = new MatchInfo
+            {
+                Opposition = "Evil"
+            };
             var match = new CricketMatch(matchInfo);
 
             Assert.AreEqual("Evil", match.MatchData.Opposition);
@@ -69,8 +73,10 @@ namespace CricketClasses.MatchTests
         [Test]
         public void CanEditMOM()
         {
-            var matchInfo = new MatchInfo();
-            matchInfo.Opposition = "Evil";
+            var matchInfo = new MatchInfo
+            {
+                Opposition = "Evil"
+            };
             var match = new CricketMatch(matchInfo);
             var player = new PlayerName("Root", "Joe");
             match.EditManOfMatch(player);
@@ -399,8 +405,10 @@ namespace CricketClasses.MatchTests
         [TestCase("Sam", true)]
         public void ValidityTests(string opposition, bool isValid)
         {
-            var info = new MatchInfo();
-            info.Opposition = opposition;
+            var info = new MatchInfo
+            {
+                Opposition = opposition
+            };
             var match = new CricketMatch(info);
             var valid = match.Validate();
             Assert.AreEqual(isValid, valid);
@@ -411,8 +419,10 @@ namespace CricketClasses.MatchTests
         [TestCase("Sam", true, new string[] { })]
         public void ValidityMessageTests(string opposition, bool isValid, string[] messages)
         {
-            var info = new MatchInfo();
-            info.Opposition = opposition;
+            var info = new MatchInfo
+            {
+                Opposition = opposition
+            };
 
             var match = new CricketMatch(info);
             var valid = match.Validation();
@@ -420,8 +430,10 @@ namespace CricketClasses.MatchTests
             var expectedList = new List<ValidationResult>();
             if (!isValid)
             {
-                var expected = new ValidationResult();
-                expected.IsValid = isValid;
+                var expected = new ValidationResult
+                {
+                    IsValid = isValid
+                };
                 expected.Messages.AddRange(messages);
                 expectedList.Add(expected);
             }

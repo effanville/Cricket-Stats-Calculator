@@ -3,7 +3,7 @@ using Cricket.Player;
 using CSD_Tests;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Validation;
+using StructureCommon.Validation;
 
 namespace CricketClasses.MatchTests
 {
@@ -31,7 +31,7 @@ namespace CricketClasses.MatchTests
             Assert.AreEqual(1, fielding.KeeperCatches);
         }
 
-        [TestCase(1,1,1,1, true)]
+        [TestCase(1, 1, 1, 1, true)]
         [TestCase(5, 4, 3, 1, false)]
         [TestCase(-1, 4, 3, 1, false)]
         [TestCase(5, -1, 3, 1, false)]
@@ -66,8 +66,10 @@ namespace CricketClasses.MatchTests
             var expectedList = new List<ValidationResult>();
             if (!isValid)
             {
-                var expected = new ValidationResult();
-                expected.IsValid = isValid;
+                var expected = new ValidationResult
+                {
+                    IsValid = isValid
+                };
                 expected.Messages.AddRange(validMessages);
                 expectedList.Add(expected);
             }
@@ -97,15 +99,19 @@ namespace CricketClasses.MatchTests
             var expectedList = new List<ValidationResult>();
             if (!isValid)
             {
-                var expected = new ValidationResult();
-                expected.IsValid = isValid;
+                var expected = new ValidationResult
+                {
+                    IsValid = isValid
+                };
                 expected.Messages.AddRange(validMessages);
                 expectedList.Add(expected);
             }
             if (!isValid)
             {
-                var expected = new ValidationResult();
-                expected.IsValid = isValid2;
+                var expected = new ValidationResult
+                {
+                    IsValid = isValid2
+                };
                 expected.Messages.AddRange(validMessages2);
                 expectedList.Add(expected);
             }

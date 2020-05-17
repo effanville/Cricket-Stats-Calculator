@@ -40,7 +40,7 @@ namespace CricketClasses.TeamTests
             var team = new CricketTeam();
             var player = new PlayerName("Broad", "Stuart");
             team.AddPlayer(player);
-            Assert.AreEqual(expectedContained, team.ContainsPlayer(new PlayerName(surname,forename))); 
+            Assert.AreEqual(expectedContained, team.ContainsPlayer(new PlayerName(surname, forename)));
         }
 
         [TestCase("Broad", "Stuart", false)]
@@ -58,7 +58,7 @@ namespace CricketClasses.TeamTests
         {
             var team = new CricketTeam();
             var player = new PlayerName("Broad", "Stuart");
-            
+
             team.AddPlayer(player);
             Assert.AreEqual(expectedRemoved, team.RemovePlayer(new PlayerName(surname, forename)));
             int number = expectedRemoved ? 0 : 1;
