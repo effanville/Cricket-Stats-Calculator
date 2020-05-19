@@ -37,6 +37,12 @@
     <Compile Update="GUI\StatsView\StatsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="GUI\StylesAndTemplates\DetailedStatsTemplate.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GUI\StylesAndTemplates\SeasonBriefStatsTemplate.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="GUI\TeamOverview.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -76,6 +82,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="GUI\StatsView\StatsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GUI\StylesAndTemplates\DetailedStatsTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GUI\StylesAndTemplates\SeasonBriefStatsTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="GUI\TeamOverview.xaml">

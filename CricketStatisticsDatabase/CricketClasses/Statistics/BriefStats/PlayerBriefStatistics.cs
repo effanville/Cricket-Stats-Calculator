@@ -8,6 +8,12 @@ namespace Cricket.Statistics
 {
     public class PlayerBriefStatistics
     {
+        public StatisticsType SeasonOrAllYear
+        {
+            get;
+            set;
+        }
+
         public PlayerName Name
         {
             get;
@@ -147,6 +153,11 @@ namespace Cricket.Statistics
             {
                 CalculatePartnerships(season);
             }
+        }
+
+        public override string ToString()
+        {
+            return Name.ToString();
         }
 
         public void ExportStats(string filePath)

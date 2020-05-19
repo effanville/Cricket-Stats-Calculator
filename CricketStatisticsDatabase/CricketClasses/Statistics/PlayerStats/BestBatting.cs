@@ -10,6 +10,7 @@ namespace Cricket.Statistics
         public Wicket HowOut;
         public string Opposition;
         public DateTime Date;
+        public Location HomeOrAway;
 
         public int CompareTo(object obj)
         {

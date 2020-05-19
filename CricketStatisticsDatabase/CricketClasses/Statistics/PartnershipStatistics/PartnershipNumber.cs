@@ -4,16 +4,21 @@ namespace Cricket.Statistics.DetailedStats
 {
     public class PartnershipNumber
     {
+        public int NumberPartnerships
+        {
+            get;
+            set;
+        }
+
         public PlayerName Player
         {
             get;
             set;
         }
 
-        public int NumberPartnerships
+        public string ToCSVLine()
         {
-            get;
-            set;
+            return NumberPartnerships + "," + Player.ToString();
         }
     }
 }

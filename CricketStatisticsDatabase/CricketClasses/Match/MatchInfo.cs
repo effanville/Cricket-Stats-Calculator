@@ -10,7 +10,12 @@ namespace Cricket.Match
     {
         public override string ToString()
         {
-            return Date.ToUkDateString() + "-" + Opposition;
+            return Date.ToUkDateString() + "-" + Opposition + "-" + HomeOrAway;
+        }
+
+        public string ToCSVLine()
+        {
+            return Date.ToUkDateString() + "," + Opposition + "," + HomeOrAway + "," + Type.ToString();
         }
 
         private string fOpposition;

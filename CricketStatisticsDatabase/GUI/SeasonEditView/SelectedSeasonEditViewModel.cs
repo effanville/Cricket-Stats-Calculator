@@ -103,6 +103,14 @@ namespace GUI.ViewModels
             }
         }
 
+        public List<TeamInnings> InningsPlaceTypes
+        {
+            get
+            {
+                return Enum.GetValues(typeof(TeamInnings)).Cast<TeamInnings>().ToList();
+            }
+        }
+
         public SelectedSeasonEditViewModel(ICricketSeason season, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)
     : base("Selected Season Edit")
         {
@@ -185,9 +193,10 @@ namespace GUI.ViewModels
 
                     var matchTypeParse = Enum.TryParse<MatchType>(array[3].ToString(), out MatchType resultMatch);
                     var resultTypeParse = Enum.TryParse<ResultType>(array[4].ToString(), out ResultType resultResult);
-                    if (dateParse && matchTypeParse && resultTypeParse)
+                    var inningsPlaceParse = Enum.TryParse<TeamInnings>(array[4].ToString(), out TeamInnings firstOrSecondResult);
+                    if (dateParse && matchTypeParse && resultTypeParse && inningsPlaceParse)
                     {
-                        UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name).GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.Opposition).EditInfo(array[0].ToString(), dateResult, array[2].ToString(), resultMatch, resultResult));
+                        UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name).GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.Opposition).EditInfo(array[0].ToString(), dateResult, array[2].ToString(), resultMatch, resultResult, firstOrSecondResult));
                     }
                 }
             }

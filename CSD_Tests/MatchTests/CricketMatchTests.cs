@@ -61,7 +61,7 @@ namespace CricketClasses.MatchTests
 
             Assert.AreEqual("Evil", match.MatchData.Opposition);
 
-            match.EditInfo("Sandon", new DateTime(2010, 2, 3), "Spain", MatchType.Evening, ResultType.Draw);
+            match.EditInfo("Sandon", new DateTime(2010, 2, 3), "Spain", MatchType.Evening, ResultType.Draw, TeamInnings.First);
 
             Assert.AreEqual("Sandon", match.MatchData.Opposition);
             Assert.AreEqual(new DateTime(2010, 2, 3), match.MatchData.Date);

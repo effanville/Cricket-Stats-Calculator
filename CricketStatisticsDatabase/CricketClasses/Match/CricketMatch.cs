@@ -58,6 +58,12 @@ namespace Cricket.Match
             set;
         }
 
+        public TeamInnings BattingFirstOrSecond
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// list of players that play in this match
         /// </summary>
@@ -144,9 +150,9 @@ namespace Cricket.Match
             return PlayerNames.Contains(person);
         }
 
-        public bool EditInfo(string opposition, DateTime date, string place, MatchType typeOfMatch, ResultType result)
+        public bool EditInfo(string opposition, DateTime date, string place, MatchType typeOfMatch, ResultType result, TeamInnings firstOrSecond)
         {
-            return EditMatchInfo(opposition, date, place, typeOfMatch) & EditResult(result);
+            return EditMatchInfo(opposition, date, place, typeOfMatch) & EditResult(result) & EditInningsPlace(firstOrSecond);
         }
 
         public bool EditMatchInfo(string opposition, DateTime date, string place, MatchType typeOfMatch)
@@ -164,6 +170,12 @@ namespace Cricket.Match
         public bool EditResult(ResultType result)
         {
             Result = result;
+            return true;
+        }
+
+        public bool EditInningsPlace(TeamInnings result)
+        {
+            BattingFirstOrSecond = result;
             return true;
         }
 

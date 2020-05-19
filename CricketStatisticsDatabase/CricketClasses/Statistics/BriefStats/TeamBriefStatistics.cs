@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace CricketStatistics
+namespace Cricket.Statistics
 {
     public sealed class TeamBriefStatistics
     {
@@ -74,14 +74,14 @@ namespace CricketStatistics
         }
         public TeamBriefStatistics(ICricketTeam team)
         {
-            SeasonOrAllYear = StatisticsType.Alltime;
+            SeasonOrAllYear = StatisticsType.AllTimeBrief;
             CalculateTeamStats(team);
             CalculatePlayerStats(team);
             CalculatePartnerships(team);
         }
         public TeamBriefStatistics(ICricketSeason season)
         {
-            SeasonOrAllYear = StatisticsType.Season;
+            SeasonOrAllYear = StatisticsType.SeasonBrief;
             SeasonName = season.Name;
             SeasonYear = season.Year;
             CalculateTeamStats(season);
@@ -99,7 +99,7 @@ namespace CricketStatistics
 
         public void CalculateTeamStats(ICricketSeason season)
         {
-            if (!season.Year.Equals(SeasonYear))
+            if (SeasonOrAllYear == StatisticsType.SeasonBrief && !season.Year.Equals(SeasonYear))
             {
                 return;
             }
@@ -173,12 +173,12 @@ namespace CricketStatistics
         {
             switch (SeasonOrAllYear)
             {
-                case StatisticsType.Season:
+                case StatisticsType.SeasonBrief:
                 {
                     ExportSeasonStats(filePath);
                     break;
                 }
-                case StatisticsType.Alltime:
+                case StatisticsType.AllTimeBrief:
                 {
                     ExportAllTimeStats(filePath);
                     break;
@@ -283,7 +283,7 @@ namespace CricketStatistics
 
                 streamWriter.Close();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

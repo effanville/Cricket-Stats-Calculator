@@ -18,6 +18,11 @@ namespace Cricket.Interfaces
             get;
         }
 
+        TeamInnings BattingFirstOrSecond
+        {
+            get;
+        }
+
         List<PlayerName> PlayerNames
         {
             get;
@@ -45,7 +50,7 @@ namespace Cricket.Interfaces
 
         bool PlayNotPlay(PlayerName name);
 
-        bool EditInfo(string opposition, DateTime date, string place, MatchType typeOfMatch, ResultType result);
+        bool EditInfo(string opposition, DateTime date, string place, MatchType typeOfMatch, ResultType result, TeamInnings firstOrSecond);
 
         bool EditMatchInfo(string opposition, DateTime date, string place, MatchType typeOfMatch);
 

@@ -100,6 +100,12 @@ namespace Cricket.Statistics
             }
         }
 
+        public double StrikeRate
+        {
+            get;
+            set;
+        }
+
         private BestBowling fBestFigures;
         public BestBowling BestFigures
         {
@@ -164,10 +170,12 @@ namespace Cricket.Statistics
             if (TotalWickets != 0)
             {
                 Average = (double)TotalRunsConceded / (double)TotalWickets;
+                StrikeRate = 6 * (double)TotalOvers / (double)TotalWickets;
             }
             else
             {
                 Average = double.NaN;
+                StrikeRate = double.NaN;
             }
 
             if (TotalOvers != 0)

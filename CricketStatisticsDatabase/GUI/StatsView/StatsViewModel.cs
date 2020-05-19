@@ -1,8 +1,9 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Player;
 using Cricket.Statistics;
-using CricketStatistics;
+using Cricket.Statistics.DetailedStats;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using UICommon.Commands;
@@ -16,6 +17,51 @@ namespace GUI.ViewModels
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
+
+        public List<StatisticsType> StatisticTypes
+        {
+            get
+            {
+                return Enum.GetValues(typeof(StatisticsType)).Cast<StatisticsType>().ToList();
+            }
+        }
+
+        private StatisticsType fSelectedStatsType;
+        public StatisticsType SelectedStatsType
+        {
+            get
+            {
+                return fSelectedStatsType;
+            }
+            set
+            {
+                SelectedStats = null;
+                fSelectedStatsType = value;
+                OnPropertyChanged(nameof(SelectedStatsType));
+                OnPropertyChanged(nameof(SeasonStatsSelected));
+
+                if (value == StatisticsType.AllTimeBrief)
+                {
+                    SelectedStats = new TeamBriefStatistics(Team);
+                }
+                if (value == StatisticsType.AllTimeDetailed)
+                {
+                    SelectedStats = new DetailedAllTimeStatistics(Team);
+                }
+                if (value == StatisticsType.SeasonBrief && SelectedSeason != null)
+                {
+                    SelectedStats = new TeamBriefStatistics(SelectedSeason);
+                }
+            }
+        }
+
+        public bool SeasonStatsSelected
+        {
+            get
+            {
+                return SelectedStatsType == StatisticsType.SeasonBrief;
+            }
+        }
 
         public ICricketTeam Team
         {
@@ -37,18 +83,17 @@ namespace GUI.ViewModels
             }
         }
 
-        private TeamBriefStatistics fSelectedSeasonStats;
-        public TeamBriefStatistics SelectedSeasonStats
+        private object fSelectedStats;
+        public object SelectedStats
         {
             get
             {
-                return fSelectedSeasonStats;
+                return fSelectedStats;
             }
             set
             {
-                fSelectedSeasonStats = value;
-                OnPropertyChanged(nameof(SelectedSeasonStats));
-                SeasonStatsSet = value == null ? false : true;
+                fSelectedStats = value;
+                OnPropertyChanged(nameof(SelectedStats));
             }
         }
 
@@ -63,7 +108,7 @@ namespace GUI.ViewModels
             {
                 fSelectedSeason = value;
                 OnPropertyChanged(nameof(SelectedSeason));
-                SelectedSeasonStats = new TeamBriefStatistics(value);
+                SelectedStats = new TeamBriefStatistics(value);
             }
         }
 
@@ -78,7 +123,6 @@ namespace GUI.ViewModels
             {
                 fSelectedPlayer = value;
                 OnPropertyChanged(nameof(SelectedPlayer));
-                SelectedPlayerStats = SelectedSeasonStats.SeasonPlayerStats.First(stats => stats.Name.Equals(SelectedPlayer));
             }
         }
 
@@ -120,6 +164,7 @@ namespace GUI.ViewModels
             ExportPlayerStatsCommand = new RelayCommand(ExecuteExportPlayerStatsCommand);
             ExportStatsCommand = new RelayCommand(ExecuteExportStatsCommand);
             ExportAllStatsCommand = new RelayCommand(ExecuteExportAllStatsCommand);
+            ExportDetailedAllStatsCommand = new RelayCommand(ExecuteExportDetailedAllStatsCommand);
         }
 
         public ICommand ExportPlayerStatsCommand
@@ -162,6 +207,21 @@ namespace GUI.ViewModels
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
                 var allTimeStats = new TeamBriefStatistics(Team);
+                allTimeStats.ExportStats(gotFile.FilePath);
+            }
+        }
+
+        public ICommand ExportDetailedAllStatsCommand
+        {
+            get;
+        }
+
+        private void ExecuteExportDetailedAllStatsCommand()
+        {
+            var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
+            if (gotFile.Success != null && (bool)gotFile.Success)
+            {
+                var allTimeStats = new DetailedAllTimeStatistics(Team);
                 allTimeStats.ExportStats(gotFile.FilePath);
             }
         }

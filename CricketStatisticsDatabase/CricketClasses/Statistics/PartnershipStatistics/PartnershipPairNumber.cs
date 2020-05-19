@@ -9,5 +9,10 @@ namespace Cricket.Statistics.DetailedStats
             get;
             set;
         }
+
+        public new string ToCSVLine()
+        {
+            return NumberPartnerships + "," + Player.ToString() + " & " + SecondPlayer.ToString();
+        }
     }
 }
