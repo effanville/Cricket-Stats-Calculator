@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Cricket.Statistics
 {
-    public class PlayerStatistics
+    public class PlayerBriefStatistics
     {
         public PlayerName Name
         {
@@ -54,7 +54,7 @@ namespace Cricket.Statistics
             set;
         }
 
-        public PlayerStatistics()
+        public PlayerBriefStatistics()
         {
             BattingStats = new PlayerBattingStatistics();
             BowlingStats = new PlayerBowlingStatistics();
@@ -62,7 +62,7 @@ namespace Cricket.Statistics
             Played = new PlayerAttendanceStatistics();
         }
 
-        public PlayerStatistics(PlayerName name)
+        public PlayerBriefStatistics(PlayerName name)
         {
             Name = name;
             BattingStats = new PlayerBattingStatistics(name);
@@ -71,7 +71,7 @@ namespace Cricket.Statistics
             Played = new PlayerAttendanceStatistics(name);
         }
 
-        public PlayerStatistics(PlayerName name, ICricketSeason season)
+        public PlayerBriefStatistics(PlayerName name, ICricketSeason season)
         {
             Name = name;
             BattingStats = new PlayerBattingStatistics(name);
@@ -93,14 +93,14 @@ namespace Cricket.Statistics
             CalculatePartnerships(season);
         }
 
-        public PlayerStatistics(PlayerName name, ICricketTeam match)
+        public PlayerBriefStatistics(PlayerName name, ICricketTeam team)
         {
             Name = name;
             BattingStats = new PlayerBattingStatistics(name);
             BowlingStats = new PlayerBowlingStatistics(name);
             FieldingStats = new PlayerFieldingStatistics(name);
             Played = new PlayerAttendanceStatistics(name);
-            SetTeamStats(match);
+            SetTeamStats(team);
         }
 
         public void SetTeamStats(ICricketTeam team)
@@ -145,30 +145,7 @@ namespace Cricket.Statistics
         {
             foreach (var season in team.Seasons)
             {
-                foreach (var match in season.Matches)
-                {
-                    var partnerships = match.Partnerships();
-                    for (int i = 0; i < partnerships.Count; i++)
-                    {
-                        if (partnerships[i] != null)
-                        {
-                            if (PartnershipsByWicket[i] == null)
-                            {
-                                if (partnerships[i].ContainsPlayer(Name))
-                                {
-                                    PartnershipsByWicket[i] = partnerships[i];
-                                }
-                            }
-                            else
-                            {
-                                if (partnerships[i].ContainsPlayer(Name) && partnerships[i].CompareTo(PartnershipsByWicket[i]) > 0)
-                                {
-                                    PartnershipsByWicket[i] = partnerships[i];
-                                }
-                            }
-                        }
-                    }
-                }
+                CalculatePartnerships(season);
             }
         }
 

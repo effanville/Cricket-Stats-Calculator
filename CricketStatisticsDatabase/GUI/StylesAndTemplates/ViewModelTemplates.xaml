@@ -38,7 +38,7 @@
     <DataTemplate DataType="{x:Type vm:StatsViewModel}">
         <gui:StatsView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type stats:PlayerStatistics}">
+    <DataTemplate DataType="{x:Type stats:PlayerBriefStatistics}">
         <gui:PlayerStatsDisplay />
     </DataTemplate>
 </ResourceDictionary>

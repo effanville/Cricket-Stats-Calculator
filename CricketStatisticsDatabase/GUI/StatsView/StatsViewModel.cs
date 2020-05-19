@@ -37,8 +37,8 @@ namespace GUI.ViewModels
             }
         }
 
-        private TeamSeasonStatistics fSelectedSeasonStats;
-        public TeamSeasonStatistics SelectedSeasonStats
+        private TeamBriefStatistics fSelectedSeasonStats;
+        public TeamBriefStatistics SelectedSeasonStats
         {
             get
             {
@@ -63,7 +63,7 @@ namespace GUI.ViewModels
             {
                 fSelectedSeason = value;
                 OnPropertyChanged(nameof(SelectedSeason));
-                SelectedSeasonStats = new TeamSeasonStatistics(value);
+                SelectedSeasonStats = new TeamBriefStatistics(value);
             }
         }
 
@@ -95,8 +95,8 @@ namespace GUI.ViewModels
                 OnPropertyChanged(nameof(PlayerStatsSet));
             }
         }
-        private PlayerStatistics fSelectedPlayerStats;
-        public PlayerStatistics SelectedPlayerStats
+        private PlayerBriefStatistics fSelectedPlayerStats;
+        public PlayerBriefStatistics SelectedPlayerStats
         {
             get
             {
@@ -146,7 +146,8 @@ namespace GUI.ViewModels
             var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
-                SelectedSeasonStats.ExportStats(gotFile.FilePath);
+                var allTimeStats = new TeamBriefStatistics(SelectedSeason);
+                allTimeStats.ExportStats(gotFile.FilePath);
             }
         }
 
@@ -160,7 +161,7 @@ namespace GUI.ViewModels
             var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
-                var allTimeStats = new TeamAllTimeStatistics(Team);
+                var allTimeStats = new TeamBriefStatistics(Team);
                 allTimeStats.ExportStats(gotFile.FilePath);
             }
         }
