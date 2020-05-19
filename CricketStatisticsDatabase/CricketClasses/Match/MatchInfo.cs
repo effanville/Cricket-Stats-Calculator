@@ -52,6 +52,12 @@ namespace Cricket.Match
             }
         }
 
+        public Location HomeOrAway
+        {
+            get;
+            set;
+        }
+
         private MatchType fType;
         public MatchType Type
         {

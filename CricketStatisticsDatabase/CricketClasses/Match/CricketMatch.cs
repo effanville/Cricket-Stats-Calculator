@@ -417,19 +417,4 @@ namespace Cricket.Match
             return partnerships;
         }
     }
-
-    public enum ResultType
-    {
-        Loss = 0,
-        Draw = 1,
-        Tie = 2,
-        Win = 3,
-    }
-
-    public enum MatchType
-    {
-        League = 0,
-        Friendly = 1,
-        Evening = 2,
-    }
 }
