@@ -12,6 +12,66 @@ namespace Cricket
 {
     public class CricketSeason : ICricketSeason, IValidity
     {
+        public int GamesPlayed
+        {
+            get;
+            set;
+        }
+
+        public int NumberWins
+        {
+            get;
+            set;
+        }
+
+        public int NumberLosses
+        {
+            get;
+            set;
+        }
+
+        public int NumberDraws
+        {
+            get;
+            set;
+        }
+
+        public int NumberTies
+        {
+            get;
+            set;
+        }
+
+        public void CalculateGamesPlayed()
+        {
+            GamesPlayed = 0;
+            NumberWins = 0;
+            NumberLosses = 0;
+            NumberDraws = 0;
+            NumberTies = 0;
+            foreach (var match in Matches)
+            {
+                GamesPlayed++;
+
+                if (match.Result == Cricket.Match.ResultType.Win)
+                {
+                    NumberWins++;
+                }
+                if (match.Result == Cricket.Match.ResultType.Loss)
+                {
+                    NumberLosses++;
+                }
+                if (match.Result == Cricket.Match.ResultType.Draw)
+                {
+                    NumberDraws++;
+                }
+                if (match.Result == Cricket.Match.ResultType.Tie)
+                {
+                    NumberTies++;
+                }
+            }
+        }
+
         public event EventHandler PlayerAdded;
 
         private void OnPlayerAdded(object obj, EventArgs args)

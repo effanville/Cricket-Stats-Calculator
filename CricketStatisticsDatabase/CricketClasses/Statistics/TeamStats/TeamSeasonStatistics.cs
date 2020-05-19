@@ -82,33 +82,13 @@ namespace CricketStatistics
             {
                 return;
             }
+            season.CalculateGamesPlayed();
 
-            GamesPlayed = 0;
-            NumberWins = 0;
-            NumberLosses = 0;
-            NumberDraws = 0;
-            NumberTies = 0;
-            foreach (var match in season.Matches)
-            {
-                GamesPlayed++;
-
-                if (match.Result == Cricket.Match.ResultType.Win)
-                {
-                    NumberWins++;
-                }
-                if (match.Result == Cricket.Match.ResultType.Loss)
-                {
-                    NumberLosses++;
-                }
-                if (match.Result == Cricket.Match.ResultType.Draw)
-                {
-                    NumberDraws++;
-                }
-                if (match.Result == Cricket.Match.ResultType.Tie)
-                {
-                    NumberTies++;
-                }
-            }
+            GamesPlayed = season.GamesPlayed;
+            NumberWins = season.NumberWins;
+            NumberLosses = season.NumberLosses;
+            NumberDraws = season.NumberDraws;
+            NumberTies = season.NumberTies;
         }
 
         public void CalculatePlayerStats(ICricketSeason season)
