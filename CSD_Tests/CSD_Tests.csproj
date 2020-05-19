@@ -14,4 +14,8 @@
     <PackageReference Include="UICommon" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CricketStatisticsDatabase\CricketStatisticsDatabase.csproj" />
+  </ItemGroup>
+
 </Project>
