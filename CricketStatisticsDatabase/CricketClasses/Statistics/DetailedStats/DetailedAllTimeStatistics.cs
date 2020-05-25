@@ -1,4 +1,5 @@
 ﻿using Cricket.Interfaces;
+using System;
 using System.IO;
 
 namespace Cricket.Statistics.DetailedStats
@@ -39,30 +40,32 @@ namespace Cricket.Statistics.DetailedStats
             PlayerAllTimeDetailedStats.CalculateStats(team);
         }
 
-        public void ExportStats(string filePath)
+        public void ExportStats(string filePath, ExportType exportType)
         {
             try
             {
-                StreamWriter streamWriter = new StreamWriter(filePath);
+                StreamWriter writer = new StreamWriter(filePath);
 
-                streamWriter.WriteLine($"Exporting Team {1 + 1}");
+                if (exportType.Equals(ExportType.Html))
+                {
+                    FileWritingSupport.CreateHTMLHeader(writer, "Statistics for team");
+                }
 
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine("Team Records");
-                streamWriter.WriteLine("");
-                TeamAllTimeResults.ExportStats(streamWriter);
+                FileWritingSupport.WriteTitle(writer, exportType, "Team Records");
+                TeamAllTimeResults.ExportStats(writer, exportType);
 
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine("Partnership Records");
-                streamWriter.WriteLine("");
-                PartnershipStatistics.ExportStats(streamWriter);
+                FileWritingSupport.WriteTitle(writer, exportType, "Partnership Records");
+                PartnershipStatistics.ExportStats(writer, exportType);
 
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine("Individual Player Records");
-                streamWriter.WriteLine("");
-                PlayerAllTimeDetailedStats.ExportStats(streamWriter);
+                FileWritingSupport.WriteTitle(writer, exportType, "Individual Player Records");
 
-                streamWriter.Close();
+                PlayerAllTimeDetailedStats.ExportStats(writer, exportType);
+
+                if (exportType.Equals(ExportType.Html))
+                {
+                    FileWritingSupport.CreateHTMLFooter(writer);
+                }
+                writer.Close();
             }
             catch (IOException)
             {

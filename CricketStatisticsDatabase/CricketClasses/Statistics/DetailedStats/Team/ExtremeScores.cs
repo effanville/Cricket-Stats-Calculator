@@ -135,99 +135,49 @@ namespace Cricket.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer)
+        public void ExportStats(StreamWriter writer, ExportType exportType)
         {
             var headerDummy = new TeamScore();
             if (ScoresOver200.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Scores Over 200");
-                writer.WriteLine("");
-
-
-                writer.WriteLine(GenericHeaderWriter.TableHeader(headerDummy, ","));
-                foreach (var record in ScoresOver200)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Scores Over 200", HtmlTag.h2);
+                FileWritingSupport.WriteTable(writer, exportType, headerDummy.GetType().GetProperties().Select(type => type.Name), ScoresOver200);
             }
 
             if (OppositionScoresOver200.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Opposition Scores Over 200");
-                writer.WriteLine("");
-
-                writer.WriteLine(GenericHeaderWriter.TableHeader(headerDummy, ","));
-                foreach (var record in OppositionScoresOver200)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Opposition scores Over 200", HtmlTag.h2);
+                FileWritingSupport.WriteTable(writer, exportType, headerDummy.GetType().GetProperties().Select(type => type.Name), OppositionScoresOver200);
             }
 
             if (BothScoresOver200.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Both Scores Over 200");
-                writer.WriteLine("");
-
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new MatchScore(), ","));
-                foreach (var record in BothScoresOver200)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Both Team scores Over 200", HtmlTag.h2);
+                FileWritingSupport.WriteTable(writer, exportType, new MatchScore().GetType().GetProperties().Select(type => type.Name), BothScoresOver200);
             }
 
             if (ScoresUnder25.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Scores Under 25");
-                writer.WriteLine("");
-
-                writer.WriteLine(GenericHeaderWriter.TableHeader(headerDummy, ","));
-                foreach (var record in ScoresUnder25)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Scores Under 25");
+                FileWritingSupport.WriteTable(writer, exportType, headerDummy.GetType().GetProperties().Select(type => type.Name), ScoresUnder25);
             }
 
             if (OppositionScoresUnder25.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Opposition scores Under 25");
-                writer.WriteLine("");
-
-                writer.WriteLine(GenericHeaderWriter.TableHeader(headerDummy, ","));
-                foreach (var record in OppositionScoresUnder25)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Opposition scores Under 25");
+                FileWritingSupport.WriteTable(writer, exportType, headerDummy.GetType().GetProperties().Select(type => type.Name), OppositionScoresUnder25);
             }
 
             if (HighestScoresBattingSecond.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Highest Scores batting second");
-                writer.WriteLine("");
-
-                writer.WriteLine(GenericHeaderWriter.TableHeader(headerDummy, ","));
-                foreach (var record in HighestScoresBattingSecond)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Highest Scores batting second");
+                FileWritingSupport.WriteTable(writer, exportType, headerDummy.GetType().GetProperties().Select(type => type.Name), HighestScoresBattingSecond);
             }
 
             if (LowestScoresBattingFirstNotLose.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Lowest scores batting first not to lose");
-                writer.WriteLine("");
-
-                writer.WriteLine(GenericHeaderWriter.TableHeader(headerDummy, ","));
-                foreach (var record in LowestScoresBattingFirstNotLose)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Lowest Scores Batting first not to lose");
+                FileWritingSupport.WriteTable(writer, exportType, headerDummy.GetType().GetProperties().Select(type => type.Name), LowestScoresBattingFirstNotLose);
             }
         }
     }

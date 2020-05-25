@@ -40,6 +40,7 @@ namespace Cricket.Statistics.DetailedStats
         }
 
         public void CalculateStats(ICricketSeason season)
+
         {
             BattingStats.CalculateStats(season);
             BowlingStats.CalculateStats(season);
@@ -55,23 +56,19 @@ namespace Cricket.Statistics.DetailedStats
         {
         }
 
-        public void ExportStats(StreamWriter writer)
+        public void ExportStats(StreamWriter writer, ExportType exportType)
         {
-            writer.WriteLine("");
-            writer.WriteLine("Batting Performances");
-            BattingStats.ExportStats(writer);
+            FileWritingSupport.WriteTitle(writer, exportType, "Batting Performances", HtmlTag.h2);
+            BattingStats.ExportStats(writer, exportType);
 
-            writer.WriteLine("");
-            writer.WriteLine("Bowling Performances");
-            BowlingStats.ExportStats(writer);
+            FileWritingSupport.WriteTitle(writer, exportType, "Bowling Performances", HtmlTag.h2);
+            BowlingStats.ExportStats(writer, exportType);
 
-            writer.WriteLine("");
-            writer.WriteLine("Fielding Performances");
-            FieldingStats.ExportStats(writer);
+            FileWritingSupport.WriteTitle(writer, exportType, "Fielding Performances", HtmlTag.h2);
+            FieldingStats.ExportStats(writer, exportType);
 
-            writer.WriteLine("");
-            writer.WriteLine("Career Performances");
-            CareerStats.ExportStats(writer);
+            FileWritingSupport.WriteTitle(writer, exportType, "Career Performances", HtmlTag.h2);
+            CareerStats.ExportStats(writer, exportType);
         }
     }
 }

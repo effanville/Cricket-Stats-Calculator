@@ -2,8 +2,10 @@
 using Cricket.Player;
 using Cricket.Statistics;
 using Cricket.Statistics.DetailedStats;
+using StructureCommon.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using UICommon.Commands;
@@ -218,11 +220,13 @@ namespace GUI.ViewModels
 
         private void ExecuteExportDetailedAllStatsCommand()
         {
-            var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
+            var gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
                 var allTimeStats = new DetailedAllTimeStatistics(Team);
-                allTimeStats.ExportStats(gotFile.FilePath);
+                var extension = Path.GetExtension(gotFile.FilePath).Trim('.');
+                ExportType type = extension.ToEnum<ExportType>();
+                allTimeStats.ExportStats(gotFile.FilePath, type);
             }
         }
 

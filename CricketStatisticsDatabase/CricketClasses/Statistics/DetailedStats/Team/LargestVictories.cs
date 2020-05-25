@@ -62,33 +62,18 @@ namespace Cricket.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer)
+        public void ExportStats(StreamWriter writer, ExportType exportType)
         {
             if (WinBy100Runs.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Wins by 100 runs");
-                writer.WriteLine("");
-
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new BowlingWinningMargin(), ","));
-                foreach (var record in WinBy100Runs)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Wins by 100 Runs", HtmlTag.h2);
+                FileWritingSupport.WriteTable(writer, exportType, new BowlingWinningMargin().GetType().GetProperties().Select(type => type.Name), WinBy100Runs);
             }
-
 
             if (WinBy10Wickets.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Wins by 10 wickets");
-                writer.WriteLine("");
-
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new BattingWinningMargin(), ","));
-                foreach (var record in WinBy10Wickets)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Wins by 10 wickets", HtmlTag.h2);
+                FileWritingSupport.WriteTable(writer, exportType, new BattingWinningMargin().GetType().GetProperties().Select(type => type.Name), WinBy10Wickets);
             }
         }
     }

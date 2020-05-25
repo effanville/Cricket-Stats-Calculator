@@ -1,7 +1,6 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Player;
 using Cricket.Statistics.PlayerStats;
-using ExportHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +8,102 @@ using System.Linq;
 
 namespace Cricket.Statistics.DetailedStats
 {
+    public class AppearanceList
+    {
+        public PlayerName Name
+        {
+            get;
+            set;
+        }
+        public int StartYear
+        {
+            get;
+            set;
+        }
+        public int EndYear
+        {
+            get;
+            set;
+        }
+        public int Appearances
+        {
+            get;
+            set;
+        }
+    }
+
+    public class RunsList
+    {
+        public PlayerName Name
+        {
+            get;
+            set;
+        }
+        public int StartYear
+        {
+            get;
+            set;
+        }
+        public int EndYear
+        {
+            get;
+            set;
+        }
+        public int Runs
+        {
+            get;
+            set;
+        }
+    }
+
+    public class BattingAverageList
+    {
+        public PlayerName Name
+        {
+            get;
+            set;
+        }
+        public int StartYear
+        {
+            get;
+            set;
+        }
+        public int EndYear
+        {
+            get;
+            set;
+        }
+        public double Average
+        {
+            get;
+            set;
+        }
+    }
+
+    public class WicketsList
+    {
+        public PlayerName Name
+        {
+            get;
+            set;
+        }
+        public int StartYear
+        {
+            get;
+            set;
+        }
+        public int EndYear
+        {
+            get;
+            set;
+        }
+        public int Wickets
+        {
+            get;
+            set;
+        }
+    }
+
     public class DetailedAllTimeCareerStatistics
     {
         public List<CareerBattingRecord> PlayerBatting
@@ -17,29 +112,29 @@ namespace Cricket.Statistics.DetailedStats
             set;
         } = new List<CareerBattingRecord>();
 
-        public List<(PlayerName Name, DateTime startYear, DateTime endYear, int Appearances)> MostClubAppearances
+        public List<AppearanceList> MostClubAppearances
         {
             get;
             set;
-        } = new List<(PlayerName, DateTime, DateTime, int)>();
+        } = new List<AppearanceList>();
 
-        public List<(PlayerName Name, DateTime startYear, DateTime endYear, int Runs)> MostClubRuns
+        public List<RunsList> MostClubRuns
         {
             get;
             set;
-        } = new List<(PlayerName, DateTime, DateTime, int)>();
+        } = new List<RunsList>();
 
-        public List<(PlayerName Name, DateTime startYear, DateTime endYear, double Average)> HighestClubBattingAverage
+        public List<BattingAverageList> HighestClubBattingAverage
         {
             get;
             set;
-        } = new List<(PlayerName, DateTime, DateTime, double)>();
+        } = new List<BattingAverageList>();
 
-        public List<(PlayerName Name, DateTime startYear, DateTime endYear, int Wickets)> MostClubWickets
+        public List<WicketsList> MostClubWickets
         {
             get;
             set;
-        } = new List<(PlayerName, DateTime, DateTime, int)>();
+        } = new List<WicketsList>();
 
         public List<CareerBowlingRecord> PlayerBowling
         {
@@ -56,16 +151,16 @@ namespace Cricket.Statistics.DetailedStats
             }
 
             PlayerBatting.Sort((a, b) => b.MatchesPlayed.CompareTo(a.MatchesPlayed));
-            MostClubAppearances = PlayerBatting.Take(5).Select(batting => (batting.Name, batting.StartYear, batting.EndYear, batting.MatchesPlayed)).ToList();
+            MostClubAppearances = PlayerBatting.Take(5).Select(batting => new AppearanceList() { Name = batting.Name, StartYear = batting.StartYear, EndYear = batting.EndYear, Appearances = batting.MatchesPlayed }).ToList();
 
             PlayerBatting.Sort((a, b) => b.Runs.CompareTo(a.Runs));
-            MostClubRuns = PlayerBatting.Take(5).Select(batting => (batting.Name, batting.StartYear, batting.EndYear, batting.Runs)).ToList();
+            MostClubRuns = PlayerBatting.Take(5).Select(batting => new RunsList() { Name = batting.Name, StartYear = batting.StartYear, EndYear = batting.EndYear, Runs = batting.Runs }).ToList();
 
             PlayerBatting.Sort((a, b) => b.Average.CompareTo(a.Average));
-            HighestClubBattingAverage = PlayerBatting.Take(5).Select(batting => (batting.Name, batting.StartYear, batting.EndYear, batting.Average)).ToList();
+            HighestClubBattingAverage = PlayerBatting.Take(5).Select(batting => new BattingAverageList() { Name = batting.Name, StartYear = batting.StartYear, EndYear = batting.EndYear, Average = batting.Average }).ToList();
 
             PlayerBowling.Sort((a, b) => b.Wickets.CompareTo(a.Wickets));
-            MostClubWickets = PlayerBowling.Take(5).Select(bowling => (bowling.Name, bowling.StartYear, bowling.EndYear, bowling.Wickets)).ToList();
+            MostClubWickets = PlayerBowling.Take(5).Select(bowling => new WicketsList() { Name = bowling.Name, StartYear = bowling.StartYear, EndYear = bowling.EndYear, Wickets = bowling.Wickets }).ToList();
 
             PlayerBatting.Sort((a, b) => a.Name.CompareTo(b.Name));
             PlayerBowling.Sort((a, b) => a.Name.CompareTo(b.Name));
@@ -83,63 +178,34 @@ namespace Cricket.Statistics.DetailedStats
         {
         }
 
-        public void ExportStats(StreamWriter writer)
+        public void ExportStats(StreamWriter writer, ExportType exportType)
         {
-            writer.WriteLine("");
-            writer.WriteLine("Leading Career Records");
+            FileWritingSupport.WriteTitle(writer, exportType, "Leading Career Records", HtmlTag.h2);
 
-            writer.WriteLine("");
-            writer.WriteLine("Appearances");
-            writer.WriteLine("Name,StartYear,EndYear,Appearances");
-            foreach (var record in MostClubAppearances)
-            {
-                writer.WriteLine(record.Name + "," + record.startYear.Year + "," + record.endYear.Year + "," + record.Appearances);
-            }
+            var values = MostClubAppearances[0].GetType().GetProperties();
+            FileWritingSupport.WriteTitle(writer, exportType, "Appearances", HtmlTag.h3);
+            FileWritingSupport.WriteTable(writer, exportType, MostClubAppearances[0].GetType().GetProperties().Select(type => type.Name), MostClubAppearances);
 
-            writer.WriteLine("");
-            writer.WriteLine("Runs");
-            writer.WriteLine("Name,StartYear,EndYear,Runs");
-            foreach (var record in MostClubRuns)
-            {
-                writer.WriteLine(record.Name + "," + record.startYear.Year + "," + record.endYear.Year + "," + record.Runs);
-            }
+            FileWritingSupport.WriteTitle(writer, exportType, "Most Club Runs", HtmlTag.h3);
+            FileWritingSupport.WriteTable(writer, exportType, MostClubRuns[0].GetType().GetProperties().Select(type => type.Name), MostClubRuns);
 
-            writer.WriteLine("");
-            writer.WriteLine("Batting Average");
-            writer.WriteLine("Name,StartYear,EndYear,Average");
-            foreach (var record in HighestClubBattingAverage)
-            {
-                writer.WriteLine(record.Name + "," + record.startYear.Year + "," + record.endYear.Year + "," + record.Average);
-            }
+            FileWritingSupport.WriteTitle(writer, exportType, "Batting Average", HtmlTag.h3);
+            FileWritingSupport.WriteTable(writer, exportType, HighestClubBattingAverage[0].GetType().GetProperties().Select(type => type.Name), HighestClubBattingAverage);
 
-            writer.WriteLine("");
-            writer.WriteLine("Wickets Taken");
-            writer.WriteLine("Name,StartYear,EndYear,Wickets");
-            foreach (var record in MostClubWickets)
-            {
-                writer.WriteLine(record.Name + "," + record.startYear.Year + "," + record.endYear.Year + "," + record.Wickets);
-            }
+            FileWritingSupport.WriteTitle(writer, exportType, "Wickets Taken", HtmlTag.h3);
+            FileWritingSupport.WriteTable(writer, exportType, MostClubWickets[0].GetType().GetProperties().Select(type => type.Name), MostClubWickets);
 
+            FileWritingSupport.WriteTitle(writer, exportType, "Other Career Records", HtmlTag.h2);
             if (PlayerBatting.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Overall Batting Performance");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new CareerBattingRecord(), ","));
-                foreach (var record in PlayerBatting)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Overall Batting Performance", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new CareerBattingRecord().GetType().GetProperties().Select(type => type.Name), PlayerBatting);
             }
 
             if (PlayerBowling.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Overall Bowling Performance");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new CareerBowlingRecord(), ","));
-                foreach (var record in PlayerBowling)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Overall Bowling Performance", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new CareerBowlingRecord().GetType().GetProperties().Select(type => type.Name), PlayerBowling);
             }
         }
     }

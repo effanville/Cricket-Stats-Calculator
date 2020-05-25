@@ -12,13 +12,13 @@ namespace Cricket.Statistics.PlayerStats
             set;
         }
 
-        public DateTime StartYear
+        public int StartYear
         {
             get;
             set;
         }
 
-        public DateTime EndYear
+        public int EndYear
         {
             get;
             set;
@@ -84,8 +84,8 @@ namespace Cricket.Statistics.PlayerStats
             RunsConceded = 0;
             Wickets = 0;
             BestFigures = new BestBowling();
-            StartYear = DateTime.Today;
-            EndYear = new DateTime();
+            StartYear = DateTime.Today.Year;
+            EndYear = new DateTime().Year;
 
             Catches = 0;
             KeeperDismissals = 0;
@@ -95,13 +95,13 @@ namespace Cricket.Statistics.PlayerStats
                 {
                     if (match.PlayNotPlay(Name))
                     {
-                        if (match.MatchData.Date.Year < StartYear.Year)
+                        if (match.MatchData.Date.Year < StartYear)
                         {
-                            StartYear = match.MatchData.Date;
+                            StartYear = match.MatchData.Date.Year;
                         }
-                        if (match.MatchData.Date.Year > EndYear.Year)
+                        if (match.MatchData.Date.Year > EndYear)
                         {
-                            EndYear = match.MatchData.Date;
+                            EndYear = match.MatchData.Date.Year;
                         }
 
                         var bowling = match.GetBowling(Name);

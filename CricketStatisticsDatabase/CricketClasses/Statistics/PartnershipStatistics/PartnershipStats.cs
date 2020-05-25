@@ -107,51 +107,31 @@ namespace Cricket.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer)
+        public void ExportStats(StreamWriter writer, ExportType exportType)
         {
             if (PartnershipsByWicket.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Partnerships By Wicket Over 100");
-                writer.WriteLine("");
+                FileWritingSupport.WriteTitle(writer, exportType, "Partnerships By Wicket Over 100", HtmlTag.h2);
 
                 for (int i = 0; i < PartnershipsByWicket.Count; i++)
                 {
                     if (PartnershipsByWicket[i].Any())
                     {
-                        writer.WriteLine($"{i + 1}th Wicket");
-                        writer.WriteLine(GenericHeaderWriter.TableHeader(new Partnership(), ","));
-                        foreach (var record in PartnershipsByWicket[i])
-                        {
-                            writer.WriteLine(record.ToCSVLine());
-                        }
+                        FileWritingSupport.WriteTitle(writer, exportType, $"{i + 1}th Wicket", HtmlTag.h3);
+                        FileWritingSupport.WriteTable(writer, exportType, new Partnership().GetType().GetProperties().Select(type => type.Name), PartnershipsByWicket[i]);
                     }
                 }
             }
 
             if (MostPartnerships.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Most Partnerships");
-                writer.WriteLine("");
-
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new PartnershipNumber(), ","));
-                foreach (var record in MostPartnerships)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Most Partnerships", HtmlTag.h2);
+                FileWritingSupport.WriteTable(writer, exportType, new PartnershipNumber().GetType().GetProperties().Select(type => type.Name), MostPartnerships);
             }
             if (MostPartnershipsAsPair.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Most Partnerships As a Pair");
-                writer.WriteLine("");
-
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new PartnershipPairNumber(), ","));
-                foreach (var record in MostPartnershipsAsPair)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Most Partnerships As a Pair", HtmlTag.h2);
+                FileWritingSupport.WriteTable(writer, exportType, new PartnershipPairNumber().GetType().GetProperties().Select(type => type.Name), MostPartnershipsAsPair);
             }
         }
     }

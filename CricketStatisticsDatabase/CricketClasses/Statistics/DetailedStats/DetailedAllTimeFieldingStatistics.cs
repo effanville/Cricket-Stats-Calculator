@@ -65,39 +65,24 @@ namespace Cricket.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer)
+        public void ExportStats(StreamWriter writer, ExportType exportType)
         {
             if (DismissalsInOneInnings.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Overall Batting Performance");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new InningsDismissals(), ","));
-                foreach (var record in DismissalsInOneInnings)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Most Dismissals in on Innings", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new InningsDismissals().GetType().GetProperties().Select(type => type.Name), DismissalsInOneInnings);
             }
 
             if (TwentyCatchesSeason.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Overall Batting Performance");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new SeasonCatches(), ","));
-                foreach (var record in TwentyCatchesSeason)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Twenty cathces in one season", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new SeasonCatches().GetType().GetProperties().Select(type => type.Name), TwentyCatchesSeason);
             }
 
             if (TenStumpingsSeason.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Overall Batting Performance");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new SeasonCatches(), ","));
-                foreach (var record in TenStumpingsSeason)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Ten Stumpings in one season", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new SeasonCatches().GetType().GetProperties().Select(type => type.Name), TenStumpingsSeason);
             }
         }
     }

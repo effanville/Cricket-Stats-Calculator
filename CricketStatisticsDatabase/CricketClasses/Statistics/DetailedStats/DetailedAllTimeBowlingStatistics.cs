@@ -110,61 +110,36 @@ namespace Cricket.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer)
+        public void ExportStats(StreamWriter writer, ExportType exportType)
         {
             if (Over5Wickets.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Five Wicket Hauls");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new BowlingPerformance(), ","));
-                foreach (var record in Over5Wickets)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Five Wicket Hauls", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new BowlingPerformance().GetType().GetProperties().Select(type => type.Name), Over5Wickets);
             }
 
             if (SeasonWicketsOver30.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Over 30 Wickets in Season");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new SeasonWickets(), ","));
-                foreach (var record in SeasonWicketsOver30)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Over 30 Wickets in Season", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new SeasonWickets().GetType().GetProperties().Select(type => type.Name), SeasonWicketsOver30);
             }
 
             if (SeasonAverageUnder15.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Season Average under 15");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new SeasonWickets(), ","));
-                foreach (var record in SeasonAverageUnder15)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Season Average under 15", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new SeasonWickets().GetType().GetProperties().Select(type => type.Name), SeasonAverageUnder15);
             }
 
             if (LowEconomy.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Season Average under 15");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new AllTimeEconomy(), ","));
-                foreach (var record in LowEconomy)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Season Average under 15", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new AllTimeEconomy().GetType().GetProperties().Select(type => type.Name), LowEconomy);
             }
 
             if (LowStrikeRate.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Season Average under 15");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new AllTimeEconomy(), ","));
-                foreach (var record in LowStrikeRate)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Season Average under 15", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new AllTimeEconomy().GetType().GetProperties().Select(type => type.Name), LowStrikeRate);
             }
         }
     }

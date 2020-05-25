@@ -115,61 +115,36 @@ namespace Cricket.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer)
+        public void ExportStats(StreamWriter writer, ExportType exportType)
         {
             if (CenturyScores.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Centuries");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new Century(), ","));
-                foreach (var record in CenturyScores)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Centuries", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new Century().GetType().GetProperties().Select(type => type.Name), CenturyScores);
             }
 
             if (ScoresPast50.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Number Scores Past Fifty");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new HighScores(), ","));
-                foreach (var record in ScoresPast50)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Number Scores Past Fifty", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new HighScores().GetType().GetProperties().Select(type => type.Name), ScoresPast50);
             }
 
             if (CarryingBat.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Carrying of Bat");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new CarryingOfBat(), ","));
-                foreach (var record in CarryingBat)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Carrying of Bat", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new CarryingOfBat().GetType().GetProperties().Select(type => type.Name), CarryingBat);
             }
 
             if (SeasonRunsOver500.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Over 500 runs in a season");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new SeasonRuns(), ","));
-                foreach (var record in SeasonRunsOver500)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Over 500 runs in a season", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new SeasonRuns().GetType().GetProperties().Select(type => type.Name), SeasonRunsOver500);
             }
 
             if (SeasonAverageOver30.Any())
             {
-                writer.WriteLine("");
-                writer.WriteLine("Average over 30 in a season");
-                writer.WriteLine(GenericHeaderWriter.TableHeader(new SeasonRuns(), ","));
-                foreach (var record in SeasonAverageOver30)
-                {
-                    writer.WriteLine(record.ToCSVLine());
-                }
+                FileWritingSupport.WriteTitle(writer, exportType, "Average over 30 in a season", HtmlTag.h3);
+                FileWritingSupport.WriteTable(writer, exportType, new SeasonRuns().GetType().GetProperties().Select(type => type.Name), SeasonAverageOver30);
             }
         }
     }

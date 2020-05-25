@@ -87,29 +87,19 @@ namespace Cricket.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer)
+        public void ExportStats(StreamWriter writer, ExportType exportType)
         {
-            writer.WriteLine(GenericHeaderWriter.TableHeader(YearByYearRecords[0], ","));
-            foreach (var record in YearByYearRecords)
-            {
-                writer.WriteLine(record.ToCSVLine());
-            }
+            FileWritingSupport.WriteTitle(writer, exportType, "Yearly Records", HtmlTag.h2);
+            FileWritingSupport.WriteTable(writer, exportType, YearByYearRecords[0].GetType().GetProperties().Select(type => type.Name), YearByYearRecords);
 
-            writer.WriteLine("");
-            writer.WriteLine(GenericHeaderWriter.TableHeader(TeamAgainstRecords[0], ","));
-            foreach (var record in TeamAgainstRecords)
-            {
-                writer.WriteLine(record.ToCSVLine());
-            }
+            FileWritingSupport.WriteTitle(writer, exportType, "Record against each team", HtmlTag.h2);
+            FileWritingSupport.WriteTable(writer, exportType, TeamAgainstRecords[0].GetType().GetProperties().Select(type => type.Name), TeamAgainstRecords);
 
-            writer.WriteLine("");
-            NotableScores.ExportStats(writer);
+            NotableScores.ExportStats(writer, exportType);
 
-            writer.WriteLine("");
-            BestResults.ExportStats(writer);
+            BestResults.ExportStats(writer, exportType);
 
-            writer.WriteLine("");
-            WorstLosses.ExportStats(writer);
+            WorstLosses.ExportStats(writer, exportType);
         }
     }
 }

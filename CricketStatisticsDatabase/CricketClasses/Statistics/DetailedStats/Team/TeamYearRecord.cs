@@ -1,12 +1,10 @@
 ﻿using Cricket.Interfaces;
-using Cricket.Match;
-using System;
 
 namespace Cricket.Statistics.DetailedStats
 {
     public class TeamYearRecord : TeamRecord
     {
-        public DateTime Year
+        public int Year
         {
             get;
             set;
@@ -15,12 +13,12 @@ namespace Cricket.Statistics.DetailedStats
         public TeamYearRecord(ICricketSeason season)
             : base(season)
         {
-            Year = season.Year;
+            Year = season.Year.Year;
         }
 
         public new string ToCSVLine()
         {
-            return Year.Year.ToString() + "," + base.ToCSVLine();
+            return Year.ToString() + "," + base.ToCSVLine();
         }
     }
 }
