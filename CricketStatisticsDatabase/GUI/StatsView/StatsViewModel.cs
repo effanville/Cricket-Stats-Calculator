@@ -176,10 +176,13 @@ namespace GUI.ViewModels
 
         private void ExecuteExportPlayerStatsCommand()
         {
-            var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
+            var gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
-                SelectedPlayerStats.ExportStats(gotFile.FilePath);
+                var playerStats = new PlayerBriefStatistics(SelectedPlayer, SelectedSeason);
+                string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
+                ExportType type = extension.ToEnum<ExportType>();
+                playerStats.ExportStats(gotFile.FilePath, type);
             }
         }
 
@@ -190,11 +193,13 @@ namespace GUI.ViewModels
 
         private void ExecuteExportStatsCommand()
         {
-            var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
+            var gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
                 var allTimeStats = new TeamBriefStatistics(SelectedSeason);
-                allTimeStats.ExportStats(gotFile.FilePath);
+                string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
+                ExportType type = extension.ToEnum<ExportType>();
+                allTimeStats.ExportStats(gotFile.FilePath, type);
             }
         }
 
@@ -205,11 +210,13 @@ namespace GUI.ViewModels
 
         private void ExecuteExportAllStatsCommand()
         {
-            var gotFile = fFileService.SaveFile("csv", "", filter: "CSV Files|*.csv|All Files|*.*");
+            var gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
                 var allTimeStats = new TeamBriefStatistics(Team);
-                allTimeStats.ExportStats(gotFile.FilePath);
+                string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
+                ExportType type = extension.ToEnum<ExportType>();
+                allTimeStats.ExportStats(gotFile.FilePath, type);
             }
         }
 
@@ -224,7 +231,7 @@ namespace GUI.ViewModels
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
                 var allTimeStats = new DetailedAllTimeStatistics(Team);
-                var extension = Path.GetExtension(gotFile.FilePath).Trim('.');
+                string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
                 ExportType type = extension.ToEnum<ExportType>();
                 allTimeStats.ExportStats(gotFile.FilePath, type);
             }

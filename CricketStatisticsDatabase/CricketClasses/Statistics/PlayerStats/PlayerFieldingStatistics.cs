@@ -5,16 +5,6 @@ namespace Cricket.Statistics
 {
     public class PlayerFieldingStatistics
     {
-        public static string CsvHeader()
-        {
-            return nameof(Name) + "," + nameof(Catches) + "," + nameof(RunOuts) + "," + "Stumpings" + "," + nameof(KeeperCatches) + "," + "Total" + "," + nameof(TotalKeeperDismissals);
-        }
-
-        public override string ToString()
-        {
-            return Name.ToString() + "," + Catches + "," + RunOuts + "," + KeeperStumpings + "," + KeeperCatches + "," + TotalDismissals + "," + TotalKeeperDismissals;
-        }
-
         public PlayerName Name
         {
             get;
@@ -71,6 +61,7 @@ namespace Cricket.Statistics
         public PlayerFieldingStatistics()
         {
         }
+
         public PlayerFieldingStatistics(PlayerName name)
         {
             Name = name;
@@ -82,12 +73,22 @@ namespace Cricket.Statistics
             SetSeasonStats(season);
         }
 
-        public void SetSeasonStats(ICricketSeason season)
+        public PlayerFieldingStatistics(PlayerName name, ICricketTeam team)
         {
-            Catches = 0;
-            RunOuts = 0;
-            KeeperStumpings = 0;
-            KeeperCatches = 0;
+            Name = name;
+            SetTeamStats(team);
+        }
+
+        public void SetSeasonStats(ICricketSeason season, bool reset = false)
+        {
+            if (reset)
+            {
+                Catches = 0;
+                RunOuts = 0;
+                KeeperStumpings = 0;
+                KeeperCatches = 0;
+            }
+
             foreach (var match in season.Matches)
             {
                 var fielding = match.GetFielding(Name);
@@ -100,6 +101,7 @@ namespace Cricket.Statistics
                 }
             }
         }
+
         public void SetTeamStats(ICricketTeam team)
         {
             Catches = 0;
@@ -108,19 +110,8 @@ namespace Cricket.Statistics
             KeeperCatches = 0;
             foreach (var season in team.Seasons)
             {
-                foreach (var match in season.Matches)
-                {
-                    var fielding = match.GetFielding(Name);
-                    if (fielding != null)
-                    {
-                        Catches += fielding.Catches;
-                        RunOuts += fielding.RunOuts;
-                        KeeperCatches += fielding.KeeperCatches;
-                        KeeperStumpings += fielding.KeeperStumpings;
-                    }
-                }
+                SetSeasonStats(season);
             }
         }
-
     }
 }

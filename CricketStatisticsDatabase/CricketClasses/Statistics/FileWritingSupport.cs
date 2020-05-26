@@ -8,12 +8,36 @@ namespace Cricket.Statistics
     {
         h1,
         h2,
-        h3
+        h3,
+        p
     }
 
     public static class FileWritingSupport
     {
-        public static void WriteTitle(StreamWriter writer, ExportType exportType, string title, HtmlTag tag = HtmlTag.h1)
+        public static void WriteParagraph(this StreamWriter writer, ExportType exportType, string[] sentence, HtmlTag tag = HtmlTag.p)
+        {
+            switch (exportType)
+            {
+                case (ExportType.Csv):
+                {
+                    string toOutput = string.Join(",", sentence);
+                    writer.WriteLine(toOutput);
+                    break;
+                }
+                case (ExportType.Html):
+                {
+                    string toOutput = string.Join(" ", sentence);
+                    writer.WriteLine($"<{tag}>{toOutput}</{tag}>");
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+        }
+
+        public static void WriteTitle(this StreamWriter writer, ExportType exportType, string title, HtmlTag tag = HtmlTag.h1)
         {
             switch (exportType)
             {
@@ -36,7 +60,27 @@ namespace Cricket.Statistics
             }
         }
 
-        public static void WriteTable<T>(StreamWriter writer, ExportType exportType, IEnumerable<string> headerValues, List<T> rowValues)
+        public static void WriteTable<T>(this StreamWriter writer, ExportType exportType, IEnumerable<T> values)
+        {
+            T forTypes = default(T);
+            foreach (var value in values)
+            {
+                if (value != null)
+                {
+                    forTypes = value;
+                    break;
+                }
+            }
+
+            if (forTypes == null)
+            {
+                return;
+            }
+
+            writer.WriteTable(exportType, forTypes.GetType().GetProperties().Select(type => type.Name), values);
+        }
+
+        public static void WriteTable<T>(this StreamWriter writer, ExportType exportType, IEnumerable<string> headerValues, IEnumerable<T> rowValues)
         {
             switch (exportType)
             {
@@ -60,10 +104,13 @@ namespace Cricket.Statistics
 
                     foreach (var value in rowValues)
                     {
-                        var row = value.GetType().GetProperties();
-                        writer.WriteLine("<tr>");
-                        WriteTableRow(writer, exportType, row.Select(ro => ro.GetValue(value)?.ToString()));
-                        writer.WriteLine("</tr>");
+                        if (value != null)
+                        {
+                            var row = value.GetType().GetProperties();
+                            writer.WriteLine("<tr>");
+                            WriteTableRow(writer, exportType, row.Select(ro => ro.GetValue(value)?.ToString()));
+                            writer.WriteLine("</tr>");
+                        }
                     }
 
                     writer.WriteLine("</tbody>");
@@ -77,7 +124,7 @@ namespace Cricket.Statistics
             }
         }
 
-        public static void WriteTableHeader(StreamWriter writer, ExportType exportType, IEnumerable<string> valuesToWrite)
+        public static void WriteTableHeader(this StreamWriter writer, ExportType exportType, IEnumerable<string> valuesToWrite)
         {
             switch (exportType)
             {
@@ -113,7 +160,7 @@ namespace Cricket.Statistics
             }
         }
 
-        public static void WriteTableRow(StreamWriter writer, ExportType exportType, IEnumerable<string> valuesToWrite)
+        public static void WriteTableRow(this StreamWriter writer, ExportType exportType, IEnumerable<string> valuesToWrite)
         {
             switch (exportType)
             {
@@ -158,7 +205,7 @@ namespace Cricket.Statistics
             }
         }
 
-        public static void CreateHTMLHeader(StreamWriter writer, string title)
+        public static void CreateHTMLHeader(this StreamWriter writer, string title)
         {
             writer.WriteLine("<!DOCTYPE html>");
             writer.WriteLine("<html>");
@@ -185,7 +232,7 @@ namespace Cricket.Statistics
             writer.WriteLine("<body>");
         }
 
-        public static void CreateHTMLFooter(StreamWriter writer)
+        public static void CreateHTMLFooter(this StreamWriter writer)
         {
             writer.WriteLine("</body>");
             writer.WriteLine("</html>");

@@ -1,6 +1,7 @@
 ﻿using Cricket.Interfaces;
 using Cricket.Player;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 
@@ -80,41 +81,22 @@ namespace Cricket.Statistics
         public PlayerBriefStatistics(PlayerName name, ICricketSeason season)
         {
             Name = name;
-            BattingStats = new PlayerBattingStatistics(name);
-            BowlingStats = new PlayerBowlingStatistics(name);
-            FieldingStats = new PlayerFieldingStatistics(name);
-            Played = new PlayerAttendanceStatistics(name);
-            SetSeasonStats(season);
-        }
-
-        public void SetSeasonStats(ICricketSeason season)
-        {
             SeasonName = season.Name;
             SeasonYear = season.Year;
-            BattingStats.SetSeasonStats(season);
-            BowlingStats.SetSeasonStats(season);
-            FieldingStats.SetSeasonStats(season);
-            Played.SetSeasonStats(season);
-
+            BattingStats = new PlayerBattingStatistics(name, season);
+            BowlingStats = new PlayerBowlingStatistics(name, season);
+            FieldingStats = new PlayerFieldingStatistics(name, season);
+            Played = new PlayerAttendanceStatistics(name, season);
             CalculatePartnerships(season);
         }
 
         public PlayerBriefStatistics(PlayerName name, ICricketTeam team)
         {
             Name = name;
-            BattingStats = new PlayerBattingStatistics(name);
-            BowlingStats = new PlayerBowlingStatistics(name);
-            FieldingStats = new PlayerFieldingStatistics(name);
-            Played = new PlayerAttendanceStatistics(name);
-            SetTeamStats(team);
-        }
-
-        public void SetTeamStats(ICricketTeam team)
-        {
-            BattingStats.SetTeamStats(team);
-            BowlingStats.SetTeamStats(team);
-            FieldingStats.SetTeamStats(team);
-            Played.SetTeamStats(team);
+            BattingStats = new PlayerBattingStatistics(name, team);
+            BowlingStats = new PlayerBowlingStatistics(name, team);
+            FieldingStats = new PlayerFieldingStatistics(name, team);
+            Played = new PlayerAttendanceStatistics(name, team);
 
             CalculatePartnerships(team);
         }
@@ -160,65 +142,47 @@ namespace Cricket.Statistics
             return Name.ToString();
         }
 
-        public void ExportStats(string filePath)
+        public void ExportStats(string filePath, ExportType exportType)
         {
             try
             {
                 StreamWriter streamWriter = new StreamWriter(filePath);
-                streamWriter.WriteLine("Exporting Stats");
-                streamWriter.WriteLine($"For player {Name.ToString()}");
-
-                streamWriter.WriteLine("");
-
-                streamWriter.WriteLine("Player Overall");
-                streamWriter.WriteLine($"Games Played:, {Played.TotalGamesPlayed}");
-
-                streamWriter.WriteLine($"Wins:, {Played.TotalGamesWon}");
-                streamWriter.WriteLine($"Losses:, {Played.TotalGamesLost}");
-
-                streamWriter.WriteLine("Best Batting," + BattingStats.Best.ToString());
-
-                streamWriter.WriteLine("Best Bowling," + BowlingStats.BestFigures.ToString());
-
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine("Attendance");
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine(PlayerAttendanceStatistics.CsvHeader());
-                streamWriter.WriteLine(Played.ToString());
-
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine("Batting Stats");
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine(PlayerBattingStatistics.CsvHeader());
-                streamWriter.WriteLine(BattingStats.ToString());
-
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine("Highest Partnerships");
-                streamWriter.WriteLine("");
-
-                foreach (var partnership in PartnershipsByWicket)
+                if (exportType.Equals(ExportType.Html))
                 {
-                    if (partnership != null)
-                    {
-                        streamWriter.WriteLine(partnership.ToString());
-                    }
+                    streamWriter.CreateHTMLHeader($"Statistics for Player {Name}");
                 }
+                streamWriter.WriteTitle(exportType, $"Brief Statistics for player {Name}", HtmlTag.h1);
 
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine("Bowling Stats");
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine(PlayerBowlingStatistics.CsvHeader());
-                streamWriter.WriteLine(BowlingStats.ToString());
+                streamWriter.WriteTitle(exportType, "Player Overall", HtmlTag.h2);
+                streamWriter.WriteParagraph(exportType, new string[] { "Games Played:", $"{Played.TotalGamesPlayed}" });
+                streamWriter.WriteParagraph(exportType, new string[] { "Wins:", $"{Played.TotalGamesWon}" });
+                streamWriter.WriteParagraph(exportType, new string[] { "Losses:", $"{Played.TotalGamesLost}" });
+                streamWriter.WriteParagraph(exportType, new string[] { "Best Batting:", BattingStats.Best.ToString() });
+                streamWriter.WriteParagraph(exportType, new string[] { "Best Bowling:", BowlingStats.BestFigures.ToString() });
 
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine("Fielding Stats");
-                streamWriter.WriteLine("");
-                streamWriter.WriteLine(PlayerFieldingStatistics.CsvHeader());
-                streamWriter.WriteLine(FieldingStats.ToString());
+                streamWriter.WriteTitle(exportType, "Appearances", HtmlTag.h2);
 
+                streamWriter.WriteTable(exportType, new PlayerAttendanceStatistics[] { Played });
+
+                streamWriter.WriteTitle(exportType, "Batting Stats", HtmlTag.h2);
+                streamWriter.WriteTable(exportType, new PlayerBattingStatistics[] { BattingStats });
+
+                streamWriter.WriteTitle(exportType, "Highest Partnerships", HtmlTag.h2);
+                streamWriter.WriteTable(exportType, PartnershipsByWicket);
+
+                streamWriter.WriteTitle(exportType, "Bowling Stats", HtmlTag.h2);
+                streamWriter.WriteTable(exportType, new PlayerBowlingStatistics[] { BowlingStats });
+
+                streamWriter.WriteTitle(exportType, "Fielding Stats", HtmlTag.h2);
+                streamWriter.WriteTable(exportType, new PlayerFieldingStatistics[] { FieldingStats });
+
+                if (exportType.Equals(ExportType.Html))
+                {
+                    streamWriter.CreateHTMLFooter();
+                }
                 streamWriter.Close();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
