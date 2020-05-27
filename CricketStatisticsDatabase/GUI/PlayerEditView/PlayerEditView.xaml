@@ -11,8 +11,10 @@
             <uiC:ArrayMultiValueConverter x:Key="ArrayMultiValueConverter"/>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*" 
+                              MinWidth="200"/>
+            <ColumnDefinition Width="2*"
+                              MinWidth="300" />
         </Grid.ColumnDefinitions>
 
         <ListBox Grid.Column="0"
@@ -26,7 +28,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="35"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
