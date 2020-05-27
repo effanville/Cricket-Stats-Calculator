@@ -46,6 +46,12 @@ namespace Cricket.Interfaces
         void SetTeamName(string name);
 
         /// <summary>
+        /// Sets the home location of the team.
+        /// </summary>
+        /// <param name="home"></param>
+        void SetTeamHome(string home);
+
+        /// <summary>
         /// Adds a player to the teams player list.
         /// </summary>
         bool AddPlayer(PlayerName name);
