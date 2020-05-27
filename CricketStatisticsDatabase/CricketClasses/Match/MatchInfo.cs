@@ -13,48 +13,22 @@ namespace Cricket.Match
             return Date.ToUkDateString() + "-" + Opposition + "-" + HomeOrAway;
         }
 
-        public string ToCSVLine()
-        {
-            return Date.ToUkDateString() + "," + Opposition + "," + HomeOrAway + "," + Type.ToString();
-        }
-
-        private string fOpposition;
         public string Opposition
         {
-            get
-            {
-                return fOpposition;
-            }
-            set
-            {
-                fOpposition = value;
-            }
+            get;
+            set;
         }
 
-        private DateTime date;
         public DateTime Date
         {
-            get
-            {
-                return date;
-            }
-            set
-            {
-                date = value;
-            }
+            get;
+            set;
         }
 
-        private string fPlace;
         public string Place
         {
-            get
-            {
-                return fPlace;
-            }
-            set
-            {
-                fPlace = value;
-            }
+            get;
+            set;
         }
 
         public Location HomeOrAway
@@ -63,17 +37,10 @@ namespace Cricket.Match
             set;
         }
 
-        private MatchType fType;
         public MatchType Type
         {
-            get
-            {
-                return fType;
-            }
-            set
-            {
-                fType = value;
-            }
+            get;
+            set;
         }
 
         public MatchInfo()

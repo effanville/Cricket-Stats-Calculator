@@ -108,10 +108,5 @@ namespace Cricket.Statistics
             Wicket = wicket;
             Runs = runs;
         }
-
-        public string ToCSVLine()
-        {
-            return Runs + "," + PlayerOne.ToString() + "," + PlayerTwo.ToString() + "," + MatchData?.ToCSVLine();
-        }
     }
 }

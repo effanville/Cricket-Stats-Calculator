@@ -86,6 +86,7 @@ namespace GUI.Dialogs.ViewModels
             if (dateParse)
             {
                 var info = new MatchInfo(Opposition, result, Place, Type);
+                info.HomeOrAway = Place.Equals(DataStore.HomeLocation) ? Location.Home : Location.Away;
                 AddMatch(info);
                 window.Close();
             }

@@ -12,6 +12,7 @@
         <Grid.Resources>
             <uiC:ArrayMultiValueConverter x:Key="ArrayMultiValueConverter" />
             <player:PlayerNameToStringConverter x:Key="NameToStringConverter" />
+            <uiC:StringToUKDateConverter x:Key="UKDateConverter" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
@@ -106,7 +107,7 @@
                              Grid.Column="1"
                              Grid.Row="1"
                              VerticalAlignment="Center"
-                             Text="{Binding Path=SelectedMatch.MatchData.Date, Mode=OneWay}" />
+                             Text="{Binding Path=SelectedMatch.MatchData.Date, Mode=OneWay, Converter={StaticResource UKDateConverter }}" />
                     <Label Grid.Column="0"
                            Grid.Row="2"
                            Content="Place:" />

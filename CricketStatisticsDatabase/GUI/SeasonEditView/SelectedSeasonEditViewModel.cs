@@ -187,16 +187,18 @@ namespace GUI.ViewModels
         {
             if (SelectedSeason != null)
             {
-                if (array.Length == 5)
+                if (array.Length == 6)
                 {
                     var dateParse = DateTime.TryParse(array[1].ToString(), out DateTime dateResult);
 
                     var matchTypeParse = Enum.TryParse<MatchType>(array[3].ToString(), out MatchType resultMatch);
                     var resultTypeParse = Enum.TryParse<ResultType>(array[4].ToString(), out ResultType resultResult);
-                    var inningsPlaceParse = Enum.TryParse<TeamInnings>(array[4].ToString(), out TeamInnings firstOrSecondResult);
+                    var inningsPlaceParse = Enum.TryParse<TeamInnings>(array[5].ToString(), out TeamInnings firstOrSecondResult);
+                    string place = array[2].ToString();
                     if (dateParse && matchTypeParse && resultTypeParse && inningsPlaceParse)
                     {
-                        UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name).GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.Opposition).EditInfo(array[0].ToString(), dateResult, array[2].ToString(), resultMatch, resultResult, firstOrSecondResult));
+                        UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name).GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.Opposition).EditInfo(array[0].ToString(), dateResult, place, place.Equals(team.HomeLocation) ? Location.Home : Location.Away,
+                        resultMatch, resultResult, firstOrSecondResult));
                     }
                 }
             }

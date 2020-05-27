@@ -150,16 +150,17 @@ namespace Cricket.Match
             return PlayerNames.Contains(person);
         }
 
-        public bool EditInfo(string opposition, DateTime date, string place, MatchType typeOfMatch, ResultType result, TeamInnings firstOrSecond)
+        public bool EditInfo(string opposition, DateTime date, string place, Location homeOrAway, MatchType typeOfMatch, ResultType result, TeamInnings firstOrSecond)
         {
-            return EditMatchInfo(opposition, date, place, typeOfMatch) & EditResult(result) & EditInningsPlace(firstOrSecond);
+            return EditMatchInfo(opposition, date, place, homeOrAway, typeOfMatch) & EditResult(result) & EditInningsPlace(firstOrSecond);
         }
 
-        public bool EditMatchInfo(string opposition, DateTime date, string place, MatchType typeOfMatch)
+        public bool EditMatchInfo(string opposition, DateTime date, string place, Location homeOrAway, MatchType typeOfMatch)
         {
             MatchData.Opposition = opposition;
             MatchData.Date = date;
             MatchData.Place = place;
+            MatchData.HomeOrAway = homeOrAway;
             MatchData.Type = typeOfMatch;
             Bowling.MatchData = MatchData;
             Batting.MatchData = MatchData;

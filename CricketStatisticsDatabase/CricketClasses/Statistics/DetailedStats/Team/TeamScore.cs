@@ -25,10 +25,5 @@ namespace Cricket.Statistics.DetailedStats
             Score = score;
             Info = info;
         }
-
-        public string ToCSVLine()
-        {
-            return Score.ToString() + "," + Info.ToCSVLine();
-        }
     }
 }

@@ -16,6 +16,14 @@ namespace Cricket.Interfaces
         }
 
         /// <summary>
+        /// The location of all home games.
+        /// </summary>
+        string HomeLocation
+        {
+            get;
+        }
+
+        /// <summary>
         /// The players associated to this team.
         /// </summary>
         List<ICricketPlayer> Players

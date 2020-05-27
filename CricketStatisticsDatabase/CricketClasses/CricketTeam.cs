@@ -46,6 +46,12 @@ namespace Cricket.Team
             TeamName = name;
         }
 
+        public string HomeLocation
+        {
+            get;
+            set;
+        } = string.Empty;
+
         public List<CricketPlayer> TeamPlayers
         {
             get;
