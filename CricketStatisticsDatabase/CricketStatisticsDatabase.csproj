@@ -4,6 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>net48;netcoreapp3.1</TargetFrameworks>
     <UseWPF>true</UseWPF>
+    <Deterministic>false</Deterministic>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

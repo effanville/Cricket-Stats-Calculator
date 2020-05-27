@@ -1,7 +1,7 @@
-﻿using Cricket.Player;
-using StructureCommon.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Cricket.Player;
+using StructureCommon.Validation;
 
 namespace Cricket.Interfaces
 {
@@ -11,6 +11,14 @@ namespace Cricket.Interfaces
         /// The name of the team in question.
         /// </summary>
         string TeamName
+        {
+            get;
+        }
+
+        /// <summary>
+        /// The location of all home games.
+        /// </summary>
+        string HomeLocation
         {
             get;
         }
@@ -36,6 +44,12 @@ namespace Cricket.Interfaces
         /// </summary>
         /// <param name="name"></param>
         void SetTeamName(string name);
+
+        /// <summary>
+        /// Sets the home location of the team.
+        /// </summary>
+        /// <param name="home"></param>
+        void SetTeamHome(string home);
 
         /// <summary>
         /// Adds a player to the teams player list.

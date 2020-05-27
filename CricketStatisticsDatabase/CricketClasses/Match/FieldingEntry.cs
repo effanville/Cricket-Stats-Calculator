@@ -1,9 +1,9 @@
-﻿using Cricket.Interfaces;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Cricket.Interfaces;
 using Cricket.Player;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Cricket.Match
 {
@@ -101,9 +101,9 @@ namespace Cricket.Match
             RunOuts = 0;
             KeeperStumpings = 0;
             KeeperCatches = 0;
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
-                var fielding = match.GetFielding(Name);
+                FieldingEntry fielding = match.GetFielding(Name);
                 if (fielding != null)
                 {
                     Catches += fielding.Catches;
@@ -121,7 +121,7 @@ namespace Cricket.Match
 
         public List<ValidationResult> Validation()
         {
-            var results = Name.Validation();
+            List<ValidationResult> results = Name.Validation();
             results.AddIfNotNull(Validating.NotNegative(Catches, nameof(Catches), ToString()));
             results.AddIfNotNull(Validating.NotNegative(RunOuts, nameof(RunOuts), ToString()));
             results.AddIfNotNull(Validating.NotNegative(KeeperStumpings, nameof(KeeperStumpings), ToString()));

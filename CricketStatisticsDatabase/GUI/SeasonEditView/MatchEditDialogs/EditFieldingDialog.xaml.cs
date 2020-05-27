@@ -1,6 +1,6 @@
-﻿using Cricket.Player;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Data;
+using Cricket.Player;
 
 namespace GUI.Dialogs
 {

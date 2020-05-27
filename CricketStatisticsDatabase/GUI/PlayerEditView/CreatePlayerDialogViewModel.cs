@@ -1,11 +1,11 @@
-﻿using Cricket.Interfaces;
-using Cricket.Player;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using Cricket.Interfaces;
+using Cricket.Player;
 using UICommon.Commands;
 using UICommon.Interfaces;
 using UICommon.ViewModelBases;

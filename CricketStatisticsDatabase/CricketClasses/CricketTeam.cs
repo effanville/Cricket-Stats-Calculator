@@ -1,10 +1,10 @@
-﻿using Cricket.Interfaces;
-using Cricket.Player;
-using StructureCommon.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using Cricket.Interfaces;
+using Cricket.Player;
+using StructureCommon.Validation;
 
 namespace Cricket.Team
 {
@@ -44,6 +44,17 @@ namespace Cricket.Team
         public void SetTeamName(string name)
         {
             TeamName = name;
+        }
+
+        public string HomeLocation
+        {
+            get;
+            set;
+        } = string.Empty;
+
+        public void SetTeamHome(string home)
+        {
+            HomeLocation = home;
         }
 
         public List<CricketPlayer> TeamPlayers

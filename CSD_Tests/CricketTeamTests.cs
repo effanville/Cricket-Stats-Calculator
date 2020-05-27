@@ -1,7 +1,7 @@
-﻿using Cricket.Player;
+﻿using System;
+using Cricket.Player;
 using Cricket.Team;
 using NUnit.Framework;
-using System;
 
 namespace CricketClasses.TeamTests
 {
@@ -11,8 +11,8 @@ namespace CricketClasses.TeamTests
         [Test]
         public void CanAddPlayer()
         {
-            var team = new CricketTeam();
-            var player = new PlayerName("Broad", "Stuart");
+            CricketTeam team = new CricketTeam();
+            PlayerName player = new PlayerName("Broad", "Stuart");
 
             Assert.IsTrue(team.AddPlayer(player));
             Assert.AreEqual(1, team.Players.Count);
@@ -21,8 +21,8 @@ namespace CricketClasses.TeamTests
         [Test]
         public void CannotAddSecondSameNamePlayer()
         {
-            var team = new CricketTeam();
-            var player = new PlayerName("Broad", "Stuart");
+            CricketTeam team = new CricketTeam();
+            PlayerName player = new PlayerName("Broad", "Stuart");
 
             Assert.IsTrue(team.AddPlayer(player));
             Assert.AreEqual(1, team.Players.Count);
@@ -37,8 +37,8 @@ namespace CricketClasses.TeamTests
         [TestCase("Broad", null, false)]
         public void CanTestContainsPlayer(string surname, string forename, bool expectedContained)
         {
-            var team = new CricketTeam();
-            var player = new PlayerName("Broad", "Stuart");
+            CricketTeam team = new CricketTeam();
+            PlayerName player = new PlayerName("Broad", "Stuart");
             team.AddPlayer(player);
             Assert.AreEqual(expectedContained, team.ContainsPlayer(new PlayerName(surname, forename)));
         }
@@ -48,7 +48,7 @@ namespace CricketClasses.TeamTests
         [TestCase("Broad", "Mark", false)]
         public void CanTestEmptyTeamContainsPlayer(string surname, string forename, bool expectedContained)
         {
-            var team = new CricketTeam();
+            CricketTeam team = new CricketTeam();
             Assert.AreEqual(expectedContained, team.ContainsPlayer(new PlayerName(surname, forename)));
         }
 
@@ -56,8 +56,8 @@ namespace CricketClasses.TeamTests
         [TestCase("White", "Stuart", false)]
         public void CanRemovePlayer(string surname, string forename, bool expectedRemoved)
         {
-            var team = new CricketTeam();
-            var player = new PlayerName("Broad", "Stuart");
+            CricketTeam team = new CricketTeam();
+            PlayerName player = new PlayerName("Broad", "Stuart");
 
             team.AddPlayer(player);
             Assert.AreEqual(expectedRemoved, team.RemovePlayer(new PlayerName(surname, forename)));
@@ -68,8 +68,8 @@ namespace CricketClasses.TeamTests
         [Test]
         public void CanAddSeason()
         {
-            var team = new CricketTeam();
-            var date = new DateTime(2000, 1, 1);
+            CricketTeam team = new CricketTeam();
+            DateTime date = new DateTime(2000, 1, 1);
             Assert.IsTrue(team.AddSeason(date, "Worst"));
             Assert.AreEqual(1, team.Seasons.Count);
         }
@@ -77,8 +77,8 @@ namespace CricketClasses.TeamTests
         [Test]
         public void CannotAddSecondSameNameSeason()
         {
-            var team = new CricketTeam();
-            var date = new DateTime(2000, 1, 1);
+            CricketTeam team = new CricketTeam();
+            DateTime date = new DateTime(2000, 1, 1);
             Assert.IsTrue(team.AddSeason(date, "Worst"));
             Assert.AreEqual(1, team.Seasons.Count);
 
@@ -93,8 +93,8 @@ namespace CricketClasses.TeamTests
         [TestCase("2001/1/1", null, false)]
         public void CanTestContainsSeason(DateTime dateToTest, string nameToTest, bool expectedContains)
         {
-            var team = new CricketTeam();
-            var date = new DateTime(2000, 1, 1);
+            CricketTeam team = new CricketTeam();
+            DateTime date = new DateTime(2000, 1, 1);
             team.AddSeason(date, "Worst");
             Assert.AreEqual(expectedContains, team.ContainsSeason(dateToTest, nameToTest));
         }
@@ -104,7 +104,7 @@ namespace CricketClasses.TeamTests
         [TestCase("2001/1/1", "Worst", false)]
         public void CanTestEmptyTeamContainsSeason(DateTime dateToTest, string nameToTest, bool expectedContains)
         {
-            var team = new CricketTeam();
+            CricketTeam team = new CricketTeam();
             Assert.AreEqual(expectedContains, team.ContainsSeason(dateToTest, nameToTest));
         }
 
@@ -114,8 +114,8 @@ namespace CricketClasses.TeamTests
         [TestCase("2001/1/1", "Day", false)]
         public void CanRemoveSeason(DateTime dateToTest, string nameToTest, bool expectedRemoved)
         {
-            var team = new CricketTeam();
-            var date = new DateTime(2000, 1, 1);
+            CricketTeam team = new CricketTeam();
+            DateTime date = new DateTime(2000, 1, 1);
             team.AddSeason(date, "Worst");
             Assert.AreEqual(1, team.Seasons.Count);
 

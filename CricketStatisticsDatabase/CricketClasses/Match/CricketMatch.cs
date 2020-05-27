@@ -1,11 +1,11 @@
-﻿using Cricket.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Cricket.Interfaces;
 using Cricket.Player;
 using Cricket.Statistics;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Cricket.Match
 {
@@ -53,6 +53,12 @@ namespace Cricket.Match
         }
 
         public ResultType Result
+        {
+            get;
+            set;
+        }
+
+        public TeamInnings BattingFirstOrSecond
         {
             get;
             set;
@@ -144,16 +150,17 @@ namespace Cricket.Match
             return PlayerNames.Contains(person);
         }
 
-        public bool EditInfo(string opposition, DateTime date, string place, MatchType typeOfMatch, ResultType result)
+        public bool EditInfo(string opposition, DateTime date, string place, Location homeOrAway, MatchType typeOfMatch, ResultType result, TeamInnings firstOrSecond)
         {
-            return EditMatchInfo(opposition, date, place, typeOfMatch) & EditResult(result);
+            return EditMatchInfo(opposition, date, place, homeOrAway, typeOfMatch) & EditResult(result) & EditInningsPlace(firstOrSecond);
         }
 
-        public bool EditMatchInfo(string opposition, DateTime date, string place, MatchType typeOfMatch)
+        public bool EditMatchInfo(string opposition, DateTime date, string place, Location homeOrAway, MatchType typeOfMatch)
         {
             MatchData.Opposition = opposition;
             MatchData.Date = date;
             MatchData.Place = place;
+            MatchData.HomeOrAway = homeOrAway;
             MatchData.Type = typeOfMatch;
             Bowling.MatchData = MatchData;
             Batting.MatchData = MatchData;
@@ -164,6 +171,12 @@ namespace Cricket.Match
         public bool EditResult(ResultType result)
         {
             Result = result;
+            return true;
+        }
+
+        public bool EditInningsPlace(TeamInnings result)
+        {
+            BattingFirstOrSecond = result;
             return true;
         }
 
@@ -187,7 +200,7 @@ namespace Cricket.Match
 
         public void SetBatting(BattingInnings innings)
         {
-            foreach (var entry in innings.BattingInfo)
+            foreach (BattingEntry entry in innings.BattingInfo)
             {
                 if (!Batting.PlayerListed(entry.Name))
                 {
@@ -246,7 +259,7 @@ namespace Cricket.Match
 
         public void SetBowling(BowlingInnings innings)
         {
-            foreach (var entry in innings.BowlingInfo)
+            foreach (BowlingEntry entry in innings.BowlingInfo)
             {
                 if (!Bowling.PlayerListed(entry.Name))
                 {
@@ -304,7 +317,7 @@ namespace Cricket.Match
 
         public void SetFielding(Fielding innings)
         {
-            foreach (var entry in innings.FieldingInfo)
+            foreach (FieldingEntry entry in innings.FieldingInfo)
             {
                 if (!FieldingStats.PlayerListed(entry.Name))
                 {
@@ -395,7 +408,7 @@ namespace Cricket.Match
 
         public List<ValidationResult> Validation()
         {
-            var results = new List<ValidationResult>();
+            List<ValidationResult> results = new List<ValidationResult>();
             results.AddValidations(MatchData.Validation(), ToString());
             results.AddValidations(Batting.Validation(), ToString());
             results.AddValidations(Bowling.Validation(), ToString());
@@ -406,8 +419,8 @@ namespace Cricket.Match
 
         public List<Partnership> Partnerships()
         {
-            var partnerships = Batting.Partnerships();
-            foreach (var ship in partnerships)
+            List<Partnership> partnerships = Batting.Partnerships();
+            foreach (Partnership ship in partnerships)
             {
                 if (ship != null && ship.MatchData == null)
                 {
@@ -416,20 +429,5 @@ namespace Cricket.Match
             }
             return partnerships;
         }
-    }
-
-    public enum ResultType
-    {
-        Loss = 0,
-        Draw = 1,
-        Tie = 2,
-        Win = 3,
-    }
-
-    public enum MatchType
-    {
-        League = 0,
-        Friendly = 1,
-        Evening = 2,
     }
 }

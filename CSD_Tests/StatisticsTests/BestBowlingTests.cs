@@ -1,6 +1,6 @@
-﻿using Cricket.Statistics;
+﻿using System;
+using Cricket.Statistics;
 using NUnit.Framework;
-using System;
 
 namespace CricketClasses.StatisticsTests
 {

@@ -2,7 +2,8 @@
 {
     public enum StatisticsType
     {
-        Season,
-        Alltime
+        SeasonBrief,
+        AllTimeBrief,
+        AllTimeDetailed
     }
 }

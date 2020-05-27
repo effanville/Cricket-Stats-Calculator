@@ -1,7 +1,7 @@
-﻿using Cricket.Interfaces;
-using StructureCommon.Validation;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Cricket.Interfaces;
+using StructureCommon.Validation;
 
 namespace Cricket.Player
 {
@@ -31,7 +31,7 @@ namespace Cricket.Player
 
         public void EditName(string surname, string forename)
         {
-            var newNames = new PlayerName(surname, forename);
+            PlayerName newNames = new PlayerName(surname, forename);
             if (!Name.Equals(newNames))
             {
                 Name = newNames;

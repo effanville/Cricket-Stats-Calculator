@@ -20,17 +20,26 @@
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ComboBox ItemsSource="{Binding Team.Seasons}"
-                  SelectedItem="{Binding SelectedSeason}"
+        <ComboBox ItemsSource="{Binding StatisticTypes}"
+                  SelectedItem="{Binding  SelectedStatsType}"
                   Grid.Column="0"
                   Grid.Row="0"
                   Margin="5" />
-        <ComboBox ItemsSource="{Binding SelectedSeason.Players}"
-                  SelectedItem="{Binding SelectedPlayer}"
+        <ComboBox ItemsSource="{Binding Team.Seasons}"
+                  SelectedItem="{Binding SelectedSeason}"
+                  Visibility="{Binding SeasonStatsSelected, Converter={StaticResource BoolConverter}}"
                   Grid.Column="0"
                   Grid.Row="1"
+                  Margin="5" />
+        <ComboBox ItemsSource="{Binding SelectedSeason.Players}"
+                  SelectedItem="{Binding SelectedPlayer}"
+                  Visibility="{Binding SeasonStatsSelected, Converter={StaticResource BoolConverter}}"
+                  Grid.Column="0"
+                  Grid.Row="2"
                   Margin="5" />
         <Button Content="Export player stats"
                 Grid.Column="0"
@@ -44,54 +53,13 @@
                 Grid.Column="0"
                 Grid.Row="5"
                 Command="{Binding ExportAllStatsCommand}" />
-        <UserControl Grid.Column="1"
-                     Grid.ColumnSpan="2"
-                     Grid.Row="0"
-                     Grid.RowSpan="4">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="4*" />
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0"
-                      VerticalAlignment="Top"
-                      Visibility="{Binding SeasonStatsSet, Converter={StaticResource BoolConverter}}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="0"
-                               Grid.ColumnSpan="3"
-                               Text="{Binding SelectedSeasonStats.SeasonYear.Year}" />
-                    <StackPanel Grid.Column="0"
-                                Grid.Row="1"
-                                Orientation="Horizontal">
-                        <Label Content="Played" />
-                        <TextBlock Text="{Binding SelectedSeasonStats.GamesPlayed}" />
-                    </StackPanel>
-                    <StackPanel Grid.Column="1"
-                                Grid.Row="1"
-                                Orientation="Horizontal">
-                        <Label Content="Wins" />
-                        <TextBlock Text="{Binding SelectedSeasonStats.NumberWins}" />
-                    </StackPanel>
-                    <StackPanel Grid.Column="2"
-                                Grid.Row="1"
-                                Orientation="Horizontal">
-                        <Label Content="Losses" />
-                        <TextBlock Text="{Binding SelectedSeasonStats.NumberLosses}" />
-                    </StackPanel>
-                </Grid>
-                <ContentControl Grid.Row="1"
-                                Content="{Binding SelectedPlayerStats}"
-                                Visibility="{Binding PlayerStatsSet, Converter={StaticResource BoolConverter}}" />
-            </Grid>
-        </UserControl>
+        <Button Content="Export Detailed stats"
+                Grid.Column="0"
+                Grid.Row="6"
+                Command="{Binding ExportDetailedAllStatsCommand}" />
+        <ContentControl Grid.Column="1" 
+                        Grid.Row="0"
+                        Grid.RowSpan="8"
+            Content="{Binding SelectedStats}" />
     </Grid>
 </UserControl>

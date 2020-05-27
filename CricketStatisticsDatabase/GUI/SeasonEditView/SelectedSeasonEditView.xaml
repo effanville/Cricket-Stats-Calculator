@@ -7,19 +7,23 @@
              xmlns:player="clr-namespace:Cricket.Player"
              mc:Ignorable="d"
              d:DesignHeight="450"
-             d:DesignWidth="800">
+             d:DesignWidth="600"
+             MinWidth="600">
     <Grid>
         <Grid.Resources>
             <uiC:ArrayMultiValueConverter x:Key="ArrayMultiValueConverter" />
             <player:PlayerNameToStringConverter x:Key="NameToStringConverter" />
+            <uiC:StringToUKDateConverter x:Key="UKDateConverter" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="2*"
+                              MinWidth="300" />
+            <ColumnDefinition Width="4*"
+                              MinWidth="300" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="35" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal"
@@ -44,6 +48,8 @@
                                      Path="SelectedItem" />
                             <Binding ElementName="ResultTypeBox"
                                      Path="SelectedItem" />
+                            <Binding ElementName="InningsPlaceBox"
+                                     Path="SelectedItem" />
                         </MultiBinding>
                     </Button.CommandParameter>
                 </Button>
@@ -63,7 +69,7 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="35" />
+                <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -74,15 +80,16 @@
                     BorderBrush="Gainsboro">
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="27" />
-                        <RowDefinition Height="27" />
-                        <RowDefinition Height="27" />
-                        <RowDefinition Height="27" />
-                        <RowDefinition Height="27" />
-                        <RowDefinition Height="27" />
-                        <RowDefinition Height="27" />
-                        <RowDefinition Height="27" />
-                        <RowDefinition Height="27" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="32" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -94,7 +101,6 @@
                     <TextBox x:Name="OppositionBox"
                              Grid.Column="1"
                              Grid.Row="0"
-                             VerticalAlignment="Center"
                              Text="{Binding Path=SelectedMatch.MatchData.Opposition, Mode=OneWay}" />
                     <Label Grid.Column="0"
                            Grid.Row="1"
@@ -102,66 +108,63 @@
                     <TextBox x:Name="DateBox"
                              Grid.Column="1"
                              Grid.Row="1"
-                             VerticalAlignment="Center"
-                             Text="{Binding Path=SelectedMatch.MatchData.Date, Mode=OneWay}" />
+                             Text="{Binding Path=SelectedMatch.MatchData.Date, Mode=OneWay, Converter={StaticResource UKDateConverter }}" />
                     <Label Grid.Column="0"
                            Grid.Row="2"
                            Content="Place:" />
                     <TextBox x:Name="PlaceBox"
                              Grid.Column="1"
                              Grid.Row="2"
-                             VerticalAlignment="Center"
                              Text="{Binding Path=SelectedMatch.MatchData.Place, Mode=OneWay}" />
                     <Label Grid.Column="0"
                            Grid.Row="3"
-                           VerticalAlignment="Center"
                            Content="Match Type:" />
                     <ComboBox x:Name="MatchTypeBox"
                               Grid.Column="1"
                               Grid.Row="3"
-                              VerticalAlignment="Center"
                               ItemsSource="{Binding MatchTypes}"
                               SelectedItem="{Binding Path=SelectedMatch.MatchData.Type, Mode=OneWay}" />
                     <Label Grid.Column="0"
                            Grid.Row="4"
-                           VerticalAlignment="Center"
                            Content="Result:" />
                     <ComboBox x:Name="ResultTypeBox"
                               ItemsSource="{Binding  MatchResultTypes}"
                               Grid.Column="1"
                               Grid.Row="4"
-                              VerticalAlignment="Center"
                               SelectedItem="{Binding Path=SelectedMatch.Result}" />
-                    <Label Grid.Column="0"
-                           Grid.Row="5"
-                           VerticalAlignment="Center"
-                           Content="Man of Match" />
-                    <TextBox Grid.Column="1"
-                             Grid.Row="5"
-                             VerticalAlignment="Center"
-                             Text="{Binding SelectedMatch.ManOfMatch, Converter={StaticResource NameToStringConverter}}" />
+                    <ComboBox x:Name="InningsPlaceBox"
+                              ItemsSource="{Binding  InningsPlaceTypes}"
+                              Grid.Column="1"
+                              Grid.Row="5"
+                              SelectedItem="{Binding Path=SelectedMatch.BattingFirstOrSecond}" />
                     <Label Grid.Column="0"
                            Grid.Row="6"
-                           VerticalAlignment="Center"
-                           Content="Number Batting Entries" />
-                    <TextBlock Grid.Column="1"
-                               Grid.Row="6"
-                               VerticalAlignment="Center"
-                               Text="{Binding SelectedBatting.BattingInfo.Count }" />
+                           Content="Man of Match" />
+                    <TextBox Grid.Column="1"
+                             Grid.Row="6"
+                             Text="{Binding SelectedMatch.ManOfMatch, Converter={StaticResource NameToStringConverter}}" />
                     <Label Grid.Column="0"
                            Grid.Row="7"
                            VerticalAlignment="Center"
-                           Content="Number Bowling Entries" />
+                           Content="Number Batting Entries" />
                     <TextBlock Grid.Column="1"
                                Grid.Row="7"
                                VerticalAlignment="Center"
-                               Text="{Binding SelectedBowling.BowlingInfo.Count }" />
+                               Text="{Binding SelectedBatting.BattingInfo.Count }" />
                     <Label Grid.Column="0"
                            Grid.Row="8"
                            VerticalAlignment="Center"
-                           Content="Number Fielding Entries" />
+                           Content="Number Bowling Entries" />
                     <TextBlock Grid.Column="1"
                                Grid.Row="8"
+                               VerticalAlignment="Center"
+                               Text="{Binding SelectedBowling.BowlingInfo.Count }" />
+                    <Label Grid.Column="0"
+                           Grid.Row="9"
+                           VerticalAlignment="Center"
+                           Content="Number Fielding Entries" />
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="9"
                                VerticalAlignment="Center"
                                Text="{Binding SelectedMatch.FieldingStats.FieldingInfo.Count }" />
                 </Grid>

@@ -21,7 +21,7 @@ namespace Cricket.Player
         {
             if (value != null)
             {
-                var splitted = value.ToString().Split(' ');
+                string[] splitted = value.ToString().Split(' ');
                 if (splitted.Length == 2)
                 {
                     return new PlayerName(splitted[1], splitted[0]);

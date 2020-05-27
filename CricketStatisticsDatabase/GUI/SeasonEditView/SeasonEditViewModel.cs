@@ -1,8 +1,8 @@
-﻿using Cricket.Interfaces;
-using GUI.Dialogs.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Cricket.Interfaces;
+using GUI.Dialogs.ViewModels;
 using UICommon.Commands;
 using UICommon.Services;
 using UICommon.ViewModelBases;
@@ -90,7 +90,7 @@ namespace GUI.ViewModels
             {
                 if (array.Length == 2)
                 {
-                    var year = int.Parse(array[0].ToString());
+                    int year = int.Parse(array[0].ToString());
                     SelectedSeason.EditSeasonName(new DateTime(year, 1, 1), array[1].ToString());
                 }
             }

@@ -1,8 +1,8 @@
-﻿using StructureCommon.Extensions;
-using StructureCommon.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using StructureCommon.Extensions;
+using StructureCommon.Validation;
 
 namespace Cricket.Match
 {
@@ -10,59 +10,37 @@ namespace Cricket.Match
     {
         public override string ToString()
         {
-            return Date.ToUkDateString() + "-" + Opposition;
+            return Date.ToUkDateString() + "-" + Opposition + "-" + HomeOrAway;
         }
 
-        private string fOpposition;
         public string Opposition
         {
-            get
-            {
-                return fOpposition;
-            }
-            set
-            {
-                fOpposition = value;
-            }
+            get;
+            set;
         }
 
-        private DateTime date;
         public DateTime Date
         {
-            get
-            {
-                return date;
-            }
-            set
-            {
-                date = value;
-            }
+            get;
+            set;
         }
 
-        private string fPlace;
         public string Place
         {
-            get
-            {
-                return fPlace;
-            }
-            set
-            {
-                fPlace = value;
-            }
+            get;
+            set;
         }
 
-        private MatchType fType;
+        public Location HomeOrAway
+        {
+            get;
+            set;
+        }
+
         public MatchType Type
         {
-            get
-            {
-                return fType;
-            }
-            set
-            {
-                fType = value;
-            }
+            get;
+            set;
         }
 
         public MatchInfo()
@@ -84,7 +62,7 @@ namespace Cricket.Match
 
         public List<ValidationResult> Validation()
         {
-            var results = new List<ValidationResult>();
+            List<ValidationResult> results = new List<ValidationResult>();
             results.AddIfNotNull(Validating.IsNotNullOrEmpty(Opposition, nameof(Opposition), ToString()));
             return results;
         }

@@ -1,8 +1,8 @@
-﻿using Cricket.Match;
+﻿using System;
+using System.Collections.Generic;
+using Cricket.Match;
 using Cricket.Player;
 using Cricket.Statistics;
-using System;
-using System.Collections.Generic;
 
 namespace Cricket.Interfaces
 {
@@ -14,6 +14,11 @@ namespace Cricket.Interfaces
         }
 
         ResultType Result
+        {
+            get;
+        }
+
+        TeamInnings BattingFirstOrSecond
         {
             get;
         }
@@ -45,9 +50,9 @@ namespace Cricket.Interfaces
 
         bool PlayNotPlay(PlayerName name);
 
-        bool EditInfo(string opposition, DateTime date, string place, MatchType typeOfMatch, ResultType result);
+        bool EditInfo(string opposition, DateTime date, string place, Location homeOrAway, MatchType typeOfMatch, ResultType result, TeamInnings firstOrSecond);
 
-        bool EditMatchInfo(string opposition, DateTime date, string place, MatchType typeOfMatch);
+        bool EditMatchInfo(string opposition, DateTime date, string place, Location homeOrAway, MatchType typeOfMatch);
 
         bool EditResult(ResultType result);
 

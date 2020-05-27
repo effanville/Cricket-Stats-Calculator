@@ -1,104 +1,52 @@
-﻿using Cricket.Interfaces;
-using Cricket.Player;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Cricket.Interfaces;
+using Cricket.Player;
 
 namespace Cricket.Statistics
 {
     public class PlayerBattingStatistics
     {
-        public static string CsvHeader()
-        {
-            return nameof(Name) + "," + nameof(TotalInnings) + "," + nameof(TotalNotOut) + "," + nameof(TotalRuns) + "," + nameof(Average) + "," + "Bestbatting";
-        }
-
-        public override string ToString()
-        {
-            return Name.ToString() + "," + TotalInnings + "," + TotalNotOut + "," + TotalRuns + "," + Average + "," + Best.ToString();
-        }
-
         public PlayerName Name
         {
             get;
             set;
         }
 
-        private int fTotalInnings;
         public int TotalInnings
         {
-            get
-            {
-                return fTotalInnings;
-            }
-            set
-            {
-                fTotalInnings = value;
-            }
+            get;
+            set;
         }
 
-        private int fTotalNotOut;
         public int TotalNotOut
         {
-            get
-            {
-                return fTotalNotOut;
-            }
-            set
-            {
-                fTotalNotOut = value;
-            }
+            get;
+            set;
         }
 
-        private int fTotalRuns;
         public int TotalRuns
         {
-            get
-            {
-                return fTotalRuns;
-            }
-            set
-            {
-                fTotalRuns = value;
-            }
+            get;
+            set;
         }
 
-        private double fAverage;
         public double Average
         {
-            get
-            {
-                return fAverage;
-            }
-            set
-            {
-                fAverage = value;
-            }
+            get;
+            set;
         }
 
-        private List<int> fWicketLossNumbers = new List<int>(new int[Enum.GetValues(typeof(Match.Wicket)).Length]);
         public List<int> WicketLossNumbers
         {
-            get
-            {
-                return fWicketLossNumbers;
-            }
-            set
-            {
-                fWicketLossNumbers = value;
-            }
-        }
+            get;
+            set;
+        } = new List<int>(new int[Enum.GetValues(typeof(Match.Wicket)).Length]);
 
-        private BestBatting fBest;
         public BestBatting Best
         {
-            get
-            {
-                return fBest;
-            }
-            set
-            {
-                fBest = value;
-            }
+            get;
+            set;
         }
 
         public PlayerBattingStatistics()
@@ -116,16 +64,25 @@ namespace Cricket.Statistics
             SetSeasonStats(season);
         }
 
-        public void SetSeasonStats(ICricketSeason season)
+        public PlayerBattingStatistics(PlayerName name, ICricketTeam team)
         {
-            TotalInnings = 0;
-            TotalNotOut = 0;
-            TotalRuns = 0;
-            Best = new BestBatting();
+            Name = name;
+            SetTeamStats(team);
+        }
 
-            foreach (var match in season.Matches)
+        public void SetSeasonStats(ICricketSeason season, bool reset = false)
+        {
+            if (reset)
             {
-                var batting = match.GetBatting(Name);
+                TotalInnings = 0;
+                TotalNotOut = 0;
+                TotalRuns = 0;
+                Best = new BestBatting();
+            }
+
+            foreach (ICricketMatch match in season.Matches)
+            {
+                Match.BattingEntry batting = match.GetBatting(Name);
                 if (batting != null)
                 {
                     if (batting.MethodOut != Match.Wicket.DidNotBat)
@@ -139,7 +96,7 @@ namespace Cricket.Statistics
                         WicketLossNumbers[index] += 1;
                         TotalRuns += batting.RunsScored;
 
-                        var possibleBest = new BestBatting()
+                        BestBatting possibleBest = new BestBatting()
                         {
                             Runs = batting.RunsScored,
                             HowOut = batting.MethodOut,
@@ -157,7 +114,7 @@ namespace Cricket.Statistics
 
             if (TotalInnings != TotalNotOut)
             {
-                Average = (double)TotalRuns / ((double)TotalInnings - (double)TotalNotOut);
+                Average = TotalRuns / (TotalInnings - (double)TotalNotOut);
             }
         }
 
@@ -168,44 +125,14 @@ namespace Cricket.Statistics
             TotalRuns = 0;
             Best = new BestBatting();
 
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
-                foreach (var match in season.Matches)
-                {
-                    var batting = match.GetBatting(Name);
-                    if (batting != null)
-                    {
-                        if (batting.MethodOut != Match.Wicket.DidNotBat)
-                        {
-                            TotalInnings++;
-                            if (!batting.Out())
-                            {
-                                TotalNotOut++;
-                            }
-                            int index = (int)batting.MethodOut;
-                            WicketLossNumbers[index] += 1;
-                            TotalRuns += batting.RunsScored;
-
-                            var possibleBest = new BestBatting()
-                            {
-                                Runs = batting.RunsScored,
-                                HowOut = batting.MethodOut,
-                                Opposition = match.MatchData.Opposition,
-                                Date = match.MatchData.Date
-                            };
-
-                            if (possibleBest.CompareTo(Best) > 0)
-                            {
-                                Best = possibleBest;
-                            }
-                        }
-                    }
-                }
+                SetSeasonStats(season, reset: false);
             }
 
             if (TotalInnings != TotalNotOut)
             {
-                Average = (double)TotalRuns / ((double)TotalInnings - (double)TotalNotOut);
+                Average = TotalRuns / (TotalInnings - (double)TotalNotOut);
             }
         }
     }

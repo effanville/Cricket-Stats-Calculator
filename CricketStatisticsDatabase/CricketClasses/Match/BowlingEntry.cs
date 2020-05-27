@@ -1,8 +1,8 @@
-﻿using Cricket.Player;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Cricket.Player;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Cricket.Match
 {
@@ -86,7 +86,7 @@ namespace Cricket.Match
 
         public List<ValidationResult> Validation()
         {
-            var results = Name.Validation();
+            List<ValidationResult> results = Name.Validation();
             results.AddIfNotNull(Validating.NotNegative(OversBowled, nameof(OversBowled), ToString()));
             results.AddIfNotNull(Validating.NotNegative(Maidens, nameof(Maidens), ToString()));
             results.AddIfNotNull(Validating.NotNegative(RunsConceded, nameof(RunsConceded), ToString()));

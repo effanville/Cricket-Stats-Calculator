@@ -1,6 +1,6 @@
-﻿using Cricket.Interfaces;
-using System;
+﻿using System;
 using System.Windows.Input;
+using Cricket.Interfaces;
 using UICommon.Commands;
 using UICommon.Interfaces;
 using UICommon.ViewModelBases;

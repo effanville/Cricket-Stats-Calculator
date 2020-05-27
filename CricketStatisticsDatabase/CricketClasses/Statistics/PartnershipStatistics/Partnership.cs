@@ -1,11 +1,41 @@
-﻿using Cricket.Match;
+﻿using System;
+using Cricket.Match;
 using Cricket.Player;
-using System;
 
 namespace Cricket.Statistics
 {
     public sealed class Partnership : IComparable
     {
+        public int Runs
+        {
+            get;
+            set;
+        }
+
+        public PlayerName PlayerOne
+        {
+            get;
+            set;
+        }
+
+        public PlayerName PlayerTwo
+        {
+            get;
+            set;
+        }
+
+        public int Wicket
+        {
+            get;
+            set;
+        }
+
+        public MatchInfo MatchData
+        {
+            get;
+            set;
+        }
+
         public int CompareTo(object obj)
         {
             if (obj is Partnership ship)
@@ -35,39 +65,23 @@ namespace Cricket.Statistics
             return false;
         }
 
+        public bool SamePair(PlayerName playerOne, PlayerName playerTwo)
+        {
+            if (PlayerOne.Equals(playerOne) && PlayerTwo.Equals(playerTwo))
+            {
+                return true;
+            }
+            if (PlayerTwo.Equals(playerOne) && PlayerOne.Equals(playerTwo))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public override string ToString()
         {
             return Wicket + "," + PlayerOne.ToString() + "," + PlayerTwo.ToString() + "," + Runs + "," + MatchData?.ToString();
-        }
-
-        public PlayerName PlayerOne
-        {
-            get;
-            set;
-        }
-
-        public PlayerName PlayerTwo
-        {
-            get;
-            set;
-        }
-
-        public int Wicket
-        {
-            get;
-            set;
-        }
-
-        public int Runs
-        {
-            get;
-            set;
-        }
-
-        public MatchInfo MatchData
-        {
-            get;
-            set;
         }
 
         public Partnership(PlayerName playerOne, PlayerName playerTwo, MatchInfo matchData = null)

@@ -5,16 +5,6 @@ namespace Cricket.Statistics
 {
     public class PlayerAttendanceStatistics
     {
-        public static string CsvHeader()
-        {
-            return nameof(Name) + "," + nameof(TotalGamesPlayed) + "," + nameof(TotalGamesWon) + "," + nameof(TotalGamesLost) + "," + nameof(TotalMom) + "," + nameof(WinRatio);
-        }
-
-        public override string ToString()
-        {
-            return Name.ToString() + "," + TotalGamesPlayed + "," + TotalGamesWon + "," + TotalGamesLost + "," + TotalMom + "," + WinRatio;
-        }
-
         public PlayerName Name
         {
             get;
@@ -49,7 +39,7 @@ namespace Cricket.Statistics
         {
             get
             {
-                return (double)TotalGamesWon / (double)TotalGamesPlayed;
+                return TotalGamesWon / (double)TotalGamesPlayed;
             }
         }
 
@@ -68,13 +58,23 @@ namespace Cricket.Statistics
             SetSeasonStats(season);
         }
 
-        public void SetSeasonStats(ICricketSeason season)
+        public PlayerAttendanceStatistics(PlayerName name, ICricketTeam team)
         {
-            TotalGamesWon = 0;
-            TotalGamesPlayed = 0;
-            TotalGamesLost = 0;
-            TotalMom = 0;
-            foreach (var match in season.Matches)
+            Name = name;
+            SetTeamStats(team);
+        }
+
+        public void SetSeasonStats(ICricketSeason season, bool reset = false)
+        {
+            if (reset)
+            {
+                TotalGamesWon = 0;
+                TotalGamesPlayed = 0;
+                TotalGamesLost = 0;
+                TotalMom = 0;
+            }
+
+            foreach (ICricketMatch match in season.Matches)
             {
                 if (match.PlayNotPlay(Name))
                 {
@@ -101,27 +101,9 @@ namespace Cricket.Statistics
             TotalGamesPlayed = 0;
             TotalGamesLost = 0;
             TotalMom = 0;
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
-                foreach (var match in season.Matches)
-                {
-                    if (match.PlayNotPlay(Name))
-                    {
-                        TotalGamesPlayed += 1;
-                        if (Name.Equals(match.ManOfMatch))
-                        {
-                            TotalMom += 1;
-                        }
-                        if (match.Result == Match.ResultType.Win)
-                        {
-                            TotalGamesWon += 1;
-                        }
-                        if (match.Result == Match.ResultType.Loss)
-                        {
-                            TotalGamesLost += 1;
-                        }
-                    }
-                }
+                SetSeasonStats(season);
             }
         }
     }

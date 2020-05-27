@@ -1,12 +1,39 @@
-﻿using Cricket.Match;
-using Cricket.Player;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Cricket.Match;
+using Cricket.Player;
 
 namespace Cricket.Interfaces
 {
     public interface ICricketSeason
     {
+        int GamesPlayed
+        {
+            get;
+        }
+
+        int NumberWins
+        {
+            get;
+        }
+
+        int NumberLosses
+        {
+            get;
+        }
+
+        int NumberDraws
+        {
+            get;
+        }
+
+        int NumberTies
+        {
+            get;
+        }
+
+        void CalculateGamesPlayed();
+
         /// <summary>
         /// The name associated to this season.
         /// </summary>

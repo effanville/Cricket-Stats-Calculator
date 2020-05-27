@@ -1,9 +1,9 @@
-﻿using Cricket.Interfaces;
-using Cricket.Match;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using Cricket.Interfaces;
+using Cricket.Match;
 using UICommon.Commands;
 using UICommon.Interfaces;
 using UICommon.ViewModelBases;
@@ -85,7 +85,10 @@ namespace GUI.Dialogs.ViewModels
             bool dateParse = DateTime.TryParse(date, out DateTime result);
             if (dateParse)
             {
-                var info = new MatchInfo(Opposition, result, Place, Type);
+                var info = new MatchInfo(Opposition, result, Place, Type)
+                {
+                    HomeOrAway = Place.Equals(DataStore.HomeLocation) ? Location.Home : Location.Away
+                };
                 AddMatch(info);
                 window.Close();
             }

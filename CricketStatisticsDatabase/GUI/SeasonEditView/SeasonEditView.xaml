@@ -43,9 +43,9 @@
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource ArrayMultiValueConverter}">
                         <Binding ElementName="YearBox"
-                                 Path="Text"></Binding>
+                                 Path="Text" />
                         <Binding ElementName="NameBox"
-                                 Path="Text"></Binding>
+                                 Path="Text" />
                     </MultiBinding>
                 </Button.CommandParameter>
             </Button>
@@ -58,6 +58,6 @@
         <gui:SelectedSeasonEditView Grid.Column="1"
                                     Grid.Row="0"
                                     Grid.RowSpan="2"
-                                    DataContext="{Binding SelectedSeasonViewModel}"></gui:SelectedSeasonEditView>
+                                    DataContext="{Binding SelectedSeasonViewModel}" />
     </Grid>
 </UserControl>

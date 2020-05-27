@@ -5,112 +5,58 @@ namespace Cricket.Statistics
 {
     public class PlayerBowlingStatistics
     {
-        public static string CsvHeader()
-        {
-            return nameof(Name) + "," + nameof(TotalOvers) + "," + nameof(TotalMaidens) + "," + nameof(TotalRunsConceded) + "," + nameof(TotalWickets) + "," + nameof(Average) + "," + nameof(Economy) + "," + "Best figures";
-        }
-
-        public override string ToString()
-        {
-            return Name.ToString() + "," + TotalOvers + "," + TotalMaidens + "," + TotalRunsConceded + "," + TotalWickets + "," + Average + "," + Economy + "," + BestFigures.ToString();
-        }
-
         public PlayerName Name
         {
             get;
             set;
         }
 
-        private double fTotalOvers;
         public double TotalOvers
         {
-            get
-            {
-                return fTotalOvers;
-            }
-            set
-            {
-                fTotalOvers = value;
-            }
+            get;
+            set;
         }
 
-        private int fTotalMaidens;
         public int TotalMaidens
         {
-            get
-            {
-                return fTotalMaidens;
-            }
-            set
-            {
-                fTotalMaidens = value;
-            }
+            get;
+            set;
         }
 
-        private int fTotalRunsConceded;
         public int TotalRunsConceded
         {
-            get
-            {
-                return fTotalRunsConceded;
-            }
-            set
-            {
-                fTotalRunsConceded = value;
-            }
+            get;
+            set;
         }
 
-
-        private int fTotalWickets;
         public int TotalWickets
         {
-            get
-            {
-                return fTotalWickets;
-            }
-            set
-            {
-                fTotalWickets = value;
-            }
+            get;
+            set;
         }
 
-        private double fAverage;
         public double Average
         {
-            get
-            {
-                return fAverage;
-            }
-            set
-            {
-                fAverage = value;
-            }
+            get;
+            set;
         }
 
-        private double fEconomy;
         public double Economy
         {
-            get
-            {
-                return fEconomy;
-            }
-            set
-            {
-                fEconomy = value;
-            }
+            get;
+            set;
         }
 
-        private BestBowling fBestFigures;
+        public double StrikeRate
+        {
+            get;
+            set;
+        }
+
         public BestBowling BestFigures
         {
-            get
-            {
-                return fBestFigures;
-            }
-            set
-            {
-                fBestFigures = value;
-            }
+            get;
+            set;
         }
 
         public PlayerBowlingStatistics()
@@ -128,17 +74,26 @@ namespace Cricket.Statistics
             SetSeasonStats(season);
         }
 
-        public void SetSeasonStats(ICricketSeason season)
+        public PlayerBowlingStatistics(PlayerName name, ICricketTeam team)
         {
-            TotalOvers = 0;
-            TotalMaidens = 0;
-            TotalRunsConceded = 0;
-            TotalWickets = 0;
-            BestFigures = new BestBowling();
+            Name = name;
+            SetTeamStats(team);
+        }
 
-            foreach (var match in season.Matches)
+        public void SetSeasonStats(ICricketSeason season, bool reset = false)
+        {
+            if (reset)
             {
-                var bowling = match.GetBowling(Name);
+                TotalOvers = 0;
+                TotalMaidens = 0;
+                TotalRunsConceded = 0;
+                TotalWickets = 0;
+                BestFigures = new BestBowling();
+            }
+
+            foreach (ICricketMatch match in season.Matches)
+            {
+                Match.BowlingEntry bowling = match.GetBowling(Name);
                 if (bowling != null)
                 {
                     TotalOvers += bowling.OversBowled;
@@ -146,7 +101,7 @@ namespace Cricket.Statistics
                     TotalRunsConceded += bowling.RunsConceded;
                     TotalWickets += bowling.Wickets;
 
-                    var possibleBest = new BestBowling()
+                    BestBowling possibleBest = new BestBowling()
                     {
                         Wickets = bowling.Wickets,
                         Runs = bowling.RunsConceded,
@@ -163,16 +118,18 @@ namespace Cricket.Statistics
 
             if (TotalWickets != 0)
             {
-                Average = (double)TotalRunsConceded / (double)TotalWickets;
+                Average = TotalRunsConceded / (double)TotalWickets;
+                StrikeRate = 6 * (double)TotalOvers / TotalWickets;
             }
             else
             {
                 Average = double.NaN;
+                StrikeRate = double.NaN;
             }
 
             if (TotalOvers != 0)
             {
-                Economy = (double)TotalRunsConceded / (double)TotalOvers;
+                Economy = TotalRunsConceded / (double)TotalOvers;
             }
             else
             {
@@ -187,46 +144,25 @@ namespace Cricket.Statistics
             TotalRunsConceded = 0;
             TotalWickets = 0;
             BestFigures = new BestBowling();
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
-                foreach (var match in season.Matches)
-                {
-                    var bowling = match.GetBowling(Name);
-                    if (bowling != null)
-                    {
-                        TotalOvers += bowling.OversBowled;
-                        TotalMaidens += bowling.Maidens;
-                        TotalRunsConceded += bowling.RunsConceded;
-                        TotalWickets += bowling.Wickets;
-
-                        var possibleBest = new BestBowling()
-                        {
-                            Wickets = bowling.Wickets,
-                            Runs = bowling.RunsConceded,
-                            Opposition = match.MatchData.Opposition,
-                            Date = match.MatchData.Date
-                        };
-
-                        if (possibleBest.CompareTo(BestFigures) > 0)
-                        {
-                            BestFigures = possibleBest;
-                        }
-                    }
-                }
+                SetSeasonStats(season);
             }
 
             if (TotalWickets != 0)
             {
-                Average = (double)TotalRunsConceded / (double)TotalWickets;
+                Average = TotalRunsConceded / (double)TotalWickets;
+                StrikeRate = 6 * (double)TotalOvers / TotalWickets;
             }
             else
             {
                 Average = double.NaN;
+                StrikeRate = double.NaN;
             }
 
             if (TotalOvers != 0)
             {
-                Economy = (double)TotalRunsConceded / (double)TotalOvers;
+                Economy = TotalRunsConceded / (double)TotalOvers;
             }
             else
             {

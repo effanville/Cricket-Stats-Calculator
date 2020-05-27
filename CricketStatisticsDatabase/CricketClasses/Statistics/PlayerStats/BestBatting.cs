@@ -1,6 +1,6 @@
-﻿using Cricket.Match;
+﻿using System;
+using Cricket.Match;
 using StructureCommon.Extensions;
-using System;
 
 namespace Cricket.Statistics
 {
@@ -10,6 +10,7 @@ namespace Cricket.Statistics
         public Wicket HowOut;
         public string Opposition;
         public DateTime Date;
+        public Location HomeOrAway;
 
         public int CompareTo(object obj)
         {
@@ -51,7 +52,7 @@ namespace Cricket.Statistics
 
         public override string ToString()
         {
-            var outname = HowOut == Wicket.NotOut ? " not out" : "";
+            string outname = HowOut == Wicket.NotOut ? " not out" : "";
 
             if (string.IsNullOrEmpty(Opposition))
             {

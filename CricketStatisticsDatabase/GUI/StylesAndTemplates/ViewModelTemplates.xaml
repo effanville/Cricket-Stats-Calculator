@@ -4,6 +4,7 @@
                     xmlns:dvm="clr-namespace:GUI.Dialogs.ViewModels"
                     xmlns:dialog="clr-namespace:GUI.Dialogs"
                     xmlns:stats="clr-namespace:Cricket.Statistics"
+                    xmlns:detStats="clr-namespace:Cricket.Statistics.DetailedStats"
                     xmlns:gui="clr-namespace:GUI">
     <DataTemplate DataType="{x:Type vm:ReportingViewModel}">
         <gui:ReportingView />
@@ -38,7 +39,13 @@
     <DataTemplate DataType="{x:Type vm:StatsViewModel}">
         <gui:StatsView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type stats:PlayerStatistics}">
+    <DataTemplate DataType="{x:Type stats:PlayerBriefStatistics}">
         <gui:PlayerStatsDisplay />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type stats:TeamBriefStatistics}">
+        <gui:SeasonBriefStatsTemplate />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type detStats:DetailedAllTimeStatistics}">
+        <gui:DetailedStatsTemplate />
     </DataTemplate>
 </ResourceDictionary>

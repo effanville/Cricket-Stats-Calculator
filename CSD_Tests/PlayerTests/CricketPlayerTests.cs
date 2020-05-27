@@ -1,7 +1,7 @@
-﻿using Cricket.Player;
+﻿using System.Collections.Generic;
+using Cricket.Player;
 using CSD_Tests;
 using NUnit.Framework;
-using System.Collections.Generic;
 using StructureCommon.Validation;
 
 namespace CricketClasses.PlayerTests

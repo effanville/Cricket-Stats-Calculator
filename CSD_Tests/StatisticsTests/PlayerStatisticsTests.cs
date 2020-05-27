@@ -1,11 +1,11 @@
-﻿using Cricket;
+﻿using System;
+using System.Collections.Generic;
+using Cricket;
 using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
 using Cricket.Statistics;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace CricketClasses.StatisticsTests
 {
@@ -83,7 +83,7 @@ namespace CricketClasses.StatisticsTests
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = CreateTestSeason(player, batting, bowling, fielding);
-            var stats = new PlayerStatistics(player, season);
+            var stats = new PlayerBriefStatistics(player, season);
             Assert.AreEqual(expected[0], stats.Played.TotalGamesPlayed);
             Assert.AreEqual(expected[1], stats.Played.TotalMom);
         }
