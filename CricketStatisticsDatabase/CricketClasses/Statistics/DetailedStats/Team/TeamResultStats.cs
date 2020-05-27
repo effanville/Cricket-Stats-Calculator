@@ -1,8 +1,7 @@
-﻿using Cricket.Interfaces;
-using ExportHelpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cricket.Interfaces;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -51,7 +50,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketTeam team)
         {
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 CalculateStats(season);
             }
@@ -64,7 +63,7 @@ namespace Cricket.Statistics.DetailedStats
         {
             YearByYearRecords.Add(new TeamYearRecord(season));
 
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
                 UpdateStats(match);
             }
@@ -78,7 +77,7 @@ namespace Cricket.Statistics.DetailedStats
 
             if (TeamAgainstRecords.Any(team => team.OppositionName.Equals(match.MatchData.Opposition)))
             {
-                var oppo = TeamAgainstRecords.First(team => team.OppositionName.Equals(match.MatchData.Opposition));
+                TeamOppositionRecord oppo = TeamAgainstRecords.First(team => team.OppositionName.Equals(match.MatchData.Opposition));
                 oppo.AddResult(match);
             }
             else

@@ -1,9 +1,4 @@
 ﻿using Cricket.Player;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cricket.Statistics.PlayerStats
 {
@@ -36,11 +31,6 @@ namespace Cricket.Statistics.PlayerStats
             Name = name;
             Wickets = wickets;
             Economy = average;
-        }
-
-        public string ToCSVLine()
-        {
-            return Name.ToString() + "," + Wickets + "," + Economy;
         }
     }
 }

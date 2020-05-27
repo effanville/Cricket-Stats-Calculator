@@ -1,9 +1,9 @@
-﻿using Cricket.Match;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Cricket.Match;
 using Cricket.Player;
 using CSD_Tests;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
 using StructureCommon.Validation;
 
 namespace CricketClasses.MatchTests

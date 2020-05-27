@@ -1,9 +1,9 @@
-﻿using Cricket.Match;
+﻿using System;
+using System.Collections.Generic;
+using Cricket.Match;
 using Cricket.Player;
 using CSD_Tests;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using StructureCommon.Validation;
 
 namespace CricketClasses.MatchTests
@@ -61,7 +61,7 @@ namespace CricketClasses.MatchTests
 
             Assert.AreEqual("Evil", match.MatchData.Opposition);
 
-            match.EditInfo("Sandon", new DateTime(2010, 2, 3), "Spain", MatchType.Evening, ResultType.Draw, TeamInnings.First);
+            match.EditInfo("Sandon", new DateTime(2010, 2, 3), "Spain", Location.Home, MatchType.Evening, ResultType.Draw, TeamInnings.First);
 
             Assert.AreEqual("Sandon", match.MatchData.Opposition);
             Assert.AreEqual(new DateTime(2010, 2, 3), match.MatchData.Date);

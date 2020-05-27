@@ -1,8 +1,7 @@
-﻿using Cricket.Interfaces;
-using ExportHelpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cricket.Interfaces;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -26,7 +25,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketTeam team)
         {
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 CalculateStats(season);
             }
@@ -34,7 +33,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketSeason season)
         {
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
                 UpdateStats(match);
             }
@@ -46,7 +45,7 @@ namespace Cricket.Statistics.DetailedStats
             {
                 if (match.Batting.Score().Runs > match.Bowling.Score().Runs + 100)
                 {
-                    var margin = new BowlingWinningMargin(match);
+                    BowlingWinningMargin margin = new BowlingWinningMargin(match);
                     WinBy100Runs.Add(margin);
                     WinBy100Runs.Sort((a, b) => b.WinningRuns.CompareTo(a.WinningRuns));
                 }
@@ -55,7 +54,7 @@ namespace Cricket.Statistics.DetailedStats
             {
                 if (match.Batting.Score().Wickets.Equals(0))
                 {
-                    var margin = new BattingWinningMargin(match);
+                    BattingWinningMargin margin = new BattingWinningMargin(match);
                     WinBy10Wickets.Add(margin);
                     WinBy10Wickets.Sort((a, b) => b.Score.CompareTo(a.Score));
                 }

@@ -1,6 +1,5 @@
-﻿using Cricket.Interfaces;
-using System;
-using System.IO;
+﻿using System.IO;
+using Cricket.Interfaces;
 
 namespace Cricket.Statistics.DetailedStats
 {

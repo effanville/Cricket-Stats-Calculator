@@ -16,8 +16,8 @@
             <uiC:StringToUKDateConverter x:Key="UKDateConverter" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" 
-                              MinWidth="300"/>
+            <ColumnDefinition Width="2*"
+                              MinWidth="300" />
             <ColumnDefinition Width="4*"
                               MinWidth="300" />
         </Grid.ColumnDefinitions>

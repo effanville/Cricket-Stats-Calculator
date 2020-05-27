@@ -1,9 +1,8 @@
-﻿using Cricket.Interfaces;
-using Cricket.Statistics.PlayerStats;
-using ExportHelpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cricket.Interfaces;
+using Cricket.Statistics.PlayerStats;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -57,10 +56,10 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketTeam team)
         {
-            var teamStats = new TeamBriefStatistics(team);
-            var economy = teamStats.SeasonPlayerStats.Select(player => player.BowlingStats.Economy);
+            TeamBriefStatistics teamStats = new TeamBriefStatistics(team);
+            IEnumerable<double> economy = teamStats.SeasonPlayerStats.Select(player => player.BowlingStats.Economy);
 
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 CalculateStats(season);
             }
@@ -68,15 +67,15 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketSeason season)
         {
-            var seasonStats = new TeamBriefStatistics(season);
+            TeamBriefStatistics seasonStats = new TeamBriefStatistics(season);
 
-            var manyWickets = seasonStats.SeasonPlayerStats.Where(player => player.BowlingStats.TotalWickets >= 30);
+            IEnumerable<PlayerBriefStatistics> manyWickets = seasonStats.SeasonPlayerStats.Where(player => player.BowlingStats.TotalWickets >= 30);
             SeasonWicketsOver30.AddRange(manyWickets.Select(lots => new SeasonWickets(lots.Name, lots.BowlingStats.TotalWickets, seasonStats.SeasonYear.Year, lots.BowlingStats.Average)));
 
-            var lowAverage = seasonStats.SeasonPlayerStats.Where(player => player.BowlingStats.TotalWickets > 15 && player.BowlingStats.Average < 15);
+            IEnumerable<PlayerBriefStatistics> lowAverage = seasonStats.SeasonPlayerStats.Where(player => player.BowlingStats.TotalWickets > 15 && player.BowlingStats.Average < 15);
             SeasonAverageUnder15.AddRange(lowAverage.Select(lots => new SeasonWickets(lots.Name, lots.BowlingStats.TotalWickets, seasonStats.SeasonYear.Year, lots.BowlingStats.Average)));
 
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
                 UpdateStats(match);
             }
@@ -91,7 +90,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void UpdateStats(ICricketMatch match)
         {
-            foreach (var bowlingEntry in match.Bowling.BowlingInfo)
+            foreach (Match.BowlingEntry bowlingEntry in match.Bowling.BowlingInfo)
             {
                 if (bowlingEntry.Wickets >= 5)
                 {
@@ -99,7 +98,7 @@ namespace Cricket.Statistics.DetailedStats
 
                     if (NumberFiveFors.Any(entry => entry.Name.Equals(bowlingEntry.Name)))
                     {
-                        var value = NumberFiveFors.First(entry => entry.Name.Equals(bowlingEntry.Name));
+                        HighWickets value = NumberFiveFors.First(entry => entry.Name.Equals(bowlingEntry.Name));
                         value.NumberFiveFor++;
                     }
                     else

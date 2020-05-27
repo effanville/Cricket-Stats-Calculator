@@ -1,6 +1,6 @@
 ﻿using Cricket.Player;
 
-namespace Cricket.Statistics
+namespace Cricket.Statistics.PlayerStats
 {
     public class HighScores
     {
@@ -31,11 +31,6 @@ namespace Cricket.Statistics
             Name = name;
             Centuries = century;
             Fifties = fifty;
-        }
-
-        public string ToCSVLine()
-        {
-            return Name.ToString() + "," + Centuries + "," + Fifties;
         }
     }
 }

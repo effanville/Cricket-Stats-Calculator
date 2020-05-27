@@ -1,5 +1,4 @@
 ﻿using Cricket.Player;
-using System.Runtime.InteropServices;
 
 namespace Cricket.Statistics.PlayerStats
 {
@@ -21,11 +20,6 @@ namespace Cricket.Statistics.PlayerStats
         {
             Name = name;
             NumberFiveFor = number;
-        }
-
-        public string ToCSVLine()
-        {
-            return Name.ToString() + "," + NumberFiveFor;
         }
     }
 }

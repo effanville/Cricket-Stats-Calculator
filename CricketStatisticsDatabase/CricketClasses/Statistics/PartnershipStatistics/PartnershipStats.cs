@@ -1,8 +1,7 @@
-﻿using Cricket.Interfaces;
-using ExportHelpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cricket.Interfaces;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -37,7 +36,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketTeam team)
         {
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 CalculateStats(season);
             }
@@ -45,11 +44,11 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketSeason season)
         {
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
                 UpdateStats(match);
             }
-            foreach (var partList in PartnershipsByWicket)
+            foreach (List<Partnership> partList in PartnershipsByWicket)
             {
                 partList.Sort((a, b) => b.Runs.CompareTo(a.Runs));
             }
@@ -64,8 +63,8 @@ namespace Cricket.Statistics.DetailedStats
         /// </summary>
         public void UpdateStats(ICricketMatch match)
         {
-            var partnerships = match.Partnerships();
-            foreach (var ship in partnerships)
+            List<Partnership> partnerships = match.Partnerships();
+            foreach (Partnership ship in partnerships)
             {
                 if (ship != null)
                 {
@@ -75,7 +74,7 @@ namespace Cricket.Statistics.DetailedStats
 
                         if (MostPartnerships.Any(player => player.Player.Equals(ship.PlayerOne)))
                         {
-                            var partnershipPlayer = MostPartnerships.First(player => player.Player.Equals(ship.PlayerOne));
+                            PartnershipNumber partnershipPlayer = MostPartnerships.First(player => player.Player.Equals(ship.PlayerOne));
                             partnershipPlayer.NumberPartnerships++;
                         }
                         else
@@ -85,7 +84,7 @@ namespace Cricket.Statistics.DetailedStats
 
                         if (MostPartnerships.Any(player => player.Player.Equals(ship.PlayerTwo)))
                         {
-                            var partnershipPlayer = MostPartnerships.First(player => player.Player.Equals(ship.PlayerTwo));
+                            PartnershipNumber partnershipPlayer = MostPartnerships.First(player => player.Player.Equals(ship.PlayerTwo));
                             partnershipPlayer.NumberPartnerships++;
                         }
                         else
@@ -95,7 +94,7 @@ namespace Cricket.Statistics.DetailedStats
 
                         if (MostPartnershipsAsPair.Any(partnershipPair => ship.SamePair(partnershipPair.Player, partnershipPair.SecondPlayer)))
                         {
-                            var pair = MostPartnershipsAsPair.First(partnershipPair => ship.SamePair(partnershipPair.Player, partnershipPair.SecondPlayer));
+                            PartnershipPairNumber pair = MostPartnershipsAsPair.First(partnershipPair => ship.SamePair(partnershipPair.Player, partnershipPair.SecondPlayer));
                             pair.NumberPartnerships++;
                         }
                         else

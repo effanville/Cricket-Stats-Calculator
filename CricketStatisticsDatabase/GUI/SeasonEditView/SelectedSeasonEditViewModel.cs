@@ -1,10 +1,10 @@
-﻿using Cricket.Interfaces;
-using Cricket.Match;
-using GUI.Dialogs.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using Cricket.Interfaces;
+using Cricket.Match;
+using GUI.Dialogs.ViewModels;
 using UICommon.Commands;
 using UICommon.Services;
 using UICommon.ViewModelBases;
@@ -189,11 +189,11 @@ namespace GUI.ViewModels
             {
                 if (array.Length == 6)
                 {
-                    var dateParse = DateTime.TryParse(array[1].ToString(), out DateTime dateResult);
+                    bool dateParse = DateTime.TryParse(array[1].ToString(), out DateTime dateResult);
 
-                    var matchTypeParse = Enum.TryParse<MatchType>(array[3].ToString(), out MatchType resultMatch);
-                    var resultTypeParse = Enum.TryParse<ResultType>(array[4].ToString(), out ResultType resultResult);
-                    var inningsPlaceParse = Enum.TryParse<TeamInnings>(array[5].ToString(), out TeamInnings firstOrSecondResult);
+                    bool matchTypeParse = Enum.TryParse<MatchType>(array[3].ToString(), out MatchType resultMatch);
+                    bool resultTypeParse = Enum.TryParse<ResultType>(array[4].ToString(), out ResultType resultResult);
+                    bool inningsPlaceParse = Enum.TryParse<TeamInnings>(array[5].ToString(), out TeamInnings firstOrSecondResult);
                     string place = array[2].ToString();
                     if (dateParse && matchTypeParse && resultTypeParse && inningsPlaceParse)
                     {
@@ -234,10 +234,6 @@ namespace GUI.ViewModels
                 SelectedSeason = selectedSeason;
                 SelectedMatches = selectedSeason?.Matches;
             }
-        }
-
-        public override void UpdateData(ICricketTeam portfolio)
-        {
         }
     }
 }

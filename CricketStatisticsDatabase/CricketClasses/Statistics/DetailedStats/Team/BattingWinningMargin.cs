@@ -1,8 +1,8 @@
-﻿using Cricket.Interfaces;
+﻿using System;
+using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
 using StructureCommon.Extensions;
-using System;
 
 namespace Cricket.Statistics.DetailedStats
 {

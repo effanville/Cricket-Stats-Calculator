@@ -1,9 +1,9 @@
-﻿using Cricket.Interfaces;
-using Cricket.Team;
-using StructureCommon.FileAccess;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Cricket.Interfaces;
+using Cricket.Team;
+using StructureCommon.FileAccess;
 using UICommon.Commands;
 using UICommon.Services;
 using UICommon.ViewModelBases;
@@ -70,7 +70,7 @@ namespace GUI.ViewModels
 
         private void UpdateSubWindows()
         {
-            foreach (var tab in DisplayTabs)
+            foreach (object tab in DisplayTabs)
             {
                 if (tab is ViewModelBase<ICricketTeam> vmb)
                 {
@@ -89,7 +89,7 @@ namespace GUI.ViewModels
 
         private void ExecuteNewTeamCommand()
         {
-            var result = fDialogService.ShowMessageBox("Are you sure you want a new team?", "New Team?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
+            System.Windows.MessageBoxResult result = fDialogService.ShowMessageBox("Are you sure you want a new team?", "New Team?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
             if (result == System.Windows.MessageBoxResult.Yes)
             {
                 TeamToPlayWith = new CricketTeam();
@@ -104,10 +104,10 @@ namespace GUI.ViewModels
 
         private void ExecuteLoadTeamCommand()
         {
-            var result = fFileService.OpenFile(string.Empty);
+            FileInteractionResult result = fFileService.OpenFile(string.Empty);
             if (result.Success != null && (bool)result.Success)
             {
-                var database = XmlFileAccess.ReadFromXmlFile<CricketTeam>(result.FilePath, out string error);
+                CricketTeam database = XmlFileAccess.ReadFromXmlFile<CricketTeam>(result.FilePath, out string error);
                 if (error == null)
                 {
                     TeamToPlayWith = database;
@@ -123,7 +123,7 @@ namespace GUI.ViewModels
         }
         private void ExecuteSaveTeamCommand()
         {
-            var result = fFileService.SaveFile("xml", string.Empty, string.Empty, "XML Files|*.xml|All Files|*.*");
+            FileInteractionResult result = fFileService.SaveFile("xml", string.Empty, string.Empty, "XML Files|*.xml|All Files|*.*");
             if (result.Success != null && (bool)result.Success)
             {
                 XmlFileAccess.WriteToXmlFile<CricketTeam>(result.FilePath, TeamToPlayWith, out string error);

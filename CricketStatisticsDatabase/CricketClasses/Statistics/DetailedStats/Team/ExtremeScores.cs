@@ -1,9 +1,8 @@
-﻿using Cricket.Interfaces;
-using Cricket.Match;
-using ExportHelpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cricket.Interfaces;
+using Cricket.Match;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -77,7 +76,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketTeam team)
         {
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 CalculateStats(season);
             }
@@ -85,7 +84,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketSeason season)
         {
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
                 UpdateStats(match);
             }
@@ -93,7 +92,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void UpdateStats(ICricketMatch match)
         {
-            var teamScore = match.Batting.Score();
+            InningsScore teamScore = match.Batting.Score();
             if (teamScore.Runs >= 200)
             {
                 ScoresOver200.Add(new TeamScore(teamScore, match.MatchData));
@@ -105,7 +104,7 @@ namespace Cricket.Statistics.DetailedStats
                 ScoresUnder25.Sort((a, b) => a.Score.CompareTo(b.Score));
             }
 
-            var oppoScore = match.Bowling.Score();
+            InningsScore oppoScore = match.Bowling.Score();
             if (oppoScore.Runs >= 200)
             {
                 OppositionScoresOver200.Add(new TeamScore(oppoScore, match.MatchData));
@@ -137,7 +136,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void ExportStats(StreamWriter writer, ExportType exportType)
         {
-            var headerDummy = new TeamScore();
+            TeamScore headerDummy = new TeamScore();
             if (ScoresOver200.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Scores Over 200", HtmlTag.h2);

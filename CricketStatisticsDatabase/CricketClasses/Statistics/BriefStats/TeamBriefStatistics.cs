@@ -1,9 +1,8 @@
-﻿using Cricket.Interfaces;
-using Cricket.Statistics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cricket.Interfaces;
 
 namespace Cricket.Statistics
 {
@@ -91,7 +90,7 @@ namespace Cricket.Statistics
 
         public void CalculateTeamStats(ICricketTeam team)
         {
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 CalculateTeamStats(season);
             }
@@ -114,9 +113,9 @@ namespace Cricket.Statistics
 
         public void CalculatePlayerStats(ICricketTeam team)
         {
-            foreach (var player in team.Players)
+            foreach (ICricketPlayer player in team.Players)
             {
-                var playerStats = new PlayerBriefStatistics(player.Name, team);
+                PlayerBriefStatistics playerStats = new PlayerBriefStatistics(player.Name, team);
                 SeasonPlayerStats.Add(playerStats);
             }
         }
@@ -128,16 +127,16 @@ namespace Cricket.Statistics
                 return;
             }
 
-            foreach (var player in season.Players)
+            foreach (Player.PlayerName player in season.Players)
             {
-                var playerStats = new PlayerBriefStatistics(player, season);
+                PlayerBriefStatistics playerStats = new PlayerBriefStatistics(player, season);
                 SeasonPlayerStats.Add(playerStats);
             }
         }
 
         public void CalculatePartnerships(ICricketTeam team)
         {
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 CalculatePartnerships(season);
             }
@@ -145,9 +144,9 @@ namespace Cricket.Statistics
 
         public void CalculatePartnerships(ICricketSeason season)
         {
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
-                var partnerships = match.Partnerships();
+                List<Partnership> partnerships = match.Partnerships();
                 for (int i = 0; i < partnerships.Count; i++)
                 {
                     if (partnerships[i] != null)
@@ -195,25 +194,25 @@ namespace Cricket.Statistics
                 streamWriter.WriteParagraph(exportType, new string[] { "Draws:", $"{NumberDraws}" });
                 streamWriter.WriteParagraph(exportType, new string[] { "Ties:", $"{NumberTies}" });
 
-                var bestBatting = SeasonPlayerStats.Select(player => (player.BattingStats.Best, player.Name)).Max();
+                (BestBatting Best, Player.PlayerName Name) bestBatting = SeasonPlayerStats.Select(player => (player.BattingStats.Best, player.Name)).Max();
                 streamWriter.WriteParagraph(exportType, new string[] { "Best Batting:", bestBatting.Name.ToString(), bestBatting.Best.ToString() });
 
-                var bestBowling = SeasonPlayerStats.Select(player => (player.BowlingStats.BestFigures, player.Name)).Max();
+                (BestBowling BestFigures, Player.PlayerName Name) bestBowling = SeasonPlayerStats.Select(player => (player.BowlingStats.BestFigures, player.Name)).Max();
                 streamWriter.WriteParagraph(exportType, new string[] { "Best Bowling:", bestBowling.Name.ToString(), bestBowling.BestFigures.ToString() });
 
-                var fielding = SeasonPlayerStats.Select(player => player.FieldingStats).ToList();
-                var mostKeeper = fielding.Max(player => player.TotalKeeperDismissals);
-                var keepers = fielding.Where(player => player.TotalKeeperDismissals.Equals(mostKeeper)).Select(player => player.Name).ToList();
+                List<PlayerFieldingStatistics> fielding = SeasonPlayerStats.Select(player => player.FieldingStats).ToList();
+                int mostKeeper = fielding.Max(player => player.TotalKeeperDismissals);
+                List<Player.PlayerName> keepers = fielding.Where(player => player.TotalKeeperDismissals.Equals(mostKeeper)).Select(player => player.Name).ToList();
                 streamWriter.WriteParagraph(exportType, new string[] { "Most Dismissals as keeper:", $"{mostKeeper}", string.Join(",", keepers) });
 
                 streamWriter.WriteTitle(exportType, "Appearances", HtmlTag.h2);
 
-                var played = SeasonPlayerStats.Select(player => player.Played).ToList();
+                List<PlayerAttendanceStatistics> played = SeasonPlayerStats.Select(player => player.Played).ToList();
                 played.Sort((x, y) => y.TotalGamesPlayed.CompareTo(x.TotalGamesPlayed));
                 FileWritingSupport.WriteTable(streamWriter, exportType, new PlayerAttendanceStatistics().GetType().GetProperties().Select(type => type.Name), played);
 
                 streamWriter.WriteTitle(exportType, "Batting Stats", HtmlTag.h2);
-                var batting = SeasonPlayerStats.Select(player => player.BattingStats).ToList();
+                List<PlayerBattingStatistics> batting = SeasonPlayerStats.Select(player => player.BattingStats).ToList();
                 batting.RemoveAll(bat => bat.TotalInnings.Equals(0));
                 batting.Sort((x, y) => y.TotalRuns.CompareTo(x.TotalRuns));
                 FileWritingSupport.WriteTable(streamWriter, exportType, new PlayerBattingStatistics().GetType().GetProperties().Select(type => type.Name), batting);
@@ -222,7 +221,7 @@ namespace Cricket.Statistics
                 FileWritingSupport.WriteTable(streamWriter, exportType, new Partnership().GetType().GetProperties().Select(type => type.Name), PartnershipsByWicket);
 
                 FileWritingSupport.WriteTitle(streamWriter, exportType, "Bowling Stats", HtmlTag.h2);
-                var bowling = SeasonPlayerStats.Select(player => player.BowlingStats).ToList();
+                List<PlayerBowlingStatistics> bowling = SeasonPlayerStats.Select(player => player.BowlingStats).ToList();
                 bowling.RemoveAll(bowl => bowl.TotalOvers.Equals(0));
                 bowling.Sort((x, y) => y.TotalWickets.CompareTo(x.TotalWickets));
                 FileWritingSupport.WriteTable(streamWriter, exportType, new PlayerBowlingStatistics().GetType().GetProperties().Select(type => type.Name), bowling);

@@ -57,7 +57,7 @@ namespace Cricket.Statistics.DetailedStats
             Lost = season.NumberLosses;
             Drew = season.NumberDraws;
             Tie = season.NumberTies;
-            WinRatio = (double)Won / (double)Played;
+            WinRatio = Won / (double)Played;
         }
 
         public string ToCSVLine()

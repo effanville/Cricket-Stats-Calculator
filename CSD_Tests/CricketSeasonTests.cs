@@ -1,7 +1,7 @@
-﻿using Cricket;
+﻿using System;
+using Cricket;
 using Cricket.Match;
 using NUnit.Framework;
-using System;
 
 namespace CricketClasses.SeasonTests
 {
@@ -11,9 +11,9 @@ namespace CricketClasses.SeasonTests
         [Test]
         public void CanCreate()
         {
-            var year = new DateTime(2010, 1, 1);
-            var name = "Why";
-            var season = new CricketSeason(year, name);
+            DateTime year = new DateTime(2010, 1, 1);
+            string name = "Why";
+            CricketSeason season = new CricketSeason(year, name);
             Assert.AreEqual(year, season.Year);
             Assert.AreEqual(name, season.Name);
         }
@@ -33,7 +33,7 @@ namespace CricketClasses.SeasonTests
         [TestCase(null, null, null, null, true)]
         public void EqualityCorrect(string name, DateTime year, string testingName, DateTime testingYear, bool expected)
         {
-            var season = new CricketSeason(year, name);
+            CricketSeason season = new CricketSeason(year, name);
             Assert.AreEqual(expected, season.Equals(new CricketSeason(testingYear, testingName)));
         }
 
@@ -52,16 +52,16 @@ namespace CricketClasses.SeasonTests
         [TestCase(null, null, null, null, true)]
         public void SameSeasonCorrect(string name, DateTime year, string testingName, DateTime testingYear, bool expected)
         {
-            var season = new CricketSeason(year, name);
+            CricketSeason season = new CricketSeason(year, name);
             Assert.AreEqual(expected, season.SameSeason(testingYear, testingName));
         }
 
         [Test]
         public void CanEditNames()
         {
-            var year = new DateTime(2010, 1, 1);
-            var name = "Why";
-            var season = new CricketSeason(year, name);
+            DateTime year = new DateTime(2010, 1, 1);
+            string name = "Why";
+            CricketSeason season = new CricketSeason(year, name);
             Assert.AreEqual(year, season.Year);
             Assert.AreEqual(name, season.Name);
 
@@ -73,11 +73,11 @@ namespace CricketClasses.SeasonTests
         [Test]
         public void CanAddMatch()
         {
-            var year = new DateTime(2010, 1, 1);
-            var name = "Why";
-            var season = new CricketSeason(year, name);
+            DateTime year = new DateTime(2010, 1, 1);
+            string name = "Why";
+            CricketSeason season = new CricketSeason(year, name);
 
-            var matchInfo = new MatchInfo
+            MatchInfo matchInfo = new MatchInfo
             {
                 Date = new DateTime(2010, 4, 3),
                 Opposition = "Sandon"
@@ -93,17 +93,17 @@ namespace CricketClasses.SeasonTests
         [TestCase("2010/2/3", "Maryland", false)]
         public void ContainsMatchTests(DateTime date, string opposition, bool expectedContains)
         {
-            var year = new DateTime(2010, 1, 1);
-            var name = "Why";
-            var season = new CricketSeason(year, name);
-            var matchInfo = new MatchInfo
+            DateTime year = new DateTime(2010, 1, 1);
+            string name = "Why";
+            CricketSeason season = new CricketSeason(year, name);
+            MatchInfo matchInfo = new MatchInfo
             {
                 Date = new DateTime(2010, 4, 3),
                 Opposition = "Sandon"
             };
             season.AddMatch(matchInfo);
 
-            var contains = season.ContainsMatch(date, opposition);
+            bool contains = season.ContainsMatch(date, opposition);
             Assert.AreEqual(expectedContains, contains);
         }
 
@@ -113,17 +113,17 @@ namespace CricketClasses.SeasonTests
         [TestCase("2010/2/3", "Maryland", false)]
         public void CanRemoveMatch(DateTime date, string opposition, bool expectedRemoval)
         {
-            var year = new DateTime(2010, 1, 1);
-            var name = "Why";
-            var season = new CricketSeason(year, name);
-            var matchInfo = new MatchInfo
+            DateTime year = new DateTime(2010, 1, 1);
+            string name = "Why";
+            CricketSeason season = new CricketSeason(year, name);
+            MatchInfo matchInfo = new MatchInfo
             {
                 Date = new DateTime(2010, 4, 3),
                 Opposition = "Sandon"
             };
             season.AddMatch(matchInfo);
 
-            var removed = season.RemoveMatch(date, opposition);
+            bool removed = season.RemoveMatch(date, opposition);
 
             Assert.AreEqual(expectedRemoval, removed);
             int number = expectedRemoval ? 0 : 1;

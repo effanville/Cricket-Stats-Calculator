@@ -89,9 +89,9 @@ namespace Cricket.Statistics
                 KeeperCatches = 0;
             }
 
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
-                var fielding = match.GetFielding(Name);
+                Match.FieldingEntry fielding = match.GetFielding(Name);
                 if (fielding != null)
                 {
                     Catches += fielding.Catches;
@@ -108,7 +108,7 @@ namespace Cricket.Statistics
             RunOuts = 0;
             KeeperStumpings = 0;
             KeeperCatches = 0;
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 SetSeasonStats(season);
             }

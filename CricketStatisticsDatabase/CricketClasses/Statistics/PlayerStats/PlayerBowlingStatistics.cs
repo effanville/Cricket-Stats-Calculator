@@ -53,17 +53,10 @@ namespace Cricket.Statistics
             set;
         }
 
-        private BestBowling fBestFigures;
         public BestBowling BestFigures
         {
-            get
-            {
-                return fBestFigures;
-            }
-            set
-            {
-                fBestFigures = value;
-            }
+            get;
+            set;
         }
 
         public PlayerBowlingStatistics()
@@ -98,9 +91,9 @@ namespace Cricket.Statistics
                 BestFigures = new BestBowling();
             }
 
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
-                var bowling = match.GetBowling(Name);
+                Match.BowlingEntry bowling = match.GetBowling(Name);
                 if (bowling != null)
                 {
                     TotalOvers += bowling.OversBowled;
@@ -108,7 +101,7 @@ namespace Cricket.Statistics
                     TotalRunsConceded += bowling.RunsConceded;
                     TotalWickets += bowling.Wickets;
 
-                    var possibleBest = new BestBowling()
+                    BestBowling possibleBest = new BestBowling()
                     {
                         Wickets = bowling.Wickets,
                         Runs = bowling.RunsConceded,
@@ -125,8 +118,8 @@ namespace Cricket.Statistics
 
             if (TotalWickets != 0)
             {
-                Average = (double)TotalRunsConceded / (double)TotalWickets;
-                StrikeRate = 6 * (double)TotalOvers / (double)TotalWickets;
+                Average = TotalRunsConceded / (double)TotalWickets;
+                StrikeRate = 6 * (double)TotalOvers / TotalWickets;
             }
             else
             {
@@ -136,7 +129,7 @@ namespace Cricket.Statistics
 
             if (TotalOvers != 0)
             {
-                Economy = (double)TotalRunsConceded / (double)TotalOvers;
+                Economy = TotalRunsConceded / (double)TotalOvers;
             }
             else
             {
@@ -151,15 +144,15 @@ namespace Cricket.Statistics
             TotalRunsConceded = 0;
             TotalWickets = 0;
             BestFigures = new BestBowling();
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 SetSeasonStats(season);
             }
 
             if (TotalWickets != 0)
             {
-                Average = (double)TotalRunsConceded / (double)TotalWickets;
-                StrikeRate = 6 * (double)TotalOvers / (double)TotalWickets;
+                Average = TotalRunsConceded / (double)TotalWickets;
+                StrikeRate = 6 * (double)TotalOvers / TotalWickets;
             }
             else
             {
@@ -169,7 +162,7 @@ namespace Cricket.Statistics
 
             if (TotalOvers != 0)
             {
-                Economy = (double)TotalRunsConceded / (double)TotalOvers;
+                Economy = TotalRunsConceded / (double)TotalOvers;
             }
             else
             {

@@ -1,6 +1,6 @@
-﻿using Cricket.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Cricket.Interfaces;
 using UICommon.ViewModelBases;
 
 namespace GUI.ViewModels

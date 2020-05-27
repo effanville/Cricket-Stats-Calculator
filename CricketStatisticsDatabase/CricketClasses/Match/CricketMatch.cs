@@ -1,11 +1,11 @@
-﻿using Cricket.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Cricket.Interfaces;
 using Cricket.Player;
 using Cricket.Statistics;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Cricket.Match
 {
@@ -200,7 +200,7 @@ namespace Cricket.Match
 
         public void SetBatting(BattingInnings innings)
         {
-            foreach (var entry in innings.BattingInfo)
+            foreach (BattingEntry entry in innings.BattingInfo)
             {
                 if (!Batting.PlayerListed(entry.Name))
                 {
@@ -259,7 +259,7 @@ namespace Cricket.Match
 
         public void SetBowling(BowlingInnings innings)
         {
-            foreach (var entry in innings.BowlingInfo)
+            foreach (BowlingEntry entry in innings.BowlingInfo)
             {
                 if (!Bowling.PlayerListed(entry.Name))
                 {
@@ -317,7 +317,7 @@ namespace Cricket.Match
 
         public void SetFielding(Fielding innings)
         {
-            foreach (var entry in innings.FieldingInfo)
+            foreach (FieldingEntry entry in innings.FieldingInfo)
             {
                 if (!FieldingStats.PlayerListed(entry.Name))
                 {
@@ -408,7 +408,7 @@ namespace Cricket.Match
 
         public List<ValidationResult> Validation()
         {
-            var results = new List<ValidationResult>();
+            List<ValidationResult> results = new List<ValidationResult>();
             results.AddValidations(MatchData.Validation(), ToString());
             results.AddValidations(Batting.Validation(), ToString());
             results.AddValidations(Bowling.Validation(), ToString());
@@ -419,8 +419,8 @@ namespace Cricket.Match
 
         public List<Partnership> Partnerships()
         {
-            var partnerships = Batting.Partnerships();
-            foreach (var ship in partnerships)
+            List<Partnership> partnerships = Batting.Partnerships();
+            foreach (Partnership ship in partnerships)
             {
                 if (ship != null && ship.MatchData == null)
                 {

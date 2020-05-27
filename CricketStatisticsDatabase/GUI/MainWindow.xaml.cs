@@ -1,5 +1,5 @@
-﻿using GUI.ViewModels;
-using System.Windows;
+﻿using System.Windows;
+using GUI.ViewModels;
 using UICommon.Services;
 
 namespace GUI

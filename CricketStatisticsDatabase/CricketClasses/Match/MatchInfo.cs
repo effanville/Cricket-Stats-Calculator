@@ -1,8 +1,8 @@
-﻿using StructureCommon.Extensions;
-using StructureCommon.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using StructureCommon.Extensions;
+using StructureCommon.Validation;
 
 namespace Cricket.Match
 {
@@ -62,7 +62,7 @@ namespace Cricket.Match
 
         public List<ValidationResult> Validation()
         {
-            var results = new List<ValidationResult>();
+            List<ValidationResult> results = new List<ValidationResult>();
             results.AddIfNotNull(Validating.IsNotNullOrEmpty(Opposition, nameof(Opposition), ToString()));
             return results;
         }

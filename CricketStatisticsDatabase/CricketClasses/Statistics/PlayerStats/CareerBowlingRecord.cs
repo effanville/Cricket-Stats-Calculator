@@ -1,6 +1,6 @@
-﻿using Cricket.Interfaces;
+﻿using System;
+using Cricket.Interfaces;
 using Cricket.Player;
-using System;
 
 namespace Cricket.Statistics.PlayerStats
 {
@@ -89,9 +89,9 @@ namespace Cricket.Statistics.PlayerStats
 
             Catches = 0;
             KeeperDismissals = 0;
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
-                foreach (var match in season.Matches)
+                foreach (ICricketMatch match in season.Matches)
                 {
                     if (match.PlayNotPlay(Name))
                     {
@@ -104,7 +104,7 @@ namespace Cricket.Statistics.PlayerStats
                             EndYear = match.MatchData.Date.Year;
                         }
 
-                        var bowling = match.GetBowling(Name);
+                        Match.BowlingEntry bowling = match.GetBowling(Name);
                         if (bowling != null)
                         {
                             Overs += bowling.OversBowled;
@@ -112,7 +112,7 @@ namespace Cricket.Statistics.PlayerStats
                             RunsConceded += bowling.RunsConceded;
                             Wickets += bowling.Wickets;
 
-                            var possibleBest = new BestBowling()
+                            BestBowling possibleBest = new BestBowling()
                             {
                                 Wickets = bowling.Wickets,
                                 Runs = bowling.RunsConceded,
@@ -126,7 +126,7 @@ namespace Cricket.Statistics.PlayerStats
                             }
                         }
 
-                        var fielding = match.GetFielding(Name);
+                        Match.FieldingEntry fielding = match.GetFielding(Name);
                         if (fielding != null)
                         {
                             Catches += fielding.Catches;
@@ -138,18 +138,12 @@ namespace Cricket.Statistics.PlayerStats
 
             if (Wickets != 0)
             {
-                Average = (double)RunsConceded / (double)Wickets;
+                Average = RunsConceded / (double)Wickets;
             }
             else
             {
                 Average = double.NaN;
             }
-        }
-
-
-        public string ToCSVLine()
-        {
-            return Name.ToString() + "," + Overs + "," + Maidens + "," + RunsConceded + "," + Wickets + "," + Average + "," + BestFigures.ToString() + "," + Catches + "," + KeeperDismissals;
         }
     }
 }

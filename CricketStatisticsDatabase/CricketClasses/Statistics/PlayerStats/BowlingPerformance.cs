@@ -1,7 +1,6 @@
-﻿using Cricket.Match;
+﻿using System;
+using Cricket.Match;
 using Cricket.Player;
-using StructureCommon.Extensions;
-using System;
 
 namespace Cricket.Statistics.PlayerStats
 {
@@ -69,11 +68,6 @@ namespace Cricket.Statistics.PlayerStats
             Wickets = bowlingEntry.Wickets;
             Opposition = matchData.Opposition;
             HomeOrAway = matchData.HomeOrAway;
-        }
-
-        public string ToCSVLine()
-        {
-            return Name.ToString() + "," + Overs + "," + Maidens + "," + RunsConceded + "," + Wickets + "," + Opposition + "," + Date.ToUkDateString() + "," + HomeOrAway;
         }
     }
 }

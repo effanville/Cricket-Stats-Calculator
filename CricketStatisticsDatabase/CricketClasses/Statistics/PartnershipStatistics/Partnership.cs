@@ -1,6 +1,6 @@
-﻿using Cricket.Match;
+﻿using System;
+using Cricket.Match;
 using Cricket.Player;
-using System;
 
 namespace Cricket.Statistics
 {

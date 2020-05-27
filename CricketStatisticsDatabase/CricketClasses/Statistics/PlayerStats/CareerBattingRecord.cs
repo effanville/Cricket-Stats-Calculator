@@ -1,6 +1,6 @@
-﻿using Cricket.Interfaces;
+﻿using System;
+using Cricket.Interfaces;
 using Cricket.Player;
-using System;
 
 namespace Cricket.Statistics.PlayerStats
 {
@@ -86,9 +86,9 @@ namespace Cricket.Statistics.PlayerStats
             High = new BestBatting();
             StartYear = DateTime.Today.Year;
             EndYear = new DateTime().Year;
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
-                foreach (var match in season.Matches)
+                foreach (ICricketMatch match in season.Matches)
                 {
                     if (match.PlayNotPlay(Name))
                     {
@@ -103,7 +103,7 @@ namespace Cricket.Statistics.PlayerStats
                             EndYear = match.MatchData.Date.Year;
                         }
 
-                        var batting = match.GetBatting(Name);
+                        Match.BattingEntry batting = match.GetBatting(Name);
                         if (batting != null)
                         {
                             if (batting.MethodOut != Match.Wicket.DidNotBat)
@@ -125,7 +125,7 @@ namespace Cricket.Statistics.PlayerStats
                                     Centuries++;
                                 }
 
-                                var possibleBest = new BestBatting()
+                                BestBatting possibleBest = new BestBatting()
                                 {
                                     Runs = batting.RunsScored,
                                     HowOut = batting.MethodOut,
@@ -145,13 +145,8 @@ namespace Cricket.Statistics.PlayerStats
 
             if (Innings != NotOut)
             {
-                Average = (double)Runs / ((double)Innings - (double)NotOut);
+                Average = Runs / (Innings - (double)NotOut);
             }
-        }
-
-        public string ToCSVLine()
-        {
-            return Name.ToString() + "," + StartYear + "," + EndYear + "," + MatchesPlayed + "," + Innings + "," + Runs + "," + NotOut + "," + High.ToString() + "," + Average + "," + Centuries + "," + Fifties;
         }
     }
 }

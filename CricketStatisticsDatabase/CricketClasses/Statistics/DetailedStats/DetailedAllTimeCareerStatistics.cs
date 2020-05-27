@@ -1,10 +1,9 @@
-﻿using Cricket.Interfaces;
-using Cricket.Player;
-using Cricket.Statistics.PlayerStats;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cricket.Interfaces;
+using Cricket.Player;
+using Cricket.Statistics.PlayerStats;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -144,7 +143,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketTeam team)
         {
-            foreach (var player in team.Players)
+            foreach (ICricketPlayer player in team.Players)
             {
                 PlayerBatting.Add(new CareerBattingRecord(player.Name, team));
                 PlayerBowling.Add(new CareerBowlingRecord(player.Name, team));
@@ -166,23 +165,11 @@ namespace Cricket.Statistics.DetailedStats
             PlayerBowling.Sort((a, b) => a.Name.CompareTo(b.Name));
         }
 
-        public void CalculateStats(ICricketSeason season)
-        {
-            foreach (var match in season.Matches)
-            {
-                UpdateStats(match);
-            }
-        }
-
-        public void UpdateStats(ICricketMatch match)
-        {
-        }
-
         public void ExportStats(StreamWriter writer, ExportType exportType)
         {
             FileWritingSupport.WriteTitle(writer, exportType, "Leading Career Records", HtmlTag.h2);
 
-            var values = MostClubAppearances[0].GetType().GetProperties();
+            System.Reflection.PropertyInfo[] values = MostClubAppearances[0].GetType().GetProperties();
             FileWritingSupport.WriteTitle(writer, exportType, "Appearances", HtmlTag.h3);
             FileWritingSupport.WriteTable(writer, exportType, MostClubAppearances[0].GetType().GetProperties().Select(type => type.Name), MostClubAppearances);
 

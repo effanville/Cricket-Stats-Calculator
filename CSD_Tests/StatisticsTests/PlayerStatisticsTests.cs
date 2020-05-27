@@ -1,11 +1,11 @@
-﻿using Cricket;
+﻿using System;
+using System.Collections.Generic;
+using Cricket;
 using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
 using Cricket.Statistics;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace CricketClasses.StatisticsTests
 {

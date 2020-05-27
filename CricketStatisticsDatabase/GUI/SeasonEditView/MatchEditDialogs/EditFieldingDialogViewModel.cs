@@ -1,7 +1,7 @@
-﻿using Cricket.Interfaces;
-using Cricket.Match;
-using System;
+﻿using System;
 using System.Windows.Input;
+using Cricket.Interfaces;
+using Cricket.Match;
 using UICommon.Commands;
 using UICommon.Interfaces;
 using UICommon.ViewModelBases;
@@ -10,7 +10,7 @@ namespace GUI.Dialogs.ViewModels
 {
     public class EditFieldingDialogViewModel : ViewModelBase<ICricketTeam>
     {
-        private Action<Fielding> UpdateInnings;
+        private readonly Action<Fielding> UpdateInnings;
 
         private Fielding fInnings;
         public Fielding Innings

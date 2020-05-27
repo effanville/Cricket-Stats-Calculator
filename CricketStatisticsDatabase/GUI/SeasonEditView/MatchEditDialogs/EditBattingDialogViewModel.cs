@@ -1,8 +1,8 @@
-﻿using Cricket.Interfaces;
-using Cricket.Match;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Cricket.Interfaces;
+using Cricket.Match;
 using UICommon.Commands;
 using UICommon.Interfaces;
 using UICommon.ViewModelBases;

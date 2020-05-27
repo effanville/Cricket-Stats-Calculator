@@ -1,7 +1,7 @@
-﻿using Cricket.Interfaces;
-using StructureCommon.Validation;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
+using Cricket.Interfaces;
+using StructureCommon.Validation;
 using UICommon.Commands;
 using UICommon.ViewModelBases;
 

@@ -44,7 +44,7 @@ namespace Cricket.Statistics.DetailedStats
                 Drew++;
             }
 
-            WinRatio = (double)Won / (double)Played;
+            WinRatio = Won / (double)Played;
         }
 
         public new string ToCSVLine()

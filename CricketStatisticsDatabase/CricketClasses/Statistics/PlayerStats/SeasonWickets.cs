@@ -39,10 +39,5 @@ namespace Cricket.Statistics.PlayerStats
             Year = year;
             Average = average;
         }
-
-        public string ToCSVLine()
-        {
-            return Name.ToString() + "," + Wickets + "," + Year + "," + Average;
-        }
     }
 }

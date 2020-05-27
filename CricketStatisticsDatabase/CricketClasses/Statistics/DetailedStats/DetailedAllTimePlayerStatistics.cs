@@ -1,5 +1,5 @@
-﻿using Cricket.Interfaces;
-using System.IO;
+﻿using System.IO;
+using Cricket.Interfaces;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -31,7 +31,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketTeam team)
         {
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 CalculateStats(season);
             }
@@ -46,7 +46,7 @@ namespace Cricket.Statistics.DetailedStats
             BowlingStats.CalculateStats(season);
             FieldingStats.CalculateStats(season);
 
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
                 UpdateStats(match);
             }

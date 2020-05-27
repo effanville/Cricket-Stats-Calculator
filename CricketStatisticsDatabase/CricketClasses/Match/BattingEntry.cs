@@ -1,8 +1,8 @@
-﻿using Cricket.Player;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Cricket.Player;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Cricket.Match
 {
@@ -126,19 +126,19 @@ namespace Cricket.Match
         /// </summary>
         public List<ValidationResult> Validation()
         {
-            var results = Name.Validation();
+            List<ValidationResult> results = Name.Validation();
             results.AddIfNotNull(Validating.NotNegative(RunsScored, nameof(RunsScored), ToString()));
             if (MethodOut == Wicket.DidNotBat)
             {
                 if (!PlayerName.IsNullOrEmpty(Bowler))
                 {
-                    var bowlerShouldntBeSet = new ValidationResult(false, nameof(Bowler), ToString());
+                    ValidationResult bowlerShouldntBeSet = new ValidationResult(false, nameof(Bowler), ToString());
                     bowlerShouldntBeSet.AddMessage($"{nameof(Bowler)} cannot be set with DidnotBat.");
                     results.Add(bowlerShouldntBeSet);
                 }
                 if (!PlayerName.IsNullOrEmpty(Fielder))
                 {
-                    var fielderShouldntBeSet = new ValidationResult(false, nameof(Fielder), ToString());
+                    ValidationResult fielderShouldntBeSet = new ValidationResult(false, nameof(Fielder), ToString());
                     fielderShouldntBeSet.AddMessage($"{nameof(Fielder)} cannot be set with DidnotBat.");
                     results.Add(fielderShouldntBeSet);
                 }
@@ -149,7 +149,7 @@ namespace Cricket.Match
             {
                 if (PlayerName.IsNullOrEmpty(Bowler))
                 {
-                    var bowlerShouldBeSet = new ValidationResult(false, nameof(Bowler), ToString());
+                    ValidationResult bowlerShouldBeSet = new ValidationResult(false, nameof(Bowler), ToString());
                     bowlerShouldBeSet.AddMessage($"{nameof(Bowler)} should be set with {MethodOut}.");
                     results.Add(bowlerShouldBeSet);
                 }
@@ -159,7 +159,7 @@ namespace Cricket.Match
             {
                 if (PlayerName.IsNullOrEmpty(Fielder))
                 {
-                    var bowlerShouldBeSet = new ValidationResult(false, nameof(Fielder), ToString());
+                    ValidationResult bowlerShouldBeSet = new ValidationResult(false, nameof(Fielder), ToString());
                     bowlerShouldBeSet.AddMessage($"{nameof(Fielder)} should be set with {MethodOut}.");
                     results.Add(bowlerShouldBeSet);
                 }
@@ -169,7 +169,7 @@ namespace Cricket.Match
             {
                 if (!PlayerName.IsNullOrEmpty(Bowler))
                 {
-                    var bowlerShouldntBeSet = new ValidationResult(false, nameof(Bowler), ToString());
+                    ValidationResult bowlerShouldntBeSet = new ValidationResult(false, nameof(Bowler), ToString());
                     bowlerShouldntBeSet.AddMessage($"{nameof(Bowler)} should not be set with {MethodOut}.");
                     results.Add(bowlerShouldntBeSet);
                 }
@@ -179,7 +179,7 @@ namespace Cricket.Match
             {
                 if (!PlayerName.IsNullOrEmpty(Fielder))
                 {
-                    var fielderShouldntBeSet = new ValidationResult(false, nameof(Fielder), ToString());
+                    ValidationResult fielderShouldntBeSet = new ValidationResult(false, nameof(Fielder), ToString());
                     fielderShouldntBeSet.AddMessage($"{nameof(Fielder)} should not be set with {MethodOut}.");
                     results.Add(fielderShouldntBeSet);
                 }

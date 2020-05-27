@@ -1,8 +1,8 @@
-﻿using Cricket.Player;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Cricket.Player;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Cricket.Match
 {
@@ -54,7 +54,7 @@ namespace Cricket.Match
 
         public bool SetScores(PlayerName player, double overs, int maidens, int runsConceded, int wickets)
         {
-            var result = BowlingInfo.Find(entry => entry.Name.Equals(player));
+            BowlingEntry result = BowlingInfo.Find(entry => entry.Name.Equals(player));
             if (result != null)
             {
                 result.SetBowling(overs, maidens, runsConceded, wickets);
@@ -82,7 +82,7 @@ namespace Cricket.Match
         {
             int runs = ByesLegByes;
             int wickets = 0;
-            foreach (var bowler in BowlingInfo)
+            foreach (BowlingEntry bowler in BowlingInfo)
             {
                 wickets += bowler.Wickets;
                 runs += bowler.RunsConceded;
@@ -94,7 +94,7 @@ namespace Cricket.Match
         public BowlingInnings(MatchInfo info, List<PlayerName> playerNames)
         {
             MatchData = info;
-            foreach (var name in playerNames)
+            foreach (PlayerName name in playerNames)
             {
                 BowlingInfo.Add(new BowlingEntry(name));
             }
@@ -117,9 +117,9 @@ namespace Cricket.Match
 
         public List<ValidationResult> Validation()
         {
-            var results = new List<ValidationResult>();
+            List<ValidationResult> results = new List<ValidationResult>();
             int total = 0;
-            foreach (var info in BowlingInfo)
+            foreach (BowlingEntry info in BowlingInfo)
             {
                 results.AddValidations(info.Validation(), ToString());
                 total += info.Wickets;

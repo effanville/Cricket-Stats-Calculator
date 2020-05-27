@@ -1,5 +1,5 @@
-﻿using Cricket.Player;
-using System;
+﻿using System;
+using Cricket.Player;
 
 namespace Cricket.Statistics.PlayerStats
 {
@@ -21,11 +21,6 @@ namespace Cricket.Statistics.PlayerStats
         {
             get;
             set;
-        }
-
-        public string ToCSVLine()
-        {
-            return SeasonDismissals + "," + Name.ToString() + "," + Year.Year;
         }
     }
 }

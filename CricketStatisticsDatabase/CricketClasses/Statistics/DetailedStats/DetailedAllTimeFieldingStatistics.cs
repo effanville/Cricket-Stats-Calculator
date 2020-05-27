@@ -1,9 +1,8 @@
-﻿using Cricket.Interfaces;
-using Cricket.Statistics.PlayerStats;
-using ExportHelpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cricket.Interfaces;
+using Cricket.Statistics.PlayerStats;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -29,7 +28,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketTeam team)
         {
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 CalculateStats(season);
             }
@@ -37,14 +36,14 @@ namespace Cricket.Statistics.DetailedStats
 
         public void CalculateStats(ICricketSeason season)
         {
-            var seasonStats = new TeamBriefStatistics(season);
-            var manyCatches = seasonStats.SeasonPlayerStats.Where(player => player.FieldingStats.Catches > 20);
+            TeamBriefStatistics seasonStats = new TeamBriefStatistics(season);
+            IEnumerable<PlayerBriefStatistics> manyCatches = seasonStats.SeasonPlayerStats.Where(player => player.FieldingStats.Catches > 20);
             TwentyCatchesSeason.AddRange(manyCatches.Select(catches => new SeasonCatches() { Name = catches.Name, Year = season.Year, SeasonDismissals = catches.FieldingStats.Catches }));
 
-            var manyStumpings = seasonStats.SeasonPlayerStats.Where(player => player.FieldingStats.KeeperStumpings > 10);
+            IEnumerable<PlayerBriefStatistics> manyStumpings = seasonStats.SeasonPlayerStats.Where(player => player.FieldingStats.KeeperStumpings > 10);
             TenStumpingsSeason.AddRange(manyCatches.Select(catches => new SeasonCatches() { Name = catches.Name, Year = season.Year, SeasonDismissals = catches.FieldingStats.KeeperStumpings }));
 
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
                 UpdateStats(match);
             }
@@ -56,7 +55,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void UpdateStats(ICricketMatch match)
         {
-            foreach (var field in match.FieldingStats.FieldingInfo)
+            foreach (Match.FieldingEntry field in match.FieldingStats.FieldingInfo)
             {
                 if (field.TotalDismissals() > 4)
                 {

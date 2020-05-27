@@ -1,7 +1,7 @@
-﻿using Cricket.Interfaces;
-using Cricket.Player;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Cricket.Interfaces;
+using Cricket.Player;
 
 namespace Cricket.Statistics
 {
@@ -80,9 +80,9 @@ namespace Cricket.Statistics
                 Best = new BestBatting();
             }
 
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
-                var batting = match.GetBatting(Name);
+                Match.BattingEntry batting = match.GetBatting(Name);
                 if (batting != null)
                 {
                     if (batting.MethodOut != Match.Wicket.DidNotBat)
@@ -96,7 +96,7 @@ namespace Cricket.Statistics
                         WicketLossNumbers[index] += 1;
                         TotalRuns += batting.RunsScored;
 
-                        var possibleBest = new BestBatting()
+                        BestBatting possibleBest = new BestBatting()
                         {
                             Runs = batting.RunsScored,
                             HowOut = batting.MethodOut,
@@ -114,7 +114,7 @@ namespace Cricket.Statistics
 
             if (TotalInnings != TotalNotOut)
             {
-                Average = (double)TotalRuns / ((double)TotalInnings - (double)TotalNotOut);
+                Average = TotalRuns / (TotalInnings - (double)TotalNotOut);
             }
         }
 
@@ -125,14 +125,14 @@ namespace Cricket.Statistics
             TotalRuns = 0;
             Best = new BestBatting();
 
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 SetSeasonStats(season, reset: false);
             }
 
             if (TotalInnings != TotalNotOut)
             {
-                Average = (double)TotalRuns / ((double)TotalInnings - (double)TotalNotOut);
+                Average = TotalRuns / (TotalInnings - (double)TotalNotOut);
             }
         }
     }

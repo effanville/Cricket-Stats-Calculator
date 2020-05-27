@@ -1,9 +1,9 @@
-﻿using Cricket.Player;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Cricket.Player;
 using Cricket.Statistics;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Cricket.Match
 {
@@ -55,7 +55,7 @@ namespace Cricket.Match
 
         public bool SetScores(PlayerName player, Wicket howOut, int runs, int order, int wicketToFallAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
         {
-            var result = BattingInfo.Find(entry => entry.Name.Equals(player));
+            BattingEntry result = BattingInfo.Find(entry => entry.Name.Equals(player));
             if (result != null)
             {
                 result.SetScores(howOut, runs, order, wicketToFallAt, teamScoreAtWicket, fielder, bowler);
@@ -92,7 +92,7 @@ namespace Cricket.Match
         {
             int runs = Extras;
             int wickets = 0;
-            foreach (var batsman in BattingInfo)
+            foreach (BattingEntry batsman in BattingInfo)
             {
                 wickets += batsman.Out() ? 1 : 0;
                 runs += batsman.RunsScored;
@@ -117,13 +117,13 @@ namespace Cricket.Match
 
         public List<ValidationResult> Validation()
         {
-            var results = new List<ValidationResult>();
-            foreach (var info in BattingInfo)
+            List<ValidationResult> results = new List<ValidationResult>();
+            foreach (BattingEntry info in BattingInfo)
             {
                 results.AddValidations(info.Validation(), GetType().Name);
             }
 
-            var teamResult = Score();
+            InningsScore teamResult = Score();
             results.AddIfNotNull(Validating.NotGreaterThan(teamResult.Wickets, 10, nameof(teamResult.Wickets), ToString()));
             results.AddIfNotNull(Validating.NotGreaterThan(BattingInfo.Count, 11, nameof(BattingInfo), ToString()));
             results.AddIfNotNull(Validating.NotNegative(Extras, nameof(Extras), ToString()));
@@ -135,18 +135,18 @@ namespace Cricket.Match
         /// </summary>
         public List<Partnership> Partnerships()
         {
-            var inningsScore = Score();
-            var partnerships = new List<Partnership>(new Partnership[10]);
+            InningsScore inningsScore = Score();
+            List<Partnership> partnerships = new List<Partnership>(new Partnership[10]);
             if (BattingInfo.Count > 2)
             {
-                var batsmanOne = BattingInfo[0];
-                var batsmanTwo = BattingInfo[1];
+                BattingEntry batsmanOne = BattingInfo[0];
+                BattingEntry batsmanTwo = BattingInfo[1];
                 int nextBatsmanIndex = 2;
                 int lastWicketScore = 0;
                 int numberPartnerships = System.Math.Min(inningsScore.Wickets + 1, BattingInfo.Count - 1);
                 for (int i = 0; i < numberPartnerships; i++)
                 {
-                    var partnership = new Partnership(batsmanOne.Name, batsmanTwo.Name, MatchData);
+                    Partnership partnership = new Partnership(batsmanOne.Name, batsmanTwo.Name, MatchData);
                     int partnershipRuns;
                     if (!batsmanOne.Out() && !batsmanTwo.Out())
                     {
@@ -192,7 +192,7 @@ namespace Cricket.Match
         public BattingInnings(MatchInfo info, List<PlayerName> playerNames)
         {
             MatchData = info;
-            foreach (var name in playerNames)
+            foreach (PlayerName name in playerNames)
             {
                 BattingInfo.Add(new BattingEntry(name));
             }

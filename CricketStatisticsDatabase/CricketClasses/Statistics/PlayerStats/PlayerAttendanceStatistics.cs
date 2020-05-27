@@ -39,7 +39,7 @@ namespace Cricket.Statistics
         {
             get
             {
-                return (double)TotalGamesWon / (double)TotalGamesPlayed;
+                return TotalGamesWon / (double)TotalGamesPlayed;
             }
         }
 
@@ -74,7 +74,7 @@ namespace Cricket.Statistics
                 TotalMom = 0;
             }
 
-            foreach (var match in season.Matches)
+            foreach (ICricketMatch match in season.Matches)
             {
                 if (match.PlayNotPlay(Name))
                 {
@@ -101,7 +101,7 @@ namespace Cricket.Statistics
             TotalGamesPlayed = 0;
             TotalGamesLost = 0;
             TotalMom = 0;
-            foreach (var season in team.Seasons)
+            foreach (ICricketSeason season in team.Seasons)
             {
                 SetSeasonStats(season);
             }

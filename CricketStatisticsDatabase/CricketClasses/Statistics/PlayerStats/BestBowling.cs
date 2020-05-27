@@ -1,5 +1,5 @@
-﻿using StructureCommon.Extensions;
-using System;
+﻿using System;
+using StructureCommon.Extensions;
 
 namespace Cricket.Statistics
 {

@@ -1,13 +1,13 @@
-﻿using Cricket.Interfaces;
-using Cricket.Player;
-using Cricket.Statistics;
-using Cricket.Statistics.DetailedStats;
-using StructureCommon.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using Cricket.Interfaces;
+using Cricket.Player;
+using Cricket.Statistics;
+using Cricket.Statistics.DetailedStats;
+using StructureCommon.Extensions;
 using UICommon.Commands;
 using UICommon.Services;
 using UICommon.ViewModelBases;
@@ -176,10 +176,10 @@ namespace GUI.ViewModels
 
         private void ExecuteExportPlayerStatsCommand()
         {
-            var gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
+            FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
-                var playerStats = new PlayerBriefStatistics(SelectedPlayer, SelectedSeason);
+                PlayerBriefStatistics playerStats = new PlayerBriefStatistics(SelectedPlayer, SelectedSeason);
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
                 ExportType type = extension.ToEnum<ExportType>();
                 playerStats.ExportStats(gotFile.FilePath, type);
@@ -193,10 +193,10 @@ namespace GUI.ViewModels
 
         private void ExecuteExportStatsCommand()
         {
-            var gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
+            FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
-                var allTimeStats = new TeamBriefStatistics(SelectedSeason);
+                TeamBriefStatistics allTimeStats = new TeamBriefStatistics(SelectedSeason);
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
                 ExportType type = extension.ToEnum<ExportType>();
                 allTimeStats.ExportStats(gotFile.FilePath, type);
@@ -210,10 +210,10 @@ namespace GUI.ViewModels
 
         private void ExecuteExportAllStatsCommand()
         {
-            var gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
+            FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
-                var allTimeStats = new TeamBriefStatistics(Team);
+                TeamBriefStatistics allTimeStats = new TeamBriefStatistics(Team);
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
                 ExportType type = extension.ToEnum<ExportType>();
                 allTimeStats.ExportStats(gotFile.FilePath, type);
@@ -227,10 +227,10 @@ namespace GUI.ViewModels
 
         private void ExecuteExportDetailedAllStatsCommand()
         {
-            var gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
+            FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
-                var allTimeStats = new DetailedAllTimeStatistics(Team);
+                DetailedAllTimeStatistics allTimeStats = new DetailedAllTimeStatistics(Team);
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
                 ExportType type = extension.ToEnum<ExportType>();
                 allTimeStats.ExportStats(gotFile.FilePath, type);

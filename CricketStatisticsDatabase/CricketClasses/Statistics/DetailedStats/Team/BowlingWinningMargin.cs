@@ -1,7 +1,7 @@
-﻿using Cricket.Interfaces;
+﻿using System;
+using Cricket.Interfaces;
 using Cricket.Match;
 using StructureCommon.Extensions;
-using System;
 
 namespace Cricket.Statistics.DetailedStats
 {

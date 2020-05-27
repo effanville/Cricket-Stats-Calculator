@@ -1,6 +1,6 @@
 ﻿using Cricket.Player;
 
-namespace Cricket.Statistics
+namespace Cricket.Statistics.PlayerStats
 {
     public class SeasonRuns
     {
@@ -31,11 +31,5 @@ namespace Cricket.Statistics
         public SeasonRuns()
         {
         }
-
-        public string ToCSVLine()
-        {
-            return Name.ToString() + "," + Runs + "," + Year + "," + Average;
-        }
-
     }
 }

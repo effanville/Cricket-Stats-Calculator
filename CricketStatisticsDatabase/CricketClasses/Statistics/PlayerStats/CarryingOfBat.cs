@@ -1,11 +1,8 @@
-﻿using Cricket.Match;
+﻿using System;
+using Cricket.Match;
 using Cricket.Player;
-using StructureCommon.Extensions;
-using System;
-using System.Security.RightsManagement;
-using System.Windows.Controls;
 
-namespace CricketStatisticsDatabase.CricketClasses.Statistics.PlayerStats
+namespace Cricket.Statistics.PlayerStats
 {
     public class CarryingOfBat
     {
@@ -47,11 +44,6 @@ namespace CricketStatisticsDatabase.CricketClasses.Statistics.PlayerStats
 
         public CarryingOfBat()
         {
-        }
-
-        public string ToCSVLine()
-        {
-            return Name.ToString() + "," + Opposition + "," + Date.ToUkDateString() + "," + HomeOrAway + "," + Runs + "," + TeamTotalScore.ToString();
         }
     }
 }

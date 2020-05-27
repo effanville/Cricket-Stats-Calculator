@@ -1,9 +1,8 @@
-﻿using Cricket.Match;
+﻿using System;
+using Cricket.Match;
 using Cricket.Player;
-using StructureCommon.Extensions;
-using System;
 
-namespace Cricket.Statistics
+namespace Cricket.Statistics.PlayerStats
 {
     public class Century
     {
@@ -60,11 +59,6 @@ namespace Cricket.Statistics
             GameType = matchData.Type;
             Opposition = matchData.Opposition;
             HomeOrAway = matchData.HomeOrAway;
-        }
-
-        public string ToCSVLine()
-        {
-            return Runs + "," + Name.ToString() + "," + Opposition + "," + Date.ToUkDateString() + "," + HomeOrAway + "," + GameType.ToString();
         }
     }
 }
