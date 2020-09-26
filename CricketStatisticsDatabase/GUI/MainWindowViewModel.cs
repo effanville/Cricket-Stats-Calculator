@@ -42,7 +42,6 @@ namespace GUI.ViewModels
             TeamToPlayWith = new CricketTeam();
             fFileService = fileService;
             fDialogService = dialogService;
-            TeamToPlayWith = new CricketTeam();
             NewTeamCommand = new RelayCommand(ExecuteNewTeamCommand);
             LoadTeamCommand = new RelayCommand(ExecuteLoadTeamCommand);
             SaveTeamCommand = new RelayCommand(ExecuteSaveTeamCommand);

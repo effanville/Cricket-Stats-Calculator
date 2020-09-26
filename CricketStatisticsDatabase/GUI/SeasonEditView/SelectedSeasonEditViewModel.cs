@@ -17,6 +17,9 @@ namespace GUI.ViewModels
         private readonly IDialogCreationService fDialogService;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
         private ICricketSeason fSelectedSeason;
+
+        private string fTeamHomeLocation;
+
         public ICricketSeason SelectedSeason
         {
             get
@@ -111,9 +114,10 @@ namespace GUI.ViewModels
             }
         }
 
-        public SelectedSeasonEditViewModel(ICricketSeason season, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)
+        public SelectedSeasonEditViewModel(ICricketSeason season, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService, string homeLocation)
     : base("Selected Season Edit")
         {
+            fTeamHomeLocation = homeLocation;
             fFileService = fileService;
             fDialogService = dialogService;
             UpdateTeam = updateTeam;
@@ -175,7 +179,7 @@ namespace GUI.ViewModels
             if (SelectedSeason != null)
             {
                 Action<MatchInfo> getName = (info) => UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name)?.AddMatch(info));
-                fDialogService.DisplayCustomDialog(new CreateMatchDialogViewModel(getName));
+                fDialogService.DisplayCustomDialog(new CreateMatchDialogViewModel(getName, fTeamHomeLocation));
             }
         }
 
@@ -216,8 +220,9 @@ namespace GUI.ViewModels
             }
         }
 
-        public void UpdateSelected(ICricketSeason selectedSeason)
+        public void UpdateSelected(ICricketSeason selectedSeason, string homeLocation)
         {
+            fTeamHomeLocation = homeLocation;
             if (SelectedMatches != null)
             {
                 int index = SelectedMatches.IndexOf(SelectedMatch);

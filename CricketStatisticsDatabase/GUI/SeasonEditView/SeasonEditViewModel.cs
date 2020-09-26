@@ -15,6 +15,9 @@ namespace GUI.ViewModels
         private readonly IDialogCreationService fDialogService;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
         private List<ICricketSeason> fSeasons;
+
+        private string fTeamHomeLocation;
+
         public List<ICricketSeason> Seasons
         {
             get
@@ -39,7 +42,7 @@ namespace GUI.ViewModels
             {
                 fSelectedSeason = value;
                 OnPropertyChanged();
-                SelectedSeasonViewModel.UpdateSelected(value);
+                SelectedSeasonViewModel.UpdateSelected(value, fTeamHomeLocation);
             }
         }
 
@@ -58,13 +61,14 @@ namespace GUI.ViewModels
         }
 
         public SeasonEditViewModel(ICricketTeam team, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)
-            : base("Season Edit")
+            : base("Season Edit", team)
         {
             fFileService = fileService;
             fDialogService = dialogService;
             UpdateTeam = updateTeam;
             Seasons = team.Seasons;
-            SelectedSeasonViewModel = new SelectedSeasonEditViewModel(null, updateTeam, fileService, dialogService);
+            fTeamHomeLocation = team.HomeLocation;
+            SelectedSeasonViewModel = new SelectedSeasonEditViewModel(null, updateTeam, fileService, dialogService, fTeamHomeLocation);
             AddSeasonCommand = new RelayCommand(ExecuteAddSeason);
             EditSeasonCommand = new RelayCommand<object[]>(ExecuteEditSeason);
             DeleteSeasonCommand = new RelayCommand(ExecuteDeleteSeason);
@@ -111,7 +115,10 @@ namespace GUI.ViewModels
         public override void UpdateData(ICricketTeam team)
         {
             Seasons = team.Seasons;
-            SelectedSeasonViewModel.UpdateSelected(SelectedSeason);
+            DataStore = team;
+            fTeamHomeLocation = team.HomeLocation;
+            SelectedSeasonViewModel.UpdateSelected(SelectedSeason, team.HomeLocation);
+            ;
         }
     }
 }

@@ -12,6 +12,8 @@ namespace GUI.Dialogs.ViewModels
 {
     public class CreateMatchDialogViewModel : ViewModelBase<ICricketTeam>
     {
+        private string fTeamHomeLocation;
+
         private string fOpposition;
         public string Opposition
         {
@@ -87,7 +89,7 @@ namespace GUI.Dialogs.ViewModels
             {
                 var info = new MatchInfo(Opposition, result, Place, Type)
                 {
-                    HomeOrAway = Place.Equals(DataStore.HomeLocation) ? Location.Home : Location.Away
+                    HomeOrAway = Place.Equals(fTeamHomeLocation) ? Location.Home : Location.Away
                 };
                 AddMatch(info);
                 window.Close();
@@ -99,8 +101,9 @@ namespace GUI.Dialogs.ViewModels
         }
 
         private readonly Action<MatchInfo> AddMatch;
-        public CreateMatchDialogViewModel(Action<MatchInfo> addMatch) : base("Create New Match")
+        public CreateMatchDialogViewModel(Action<MatchInfo> addMatch, string teamHomeLocation) : base("Create New Match")
         {
+            fTeamHomeLocation = teamHomeLocation;
             AddMatch = addMatch;
             SubmitCommand = new RelayCommand<ICloseable>(ExecuteSubmitCommand);
         }
