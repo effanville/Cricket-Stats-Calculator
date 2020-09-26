@@ -1,24 +1,9 @@
 ﻿using System;
-
-/* Unmerged change from project 'CricketStatisticsDatabase (netcoreapp3.1)'
-Before:
-using Cricket.Player;
-using System;
-After:
 using System.Collections.Generic;
 using System.IO;
-*/
-using System.Collections.Generic;
-using System.IO;
-
-/* Unmerged change from project 'CricketStatisticsDatabase (netcoreapp3.1)'
-Before:
-using System.Collections.Generic;
-After:
-using Cricket.Interfaces;
-*/
 using Cricket.Interfaces;
 using Cricket.Player;
+using StructureCommon.FileAccess;
 
 namespace Cricket.Statistics
 {
@@ -164,7 +149,7 @@ namespace Cricket.Statistics
                 StreamWriter streamWriter = new StreamWriter(filePath);
                 if (exportType.Equals(ExportType.Html))
                 {
-                    streamWriter.CreateHTMLHeader($"Statistics for Player {Name}");
+                    streamWriter.CreateHTMLHeader($"Statistics for Player {Name}", useColours: true);
                 }
                 streamWriter.WriteTitle(exportType, $"Brief Statistics for player {Name}", HtmlTag.h1);
 
@@ -177,19 +162,19 @@ namespace Cricket.Statistics
 
                 streamWriter.WriteTitle(exportType, "Appearances", HtmlTag.h2);
 
-                streamWriter.WriteTable(exportType, new PlayerAttendanceStatistics[] { Played });
+                streamWriter.WriteTable(exportType, new PlayerAttendanceStatistics[] { Played }, headerFirstColumn: false);
 
                 streamWriter.WriteTitle(exportType, "Batting Stats", HtmlTag.h2);
-                streamWriter.WriteTable(exportType, new PlayerBattingStatistics[] { BattingStats });
+                streamWriter.WriteTable(exportType, new PlayerBattingStatistics[] { BattingStats }, headerFirstColumn: false);
 
                 streamWriter.WriteTitle(exportType, "Highest Partnerships", HtmlTag.h2);
-                streamWriter.WriteTable(exportType, PartnershipsByWicket);
+                streamWriter.WriteTable(exportType, PartnershipsByWicket, headerFirstColumn: false);
 
                 streamWriter.WriteTitle(exportType, "Bowling Stats", HtmlTag.h2);
-                streamWriter.WriteTable(exportType, new PlayerBowlingStatistics[] { BowlingStats });
+                streamWriter.WriteTable(exportType, new PlayerBowlingStatistics[] { BowlingStats }, headerFirstColumn: false);
 
                 streamWriter.WriteTitle(exportType, "Fielding Stats", HtmlTag.h2);
-                streamWriter.WriteTable(exportType, new PlayerFieldingStatistics[] { FieldingStats });
+                streamWriter.WriteTable(exportType, new PlayerFieldingStatistics[] { FieldingStats }, headerFirstColumn: false);
 
                 if (exportType.Equals(ExportType.Html))
                 {

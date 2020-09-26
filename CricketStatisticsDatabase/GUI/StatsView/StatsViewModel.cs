@@ -8,6 +8,7 @@ using Cricket.Player;
 using Cricket.Statistics;
 using Cricket.Statistics.DetailedStats;
 using StructureCommon.Extensions;
+using StructureCommon.FileAccess;
 using UICommon.Commands;
 using UICommon.Services;
 using UICommon.ViewModelBases;

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Cricket.Interfaces;
+using StructureCommon.FileAccess;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -117,7 +118,7 @@ namespace Cricket.Statistics.DetailedStats
                     if (PartnershipsByWicket[i].Any())
                     {
                         FileWritingSupport.WriteTitle(writer, exportType, $"{i + 1}th Wicket", HtmlTag.h3);
-                        FileWritingSupport.WriteTable(writer, exportType, new Partnership().GetType().GetProperties().Select(type => type.Name), PartnershipsByWicket[i]);
+                        FileWritingSupport.WriteTable(writer, exportType, PartnershipsByWicket[i], headerFirstColumn: false);
                     }
                 }
             }
@@ -125,12 +126,12 @@ namespace Cricket.Statistics.DetailedStats
             if (MostPartnerships.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Most Partnerships", HtmlTag.h2);
-                FileWritingSupport.WriteTable(writer, exportType, new PartnershipNumber().GetType().GetProperties().Select(type => type.Name), MostPartnerships);
+                FileWritingSupport.WriteTable(writer, exportType, MostPartnerships, headerFirstColumn: false);
             }
             if (MostPartnershipsAsPair.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Most Partnerships As a Pair", HtmlTag.h2);
-                FileWritingSupport.WriteTable(writer, exportType, new PartnershipPairNumber().GetType().GetProperties().Select(type => type.Name), MostPartnershipsAsPair);
+                FileWritingSupport.WriteTable(writer, exportType, MostPartnershipsAsPair, headerFirstColumn: false);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Cricket.Interfaces;
+using StructureCommon.FileAccess;
 
 namespace Cricket.Statistics.DetailedStats
 {

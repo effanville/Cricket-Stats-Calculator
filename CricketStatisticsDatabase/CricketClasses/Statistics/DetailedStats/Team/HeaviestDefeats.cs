@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Cricket.Interfaces;
+using StructureCommon.FileAccess;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -65,15 +66,15 @@ namespace Cricket.Statistics.DetailedStats
         {
             if (HeaviestLossByRuns.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Loss by 100 runs", HtmlTag.h2);
-                FileWritingSupport.WriteTable(writer, exportType, new BowlingWinningMargin().GetType().GetProperties().Select(type => type.Name), HeaviestLossByRuns);
+                writer.WriteTitle(exportType, "Loss by 100 runs", HtmlTag.h2);
+                writer.WriteTable(exportType, HeaviestLossByRuns, headerFirstColumn: false);
             }
 
 
             if (HeaviestLossByWickets.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Loss by 10 wickets", HtmlTag.h2);
-                FileWritingSupport.WriteTable(writer, exportType, new BattingWinningMargin().GetType().GetProperties().Select(type => type.Name), HeaviestLossByWickets);
+                FileWritingSupport.WriteTable(writer, exportType, HeaviestLossByWickets, headerFirstColumn: false);
             }
         }
     }

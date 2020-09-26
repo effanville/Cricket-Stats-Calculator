@@ -4,6 +4,7 @@ using System.Linq;
 using Cricket.Interfaces;
 using Cricket.Player;
 using Cricket.Statistics.PlayerStats;
+using StructureCommon.FileAccess;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -171,28 +172,28 @@ namespace Cricket.Statistics.DetailedStats
 
             System.Reflection.PropertyInfo[] values = MostClubAppearances[0].GetType().GetProperties();
             FileWritingSupport.WriteTitle(writer, exportType, "Appearances", HtmlTag.h3);
-            FileWritingSupport.WriteTable(writer, exportType, MostClubAppearances[0].GetType().GetProperties().Select(type => type.Name), MostClubAppearances);
+            FileWritingSupport.WriteTable(writer, exportType, MostClubAppearances, headerFirstColumn: false);
 
             FileWritingSupport.WriteTitle(writer, exportType, "Most Club Runs", HtmlTag.h3);
-            FileWritingSupport.WriteTable(writer, exportType, MostClubRuns[0].GetType().GetProperties().Select(type => type.Name), MostClubRuns);
+            FileWritingSupport.WriteTable(writer, exportType, MostClubRuns, headerFirstColumn: false);
 
             FileWritingSupport.WriteTitle(writer, exportType, "Batting Average", HtmlTag.h3);
-            FileWritingSupport.WriteTable(writer, exportType, HighestClubBattingAverage[0].GetType().GetProperties().Select(type => type.Name), HighestClubBattingAverage);
+            FileWritingSupport.WriteTable(writer, exportType, HighestClubBattingAverage, headerFirstColumn: false);
 
             FileWritingSupport.WriteTitle(writer, exportType, "Wickets Taken", HtmlTag.h3);
-            FileWritingSupport.WriteTable(writer, exportType, MostClubWickets[0].GetType().GetProperties().Select(type => type.Name), MostClubWickets);
+            FileWritingSupport.WriteTable(writer, exportType, MostClubWickets, headerFirstColumn: false);
 
             FileWritingSupport.WriteTitle(writer, exportType, "Other Career Records", HtmlTag.h2);
             if (PlayerBatting.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Overall Batting Performance", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, new CareerBattingRecord().GetType().GetProperties().Select(type => type.Name), PlayerBatting);
+                FileWritingSupport.WriteTable(writer, exportType, PlayerBatting, headerFirstColumn: false);
             }
 
             if (PlayerBowling.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Overall Bowling Performance", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, new CareerBowlingRecord().GetType().GetProperties().Select(type => type.Name), PlayerBowling);
+                FileWritingSupport.WriteTable(writer, exportType, PlayerBowling, headerFirstColumn: false);
             }
         }
     }

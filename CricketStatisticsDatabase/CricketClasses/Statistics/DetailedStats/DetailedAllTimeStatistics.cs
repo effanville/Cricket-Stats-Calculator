@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Cricket.Interfaces;
+using StructureCommon.FileAccess;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -47,7 +48,7 @@ namespace Cricket.Statistics.DetailedStats
 
                 if (exportType.Equals(ExportType.Html))
                 {
-                    FileWritingSupport.CreateHTMLHeader(writer, "Statistics for team");
+                    FileWritingSupport.CreateHTMLHeader(writer, "Statistics for team", useColours: true);
                 }
 
                 FileWritingSupport.WriteTitle(writer, exportType, "Team Records");

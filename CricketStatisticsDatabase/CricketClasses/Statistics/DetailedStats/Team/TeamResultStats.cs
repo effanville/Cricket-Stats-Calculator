@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Cricket.Interfaces;
+using StructureCommon.FileAccess;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -89,10 +90,10 @@ namespace Cricket.Statistics.DetailedStats
         public void ExportStats(StreamWriter writer, ExportType exportType)
         {
             FileWritingSupport.WriteTitle(writer, exportType, "Yearly Records", HtmlTag.h2);
-            FileWritingSupport.WriteTable(writer, exportType, YearByYearRecords[0].GetType().GetProperties().Select(type => type.Name), YearByYearRecords);
+            FileWritingSupport.WriteTable(writer, exportType, YearByYearRecords, headerFirstColumn: false);
 
             FileWritingSupport.WriteTitle(writer, exportType, "Record against each team", HtmlTag.h2);
-            FileWritingSupport.WriteTable(writer, exportType, TeamAgainstRecords[0].GetType().GetProperties().Select(type => type.Name), TeamAgainstRecords);
+            FileWritingSupport.WriteTable(writer, exportType, TeamAgainstRecords, headerFirstColumn: false);
 
             NotableScores.ExportStats(writer, exportType);
 

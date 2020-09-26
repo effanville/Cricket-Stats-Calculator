@@ -4,6 +4,7 @@ using System.Linq;
 using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Statistics.PlayerStats;
+using StructureCommon.FileAccess;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -119,31 +120,31 @@ namespace Cricket.Statistics.DetailedStats
             if (CenturyScores.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Centuries", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, new Century().GetType().GetProperties().Select(type => type.Name), CenturyScores);
+                FileWritingSupport.WriteTable(writer, exportType, CenturyScores, headerFirstColumn: false);
             }
 
             if (ScoresPast50.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Number Scores Past Fifty", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, new HighScores().GetType().GetProperties().Select(type => type.Name), ScoresPast50);
+                FileWritingSupport.WriteTable(writer, exportType, ScoresPast50, headerFirstColumn: false);
             }
 
             if (CarryingBat.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Carrying of Bat", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, new CarryingOfBat().GetType().GetProperties().Select(type => type.Name), CarryingBat);
+                FileWritingSupport.WriteTable(writer, exportType, CarryingBat, headerFirstColumn: false);
             }
 
             if (SeasonRunsOver500.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Over 500 runs in a season", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, new SeasonRuns().GetType().GetProperties().Select(type => type.Name), SeasonRunsOver500);
+                FileWritingSupport.WriteTable(writer, exportType, SeasonRunsOver500, headerFirstColumn: false);
             }
 
             if (SeasonAverageOver30.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Average over 30 in a season", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, new SeasonRuns().GetType().GetProperties().Select(type => type.Name), SeasonAverageOver30);
+                FileWritingSupport.WriteTable(writer, exportType, SeasonAverageOver30, headerFirstColumn: false);
             }
         }
     }

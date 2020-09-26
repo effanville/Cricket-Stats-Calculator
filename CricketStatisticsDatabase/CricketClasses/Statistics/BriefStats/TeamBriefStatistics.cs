@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Cricket.Interfaces;
+using StructureCommon.FileAccess;
 
 namespace Cricket.Statistics
 {
@@ -175,7 +176,7 @@ namespace Cricket.Statistics
                 StreamWriter streamWriter = new StreamWriter(filePath);
                 if (exportType.Equals(ExportType.Html))
                 {
-                    streamWriter.CreateHTMLHeader("Statistics for team");
+                    streamWriter.CreateHTMLHeader("Statistics for team", useColours: true);
                 }
 
                 if (SeasonOrAllYear == StatisticsType.AllTimeBrief)
@@ -209,27 +210,27 @@ namespace Cricket.Statistics
 
                 List<PlayerAttendanceStatistics> played = SeasonPlayerStats.Select(player => player.Played).ToList();
                 played.Sort((x, y) => y.TotalGamesPlayed.CompareTo(x.TotalGamesPlayed));
-                FileWritingSupport.WriteTable(streamWriter, exportType, new PlayerAttendanceStatistics().GetType().GetProperties().Select(type => type.Name), played);
+                FileWritingSupport.WriteTable(streamWriter, exportType, played, headerFirstColumn: false);
 
                 streamWriter.WriteTitle(exportType, "Batting Stats", HtmlTag.h2);
                 List<PlayerBattingStatistics> batting = SeasonPlayerStats.Select(player => player.BattingStats).ToList();
                 batting.RemoveAll(bat => bat.TotalInnings.Equals(0));
                 batting.Sort((x, y) => y.TotalRuns.CompareTo(x.TotalRuns));
-                FileWritingSupport.WriteTable(streamWriter, exportType, new PlayerBattingStatistics().GetType().GetProperties().Select(type => type.Name), batting);
+                FileWritingSupport.WriteTable(streamWriter, exportType, batting, headerFirstColumn: false);
 
                 streamWriter.WriteTitle(exportType, "Highest Partnerships", HtmlTag.h2);
-                FileWritingSupport.WriteTable(streamWriter, exportType, new Partnership().GetType().GetProperties().Select(type => type.Name), PartnershipsByWicket);
+                FileWritingSupport.WriteTable(streamWriter, exportType, PartnershipsByWicket, headerFirstColumn: false);
 
                 FileWritingSupport.WriteTitle(streamWriter, exportType, "Bowling Stats", HtmlTag.h2);
                 List<PlayerBowlingStatistics> bowling = SeasonPlayerStats.Select(player => player.BowlingStats).ToList();
-                bowling.RemoveAll(bowl => bowl.TotalOvers.Equals(0));
+                _ = bowling.RemoveAll(bowl => bowl.TotalOvers.Equals(0));
                 bowling.Sort((x, y) => y.TotalWickets.CompareTo(x.TotalWickets));
-                FileWritingSupport.WriteTable(streamWriter, exportType, new PlayerBowlingStatistics().GetType().GetProperties().Select(type => type.Name), bowling);
+                FileWritingSupport.WriteTable(streamWriter, exportType, bowling, headerFirstColumn: false);
 
                 streamWriter.WriteTitle(exportType, "Fielding Stats", HtmlTag.h2);
                 fielding.RemoveAll(field => field.TotalDismissals.Equals(0));
                 fielding.Sort((x, y) => y.TotalDismissals.CompareTo(x.TotalDismissals));
-                FileWritingSupport.WriteTable(streamWriter, exportType, new PlayerFieldingStatistics().GetType().GetProperties().Select(type => type.Name), fielding);
+                FileWritingSupport.WriteTable(streamWriter, exportType, fielding, headerFirstColumn: false);
 
                 if (exportType.Equals(ExportType.Html))
                 {

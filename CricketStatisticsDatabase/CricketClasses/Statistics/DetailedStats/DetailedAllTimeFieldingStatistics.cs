@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Cricket.Interfaces;
 using Cricket.Statistics.PlayerStats;
+using StructureCommon.FileAccess;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -69,19 +70,19 @@ namespace Cricket.Statistics.DetailedStats
             if (DismissalsInOneInnings.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Most Dismissals in on Innings", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, new InningsDismissals().GetType().GetProperties().Select(type => type.Name), DismissalsInOneInnings);
+                FileWritingSupport.WriteTable(writer, exportType, DismissalsInOneInnings, headerFirstColumn: false);
             }
 
             if (TwentyCatchesSeason.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Twenty cathces in one season", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, new SeasonCatches().GetType().GetProperties().Select(type => type.Name), TwentyCatchesSeason);
+                FileWritingSupport.WriteTable(writer, exportType, TwentyCatchesSeason, headerFirstColumn: false);
             }
 
             if (TenStumpingsSeason.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Ten Stumpings in one season", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, new SeasonCatches().GetType().GetProperties().Select(type => type.Name), TenStumpingsSeason);
+                FileWritingSupport.WriteTable(writer, exportType, TenStumpingsSeason, headerFirstColumn: false);
             }
         }
     }
