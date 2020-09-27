@@ -107,6 +107,11 @@ namespace Cricket
             return false;
         }
 
+        public void EditPlayerName(PlayerName oldName, PlayerName newName)
+        {
+            Matches.ForEach(match => match.EditPlayerName(oldName, newName));
+        }
+
         public bool SameSeason(DateTime year, string name)
         {
             if (string.IsNullOrEmpty(Name))

@@ -56,6 +56,8 @@ namespace Cricket.Interfaces
         /// </summary>
         bool AddPlayer(PlayerName name);
 
+        void EditPlayerName(PlayerName oldName, PlayerName newName);
+
         /// <summary>
         /// Queries whether a player with the specified name is a member of the team.
         /// </summary>

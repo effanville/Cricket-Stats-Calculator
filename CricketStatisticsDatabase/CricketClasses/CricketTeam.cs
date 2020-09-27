@@ -105,6 +105,11 @@ namespace Cricket.Team
             return false;
         }
 
+        public void EditPlayerName(PlayerName oldName, PlayerName newName)
+        {
+            TeamSeasons.ForEach(season => season.EditPlayerName(oldName, newName));
+        }
+
         /// <inheritdoc/>
         public bool ContainsPlayer(PlayerName name)
         {

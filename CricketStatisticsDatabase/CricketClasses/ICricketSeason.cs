@@ -66,6 +66,8 @@ namespace Cricket.Interfaces
             get;
         }
 
+        void EditPlayerName(PlayerName oldName, PlayerName newName);
+
         void EditSeasonName(DateTime year, string name);
 
         /// <summary>

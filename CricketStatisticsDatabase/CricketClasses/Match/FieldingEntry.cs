@@ -11,7 +11,12 @@ namespace Cricket.Match
     {
         public override string ToString()
         {
-            return "Fielder-" + Name.ToString();
+            if (Name != null)
+            {
+
+                return "Fielder-" + Name.ToString();
+            }
+            return "Fielder: No name";
         }
 
         public PlayerName Name

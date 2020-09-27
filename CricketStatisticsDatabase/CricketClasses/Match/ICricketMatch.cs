@@ -50,6 +50,8 @@ namespace Cricket.Interfaces
 
         bool PlayNotPlay(PlayerName name);
 
+        void EditPlayerName(PlayerName oldName, PlayerName newName);
+
         bool EditInfo(string opposition, DateTime date, string place, Location homeOrAway, MatchType typeOfMatch, ResultType result, TeamInnings firstOrSecond);
 
         bool EditMatchInfo(string opposition, DateTime date, string place, Location homeOrAway, MatchType typeOfMatch);

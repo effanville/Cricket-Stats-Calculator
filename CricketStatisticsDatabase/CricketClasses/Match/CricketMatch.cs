@@ -23,6 +23,39 @@ namespace Cricket.Match
             return MatchData.ToString();
         }
 
+        public void EditPlayerName(PlayerName oldName, PlayerName newName)
+        {
+            foreach (var entry in Batting.BattingInfo)
+            {
+                if (entry.Name.Equals(oldName))
+                {
+                    entry.Name = newName;
+                }
+            }
+            foreach (var entry in Bowling.BowlingInfo)
+            {
+                if (entry.Name.Equals(oldName))
+                {
+                    entry.Name = newName;
+                }
+            }
+            foreach (var entry in FieldingStats.FieldingInfo)
+            {
+                if (entry.Name.Equals(oldName))
+                {
+                    entry.Name = newName;
+                    entry.keeperFielding.Name = newName;
+                }
+            }
+            for (int i = 0; i < PlayerNames.Count; i++)
+            {
+                if (PlayerNames[i].Equals(oldName))
+                {
+                    PlayerNames[i] = newName;
+                }
+            }
+        }
+
         public bool SameMatch(DateTime date, string opposition)
         {
             if (MatchData.Date.Equals(date))

@@ -157,9 +157,14 @@ namespace Cricket.Statistics
                 streamWriter.WriteParagraph(exportType, new string[] { "Games Played:", $"{Played.TotalGamesPlayed}" });
                 streamWriter.WriteParagraph(exportType, new string[] { "Wins:", $"{Played.TotalGamesWon}" });
                 streamWriter.WriteParagraph(exportType, new string[] { "Losses:", $"{Played.TotalGamesLost}" });
-                streamWriter.WriteParagraph(exportType, new string[] { "Best Batting:", BattingStats.Best.ToString() });
-                streamWriter.WriteParagraph(exportType, new string[] { "Best Bowling:", BowlingStats.BestFigures.ToString() });
-
+                if (BattingStats.Best != null)
+                {
+                    streamWriter.WriteParagraph(exportType, new string[] { "Best Batting:", BattingStats.Best.ToString() });
+                }
+                if (BowlingStats.BestFigures != null)
+                {
+                    streamWriter.WriteParagraph(exportType, new string[] { "Best Bowling:", BowlingStats.BestFigures.ToString() });
+                }
                 streamWriter.WriteTitle(exportType, "Appearances", HtmlTag.h2);
 
                 streamWriter.WriteTable(exportType, new PlayerAttendanceStatistics[] { Played }, headerFirstColumn: false);

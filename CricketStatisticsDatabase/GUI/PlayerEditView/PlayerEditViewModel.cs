@@ -116,7 +116,11 @@ namespace GUI.ViewModels
             {
                 if (array.Length == 2)
                 {
+                    var existingName = SelectedPlayer.Name.Copy();
                     SelectedPlayer.EditName(array[0].ToString(), array[1].ToString());
+
+
+                    UpdateTeam(team => team.EditPlayerName(existingName, SelectedPlayer.Name));
                 }
             }
         }
