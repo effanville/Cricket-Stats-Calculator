@@ -37,11 +37,11 @@ namespace Cricket.Statistics
             set;
         }
 
-        public List<int> WicketLossNumbers
-        {
-            get;
-            set;
-        } = new List<int>(new int[Enum.GetValues(typeof(Match.Wicket)).Length]);
+        //public List<int> WicketLossNumbers
+        //{
+        //    get;
+        //    set;
+        //} = new List<int>(new int[Enum.GetValues(typeof(Match.Wicket)).Length]);
 
         public BestBatting Best
         {
@@ -93,7 +93,7 @@ namespace Cricket.Statistics
                             TotalNotOut++;
                         }
                         int index = (int)batting.MethodOut;
-                        WicketLossNumbers[index] += 1;
+                        //WicketLossNumbers[index] += 1;
                         TotalRuns += batting.RunsScored;
 
                         BestBatting possibleBest = new BestBatting()
