@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Cricket.Interfaces;
+using Cricket.Match;
 using Cricket.Player;
 using StructureCommon.FileAccess;
 
@@ -69,59 +71,70 @@ namespace Cricket.Statistics
             Played = new PlayerAttendanceStatistics();
         }
 
-        public PlayerBriefStatistics(PlayerName name)
+        public PlayerBriefStatistics(PlayerName name, Cricket.Match.MatchType[] matchTypes)
         {
             Name = name;
-            BattingStats = new PlayerBattingStatistics(name);
-            BowlingStats = new PlayerBowlingStatistics(name);
-            FieldingStats = new PlayerFieldingStatistics(name);
-            Played = new PlayerAttendanceStatistics(name);
+            BattingStats = new PlayerBattingStatistics(name, matchTypes);
+            BowlingStats = new PlayerBowlingStatistics(name, matchTypes);
+            FieldingStats = new PlayerFieldingStatistics(name, matchTypes);
+            Played = new PlayerAttendanceStatistics(name, matchTypes);
+        }
+        public PlayerBriefStatistics(PlayerName name, ICricketSeason season)
+            : this(name, season, MatchHelpers.AllMatchTypes)
+        {
         }
 
-        public PlayerBriefStatistics(PlayerName name, ICricketSeason season)
+        public PlayerBriefStatistics(PlayerName name, ICricketSeason season, Cricket.Match.MatchType[] matchTypes)
         {
             Name = name;
             SeasonName = season.Name;
             SeasonYear = season.Year;
-            BattingStats = new PlayerBattingStatistics(name, season);
-            BowlingStats = new PlayerBowlingStatistics(name, season);
-            FieldingStats = new PlayerFieldingStatistics(name, season);
-            Played = new PlayerAttendanceStatistics(name, season);
-            CalculatePartnerships(season);
+            BattingStats = new PlayerBattingStatistics(name, season, matchTypes);
+            BowlingStats = new PlayerBowlingStatistics(name, season, matchTypes);
+            FieldingStats = new PlayerFieldingStatistics(name, season, matchTypes);
+            Played = new PlayerAttendanceStatistics(name, season, matchTypes);
+            CalculatePartnerships(season, matchTypes);
         }
 
         public PlayerBriefStatistics(PlayerName name, ICricketTeam team)
+            : this(name, team, MatchHelpers.AllMatchTypes)
+        {
+        }
+        public PlayerBriefStatistics(PlayerName name, ICricketTeam team, Cricket.Match.MatchType[] matchTypes)
         {
             Name = name;
-            BattingStats = new PlayerBattingStatistics(name, team);
-            BowlingStats = new PlayerBowlingStatistics(name, team);
-            FieldingStats = new PlayerFieldingStatistics(name, team);
-            Played = new PlayerAttendanceStatistics(name, team);
+            BattingStats = new PlayerBattingStatistics(name, team, matchTypes);
+            BowlingStats = new PlayerBowlingStatistics(name, team, matchTypes);
+            FieldingStats = new PlayerFieldingStatistics(name, team, matchTypes);
+            Played = new PlayerAttendanceStatistics(name, team, matchTypes);
 
-            CalculatePartnerships(team);
+            CalculatePartnerships(team, matchTypes);
         }
 
-        public void CalculatePartnerships(ICricketSeason season)
+        public void CalculatePartnerships(ICricketSeason season, Cricket.Match.MatchType[] matchtypes)
         {
             foreach (var match in season.Matches)
             {
-                var partnerships = match.Partnerships();
-                for (int i = 0; i < partnerships.Count; i++)
+                if (matchtypes.Contains(match.MatchData.Type))
                 {
-                    if (partnerships[i] != null)
+                    var partnerships = match.Partnerships();
+                    for (int i = 0; i < partnerships.Count; i++)
                     {
-                        if (PartnershipsByWicket[i] == null)
+                        if (partnerships[i] != null)
                         {
-                            if (partnerships[i].ContainsPlayer(Name))
+                            if (PartnershipsByWicket[i] == null)
                             {
-                                PartnershipsByWicket[i] = partnerships[i];
+                                if (partnerships[i].ContainsPlayer(Name))
+                                {
+                                    PartnershipsByWicket[i] = partnerships[i];
+                                }
                             }
-                        }
-                        else
-                        {
-                            if (partnerships[i].ContainsPlayer(Name) && partnerships[i].CompareTo(PartnershipsByWicket[i]) > 0)
+                            else
                             {
-                                PartnershipsByWicket[i] = partnerships[i];
+                                if (partnerships[i].ContainsPlayer(Name) && partnerships[i].CompareTo(PartnershipsByWicket[i]) > 0)
+                                {
+                                    PartnershipsByWicket[i] = partnerships[i];
+                                }
                             }
                         }
                     }
@@ -129,11 +142,11 @@ namespace Cricket.Statistics
             }
         }
 
-        public void CalculatePartnerships(ICricketTeam team)
+        public void CalculatePartnerships(ICricketTeam team, Cricket.Match.MatchType[] matchTypes)
         {
             foreach (var season in team.Seasons)
             {
-                CalculatePartnerships(season);
+                CalculatePartnerships(season, matchTypes);
             }
         }
 

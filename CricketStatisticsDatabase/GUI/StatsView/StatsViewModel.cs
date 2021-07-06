@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Cricket.Interfaces;
+using Cricket.Match;
 using Cricket.Player;
 using Cricket.Statistics;
 using Cricket.Statistics.DetailedStats;
+using StructureCommon.DisplayClasses;
 using StructureCommon.Extensions;
 using StructureCommon.FileAccess;
 using UICommon.Commands;
@@ -43,9 +45,11 @@ namespace GUI.ViewModels
                 OnPropertyChanged(nameof(SelectedStatsType));
                 OnPropertyChanged(nameof(SeasonStatsSelected));
 
+                var matchTypesToUse = MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray();
+
                 if (value == StatisticsType.AllTimeBrief)
                 {
-                    SelectedStats = new TeamBriefStatistics(Team);
+                    SelectedStats = new TeamBriefStatistics(Team, matchTypesToUse);
                 }
                 if (value == StatisticsType.AllTimeDetailed)
                 {
@@ -53,8 +57,23 @@ namespace GUI.ViewModels
                 }
                 if (value == StatisticsType.SeasonBrief && SelectedSeason != null)
                 {
-                    SelectedStats = new TeamBriefStatistics(SelectedSeason);
+                    SelectedStats = new TeamBriefStatistics(SelectedSeason, matchTypesToUse);
                 }
+            }
+        }
+
+        private List<Selectable<Cricket.Match.MatchType>> fMatchTypeNames = new List<Selectable<Cricket.Match.MatchType>>();
+
+        public List<Selectable<Cricket.Match.MatchType>> MatchTypeNames
+        {
+            get
+            {
+                return fMatchTypeNames;
+            }
+            set
+            {
+                fMatchTypeNames = value;
+                OnPropertyChanged();
             }
         }
 
@@ -164,6 +183,11 @@ namespace GUI.ViewModels
             fDialogService = dialogService;
             UpdateTeam = updateTeam;
             Team = team;
+            MatchTypeNames = new List<Selectable<Cricket.Match.MatchType>>();
+            foreach (var name in MatchHelpers.AllMatchTypes)
+            {
+                MatchTypeNames.Add(new Selectable<Cricket.Match.MatchType>(name, false));
+            }
             ExportPlayerStatsCommand = new RelayCommand(ExecuteExportPlayerStatsCommand);
             ExportStatsCommand = new RelayCommand(ExecuteExportStatsCommand);
             ExportAllStatsCommand = new RelayCommand(ExecuteExportAllStatsCommand);
@@ -197,7 +221,8 @@ namespace GUI.ViewModels
             FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
-                TeamBriefStatistics allTimeStats = new TeamBriefStatistics(SelectedSeason);
+                var matchTypesToUse = MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray();
+                TeamBriefStatistics allTimeStats = new TeamBriefStatistics(SelectedSeason, matchTypesToUse);
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
                 ExportType type = extension.ToEnum<ExportType>();
                 allTimeStats.ExportStats(gotFile.FilePath, type);
@@ -214,7 +239,8 @@ namespace GUI.ViewModels
             FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success != null && (bool)gotFile.Success)
             {
-                TeamBriefStatistics allTimeStats = new TeamBriefStatistics(Team);
+                var matchTypesToUse = MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray();
+                TeamBriefStatistics allTimeStats = new TeamBriefStatistics(Team, matchTypesToUse);
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
                 ExportType type = extension.ToEnum<ExportType>();
                 allTimeStats.ExportStats(gotFile.FilePath, type);

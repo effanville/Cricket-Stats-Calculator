@@ -42,7 +42,7 @@ namespace Cricket
             set;
         }
 
-        public void CalculateGamesPlayed()
+        public void CalculateGamesPlayed(MatchType[] matchTypes)
         {
             GamesPlayed = 0;
             NumberWins = 0;
@@ -51,23 +51,26 @@ namespace Cricket
             NumberTies = 0;
             foreach (var match in Matches)
             {
-                GamesPlayed++;
+                if (matchTypes.Contains(match.MatchData.Type))
+                {
+                    GamesPlayed++;
 
-                if (match.Result == Cricket.Match.ResultType.Win)
-                {
-                    NumberWins++;
-                }
-                if (match.Result == Cricket.Match.ResultType.Loss)
-                {
-                    NumberLosses++;
-                }
-                if (match.Result == Cricket.Match.ResultType.Draw)
-                {
-                    NumberDraws++;
-                }
-                if (match.Result == Cricket.Match.ResultType.Tie)
-                {
-                    NumberTies++;
+                    if (match.Result == Cricket.Match.ResultType.Win)
+                    {
+                        NumberWins++;
+                    }
+                    if (match.Result == Cricket.Match.ResultType.Loss)
+                    {
+                        NumberLosses++;
+                    }
+                    if (match.Result == Cricket.Match.ResultType.Draw)
+                    {
+                        NumberDraws++;
+                    }
+                    if (match.Result == Cricket.Match.ResultType.Tie)
+                    {
+                        NumberTies++;
+                    }
                 }
             }
         }

@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewmodels="clr-namespace:GUI.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:StatsViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
@@ -22,6 +24,7 @@
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <ComboBox ItemsSource="{Binding StatisticTypes}"
@@ -29,33 +32,45 @@
                   Grid.Column="0"
                   Grid.Row="0"
                   Margin="5" />
+        <ComboBox Grid.Column="0"
+                  Grid.Row="1"
+                  Margin="5"
+                  ItemsSource="{Binding MatchTypeNames}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding Path=Instance}"
+                              IsChecked="{Binding Path=Selected, Mode=TwoWay}"
+                              Tag="{RelativeSource FindAncestor, AncestorType={x:Type ComboBox}}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         <ComboBox ItemsSource="{Binding Team.Seasons}"
                   SelectedItem="{Binding SelectedSeason}"
                   Visibility="{Binding SeasonStatsSelected, Converter={StaticResource BoolConverter}}"
                   Grid.Column="0"
-                  Grid.Row="1"
+                  Grid.Row="2"
                   Margin="5" />
         <ComboBox ItemsSource="{Binding SelectedSeason.Players}"
                   SelectedItem="{Binding SelectedPlayer}"
                   Visibility="{Binding SeasonStatsSelected, Converter={StaticResource BoolConverter}}"
                   Grid.Column="0"
-                  Grid.Row="2"
+                  Grid.Row="3"
                   Margin="5" />
         <Button Content="Export player stats"
                 Grid.Column="0"
-                Grid.Row="3"
+                Grid.Row="4"
                 Command="{Binding ExportPlayerStatsCommand}" />
         <Button Content="Export season stats"
                 Grid.Column="0"
-                Grid.Row="4"
+                Grid.Row="5"
                 Command="{Binding ExportStatsCommand}" />
         <Button Content="Export All Time stats"
                 Grid.Column="0"
-                Grid.Row="5"
+                Grid.Row="6"
                 Command="{Binding ExportAllStatsCommand}" />
         <Button Content="Export Detailed stats"
                 Grid.Column="0"
-                Grid.Row="6"
+                Grid.Row="7"
                 Command="{Binding ExportDetailedAllStatsCommand}" />
         <ContentControl Grid.Column="1" 
                         Grid.Row="0"

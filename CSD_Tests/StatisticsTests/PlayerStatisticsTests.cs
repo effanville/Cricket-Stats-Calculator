@@ -22,7 +22,7 @@ namespace CricketClasses.StatisticsTests
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = CreateTestSeason(player, batting, bowling, fielding);
-            var stats = new PlayerBattingStatistics(player, season);
+            var stats = new PlayerBattingStatistics(player, season, MatchHelpers.AllMatchTypes);
 
             Assert.AreEqual(expected[0], stats.TotalInnings);
             Assert.AreEqual(expected[1], stats.TotalNotOut);
@@ -41,7 +41,7 @@ namespace CricketClasses.StatisticsTests
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = CreateTestSeason(player, batting, bowling, fielding);
-            var stats = new PlayerBowlingStatistics(player, season);
+            var stats = new PlayerBowlingStatistics(player, season, MatchHelpers.AllMatchTypes);
 
             Assert.AreEqual(expected[0], stats.Average);
             Assert.AreEqual(expected[1], stats.Economy);
@@ -63,7 +63,7 @@ namespace CricketClasses.StatisticsTests
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = CreateTestSeason(player, batting, bowling, fielding);
-            var stats = new PlayerFieldingStatistics(player, season);
+            var stats = new PlayerFieldingStatistics(player, season, MatchHelpers.AllMatchTypes);
             Assert.AreEqual(expected[0], stats.KeeperCatches, "Keeper Catches");
             Assert.AreEqual(expected[1], stats.KeeperStumpings, "stumpings");
             Assert.AreEqual(expected[2], stats.Catches, "Catches");

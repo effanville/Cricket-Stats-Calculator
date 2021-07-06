@@ -1,4 +1,6 @@
-﻿using Cricket.Interfaces;
+﻿using System.Linq;
+using Cricket.Interfaces;
+using Cricket.Match;
 using Cricket.Player;
 
 namespace Cricket.Statistics
@@ -63,24 +65,24 @@ namespace Cricket.Statistics
         {
         }
 
-        public PlayerBowlingStatistics(PlayerName name)
+        public PlayerBowlingStatistics(PlayerName name, MatchType[] matchTypes)
         {
             Name = name;
         }
 
-        public PlayerBowlingStatistics(PlayerName name, ICricketSeason season)
+        public PlayerBowlingStatistics(PlayerName name, ICricketSeason season, MatchType[] matchTypes)
         {
             Name = name;
-            SetSeasonStats(season);
+            SetSeasonStats(season, matchTypes);
         }
 
-        public PlayerBowlingStatistics(PlayerName name, ICricketTeam team)
+        public PlayerBowlingStatistics(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
         {
             Name = name;
-            SetTeamStats(team);
+            SetTeamStats(team, matchTypes);
         }
 
-        public void SetSeasonStats(ICricketSeason season, bool reset = false)
+        public void SetSeasonStats(ICricketSeason season, MatchType[] matchTypes, bool reset = false)
         {
             if (reset)
             {
@@ -93,25 +95,28 @@ namespace Cricket.Statistics
 
             foreach (ICricketMatch match in season.Matches)
             {
-                Match.BowlingEntry bowling = match.GetBowling(Name);
-                if (bowling != null)
+                if (matchTypes.Contains(match.MatchData.Type))
                 {
-                    TotalOvers += bowling.OversBowled;
-                    TotalMaidens += bowling.Maidens;
-                    TotalRunsConceded += bowling.RunsConceded;
-                    TotalWickets += bowling.Wickets;
-
-                    BestBowling possibleBest = new BestBowling()
+                    Match.BowlingEntry bowling = match.GetBowling(Name);
+                    if (bowling != null)
                     {
-                        Wickets = bowling.Wickets,
-                        Runs = bowling.RunsConceded,
-                        Opposition = match.MatchData.Opposition,
-                        Date = match.MatchData.Date
-                    };
+                        TotalOvers += bowling.OversBowled;
+                        TotalMaidens += bowling.Maidens;
+                        TotalRunsConceded += bowling.RunsConceded;
+                        TotalWickets += bowling.Wickets;
 
-                    if (possibleBest.CompareTo(BestFigures) > 0)
-                    {
-                        BestFigures = possibleBest;
+                        BestBowling possibleBest = new BestBowling()
+                        {
+                            Wickets = bowling.Wickets,
+                            Runs = bowling.RunsConceded,
+                            Opposition = match.MatchData.Opposition,
+                            Date = match.MatchData.Date
+                        };
+
+                        if (possibleBest.CompareTo(BestFigures) > 0)
+                        {
+                            BestFigures = possibleBest;
+                        }
                     }
                 }
             }
@@ -137,7 +142,7 @@ namespace Cricket.Statistics
             }
         }
 
-        public void SetTeamStats(ICricketTeam team)
+        public void SetTeamStats(ICricketTeam team, MatchType[] matchTypes)
         {
             TotalOvers = 0;
             TotalMaidens = 0;
@@ -146,7 +151,7 @@ namespace Cricket.Statistics
             BestFigures = new BestBowling();
             foreach (ICricketSeason season in team.Seasons)
             {
-                SetSeasonStats(season);
+                SetSeasonStats(season, matchTypes);
             }
 
             if (TotalWickets != 0)

@@ -1,4 +1,6 @@
-﻿using Cricket.Interfaces;
+﻿using System.Linq;
+using Cricket.Interfaces;
+using Cricket.Match;
 using Cricket.Player;
 
 namespace Cricket.Statistics
@@ -62,24 +64,24 @@ namespace Cricket.Statistics
         {
         }
 
-        public PlayerFieldingStatistics(PlayerName name)
+        public PlayerFieldingStatistics(PlayerName name, MatchType[] matchTypes)
         {
             Name = name;
         }
 
-        public PlayerFieldingStatistics(PlayerName name, ICricketSeason season)
+        public PlayerFieldingStatistics(PlayerName name, ICricketSeason season, MatchType[] matchTypes)
         {
             Name = name;
-            SetSeasonStats(season);
+            SetSeasonStats(season, matchTypes);
         }
 
-        public PlayerFieldingStatistics(PlayerName name, ICricketTeam team)
+        public PlayerFieldingStatistics(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
         {
             Name = name;
-            SetTeamStats(team);
+            SetTeamStats(team, matchTypes);
         }
 
-        public void SetSeasonStats(ICricketSeason season, bool reset = false)
+        public void SetSeasonStats(ICricketSeason season, MatchType[] matchTypes, bool reset = false)
         {
             if (reset)
             {
@@ -91,18 +93,21 @@ namespace Cricket.Statistics
 
             foreach (ICricketMatch match in season.Matches)
             {
-                Match.FieldingEntry fielding = match.GetFielding(Name);
-                if (fielding != null)
+                if (matchTypes.Contains(match.MatchData.Type))
                 {
-                    Catches += fielding.Catches;
-                    RunOuts += fielding.RunOuts;
-                    KeeperCatches += fielding.KeeperCatches;
-                    KeeperStumpings += fielding.KeeperStumpings;
+                    Match.FieldingEntry fielding = match.GetFielding(Name);
+                    if (fielding != null)
+                    {
+                        Catches += fielding.Catches;
+                        RunOuts += fielding.RunOuts;
+                        KeeperCatches += fielding.KeeperCatches;
+                        KeeperStumpings += fielding.KeeperStumpings;
+                    }
                 }
             }
         }
 
-        public void SetTeamStats(ICricketTeam team)
+        public void SetTeamStats(ICricketTeam team, MatchType[] matchTypes)
         {
             Catches = 0;
             RunOuts = 0;
@@ -110,7 +115,7 @@ namespace Cricket.Statistics
             KeeperCatches = 0;
             foreach (ICricketSeason season in team.Seasons)
             {
-                SetSeasonStats(season);
+                SetSeasonStats(season, matchTypes);
             }
         }
     }

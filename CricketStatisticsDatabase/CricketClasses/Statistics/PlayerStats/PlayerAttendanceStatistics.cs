@@ -1,4 +1,6 @@
-﻿using Cricket.Interfaces;
+﻿using System.Linq;
+using Cricket.Interfaces;
+using Cricket.Match;
 using Cricket.Player;
 
 namespace Cricket.Statistics
@@ -47,24 +49,24 @@ namespace Cricket.Statistics
         {
         }
 
-        public PlayerAttendanceStatistics(PlayerName name)
+        public PlayerAttendanceStatistics(PlayerName name, MatchType[] matchTypes)
         {
             Name = name;
         }
 
-        public PlayerAttendanceStatistics(PlayerName name, ICricketSeason season)
+        public PlayerAttendanceStatistics(PlayerName name, ICricketSeason season, MatchType[] matchTypes)
         {
             Name = name;
-            SetSeasonStats(season);
+            SetSeasonStats(season, matchTypes);
         }
 
-        public PlayerAttendanceStatistics(PlayerName name, ICricketTeam team)
+        public PlayerAttendanceStatistics(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
         {
             Name = name;
-            SetTeamStats(team);
+            SetTeamStats(team, matchTypes);
         }
 
-        public void SetSeasonStats(ICricketSeason season, bool reset = false)
+        public void SetSeasonStats(ICricketSeason season, MatchType[] matchTypes, bool reset = false)
         {
             if (reset)
             {
@@ -76,26 +78,29 @@ namespace Cricket.Statistics
 
             foreach (ICricketMatch match in season.Matches)
             {
-                if (match.PlayNotPlay(Name))
+                if (matchTypes.Contains(match.MatchData.Type))
                 {
-                    TotalGamesPlayed += 1;
-                    if (Name.Equals(match.ManOfMatch))
+                    if (match.PlayNotPlay(Name))
                     {
-                        TotalMom += 1;
-                    }
-                    if (match.Result == Match.ResultType.Win)
-                    {
-                        TotalGamesWon += 1;
-                    }
-                    if (match.Result == Match.ResultType.Loss)
-                    {
-                        TotalGamesLost += 1;
+                        TotalGamesPlayed += 1;
+                        if (Name.Equals(match.ManOfMatch))
+                        {
+                            TotalMom += 1;
+                        }
+                        if (match.Result == Match.ResultType.Win)
+                        {
+                            TotalGamesWon += 1;
+                        }
+                        if (match.Result == Match.ResultType.Loss)
+                        {
+                            TotalGamesLost += 1;
+                        }
                     }
                 }
             }
         }
 
-        public void SetTeamStats(ICricketTeam team)
+        public void SetTeamStats(ICricketTeam team, MatchType[] matchTypes)
         {
             TotalGamesWon = 0;
             TotalGamesPlayed = 0;
@@ -103,7 +108,7 @@ namespace Cricket.Statistics
             TotalMom = 0;
             foreach (ICricketSeason season in team.Seasons)
             {
-                SetSeasonStats(season);
+                SetSeasonStats(season, matchTypes);
             }
         }
     }

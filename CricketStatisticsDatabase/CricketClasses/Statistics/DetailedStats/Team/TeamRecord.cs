@@ -1,4 +1,5 @@
 ﻿using Cricket.Interfaces;
+using Cricket.Match;
 
 namespace Cricket.Statistics.DetailedStats
 {
@@ -51,7 +52,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public TeamRecord(ICricketSeason season)
         {
-            season.CalculateGamesPlayed();
+            season.CalculateGamesPlayed(MatchHelpers.AllMatchTypes);
             Played = season.GamesPlayed;
             Won = season.NumberWins;
             Lost = season.NumberLosses;

@@ -32,7 +32,7 @@ namespace Cricket.Interfaces
             get;
         }
 
-        void CalculateGamesPlayed();
+        void CalculateGamesPlayed(MatchType[] matchTypes);
 
         /// <summary>
         /// The name associated to this season.

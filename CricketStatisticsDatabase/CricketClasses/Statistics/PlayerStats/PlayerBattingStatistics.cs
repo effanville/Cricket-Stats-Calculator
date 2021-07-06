@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using Cricket.Interfaces;
+using Cricket.Match;
 using Cricket.Player;
 
 namespace Cricket.Statistics
@@ -53,24 +53,24 @@ namespace Cricket.Statistics
         {
         }
 
-        public PlayerBattingStatistics(PlayerName name)
+        public PlayerBattingStatistics(PlayerName name, MatchType[] matchTypes)
         {
             Name = name;
         }
 
-        public PlayerBattingStatistics(PlayerName name, ICricketSeason season)
+        public PlayerBattingStatistics(PlayerName name, ICricketSeason season, MatchType[] matchTypes)
         {
             Name = name;
-            SetSeasonStats(season);
+            SetSeasonStats(season, matchTypes);
         }
 
-        public PlayerBattingStatistics(PlayerName name, ICricketTeam team)
+        public PlayerBattingStatistics(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
         {
             Name = name;
-            SetTeamStats(team);
+            SetTeamStats(team, matchTypes);
         }
 
-        public void SetSeasonStats(ICricketSeason season, bool reset = false)
+        public void SetSeasonStats(ICricketSeason season, MatchType[] matchTypes, bool reset = false)
         {
             if (reset)
             {
@@ -82,31 +82,34 @@ namespace Cricket.Statistics
 
             foreach (ICricketMatch match in season.Matches)
             {
-                Match.BattingEntry batting = match.GetBatting(Name);
-                if (batting != null)
+                if (matchTypes.Contains(match.MatchData.Type))
                 {
-                    if (batting.MethodOut != Match.Wicket.DidNotBat)
+                    Match.BattingEntry batting = match.GetBatting(Name);
+                    if (batting != null)
                     {
-                        TotalInnings++;
-                        if (!batting.Out())
+                        if (batting.MethodOut != Match.Wicket.DidNotBat)
                         {
-                            TotalNotOut++;
-                        }
-                        int index = (int)batting.MethodOut;
-                        //WicketLossNumbers[index] += 1;
-                        TotalRuns += batting.RunsScored;
+                            TotalInnings++;
+                            if (!batting.Out())
+                            {
+                                TotalNotOut++;
+                            }
+                            int index = (int)batting.MethodOut;
+                            //WicketLossNumbers[index] += 1;
+                            TotalRuns += batting.RunsScored;
 
-                        BestBatting possibleBest = new BestBatting()
-                        {
-                            Runs = batting.RunsScored,
-                            HowOut = batting.MethodOut,
-                            Opposition = match.MatchData.Opposition,
-                            Date = match.MatchData.Date
-                        };
+                            BestBatting possibleBest = new BestBatting()
+                            {
+                                Runs = batting.RunsScored,
+                                HowOut = batting.MethodOut,
+                                Opposition = match.MatchData.Opposition,
+                                Date = match.MatchData.Date
+                            };
 
-                        if (possibleBest.CompareTo(Best) > 0)
-                        {
-                            Best = possibleBest;
+                            if (possibleBest.CompareTo(Best) > 0)
+                            {
+                                Best = possibleBest;
+                            }
                         }
                     }
                 }
@@ -118,7 +121,7 @@ namespace Cricket.Statistics
             }
         }
 
-        public void SetTeamStats(ICricketTeam team)
+        public void SetTeamStats(ICricketTeam team, MatchType[] matchTypes)
         {
             TotalInnings = 0;
             TotalNotOut = 0;
@@ -127,7 +130,7 @@ namespace Cricket.Statistics
 
             foreach (ICricketSeason season in team.Seasons)
             {
-                SetSeasonStats(season, reset: false);
+                SetSeasonStats(season, matchTypes, reset: false);
             }
 
             if (TotalInnings != TotalNotOut)
