@@ -1,6 +1,5 @@
 ﻿.vs
-CSD_Tests/obj
 MigrationBackup
-MigrationBackup
-CricketStatisticsDatabase/obj
+*/obj
+*/bin
 bin
