@@ -26,30 +26,16 @@ namespace Cricket.Match
         /// <summary>
         /// list of players that play in this innings
         /// </summary>
-        private List<BowlingEntry> fBowlingInfo = new List<BowlingEntry>();
         public List<BowlingEntry> BowlingInfo
         {
-            get
-            {
-                return fBowlingInfo;
-            }
-            set
-            {
-                fBowlingInfo = value;
-            }
+            get;
+            set;
         }
 
-        private int byesLegByes;
         public int ByesLegByes
         {
-            get
-            {
-                return byesLegByes;
-            }
-            set
-            {
-                byesLegByes = value;
-            }
+            get;
+            set;
         }
 
         public bool SetScores(PlayerName player, double overs, int maidens, int runsConceded, int wickets)
@@ -67,6 +53,12 @@ namespace Cricket.Match
         {
             BowlingInfo.Add(new BowlingEntry(player));
         }
+
+        public List<PlayerName> Players()
+        {
+            return BowlingInfo.Select(info => info.Name).ToList();
+        }
+
         public bool PlayerListed(PlayerName player)
         {
             return BowlingInfo.Any(card => card.Name.Equals(player));

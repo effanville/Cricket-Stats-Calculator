@@ -47,13 +47,6 @@ namespace Cricket.Match
                     entry.keeperFielding.Name = newName;
                 }
             }
-            for (int i = 0; i < PlayerNames.Count; i++)
-            {
-                if (PlayerNames[i].Equals(oldName))
-                {
-                    PlayerNames[i] = newName;
-                }
-            }
         }
 
         public bool SameMatch(DateTime date, string opposition)
@@ -97,14 +90,15 @@ namespace Cricket.Match
             set;
         }
 
-        /// <summary>
-        /// list of players that play in this match
-        /// </summary>
-        public List<PlayerName> PlayerNames
+        /// <inheritdoc/>
+        public List<PlayerName> Players()
         {
-            get;
-            set;
-        } = new List<PlayerName>();
+            var players = new HashSet<PlayerName>();
+            players.UnionWith(Batting.Players());
+            players.UnionWith(Bowling.Players());
+            players.UnionWith(FieldingStats.Players());
+            return players.ToList();
+        }
 
         public BattingInnings Batting
         {
@@ -142,28 +136,9 @@ namespace Cricket.Match
                 Opposition = oppos,
             };
 
-            PlayerNames = playerNames;
-            Batting = new BattingInnings(MatchData, PlayerNames);
-            Bowling = new BowlingInnings(MatchData, PlayerNames);
-            FieldingStats = new Fielding(MatchData, PlayerNames);
-        }
-
-        public CricketMatch(string oppos, DateTime date1, string place, ResultType result, MatchType TypeofMatch, PlayerName moM, List<PlayerName> playerNames)
-        {
-            MatchData = new MatchInfo()
-            {
-                Opposition = oppos,
-                Date = date1,
-                Type = TypeofMatch,
-                Place = place
-            };
-
-            PlayerNames = playerNames;
-            Result = result;
-            ManOfMatch = moM;
-            Batting = new BattingInnings(MatchData, PlayerNames);
-            Bowling = new BowlingInnings(MatchData, PlayerNames);
-            FieldingStats = new Fielding(MatchData, PlayerNames);
+            Batting = new BattingInnings(MatchData, playerNames);
+            Bowling = new BowlingInnings(MatchData, playerNames);
+            FieldingStats = new Fielding(MatchData, playerNames);
         }
 
         public CricketMatch(MatchInfo info)
@@ -180,7 +155,7 @@ namespace Cricket.Match
         /// </summary>
         public bool PlayNotPlay(PlayerName person)
         {
-            return PlayerNames.Contains(person);
+            return Players().Contains(person);
         }
 
         public bool EditInfo(string opposition, DateTime date, string place, Location homeOrAway, MatchType typeOfMatch, ResultType result, TeamInnings firstOrSecond)
@@ -219,24 +194,13 @@ namespace Cricket.Match
             return true;
         }
 
-        public bool AddPlayer(PlayerName player)
-        {
-            if (!PlayNotPlay(player))
-            {
-                PlayerNames.Add(player);
-                OnPlayerAdded(player);
-                return true;
-            }
-
-            return false;
-        }
-
         public void SetBatting(BattingInnings innings)
         {
             foreach (BattingEntry entry in innings.BattingInfo)
             {
                 if (!Batting.PlayerListed(entry.Name))
                 {
+                    OnPlayerAdded(entry.Name);
                     AddBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Order, entry.WicketFellAt, entry.TeamScoreAtWicket, entry.Fielder, entry.Bowler);
                 }
                 else
@@ -252,11 +216,6 @@ namespace Cricket.Match
         {
             if (!Batting.PlayerListed(player))
             {
-                if (!PlayNotPlay(player))
-                {
-                    AddPlayer(player);
-                }
-
                 Batting.AddPlayer(player);
                 Batting.SetScores(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, bowler);
                 return true;
@@ -280,10 +239,6 @@ namespace Cricket.Match
         {
             if (Batting.PlayerListed(player))
             {
-                if (!Bowling.PlayerListed(player) && !FieldingStats.PlayerListed(player))
-                {
-                    PlayerNames.Remove(player);
-                }
                 return Batting.Remove(player);
             }
 
@@ -296,6 +251,7 @@ namespace Cricket.Match
             {
                 if (!Bowling.PlayerListed(entry.Name))
                 {
+                    OnPlayerAdded(entry.Name);
                     AddBowlingEntry(entry.Name, entry.OversBowled, entry.Maidens, entry.RunsConceded, entry.Wickets);
                 }
                 else
@@ -311,11 +267,6 @@ namespace Cricket.Match
         {
             if (!Bowling.PlayerListed(player))
             {
-                if (!PlayNotPlay(player))
-                {
-                    AddPlayer(player);
-                }
-
                 Bowling.AddPlayer(player);
                 Bowling.SetScores(player, overs, maidens, runsConceded, wickets);
                 return true;
@@ -339,10 +290,6 @@ namespace Cricket.Match
         {
             if (Bowling.PlayerListed(player))
             {
-                if (!Batting.PlayerListed(player) && !FieldingStats.PlayerListed(player))
-                {
-                    PlayerNames.Remove(player);
-                }
                 return Bowling.Remove(player);
             }
             return false;
@@ -354,6 +301,7 @@ namespace Cricket.Match
             {
                 if (!FieldingStats.PlayerListed(entry.Name))
                 {
+                    OnPlayerAdded(entry.Name);
                     AddFieldingEntry(entry.Name, entry.Catches, entry.RunOuts, entry.keeperFielding.Stumpings, entry.keeperFielding.Catches);
                 }
                 else
@@ -367,10 +315,6 @@ namespace Cricket.Match
         {
             if (!FieldingStats.PlayerListed(player))
             {
-                if (!PlayerNames.Contains(player))
-                {
-                    AddPlayer(player);
-                }
                 FieldingStats.AddPlayer(player);
                 FieldingStats.SetFielding(player, catches, runOuts, stumpings, keeperCatches);
                 return true;
@@ -394,10 +338,6 @@ namespace Cricket.Match
         {
             if (FieldingStats.PlayerListed(player))
             {
-                if (!Batting.PlayerListed(player) && !Bowling.PlayerListed(player))
-                {
-                    PlayerNames.Remove(player);
-                }
                 return FieldingStats.Remove(player);
             }
 

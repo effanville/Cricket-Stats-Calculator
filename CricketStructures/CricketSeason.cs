@@ -159,7 +159,7 @@ namespace Cricket
         {
             get
             {
-                return SeasonsMatches.SelectMany(match => match.PlayerNames).Distinct().ToList();
+                return SeasonsMatches.SelectMany(match => match.Players()).Distinct().ToList();
             }
         }
 

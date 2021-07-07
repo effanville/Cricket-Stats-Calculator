@@ -23,11 +23,6 @@ namespace Cricket.Interfaces
             get;
         }
 
-        List<PlayerName> PlayerNames
-        {
-            get;
-        }
-
         BattingInnings Batting
         {
             get;
@@ -48,6 +43,8 @@ namespace Cricket.Interfaces
             get;
         }
 
+        List<PlayerName> Players();
+
         bool PlayNotPlay(PlayerName name);
 
         void EditPlayerName(PlayerName oldName, PlayerName newName);
@@ -65,8 +62,6 @@ namespace Cricket.Interfaces
         BowlingEntry GetBowling(PlayerName player);
 
         FieldingEntry GetFielding(PlayerName player);
-
-        bool AddPlayer(PlayerName player);
 
         void SetBatting(BattingInnings innings);
 

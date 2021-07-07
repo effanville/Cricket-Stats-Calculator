@@ -26,17 +26,10 @@ namespace Cricket.Match
         /// <summary>
         /// list of players that play in this innings
         /// </summary>
-        private List<FieldingEntry> fFielding = new List<FieldingEntry>();
         public List<FieldingEntry> FieldingInfo
         {
-            get
-            {
-                return fFielding;
-            }
-            set
-            {
-                fFielding = value;
-            }
+            get;
+            set;
         }
 
         public bool SetFielding(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches)
@@ -54,6 +47,11 @@ namespace Cricket.Match
         public void AddPlayer(PlayerName player)
         {
             FieldingInfo.Add(new FieldingEntry(player));
+        }
+
+        public List<PlayerName> Players()
+        {
+            return FieldingInfo.Select(info => info.Name).ToList();
         }
 
         public bool PlayerListed(PlayerName player)

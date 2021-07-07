@@ -27,30 +27,16 @@ namespace Cricket.Match
         /// <summary>
         /// list of players that play in this innings
         /// </summary>
-        private List<BattingEntry> fBattingInfo = new List<BattingEntry>();
         public List<BattingEntry> BattingInfo
         {
-            get
-            {
-                return fBattingInfo;
-            }
-            set
-            {
-                fBattingInfo = value;
-            }
+            get;
+            set;
         }
-        private int fExtras;
 
         public int Extras
         {
-            get
-            {
-                return fExtras;
-            }
-            set
-            {
-                fExtras = value;
-            }
+            get;
+            set;
         }
 
         public bool SetScores(PlayerName player, Wicket howOut, int runs, int order, int wicketToFallAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
@@ -69,6 +55,11 @@ namespace Cricket.Match
         public void AddPlayer(PlayerName player)
         {
             BattingInfo.Add(new BattingEntry(player));
+        }
+
+        public List<PlayerName> Players()
+        {
+            return BattingInfo.Select(info => info.Name).ToList();
         }
 
         public void AddScore(PlayerName player, Wicket howOut, int runs, int order, int wicketToFallAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
