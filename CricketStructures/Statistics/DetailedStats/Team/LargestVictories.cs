@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cricket.Interfaces;
+using CricketStructures.Interfaces;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class LargestVictories
     {
@@ -28,34 +28,35 @@ namespace Cricket.Statistics.DetailedStats
         {
             foreach (ICricketSeason season in team.Seasons)
             {
-                CalculateStats(season);
+                CalculateStats(team.TeamName, season);
             }
         }
 
-        public void CalculateStats(ICricketSeason season)
+        public void CalculateStats(string teamName, ICricketSeason season)
         {
             foreach (ICricketMatch match in season.Matches)
             {
-                UpdateStats(match);
+                UpdateStats(teamName, match);
             }
         }
 
-        public void UpdateStats(ICricketMatch match)
+        public void UpdateStats(string teamName, ICricketMatch match)
         {
-            if (match.BattingFirstOrSecond == Match.TeamInnings.First)
+            if (match.BattedFirst(teamName))
             {
-                if (match.Batting.Score().Runs > match.Bowling.Score().Runs + 100)
+                if (match.FirstInnings.BattingScore().Runs > match.SecondInnings.BattingScore().Runs + 100)
                 {
-                    BowlingWinningMargin margin = new BowlingWinningMargin(match);
+                    BowlingWinningMargin margin = new BowlingWinningMargin(teamName, match);
                     WinBy100Runs.Add(margin);
                     WinBy100Runs.Sort((a, b) => b.WinningRuns.CompareTo(a.WinningRuns));
                 }
             }
-            if (match.BattingFirstOrSecond == Match.TeamInnings.Second)
+
+            if (!match.BattedFirst(teamName))
             {
-                if (match.Batting.Score().Wickets.Equals(0))
+                if (match.SecondInnings.BattingScore().Wickets.Equals(0))
                 {
-                    BattingWinningMargin margin = new BattingWinningMargin(match);
+                    BattingWinningMargin margin = new BattingWinningMargin(teamName, match);
                     WinBy10Wickets.Add(margin);
                     WinBy10Wickets.Sort((a, b) => b.Score.CompareTo(a.Score));
                 }

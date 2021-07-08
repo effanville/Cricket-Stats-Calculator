@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Cricket.Match
+namespace CricketStructures.Match.Innings
 {
-    public class InningsScore : IComparable
+    public class InningsScore : IComparable, IEquatable<InningsScore>
     {
         public override string ToString()
         {
@@ -22,6 +22,11 @@ namespace Cricket.Match
             }
 
             return 0;
+        }
+
+        public bool Equals(InningsScore other)
+        {
+            return Runs.Equals(other.Runs) && Wickets.Equals(other.Wickets);
         }
 
         public int Runs

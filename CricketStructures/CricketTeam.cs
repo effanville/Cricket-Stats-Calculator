@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using Cricket.Interfaces;
-using Cricket.Player;
+using CricketStructures.Interfaces;
+using CricketStructures.Player;
+using CricketStructures.Player.Interfaces;
 using StructureCommon.Validation;
 
-namespace Cricket.Team
+namespace CricketStructures
 {
     public class CricketTeam : ICricketTeam, IValidity
     {

@@ -1,9 +1,10 @@
 ﻿using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Interfaces;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics
+namespace CricketStructures.Statistics
 {
     public class PlayerBowlingStatistics
     {
@@ -65,15 +66,15 @@ namespace Cricket.Statistics
         {
         }
 
-        public PlayerBowlingStatistics(PlayerName name, MatchType[] matchTypes)
+        public PlayerBowlingStatistics(PlayerName name)
         {
             Name = name;
         }
 
-        public PlayerBowlingStatistics(PlayerName name, ICricketSeason season, MatchType[] matchTypes)
+        public PlayerBowlingStatistics(string teamName, PlayerName name, ICricketSeason season, MatchType[] matchTypes)
         {
             Name = name;
-            SetSeasonStats(season, matchTypes);
+            SetSeasonStats(teamName, season, matchTypes);
         }
 
         public PlayerBowlingStatistics(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
@@ -82,7 +83,7 @@ namespace Cricket.Statistics
             SetTeamStats(team, matchTypes);
         }
 
-        public void SetSeasonStats(ICricketSeason season, MatchType[] matchTypes, bool reset = false)
+        public void SetSeasonStats(string teamName, ICricketSeason season, MatchType[] matchTypes, bool reset = false)
         {
             if (reset)
             {
@@ -97,7 +98,7 @@ namespace Cricket.Statistics
             {
                 if (matchTypes.Contains(match.MatchData.Type))
                 {
-                    Match.BowlingEntry bowling = match.GetBowling(Name);
+                    BowlingEntry bowling = match.GetBowling(teamName, Name);
                     if (bowling != null)
                     {
                         TotalOvers += bowling.OversBowled;
@@ -109,7 +110,7 @@ namespace Cricket.Statistics
                         {
                             Wickets = bowling.Wickets,
                             Runs = bowling.RunsConceded,
-                            Opposition = match.MatchData.Opposition,
+                            Opposition = match.MatchData.OppositionName(),
                             Date = match.MatchData.Date
                         };
 
@@ -151,7 +152,7 @@ namespace Cricket.Statistics
             BestFigures = new BestBowling();
             foreach (ICricketSeason season in team.Seasons)
             {
-                SetSeasonStats(season, matchTypes);
+                SetSeasonStats(team.TeamName, season, matchTypes);
             }
 
             if (TotalWickets != 0)

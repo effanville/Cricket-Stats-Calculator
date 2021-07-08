@@ -1,6 +1,6 @@
-﻿using Cricket.Interfaces;
+﻿using CricketStructures.Interfaces;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class TeamOppositionRecord : TeamRecord
     {
@@ -19,7 +19,7 @@ namespace Cricket.Statistics.DetailedStats
         public TeamOppositionRecord(ICricketMatch match)
             : base()
         {
-            OppositionName = match.MatchData.Opposition;
+            OppositionName = match.MatchData.OppositionName();
             AddResult(match);
         }
 

@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Interfaces;
+using CricketStructures.Match;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics
+namespace CricketStructures.Statistics
 {
     public class PlayerAttendanceStatistics
     {
@@ -49,15 +49,15 @@ namespace Cricket.Statistics
         {
         }
 
-        public PlayerAttendanceStatistics(PlayerName name, MatchType[] matchTypes)
+        public PlayerAttendanceStatistics(PlayerName name)
         {
             Name = name;
         }
 
-        public PlayerAttendanceStatistics(PlayerName name, ICricketSeason season, MatchType[] matchTypes)
+        public PlayerAttendanceStatistics(string teamName, PlayerName name, ICricketSeason season, MatchType[] matchTypes)
         {
             Name = name;
-            SetSeasonStats(season, matchTypes);
+            SetSeasonStats(teamName, season, matchTypes);
         }
 
         public PlayerAttendanceStatistics(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
@@ -66,7 +66,7 @@ namespace Cricket.Statistics
             SetTeamStats(team, matchTypes);
         }
 
-        public void SetSeasonStats(ICricketSeason season, MatchType[] matchTypes, bool reset = false)
+        public void SetSeasonStats(string teamName, ICricketSeason season, MatchType[] matchTypes, bool reset = false)
         {
             if (reset)
             {
@@ -80,18 +80,18 @@ namespace Cricket.Statistics
             {
                 if (matchTypes.Contains(match.MatchData.Type))
                 {
-                    if (match.PlayNotPlay(Name))
+                    if (match.PlayNotPlay(teamName, Name))
                     {
                         TotalGamesPlayed += 1;
-                        if (Name.Equals(match.ManOfMatch))
+                        if (match.MenOfMatch.Contains(Name))
                         {
                             TotalMom += 1;
                         }
-                        if (match.Result == Match.ResultType.Win)
+                        if (match.Result == ResultType.Win)
                         {
                             TotalGamesWon += 1;
                         }
-                        if (match.Result == Match.ResultType.Loss)
+                        if (match.Result == ResultType.Loss)
                         {
                             TotalGamesLost += 1;
                         }
@@ -108,7 +108,7 @@ namespace Cricket.Statistics
             TotalMom = 0;
             foreach (ICricketSeason season in team.Seasons)
             {
-                SetSeasonStats(season, matchTypes);
+                SetSeasonStats(team.TeamName, season, matchTypes);
             }
         }
     }

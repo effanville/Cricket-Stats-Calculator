@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cricket.Interfaces;
+using CricketStructures.Interfaces;
+using CricketStructures.Match.Innings;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class PartnershipStats
     {
@@ -39,15 +40,15 @@ namespace Cricket.Statistics.DetailedStats
         {
             foreach (ICricketSeason season in team.Seasons)
             {
-                CalculateStats(season);
+                CalculateStats(team.TeamName, season);
             }
         }
 
-        public void CalculateStats(ICricketSeason season)
+        public void CalculateStats(string teamName, ICricketSeason season)
         {
             foreach (ICricketMatch match in season.Matches)
             {
-                UpdateStats(match);
+                UpdateStats(teamName, match);
             }
             foreach (List<Partnership> partList in PartnershipsByWicket)
             {
@@ -62,9 +63,9 @@ namespace Cricket.Statistics.DetailedStats
         /// Updates the holdings of partnerships from the specified match.
         /// This updates and only stores partnerships where runs involved were over 100.
         /// </summary>
-        public void UpdateStats(ICricketMatch match)
+        public void UpdateStats(string teamName, ICricketMatch match)
         {
-            List<Partnership> partnerships = match.Partnerships();
+            List<Partnership> partnerships = match.Partnerships(teamName);
             foreach (Partnership ship in partnerships)
             {
                 if (ship != null)

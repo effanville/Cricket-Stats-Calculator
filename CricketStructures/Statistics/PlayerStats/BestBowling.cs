@@ -1,7 +1,7 @@
 ﻿using System;
 using StructureCommon.Extensions;
 
-namespace Cricket.Statistics
+namespace CricketStructures.Statistics
 {
     public class BestBowling : IComparable
     {
@@ -38,6 +38,7 @@ namespace Cricket.Statistics
             {
                 return Wickets + "-" + Runs + " vs unknown opposition";
             }
+
             return Wickets + "-" + Runs + " vs " + Opposition + " on " + Date.ToUkDateString();
         }
     }

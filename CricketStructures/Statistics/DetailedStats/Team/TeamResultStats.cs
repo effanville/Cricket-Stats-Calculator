@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cricket.Interfaces;
+using CricketStructures.Interfaces;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class TeamResultStats
     {
@@ -53,32 +53,32 @@ namespace Cricket.Statistics.DetailedStats
         {
             foreach (ICricketSeason season in team.Seasons)
             {
-                CalculateStats(season);
+                CalculateStats(team.TeamName, season);
             }
 
             YearByYearRecords.Sort((a, b) => a.Year.CompareTo(b.Year));
             TeamAgainstRecords.Sort((a, b) => a.OppositionName.CompareTo(b.OppositionName));
         }
 
-        public void CalculateStats(ICricketSeason season)
+        public void CalculateStats(string teamName, ICricketSeason season)
         {
             YearByYearRecords.Add(new TeamYearRecord(season));
 
             foreach (ICricketMatch match in season.Matches)
             {
-                UpdateStats(match);
+                UpdateStats(teamName, match);
             }
         }
 
-        public void UpdateStats(ICricketMatch match)
+        public void UpdateStats(string teamName, ICricketMatch match)
         {
-            NotableScores.UpdateStats(match);
-            BestResults.UpdateStats(match);
-            WorstLosses.UpdateStats(match);
+            NotableScores.UpdateStats(teamName, match);
+            BestResults.UpdateStats(teamName, match);
+            WorstLosses.UpdateStats(teamName, match);
 
-            if (TeamAgainstRecords.Any(team => team.OppositionName.Equals(match.MatchData.Opposition)))
+            if (TeamAgainstRecords.Any(team => team.OppositionName.Equals(match.MatchData.OppositionName())))
             {
-                TeamOppositionRecord oppo = TeamAgainstRecords.First(team => team.OppositionName.Equals(match.MatchData.Opposition));
+                TeamOppositionRecord oppo = TeamAgainstRecords.First(team => team.OppositionName.Equals(match.MatchData.OppositionName()));
                 oppo.AddResult(match);
             }
             else

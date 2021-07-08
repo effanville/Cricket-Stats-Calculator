@@ -1,4 +1,4 @@
-﻿namespace Cricket.Match
+﻿namespace CricketStructures.Match
 {
     /// <summary>
     /// enumeration listing type of wicket

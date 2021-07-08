@@ -1,8 +1,7 @@
 ﻿using System;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics
+namespace CricketStructures.Match.Innings
 {
     public sealed class Partnership : IComparable
     {

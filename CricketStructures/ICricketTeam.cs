@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cricket.Player;
+using CricketStructures.Player;
+using CricketStructures.Player.Interfaces;
 using StructureCommon.Validation;
 
-namespace Cricket.Interfaces
+namespace CricketStructures.Interfaces
 {
     public interface ICricketTeam : IValidity
     {

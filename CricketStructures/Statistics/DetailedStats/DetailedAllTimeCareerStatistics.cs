@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Player;
-using Cricket.Statistics.PlayerStats;
+using CricketStructures.Interfaces;
+using CricketStructures.Player;
 using StructureCommon.FileAccess;
+using CricketStructures.Player.Interfaces;
+using CricketStructures.Statistics.PlayerStats;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class AppearanceList
     {

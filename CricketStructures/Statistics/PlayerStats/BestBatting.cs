@@ -1,8 +1,8 @@
 ﻿using System;
-using Cricket.Match;
+using CricketStructures.Match;
 using StructureCommon.Extensions;
 
-namespace Cricket.Statistics
+namespace CricketStructures.Statistics
 {
     public class BestBatting : IComparable
     {
@@ -10,7 +10,6 @@ namespace Cricket.Statistics
         public Wicket HowOut;
         public string Opposition;
         public DateTime Date;
-        public Location HomeOrAway;
 
         public int CompareTo(object obj)
         {

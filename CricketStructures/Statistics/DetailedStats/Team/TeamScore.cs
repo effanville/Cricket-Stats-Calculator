@@ -1,6 +1,7 @@
-﻿using Cricket.Match;
+﻿using CricketStructures.Match;
+using CricketStructures.Match.Innings;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class TeamScore
     {

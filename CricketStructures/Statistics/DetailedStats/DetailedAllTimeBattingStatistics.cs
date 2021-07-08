@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Match;
-using Cricket.Statistics.PlayerStats;
+using CricketStructures.Interfaces;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Statistics.PlayerStats;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class DetailedAllTimeBattingStatistics
     {
@@ -44,13 +45,13 @@ namespace Cricket.Statistics.DetailedStats
         {
             foreach (ICricketSeason season in team.Seasons)
             {
-                CalculateStats(season);
+                CalculateStats(team.TeamName, season);
             }
         }
 
-        public void CalculateStats(ICricketSeason season)
+        public void CalculateStats(string teamName, ICricketSeason season)
         {
-            TeamBriefStatistics seasonBriefStats = new TeamBriefStatistics(season);
+            TeamBriefStatistics seasonBriefStats = new TeamBriefStatistics(teamName, season);
             IEnumerable<PlayerBriefStatistics> manyRuns = seasonBriefStats.SeasonPlayerStats.Where(player => player.BattingStats.TotalRuns > 500);
             SeasonRunsOver500.AddRange(manyRuns.Select(element => new SeasonRuns() { Name = element.Name, Runs = element.BattingStats.TotalRuns, Year = element.SeasonYear.Year, Average = element.BattingStats.Average }));
 
@@ -58,7 +59,7 @@ namespace Cricket.Statistics.DetailedStats
             SeasonAverageOver30.AddRange(goodAverage.Select(element => new SeasonRuns() { Name = element.Name, Runs = element.BattingStats.TotalRuns, Year = element.SeasonYear.Year, Average = element.BattingStats.Average }));
             foreach (ICricketMatch match in season.Matches)
             {
-                UpdateStats(match);
+                UpdateStats(teamName, match);
             }
 
             SeasonRunsOver500.Sort((a, b) => b.Runs.CompareTo(a.Runs));
@@ -67,9 +68,9 @@ namespace Cricket.Statistics.DetailedStats
             ScoresPast50.Sort((a, b) => b.Centuries.CompareTo(a.Centuries));
         }
 
-        public void UpdateStats(ICricketMatch match)
+        public void UpdateStats(string teamName, ICricketMatch match)
         {
-            foreach (BattingEntry battingEntry in match.Batting.BattingInfo)
+            foreach (BattingEntry battingEntry in match.GetInnings(teamName, batting: true).Batting)
             {
                 if (battingEntry.RunsScored >= 100)
                 {
@@ -99,18 +100,20 @@ namespace Cricket.Statistics.DetailedStats
                 }
             }
 
-            if (match.BattingFirstOrSecond == TeamInnings.First || (match.BattingFirstOrSecond == TeamInnings.Second && match.Result != ResultType.Win))
+            bool battedFirst = match.BattedFirst(teamName);
+            if (battedFirst || (!battedFirst && match.Result != ResultType.Win))
             {
-                BattingEntry bat = match.Batting.BattingInfo[0];
+                var innings = match.GetInnings(teamName, batting: true);
+                BattingEntry bat = innings.Batting[0];
                 if (!bat.Out())
                 {
-                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.Opposition, HomeOrAway = match.MatchData.HomeOrAway, TeamTotalScore = match.Batting.Score() });
+                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(), AtHome = match.MatchData.AtHome, TeamTotalScore = innings.BattingScore() });
                 }
 
-                bat = match.Batting.BattingInfo[1];
+                bat = innings.Batting[1];
                 if (!bat.Out())
                 {
-                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.Opposition, HomeOrAway = match.MatchData.HomeOrAway, TeamTotalScore = match.Batting.Score() });
+                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(), AtHome = match.MatchData.AtHome, TeamTotalScore = innings.BattingScore() });
                 }
             }
         }

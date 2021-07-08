@@ -1,8 +1,9 @@
-﻿using System.IO;
-using Cricket.Interfaces;
+﻿using System;
+using System.IO;
+using CricketStructures.Interfaces;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class DetailedAllTimePlayerStatistics
     {
@@ -34,18 +35,18 @@ namespace Cricket.Statistics.DetailedStats
         {
             foreach (ICricketSeason season in team.Seasons)
             {
-                CalculateStats(season);
+                CalculateStats(team.TeamName, season);
             }
 
             CareerStats.CalculateStats(team);
         }
 
-        public void CalculateStats(ICricketSeason season)
+        public void CalculateStats(string teamName, ICricketSeason season)
 
         {
-            BattingStats.CalculateStats(season);
-            BowlingStats.CalculateStats(season);
-            FieldingStats.CalculateStats(season);
+            BattingStats.CalculateStats(teamName, season);
+            BowlingStats.CalculateStats(teamName, season);
+            FieldingStats.CalculateStats(teamName, season);
 
             foreach (ICricketMatch match in season.Matches)
             {
@@ -55,6 +56,7 @@ namespace Cricket.Statistics.DetailedStats
 
         public void UpdateStats(ICricketMatch match)
         {
+            throw new NotImplementedException($"{nameof(DetailedAllTimePlayerStatistics)} stats routine has not been implemented for a match.");
         }
 
         public void ExportStats(StreamWriter writer, ExportType exportType)

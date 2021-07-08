@@ -1,6 +1,6 @@
-﻿using Cricket.Player;
+﻿using CricketStructures.Player;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class PartnershipNumber
     {

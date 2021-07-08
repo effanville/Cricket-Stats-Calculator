@@ -1,10 +1,10 @@
 ﻿using System;
-using Cricket.Interfaces;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Interfaces;
+using CricketStructures.Player;
 using StructureCommon.Extensions;
+using CricketStructures.Match.Innings;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class BattingWinningMargin
     {
@@ -38,7 +38,7 @@ namespace Cricket.Statistics.DetailedStats
             set;
         }
 
-        public Location HomeOrAway
+        public string Location
         {
             get;
             set;
@@ -47,28 +47,24 @@ namespace Cricket.Statistics.DetailedStats
         public BattingWinningMargin()
         {
         }
-
-        public BattingWinningMargin(ICricketMatch match, bool isTeam = true)
+        public BattingWinningMargin(string teamName, ICricketMatch match)
         {
-            Opposition = match.MatchData.Opposition;
+            Opposition = match.MatchData.OppositionName();
             Date = match.MatchData.Date;
-            HomeOrAway = match.MatchData.HomeOrAway;
+            Location = match.MatchData.Location;
 
-            if (isTeam)
+            Score = match.Score(teamName);
+            if (!teamName.Equals(Opposition))
             {
-                Score = match.Batting.Score();
-                BatsmanOne = match.Batting.BattingInfo[0].Name;
-                BatsmanTwo = match.Batting.BattingInfo[1].Name;
-            }
-            else
-            {
-                Score = match.Bowling.Score();
+                var batting = match.GetInnings(teamName, batting: true).Batting;
+                BatsmanOne = batting[0].Name;
+                BatsmanTwo = batting[1].Name;
             }
         }
 
         public string ToCSVLine()
         {
-            return Score.ToString() + "," + Opposition + "," + Date.ToUkDateString() + "," + Date.ToUkDateString() + "," + HomeOrAway + "," + BatsmanOne?.ToString() + "," + BatsmanTwo?.ToString();
+            return Score.ToString() + "," + Opposition + "," + Date.ToUkDateString() + "," + Date.ToUkDateString() + "," + Location + "," + BatsmanOne?.ToString() + "," + BatsmanTwo?.ToString();
         }
     }
 }

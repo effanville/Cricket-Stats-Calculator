@@ -1,6 +1,6 @@
-﻿using Cricket.Interfaces;
+﻿using CricketStructures.Interfaces;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class TeamYearRecord : TeamRecord
     {

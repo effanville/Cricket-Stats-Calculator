@@ -1,8 +1,9 @@
 ﻿using System;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics.PlayerStats
+namespace CricketStructures.Statistics.PlayerStats
 {
     public class Century
     {
@@ -34,13 +35,14 @@ namespace Cricket.Statistics.PlayerStats
             get;
             set;
         }
-        public Location HomeOrAway
+
+        public MatchType GameType
         {
             get;
             set;
         }
 
-        public MatchType GameType
+        public bool AtHome
         {
             get;
             set;
@@ -57,8 +59,8 @@ namespace Cricket.Statistics.PlayerStats
             Runs = battingEntry.RunsScored;
             HowOut = battingEntry.MethodOut;
             GameType = matchData.Type;
-            Opposition = matchData.Opposition;
-            HomeOrAway = matchData.HomeOrAway;
+            Opposition = matchData.OppositionName();
+            AtHome = matchData.AtHome;
         }
     }
 }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using Cricket.Interfaces;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Interfaces;
+using CricketStructures.Match;
+using CricketStructures.Player;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
 
-namespace Cricket
+namespace CricketStructures
 {
     public class CricketSeason : ICricketSeason, IValidity
     {
@@ -55,19 +55,19 @@ namespace Cricket
                 {
                     GamesPlayed++;
 
-                    if (match.Result == Cricket.Match.ResultType.Win)
+                    if (match.Result == ResultType.Win)
                     {
                         NumberWins++;
                     }
-                    if (match.Result == Cricket.Match.ResultType.Loss)
+                    if (match.Result == ResultType.Loss)
                     {
                         NumberLosses++;
                     }
-                    if (match.Result == Cricket.Match.ResultType.Draw)
+                    if (match.Result == ResultType.Draw)
                     {
                         NumberDraws++;
                     }
-                    if (match.Result == Cricket.Match.ResultType.Tie)
+                    if (match.Result == ResultType.Tie)
                     {
                         NumberTies++;
                     }
@@ -188,11 +188,11 @@ namespace Cricket
 
         /// <inheritdoc/>
         /// This is currently not implemented.
-        public ICricketMatch GetMatch(DateTime date, string opposition)
+        public ICricketMatch GetMatch(DateTime date, string homeTeam, string awayTeam)
         {
-            if (ContainsMatch(date, opposition))
+            if (ContainsMatch(date, homeTeam, awayTeam))
             {
-                return SeasonsMatches.First(match => match.SameMatch(date, opposition));
+                return SeasonsMatches.First(match => match.SameMatch(date, homeTeam, awayTeam));
             }
 
             return null;
@@ -200,7 +200,7 @@ namespace Cricket
 
         public bool AddMatch(MatchInfo info)
         {
-            if (!ContainsMatch(info.Date, info.Opposition))
+            if (!ContainsMatch(info.Date, info.HomeTeam, info.AwayTeam))
             {
                 var match = new CricketMatch(info);
                 match.PlayerAdded += OnPlayerAdded;
@@ -211,14 +211,14 @@ namespace Cricket
             return false;
         }
 
-        public bool ContainsMatch(DateTime date, string opposition)
+        public bool ContainsMatch(DateTime date, string homeTeam, string awayTeam)
         {
-            return SeasonsMatches.Any(match => match.SameMatch(date, opposition));
+            return SeasonsMatches.Any(match => match.SameMatch(date, homeTeam, awayTeam));
         }
 
-        public bool RemoveMatch(DateTime date, string opposition)
+        public bool RemoveMatch(DateTime date, string homeTeam, string awayTeam)
         {
-            int removed = SeasonsMatches.RemoveAll(match => match.SameMatch(date, opposition));
+            int removed = SeasonsMatches.RemoveAll(match => match.SameMatch(date, homeTeam, awayTeam));
             if (removed == 1)
             {
                 return true;
@@ -228,7 +228,7 @@ namespace Cricket
                 return false;
             }
 
-            throw new Exception($"Had {removed} matches with info {date} and {opposition}, but should have at most 1.");
+            throw new Exception($"Had {removed} matches with info {date} and {homeTeam}-{awayTeam}, but should have at most 1.");
         }
 
         public bool Validate()

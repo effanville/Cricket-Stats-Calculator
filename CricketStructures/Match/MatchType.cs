@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Cricket.Match
+namespace CricketStructures.Match
 {
     public enum MatchType
     {

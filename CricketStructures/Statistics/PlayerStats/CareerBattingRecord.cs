@@ -1,8 +1,9 @@
 ﻿using System;
-using Cricket.Interfaces;
-using Cricket.Player;
+using CricketStructures.Interfaces;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics.PlayerStats
+namespace CricketStructures.Statistics.PlayerStats
 {
     public class CareerBattingRecord
     {
@@ -90,7 +91,7 @@ namespace Cricket.Statistics.PlayerStats
             {
                 foreach (ICricketMatch match in season.Matches)
                 {
-                    if (match.PlayNotPlay(Name))
+                    if (match.PlayNotPlay(team.TeamName, Name))
                     {
                         MatchesPlayed++;
 
@@ -103,7 +104,7 @@ namespace Cricket.Statistics.PlayerStats
                             EndYear = match.MatchData.Date.Year;
                         }
 
-                        Match.BattingEntry batting = match.GetBatting(Name);
+                        BattingEntry batting = match.GetBatting("", Name);
                         if (batting != null)
                         {
                             if (batting.MethodOut != Match.Wicket.DidNotBat)
@@ -129,7 +130,7 @@ namespace Cricket.Statistics.PlayerStats
                                 {
                                     Runs = batting.RunsScored,
                                     HowOut = batting.MethodOut,
-                                    Opposition = match.MatchData.Opposition,
+                                    Opposition = match.MatchData.OppositionName(),
                                     Date = match.MatchData.Date
                                 };
 

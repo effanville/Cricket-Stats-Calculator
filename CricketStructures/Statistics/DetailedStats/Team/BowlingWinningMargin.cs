@@ -1,9 +1,9 @@
 ﻿using System;
-using Cricket.Interfaces;
-using Cricket.Match;
+using CricketStructures.Interfaces;
+using CricketStructures.Match;
 using StructureCommon.Extensions;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class BowlingWinningMargin
     {
@@ -25,7 +25,7 @@ namespace Cricket.Statistics.DetailedStats
             set;
         }
 
-        public Location HomeOrAway
+        public bool AtHome
         {
             get;
             set;
@@ -40,27 +40,26 @@ namespace Cricket.Statistics.DetailedStats
         public BowlingWinningMargin()
         {
         }
-
-        public BowlingWinningMargin(ICricketMatch match, bool isTeam = true)
+        public BowlingWinningMargin(string teamName, ICricketMatch match)
         {
-            Opposition = match.MatchData.Opposition;
+            Opposition = match.MatchData.OppositionName();
             Date = match.MatchData.Date;
-            HomeOrAway = match.MatchData.HomeOrAway;
+            AtHome = match.MatchData.AtHome;
             GameType = match.MatchData.Type;
 
-            if (isTeam)
+            if (teamName.Equals(Opposition))
             {
-                WinningRuns = match.Batting.Score().Runs - match.Bowling.Score().Runs;
+                WinningRuns = match.Score(teamName).Runs - match.Score(match.MatchData.OppositionName()).Runs;
             }
             else
             {
-                WinningRuns = match.Bowling.Score().Runs - match.Batting.Score().Runs;
+                WinningRuns = match.Score(match.MatchData.OppositionName()).Runs - match.Score(teamName).Runs;
             }
         }
 
         public string ToCSVLine()
         {
-            return WinningRuns + "," + Opposition + "," + Date.ToUkDateString() + "," + HomeOrAway + "," + GameType.ToString();
+            return WinningRuns + "," + Opposition + "," + Date.ToUkDateString() + "," + AtHome + "," + GameType.ToString();
         }
     }
 }

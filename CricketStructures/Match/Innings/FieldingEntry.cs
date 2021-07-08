@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Player;
+using CricketStructures.Interfaces;
+using CricketStructures.Player;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
 
@@ -39,29 +39,11 @@ namespace CricketStructures.Match.Innings
 
         public int KeeperStumpings
         {
-            get
-            {
-                return keeperFielding.Stumpings;
-            }
-            set
-            {
-                keeperFielding.Stumpings = value;
-            }
+            get;
+            set;
         }
 
         public int KeeperCatches
-        {
-            get
-            {
-                return keeperFielding.Catches;
-            }
-            set
-            {
-                keeperFielding.Catches = value;
-            }
-        }
-
-        public WicketKeeperStats keeperFielding
         {
             get;
             set;
@@ -86,21 +68,20 @@ namespace CricketStructures.Match.Innings
         {
             Catches = catches;
             RunOuts = runOuts;
-            keeperFielding.SetScores(stumpings, keeperCatches);
+            KeeperStumpings = stumpings;
+            KeeperCatches = keeperCatches;
         }
 
         public FieldingEntry(PlayerName name)
         {
             Name = name;
-            keeperFielding = new WicketKeeperStats(name);
         }
 
         public FieldingEntry()
         {
-            keeperFielding = new WicketKeeperStats();
         }
 
-        public void SetSeasonStats(ICricketSeason season)
+        public void SetSeasonStats(string team, ICricketSeason season)
         {
             Catches = 0;
             RunOuts = 0;
@@ -108,7 +89,7 @@ namespace CricketStructures.Match.Innings
             KeeperCatches = 0;
             foreach (ICricketMatch match in season.Matches)
             {
-                FieldingEntry fielding = match.GetFielding(Name);
+                FieldingEntry fielding = match.GetFielding(team, Name);
                 if (fielding != null)
                 {
                     Catches += fielding.Catches;

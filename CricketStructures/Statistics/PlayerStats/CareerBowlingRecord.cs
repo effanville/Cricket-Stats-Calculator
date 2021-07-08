@@ -1,8 +1,9 @@
 ﻿using System;
-using Cricket.Interfaces;
-using Cricket.Player;
+using CricketStructures.Interfaces;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics.PlayerStats
+namespace CricketStructures.Statistics.PlayerStats
 {
     public class CareerBowlingRecord
     {
@@ -78,6 +79,7 @@ namespace Cricket.Statistics.PlayerStats
 
         public CareerBowlingRecord(PlayerName name, ICricketTeam team)
         {
+            var teamName = team.TeamName;
             Name = name;
             Overs = 0;
             Maidens = 0;
@@ -93,7 +95,7 @@ namespace Cricket.Statistics.PlayerStats
             {
                 foreach (ICricketMatch match in season.Matches)
                 {
-                    if (match.PlayNotPlay(Name))
+                    if (match.PlayNotPlay(teamName, Name))
                     {
                         if (match.MatchData.Date.Year < StartYear)
                         {
@@ -104,7 +106,7 @@ namespace Cricket.Statistics.PlayerStats
                             EndYear = match.MatchData.Date.Year;
                         }
 
-                        Match.BowlingEntry bowling = match.GetBowling(Name);
+                        BowlingEntry bowling = match.GetBowling(teamName, Name);
                         if (bowling != null)
                         {
                             Overs += bowling.OversBowled;
@@ -116,7 +118,7 @@ namespace Cricket.Statistics.PlayerStats
                             {
                                 Wickets = bowling.Wickets,
                                 Runs = bowling.RunsConceded,
-                                Opposition = match.MatchData.Opposition,
+                                Opposition = match.MatchData.OppositionName(),
                                 Date = match.MatchData.Date
                             };
 
@@ -126,7 +128,7 @@ namespace Cricket.Statistics.PlayerStats
                             }
                         }
 
-                        Match.FieldingEntry fielding = match.GetFielding(Name);
+                        FieldingEntry fielding = match.GetFielding(teamName, Name);
                         if (fielding != null)
                         {
                             Catches += fielding.Catches;

@@ -1,7 +1,7 @@
-﻿using Cricket.Interfaces;
-using Cricket.Match;
+﻿using CricketStructures.Interfaces;
+using CricketStructures.Match;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class TeamRecord
     {

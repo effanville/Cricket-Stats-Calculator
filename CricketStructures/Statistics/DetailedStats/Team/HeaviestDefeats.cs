@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cricket.Interfaces;
+using CricketStructures.Interfaces;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class HeaviestDefeats
     {
@@ -28,34 +28,34 @@ namespace Cricket.Statistics.DetailedStats
         {
             foreach (ICricketSeason season in team.Seasons)
             {
-                CalculateStats(season);
+                CalculateStats(team.TeamName, season);
             }
         }
 
-        public void CalculateStats(ICricketSeason season)
+        public void CalculateStats(string teamName, ICricketSeason season)
         {
             foreach (ICricketMatch match in season.Matches)
             {
-                UpdateStats(match);
+                UpdateStats(teamName, match);
             }
         }
 
-        public void UpdateStats(ICricketMatch match)
+        public void UpdateStats(string teamName, ICricketMatch match)
         {
-            if (match.BattingFirstOrSecond == Match.TeamInnings.First)
+            if (match.BattedFirst(teamName))
             {
-                if (match.Bowling.Score().Wickets.Equals(0))
+                if (match.SecondInnings.BattingScore().Wickets.Equals(0))
                 {
-                    BattingWinningMargin margin = new BattingWinningMargin(match, isTeam: false);
+                    BattingWinningMargin margin = new BattingWinningMargin(match.MatchData.OppositionName(), match);
                     HeaviestLossByWickets.Add(margin);
                     HeaviestLossByWickets.Sort((a, b) => b.Score.CompareTo(a.Score));
                 }
             }
-            if (match.BattingFirstOrSecond == Match.TeamInnings.Second)
+            if (!match.BattedFirst(teamName))
             {
-                if (match.Bowling.Score().Runs > match.Batting.Score().Runs + 100)
+                if (match.FirstInnings.BowlingScore().Runs > match.SecondInnings.BattingScore().Runs + 100)
                 {
-                    BowlingWinningMargin margin = new BowlingWinningMargin(match, isTeam: false);
+                    BowlingWinningMargin margin = new BowlingWinningMargin(match.MatchData.OppositionName(), match);
                     HeaviestLossByRuns.Add(margin);
                     HeaviestLossByRuns.Sort((a, b) => b.WinningRuns.CompareTo(a.WinningRuns));
                 }

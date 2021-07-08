@@ -1,4 +1,4 @@
-﻿namespace Cricket.Statistics
+﻿namespace CricketStructures.Statistics
 {
     public enum StatisticsType
     {

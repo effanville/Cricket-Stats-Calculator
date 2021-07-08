@@ -1,8 +1,9 @@
 ﻿using System;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics.PlayerStats
+namespace CricketStructures.Statistics.PlayerStats
 {
     public class InningsDismissals
     {
@@ -30,7 +31,7 @@ namespace Cricket.Statistics.PlayerStats
             set;
         }
 
-        public Location HomeOrAway
+        public bool AtHome
         {
             get;
             set;
@@ -44,9 +45,9 @@ namespace Cricket.Statistics.PlayerStats
         {
             Name = entry.Name;
             Dismissals = entry.TotalDismissals();
-            Opposition = info.Opposition;
+            Opposition = info.OppositionName();
             Date = info.Date;
-            HomeOrAway = info.HomeOrAway;
+            AtHome = info.AtHome;
         }
     }
 }

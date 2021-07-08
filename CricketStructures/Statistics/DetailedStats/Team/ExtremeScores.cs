@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Match;
+using CricketStructures.Interfaces;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class ExtremeScores
     {/// <summary>
@@ -79,21 +80,21 @@ namespace Cricket.Statistics.DetailedStats
         {
             foreach (ICricketSeason season in team.Seasons)
             {
-                CalculateStats(season);
+                CalculateStats(team.TeamName, season);
             }
         }
 
-        public void CalculateStats(ICricketSeason season)
+        public void CalculateStats(string teamName, ICricketSeason season)
         {
             foreach (ICricketMatch match in season.Matches)
             {
-                UpdateStats(match);
+                UpdateStats(teamName, match);
             }
         }
 
-        public void UpdateStats(ICricketMatch match)
+        public void UpdateStats(string teamName, ICricketMatch match)
         {
-            InningsScore teamScore = match.Batting.Score();
+            InningsScore teamScore = match.GetInnings(teamName, batting: true).BattingScore();
             if (teamScore.Runs >= 200)
             {
                 ScoresOver200.Add(new TeamScore(teamScore, match.MatchData));
@@ -105,7 +106,7 @@ namespace Cricket.Statistics.DetailedStats
                 ScoresUnder25.Sort((a, b) => a.Score.CompareTo(b.Score));
             }
 
-            InningsScore oppoScore = match.Bowling.Score();
+            InningsScore oppoScore = match.GetInnings(teamName, batting: false).BattingScore();
             if (oppoScore.Runs >= 200)
             {
                 OppositionScoresOver200.Add(new TeamScore(oppoScore, match.MatchData));
@@ -117,27 +118,26 @@ namespace Cricket.Statistics.DetailedStats
                 OppositionScoresUnder25.Sort((a, b) => a.Score.CompareTo(b.Score));
             }
 
-            if (match.Batting.Score().Runs > 200 && match.Bowling.Score().Runs > 200)
+            if (teamScore.Runs > 200 && oppoScore.Runs > 200)
             {
-                BothScoresOver200.Add(new MatchScore(match));
+                BothScoresOver200.Add(new MatchScore(teamName, match));
             }
 
-            if (match.BattingFirstOrSecond == Match.TeamInnings.Second && match.Batting.Score().Runs > 200)
+            if (!match.BattedFirst(teamName) && teamScore.Runs > 200)
             {
-                HighestScoresBattingSecond.Add(new TeamScore(match.Batting.Score(), match.MatchData));
+                HighestScoresBattingSecond.Add(new TeamScore(teamScore, match.MatchData));
                 HighestScoresBattingSecond.Sort((a, b) => b.Score.CompareTo(a.Score));
             }
 
-            if (match.BattingFirstOrSecond == Match.TeamInnings.First && match.Batting.Score().Runs < 100 && match.Result != ResultType.Loss)
+            if (match.BattedFirst(teamName) && teamScore.Runs < 100 && match.Result != ResultType.Loss)
             {
-                LowestScoresBattingFirstNotLose.Add(new TeamScore(match.Batting.Score(), match.MatchData));
+                LowestScoresBattingFirstNotLose.Add(new TeamScore(teamScore, match.MatchData));
                 LowestScoresBattingFirstNotLose.Sort((a, b) => a.Score.CompareTo(b.Score));
             }
         }
 
         public void ExportStats(StreamWriter writer, ExportType exportType)
         {
-            TeamScore headerDummy = new TeamScore();
             if (ScoresOver200.Any())
             {
                 FileWritingSupport.WriteTitle(writer, exportType, "Scores Over 200", HtmlTag.h2);

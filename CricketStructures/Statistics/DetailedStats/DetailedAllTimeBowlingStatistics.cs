@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Statistics.PlayerStats;
+using CricketStructures.Interfaces;
+using CricketStructures.Match.Innings;
+using CricketStructures.Statistics.PlayerStats;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
     /// Could include hat tricks and most expensive over
@@ -62,13 +63,13 @@ namespace Cricket.Statistics.DetailedStats
 
             foreach (ICricketSeason season in team.Seasons)
             {
-                CalculateStats(season);
+                CalculateStats(team.TeamName, season);
             }
         }
 
-        public void CalculateStats(ICricketSeason season)
+        public void CalculateStats(string teamName, ICricketSeason season)
         {
-            TeamBriefStatistics seasonStats = new TeamBriefStatistics(season);
+            TeamBriefStatistics seasonStats = new TeamBriefStatistics(teamName, season);
 
             IEnumerable<PlayerBriefStatistics> manyWickets = seasonStats.SeasonPlayerStats.Where(player => player.BowlingStats.TotalWickets >= 30);
             SeasonWicketsOver30.AddRange(manyWickets.Select(lots => new SeasonWickets(lots.Name, lots.BowlingStats.TotalWickets, seasonStats.SeasonYear.Year, lots.BowlingStats.Average)));
@@ -78,7 +79,7 @@ namespace Cricket.Statistics.DetailedStats
 
             foreach (ICricketMatch match in season.Matches)
             {
-                UpdateStats(match);
+                UpdateStats(teamName, match);
             }
 
             Over5Wickets.Sort((a, b) => b.Wickets.CompareTo(a.Wickets));
@@ -89,9 +90,9 @@ namespace Cricket.Statistics.DetailedStats
             LowStrikeRate.Sort((a, b) => a.Economy.CompareTo(b.Economy));
         }
 
-        public void UpdateStats(ICricketMatch match)
+        public void UpdateStats(string teamName, ICricketMatch match)
         {
-            foreach (Match.BowlingEntry bowlingEntry in match.Bowling.BowlingInfo)
+            foreach (BowlingEntry bowlingEntry in match.GetInnings(teamName, batting: false).Bowling)
             {
                 if (bowlingEntry.Wickets >= 5)
                 {

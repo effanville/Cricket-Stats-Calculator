@@ -1,8 +1,8 @@
 ﻿using System;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics.PlayerStats
+namespace CricketStructures.Statistics.PlayerStats
 {
     public class CarryingOfBat
     {
@@ -24,7 +24,7 @@ namespace Cricket.Statistics.PlayerStats
             set;
         }
 
-        public Location HomeOrAway
+        public bool AtHome
         {
             get;
             set;

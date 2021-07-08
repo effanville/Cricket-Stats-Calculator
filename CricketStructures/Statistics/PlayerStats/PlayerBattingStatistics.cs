@@ -1,9 +1,10 @@
 ﻿using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Interfaces;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics
+namespace CricketStructures.Statistics
 {
     public class PlayerBattingStatistics
     {
@@ -53,15 +54,15 @@ namespace Cricket.Statistics
         {
         }
 
-        public PlayerBattingStatistics(PlayerName name, MatchType[] matchTypes)
+        public PlayerBattingStatistics(PlayerName name)
         {
             Name = name;
         }
 
-        public PlayerBattingStatistics(PlayerName name, ICricketSeason season, MatchType[] matchTypes)
+        public PlayerBattingStatistics(string teamName, PlayerName name, ICricketSeason season, MatchType[] matchTypes)
         {
             Name = name;
-            SetSeasonStats(season, matchTypes);
+            SetSeasonStats(teamName, season, matchTypes);
         }
 
         public PlayerBattingStatistics(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
@@ -70,7 +71,7 @@ namespace Cricket.Statistics
             SetTeamStats(team, matchTypes);
         }
 
-        public void SetSeasonStats(ICricketSeason season, MatchType[] matchTypes, bool reset = false)
+        public void SetSeasonStats(string teamName, ICricketSeason season, MatchType[] matchTypes, bool reset = false)
         {
             if (reset)
             {
@@ -84,7 +85,7 @@ namespace Cricket.Statistics
             {
                 if (matchTypes.Contains(match.MatchData.Type))
                 {
-                    Match.BattingEntry batting = match.GetBatting(Name);
+                    BattingEntry batting = match.GetBatting(teamName, Name);
                     if (batting != null)
                     {
                         if (batting.MethodOut != Match.Wicket.DidNotBat)
@@ -102,7 +103,7 @@ namespace Cricket.Statistics
                             {
                                 Runs = batting.RunsScored,
                                 HowOut = batting.MethodOut,
-                                Opposition = match.MatchData.Opposition,
+                                Opposition = match.MatchData.OppositionName(),
                                 Date = match.MatchData.Date
                             };
 
@@ -130,7 +131,7 @@ namespace Cricket.Statistics
 
             foreach (ICricketSeason season in team.Seasons)
             {
-                SetSeasonStats(season, matchTypes, reset: false);
+                SetSeasonStats(team.TeamName, season, matchTypes, reset: false);
             }
 
             if (TotalInnings != TotalNotOut)

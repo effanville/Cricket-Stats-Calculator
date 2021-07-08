@@ -1,8 +1,8 @@
-﻿using System;
-using Cricket.Match;
-using Cricket.Player;
+﻿using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics.PlayerStats
+namespace CricketStructures.Statistics.PlayerStats
 {
     public class BowlingPerformance
     {
@@ -36,19 +36,7 @@ namespace Cricket.Statistics.PlayerStats
             set;
         }
 
-        public string Opposition
-        {
-            get;
-            set;
-        }
-
-        public DateTime Date
-        {
-            get;
-            set;
-        }
-
-        public Location HomeOrAway
+        public MatchInfo MatchData
         {
             get;
             set;
@@ -61,13 +49,11 @@ namespace Cricket.Statistics.PlayerStats
         public BowlingPerformance(BowlingEntry bowlingEntry, MatchInfo matchData)
         {
             Name = bowlingEntry.Name;
-            Date = matchData.Date;
+            MatchData = matchData;
             Overs = bowlingEntry.OversBowled;
             Maidens = bowlingEntry.Maidens;
             RunsConceded = bowlingEntry.RunsConceded;
             Wickets = bowlingEntry.Wickets;
-            Opposition = matchData.Opposition;
-            HomeOrAway = matchData.HomeOrAway;
         }
     }
 }

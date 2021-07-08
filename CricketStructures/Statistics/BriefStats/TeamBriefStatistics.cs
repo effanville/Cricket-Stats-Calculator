@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Match;
+using CricketStructures.Interfaces;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
+using CricketStructures.Player.Interfaces;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics
+namespace CricketStructures.Statistics
 {
     public sealed class TeamBriefStatistics
     {
@@ -79,7 +82,7 @@ namespace Cricket.Statistics
         {
         }
 
-        public TeamBriefStatistics(ICricketTeam team, Cricket.Match.MatchType[] matcheTypes)
+        public TeamBriefStatistics(ICricketTeam team, Match.MatchType[] matcheTypes)
         {
             SeasonOrAllYear = StatisticsType.AllTimeBrief;
             CalculateTeamStats(team, matcheTypes);
@@ -87,22 +90,22 @@ namespace Cricket.Statistics
             CalculatePartnerships(team, matcheTypes);
         }
 
-        public TeamBriefStatistics(ICricketSeason season, Cricket.Match.MatchType[] matcheTypes)
+        public TeamBriefStatistics(string teamName, ICricketSeason season, Match.MatchType[] matcheTypes)
         {
             SeasonOrAllYear = StatisticsType.SeasonBrief;
             SeasonName = season.Name;
             SeasonYear = season.Year;
             CalculateTeamStats(season, matcheTypes);
-            CalculatePlayerStats(season, matcheTypes);
-            CalculatePartnerships(season, matcheTypes);
+            CalculatePlayerStats(teamName, season, matcheTypes);
+            CalculatePartnerships(teamName, season, matcheTypes);
         }
 
-        public TeamBriefStatistics(ICricketSeason season)
-            : this(season, MatchHelpers.AllMatchTypes)
+        public TeamBriefStatistics(string teamName, ICricketSeason season)
+            : this(teamName, season, MatchHelpers.AllMatchTypes)
         {
         }
 
-        public void CalculateTeamStats(ICricketTeam team, Cricket.Match.MatchType[] matchTypes)
+        public void CalculateTeamStats(ICricketTeam team, Match.MatchType[] matchTypes)
         {
             foreach (ICricketSeason season in team.Seasons)
             {
@@ -115,7 +118,7 @@ namespace Cricket.Statistics
             CalculateTeamStats(season, MatchHelpers.AllMatchTypes);
         }
 
-        public void CalculateTeamStats(ICricketSeason season, Cricket.Match.MatchType[] matchTypes)
+        public void CalculateTeamStats(ICricketSeason season, Match.MatchType[] matchTypes)
         {
             if (SeasonOrAllYear == StatisticsType.SeasonBrief && !season.Year.Equals(SeasonYear))
             {
@@ -130,7 +133,7 @@ namespace Cricket.Statistics
             NumberTies += season.NumberTies;
         }
 
-        public void CalculatePlayerStats(ICricketTeam team, Cricket.Match.MatchType[] matchTypes)
+        public void CalculatePlayerStats(ICricketTeam team, Match.MatchType[] matchTypes)
         {
             foreach (ICricketPlayer player in team.Players)
             {
@@ -139,35 +142,35 @@ namespace Cricket.Statistics
             }
         }
 
-        public void CalculatePlayerStats(ICricketSeason season, Cricket.Match.MatchType[] matchTypes)
+        public void CalculatePlayerStats(string teamName, ICricketSeason season, Match.MatchType[] matchTypes)
         {
             if (!season.Year.Equals(SeasonYear))
             {
                 return;
             }
 
-            foreach (Player.PlayerName player in season.Players)
+            foreach (PlayerName player in season.Players)
             {
-                PlayerBriefStatistics playerStats = new PlayerBriefStatistics(player, season, matchTypes);
+                PlayerBriefStatistics playerStats = new PlayerBriefStatistics(teamName, player, season, matchTypes);
                 SeasonPlayerStats.Add(playerStats);
             }
         }
 
-        public void CalculatePartnerships(ICricketTeam team, Cricket.Match.MatchType[] matchTypes)
+        public void CalculatePartnerships(ICricketTeam team, Match.MatchType[] matchTypes)
         {
             foreach (ICricketSeason season in team.Seasons)
             {
-                CalculatePartnerships(season, matchTypes);
+                CalculatePartnerships(team.TeamName, season, matchTypes);
             }
         }
 
-        public void CalculatePartnerships(ICricketSeason season, Cricket.Match.MatchType[] matchTypes)
+        public void CalculatePartnerships(string teamName, ICricketSeason season, Match.MatchType[] matchTypes)
         {
             foreach (ICricketMatch match in season.Matches)
             {
                 if (matchTypes.Contains(match.MatchData.Type))
                 {
-                    List<Partnership> partnerships = match.Partnerships();
+                    List<Partnership> partnerships = match.Partnerships(teamName);
                     for (int i = 0; i < partnerships.Count; i++)
                     {
                         if (partnerships[i] != null)
@@ -216,15 +219,15 @@ namespace Cricket.Statistics
                 streamWriter.WriteParagraph(exportType, new string[] { "Draws:", $"{NumberDraws}" });
                 streamWriter.WriteParagraph(exportType, new string[] { "Ties:", $"{NumberTies}" });
 
-                (BestBatting Best, Player.PlayerName Name) bestBatting = SeasonPlayerStats.Select(player => (player.BattingStats.Best, player.Name)).Max();
+                (BestBatting Best, PlayerName Name) bestBatting = SeasonPlayerStats.Select(player => (player.BattingStats.Best, player.Name)).Max();
                 streamWriter.WriteParagraph(exportType, new string[] { "Best Batting:", bestBatting.Name.ToString(), bestBatting.Best.ToString() });
 
-                (BestBowling BestFigures, Player.PlayerName Name) bestBowling = SeasonPlayerStats.Select(player => (player.BowlingStats.BestFigures, player.Name)).Max();
-                streamWriter.WriteParagraph(exportType, new string[] { "Best Bowling:", bestBowling.Name.ToString(), bestBowling.BestFigures.ToString() });
+                (BestBowling BestFigures, PlayerName Name) = SeasonPlayerStats.Select(player => (player.BowlingStats.BestFigures, player.Name)).Max();
+                streamWriter.WriteParagraph(exportType, new string[] { "Best Bowling:", Name.ToString(), BestFigures.ToString() });
 
                 List<PlayerFieldingStatistics> fielding = SeasonPlayerStats.Select(player => player.FieldingStats).ToList();
                 int mostKeeper = fielding.Max(player => player.TotalKeeperDismissals);
-                List<Player.PlayerName> keepers = fielding.Where(player => player.TotalKeeperDismissals.Equals(mostKeeper)).Select(player => player.Name).ToList();
+                List<PlayerName> keepers = fielding.Where(player => player.TotalKeeperDismissals.Equals(mostKeeper)).Select(player => player.Name).ToList();
                 streamWriter.WriteParagraph(exportType, new string[] { "Most Dismissals as keeper:", $"{mostKeeper}", string.Join(",", keepers) });
 
                 streamWriter.WriteTitle(exportType, "Appearances", HtmlTag.h2);

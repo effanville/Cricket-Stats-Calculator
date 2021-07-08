@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Statistics.PlayerStats;
+using CricketStructures.Interfaces;
+using CricketStructures.Match.Innings;
+using CricketStructures.Statistics.PlayerStats;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class DetailedAllTimeFieldingStatistics
     {
@@ -31,13 +32,13 @@ namespace Cricket.Statistics.DetailedStats
         {
             foreach (ICricketSeason season in team.Seasons)
             {
-                CalculateStats(season);
+                CalculateStats(team.TeamName, season);
             }
         }
 
-        public void CalculateStats(ICricketSeason season)
+        public void CalculateStats(string teamName, ICricketSeason season)
         {
-            TeamBriefStatistics seasonStats = new TeamBriefStatistics(season);
+            TeamBriefStatistics seasonStats = new TeamBriefStatistics(teamName, season);
             IEnumerable<PlayerBriefStatistics> manyCatches = seasonStats.SeasonPlayerStats.Where(player => player.FieldingStats.Catches > 20);
             TwentyCatchesSeason.AddRange(manyCatches.Select(catches => new SeasonCatches() { Name = catches.Name, Year = season.Year, SeasonDismissals = catches.FieldingStats.Catches }));
 
@@ -46,7 +47,7 @@ namespace Cricket.Statistics.DetailedStats
 
             foreach (ICricketMatch match in season.Matches)
             {
-                UpdateStats(match);
+                UpdateStats(teamName, match);
             }
 
             DismissalsInOneInnings.Sort((a, b) => b.Dismissals.CompareTo(a.Dismissals));
@@ -54,9 +55,9 @@ namespace Cricket.Statistics.DetailedStats
             TenStumpingsSeason.Sort((a, b) => b.SeasonDismissals.CompareTo(a.SeasonDismissals));
         }
 
-        public void UpdateStats(ICricketMatch match)
+        public void UpdateStats(string teamName, ICricketMatch match)
         {
-            foreach (Match.FieldingEntry field in match.FieldingStats.FieldingInfo)
+            foreach (FieldingEntry field in match.GetAllFielding(teamName))
             {
                 if (field.TotalDismissals() > 4)
                 {

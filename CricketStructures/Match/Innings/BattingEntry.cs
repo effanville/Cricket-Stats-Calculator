@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Cricket.Match;
 using CricketStructures.Player;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
@@ -51,6 +50,15 @@ namespace CricketStructures.Match.Innings
         }
 
         /// <summary>
+        /// Was the wicket taken by the keeper.
+        /// </summary>
+        public bool WasKeeper
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Any possible bowler associated with the wicket.
         /// This could (and should) be null if not needed.
         /// </summary>
@@ -90,7 +98,7 @@ namespace CricketStructures.Match.Innings
         /// <summary>
         /// Input the values into this batting entry.
         /// </summary>
-        public void SetScores(Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
+        public void SetScores(Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, bool wasKeeper = false, PlayerName bowler = null)
         {
             MethodOut = howOut;
             RunsScored = runs;
@@ -98,6 +106,7 @@ namespace CricketStructures.Match.Innings
             WicketFellAt = wicketFellAt;
             TeamScoreAtWicket = teamScoreAtWicket;
             Fielder = fielder;
+            WasKeeper = wasKeeper;
             Bowler = bowler;
         }
 
@@ -177,6 +186,16 @@ namespace CricketStructures.Match.Innings
                     ValidationResult bowlerShouldBeSet = new ValidationResult(false, nameof(Fielder), ToString());
                     bowlerShouldBeSet.AddMessage($"{nameof(Fielder)} should be set with {MethodOut}.");
                     results.Add(bowlerShouldBeSet);
+                }
+            }
+
+            if (MethodOut == Wicket.Stumped)
+            {
+                if (!WasKeeper)
+                {
+                    ValidationResult shouldBeKeeper = new ValidationResult(false, nameof(WasKeeper), ToString());
+                    shouldBeKeeper.AddMessage($"{nameof(WasKeeper)} should be true with {MethodOut}.");
+                    results.Add(shouldBeKeeper);
                 }
             }
 

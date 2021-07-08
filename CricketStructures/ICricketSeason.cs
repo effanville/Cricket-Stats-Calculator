@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Match;
+using CricketStructures.Player;
 
-namespace Cricket.Interfaces
+namespace CricketStructures.Interfaces
 {
     public interface ICricketSeason
     {
@@ -94,7 +94,7 @@ namespace Cricket.Interfaces
         /// <remarks>
         /// What to do if it can return two?
         /// </remarks>
-        ICricketMatch GetMatch(DateTime date, string opposition);
+        ICricketMatch GetMatch(DateTime date, string homeTeam, string awayTeam);
 
         /// <summary>
         /// Returns whether the match with a given identifier exists.
@@ -102,7 +102,7 @@ namespace Cricket.Interfaces
         /// <remarks>
         /// What to do if it can return two?
         /// </remarks>
-        bool ContainsMatch(DateTime date, string opposition);
+        bool ContainsMatch(DateTime date, string homeTeam, string awayTeam);
 
         /// <summary>
         /// Removes the match in the list with a given identifier.
@@ -110,6 +110,6 @@ namespace Cricket.Interfaces
         /// <remarks>
         /// What to do if it can return two?
         /// </remarks>
-        bool RemoveMatch(DateTime date, string opposition);
+        bool RemoveMatch(DateTime date, string homeTeam, string awayTeam);
     }
 }

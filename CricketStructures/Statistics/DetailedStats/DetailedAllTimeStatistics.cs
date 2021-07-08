@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using Cricket.Interfaces;
+using CricketStructures.Interfaces;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics.DetailedStats
+namespace CricketStructures.Statistics.DetailedStats
 {
     public class DetailedAllTimeStatistics
     {

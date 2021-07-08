@@ -1,7 +1,7 @@
 ﻿using System;
-using Cricket.Player;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics.PlayerStats
+namespace CricketStructures.Statistics.PlayerStats
 {
     public class SeasonCatches
     {

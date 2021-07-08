@@ -1,124 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Player;
-using Cricket.Statistics;
+using CricketStructures.Interfaces;
+using CricketStructures.Player;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
+using CricketStructures.Match.Innings;
 
-namespace Cricket.Match
+namespace CricketStructures.Match
 {
     public sealed class CricketMatch : ICricketMatch, IValidity
     {
-        public event EventHandler PlayerAdded;
-
-        private void OnPlayerAdded(PlayerName newPlayerName)
-        {
-            PlayerAdded?.Invoke(newPlayerName, new EventArgs());
-        }
-
-        public override string ToString()
-        {
-            return MatchData.ToString();
-        }
-
-        public void EditPlayerName(PlayerName oldName, PlayerName newName)
-        {
-            foreach (var entry in Batting.BattingInfo)
-            {
-                if (entry.Name.Equals(oldName))
-                {
-                    entry.Name = newName;
-                }
-            }
-            foreach (var entry in Bowling.BowlingInfo)
-            {
-                if (entry.Name.Equals(oldName))
-                {
-                    entry.Name = newName;
-                }
-            }
-            foreach (var entry in FieldingStats.FieldingInfo)
-            {
-                if (entry.Name.Equals(oldName))
-                {
-                    entry.Name = newName;
-                    entry.keeperFielding.Name = newName;
-                }
-            }
-        }
-
-        public bool SameMatch(DateTime date, string opposition)
-        {
-            if (MatchData.Date.Equals(date))
-            {
-                if (string.IsNullOrEmpty(MatchData.Opposition))
-                {
-                    if (string.IsNullOrEmpty(opposition))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }
-
-                if (MatchData.Opposition.Equals(opposition))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
+        /// <inheritdoc/>
         public MatchInfo MatchData
         {
             get;
             set;
         }
 
+        /// <inheritdoc/>
         public ResultType Result
         {
             get;
             set;
         }
 
-        public TeamInnings BattingFirstOrSecond
+        /// <inheritdoc/>
+        public PlayerName[] MenOfMatch
         {
             get;
             set;
         }
 
         /// <inheritdoc/>
-        public List<PlayerName> Players()
+        public CricketInnings FirstInnings
         {
-            var players = new HashSet<PlayerName>();
-            players.UnionWith(Batting.Players());
-            players.UnionWith(Bowling.Players());
-            players.UnionWith(FieldingStats.Players());
-            return players.ToList();
+            get;
+            set;
         }
 
-        public BattingInnings Batting
-        {
-            get;
-            set;
-        } = new BattingInnings();
-
-        public BowlingInnings Bowling
-        {
-            get;
-            set;
-        } = new BowlingInnings();
-
-        public Fielding FieldingStats
-        {
-            get;
-            set;
-        } = new Fielding();
-
-        public PlayerName ManOfMatch
+        /// <inheritdoc/>
+        public CricketInnings SecondInnings
         {
             get;
             set;
@@ -127,280 +49,297 @@ namespace Cricket.Match
         /// <summary>
         /// default generator of match
         /// </summary>
-        /// <param name="oppos">Name of the opposition</param>
-        /// <param name="Players">List of players that play</param>
-        public CricketMatch(string oppos, List<PlayerName> playerNames)
+        public CricketMatch(string homeTeam, string awayTeam, bool isHomeTeam, bool battingFirst)
         {
             MatchData = new MatchInfo()
             {
-                Opposition = oppos,
+                HomeTeam = homeTeam,
+                AwayTeam = awayTeam,
+                AtHome = isHomeTeam
             };
 
-            Batting = new BattingInnings(MatchData, playerNames);
-            Bowling = new BowlingInnings(MatchData, playerNames);
-            FieldingStats = new Fielding(MatchData, playerNames);
+            string team = isHomeTeam ? homeTeam : awayTeam;
+            string opposition = !isHomeTeam ? homeTeam : awayTeam;
+            FirstInnings = new CricketInnings(battingFirst ? team : opposition, battingFirst ? opposition : team);
+            SecondInnings = new CricketInnings(battingFirst ? opposition : team, battingFirst ? team : opposition);
         }
 
         public CricketMatch(MatchInfo info)
         {
             MatchData = info;
+            FirstInnings = new CricketInnings();
+            SecondInnings = new CricketInnings();
         }
 
         public CricketMatch()
         {
         }
 
-        /// <summary>
-        /// Query to determine whether a player played or not.
-        /// </summary>
-        public bool PlayNotPlay(PlayerName person)
+        public event EventHandler PlayerAdded;
+
+        private void OnPlayerAdded(PlayerName newPlayerName)
         {
-            return Players().Contains(person);
+            PlayerAdded?.Invoke(newPlayerName, new EventArgs());
         }
 
-        public bool EditInfo(string opposition, DateTime date, string place, Location homeOrAway, MatchType typeOfMatch, ResultType result, TeamInnings firstOrSecond)
+        /// <inheritdoc/>
+        public override string ToString()
         {
-            return EditMatchInfo(opposition, date, place, homeOrAway, typeOfMatch) & EditResult(result) & EditInningsPlace(firstOrSecond);
+            return MatchData.ToString();
         }
 
-        public bool EditMatchInfo(string opposition, DateTime date, string place, Location homeOrAway, MatchType typeOfMatch)
+        /// <inheritdoc/>
+        public void EditPlayerName(PlayerName oldName, PlayerName newName)
         {
-            MatchData.Opposition = opposition;
-            MatchData.Date = date;
-            MatchData.Place = place;
-            MatchData.HomeOrAway = homeOrAway;
-            MatchData.Type = typeOfMatch;
-            Bowling.MatchData = MatchData;
-            Batting.MatchData = MatchData;
-            FieldingStats.MatchData = MatchData;
+            FirstInnings.EditPlayerName(oldName, newName);
+            SecondInnings.EditPlayerName(oldName, newName);
+        }
+
+        /// <inheritdoc/>
+        public bool PlayNotPlay(string team, PlayerName person)
+        {
+            return Players(team).Contains(person);
+        }
+
+        /// <inheritdoc/>
+        public bool SameMatch(DateTime date, string homeTeam, string awayTeam)
+        {
+            return MatchData.Equals(date, homeTeam, awayTeam);
+        }
+
+        /// <inheritdoc/>
+        public List<PlayerName> Players(string team = null)
+        {
+            string teamName = team ?? (MatchData.AtHome ? MatchData.HomeTeam : MatchData.AwayTeam);
+            var players = new HashSet<PlayerName>();
+            players.UnionWith(FirstInnings.Players(teamName));
+            players.UnionWith(SecondInnings.Players(teamName));
+            return players.ToList();
+        }
+
+        /// <inheritdoc/>
+        public void EditInfo(string homeTeam = null, string awayTeam = null, bool? isHomeTeam = null, DateTime? date = null, string location = null, MatchType? typeOfMatch = null, ResultType? result = null)
+        {
+            if (!string.IsNullOrEmpty(homeTeam))
+            {
+                MatchData.HomeTeam = homeTeam;
+            }
+            if (!string.IsNullOrEmpty(awayTeam))
+            {
+                MatchData.AwayTeam = awayTeam;
+            }
+            if (isHomeTeam.HasValue)
+            {
+                MatchData.AtHome = isHomeTeam.Value;
+            }
+            if (date.HasValue)
+            {
+                MatchData.Date = date.Value;
+            }
+            if (!string.IsNullOrEmpty(location))
+            {
+                MatchData.Location = location;
+            }
+            if (typeOfMatch.HasValue)
+            {
+                MatchData.Type = typeOfMatch.Value;
+            }
+            if (result.HasValue)
+            {
+                Result = result.Value;
+            }
+        }
+
+        /// <inheritdoc/>
+        public bool EditManOfMatch(PlayerName[] player)
+        {
+            MenOfMatch = player;
             return true;
         }
 
-        public bool EditResult(ResultType result)
+        /// <inheritdoc/>
+        public void SetBatting(string team, PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, bool wasKeeper = false, PlayerName bowler = null)
         {
-            Result = result;
-            return true;
-        }
-
-        public bool EditInningsPlace(TeamInnings result)
-        {
-            BattingFirstOrSecond = result;
-            return true;
-        }
-
-        public bool EditManOfMatch(PlayerName player)
-        {
-            ManOfMatch = player;
-            return true;
-        }
-
-        public void SetBatting(BattingInnings innings)
-        {
-            foreach (BattingEntry entry in innings.BattingInfo)
+            var innings = InningsHelpers.SelectBattingInnings(FirstInnings, SecondInnings, team);
+            if (innings != null)
             {
-                if (!Batting.PlayerListed(entry.Name))
+                innings.SetBatting(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, wasKeeper, bowler);
+            }
+        }
+
+        /// <inheritdoc/>
+        public bool DeleteBattingEntry(string team, PlayerName player)
+        {
+
+            var innings = InningsHelpers.SelectBattingInnings(FirstInnings, SecondInnings, team);
+            if (innings != null)
+            {
+                return innings.DeleteBatting(player);
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public void SetBowling(string team, PlayerName player, double overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0)
+        {
+            var innings = InningsHelpers.SelectFieldingInnings(FirstInnings, SecondInnings, team);
+            if (innings != null)
+            {
+                innings.SetBowling(player, overs, maidens, runsConceded, wickets);
+            }
+        }
+
+        /// <inheritdoc/>
+        public bool DeleteBowlingEntry(string team, PlayerName player)
+        {
+            var innings = InningsHelpers.SelectFieldingInnings(FirstInnings, SecondInnings, team);
+            if (innings != null)
+            {
+                return innings.DeleteBowling(player);
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public CricketInnings GetInnings(string team, bool batting)
+        {
+            return InningsHelpers.SelectInnings(FirstInnings, SecondInnings, innings => batting ? innings.BattingTeam.Equals(team) : innings.FieldingTeam.Equals(team));
+        }
+
+        public InningsScore Score(string team)
+        {
+            var innings = InningsHelpers.SelectBattingInnings(FirstInnings, SecondInnings, team);
+            return innings.Score();
+        }
+
+        /// <inheritdoc/>
+        public bool BattedFirst(string team)
+        {
+            return FirstInnings == GetInnings(team, batting: true);
+        }
+
+        /// <inheritdoc/>
+        public BattingEntry GetBatting(string team, PlayerName player)
+        {
+            var innings = InningsHelpers.SelectBattingInnings(FirstInnings, SecondInnings, team);
+            if (innings != null)
+            {
+                if (innings.IsBattingPlayer(player))
                 {
-                    OnPlayerAdded(entry.Name);
-                    AddBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Order, entry.WicketFellAt, entry.TeamScoreAtWicket, entry.Fielder, entry.Bowler);
+                    return innings.GetBatting(team, player);
                 }
-                else
-                {
-                    EditBattingEntry(entry.Name, entry.MethodOut, entry.RunsScored, entry.Order, entry.WicketFellAt, entry.TeamScoreAtWicket, entry.Fielder, entry.Bowler);
-                }
-            }
-
-            Batting.Extras = innings.Extras;
-        }
-
-        public bool AddBattingEntry(PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
-        {
-            if (!Batting.PlayerListed(player))
-            {
-                Batting.AddPlayer(player);
-                Batting.SetScores(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, bowler);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool EditBattingEntry(PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
-        {
-            if (Batting.PlayerListed(player))
-            {
-                Batting.SetScores(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, bowler);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool DeleteBattingEntry(PlayerName player)
-        {
-            if (Batting.PlayerListed(player))
-            {
-                return Batting.Remove(player);
-            }
-
-            return false;
-        }
-
-        public void SetBowling(BowlingInnings innings)
-        {
-            foreach (BowlingEntry entry in innings.BowlingInfo)
-            {
-                if (!Bowling.PlayerListed(entry.Name))
-                {
-                    OnPlayerAdded(entry.Name);
-                    AddBowlingEntry(entry.Name, entry.OversBowled, entry.Maidens, entry.RunsConceded, entry.Wickets);
-                }
-                else
-                {
-                    EditBowlingEntry(entry.Name, entry.OversBowled, entry.Maidens, entry.RunsConceded, entry.Wickets);
-                }
-            }
-
-            Bowling.ByesLegByes = innings.ByesLegByes;
-        }
-
-        public bool AddBowlingEntry(PlayerName player, double overs, int maidens, int runsConceded, int wickets)
-        {
-            if (!Bowling.PlayerListed(player))
-            {
-                Bowling.AddPlayer(player);
-                Bowling.SetScores(player, overs, maidens, runsConceded, wickets);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool EditBowlingEntry(PlayerName player, double overs, int maidens, int runsConceded, int wickets)
-        {
-            if (Bowling.PlayerListed(player))
-            {
-                Bowling.SetScores(player, overs, maidens, runsConceded, wickets);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool DeleteBowlingEntry(PlayerName player)
-        {
-            if (Bowling.PlayerListed(player))
-            {
-                return Bowling.Remove(player);
-            }
-            return false;
-        }
-
-        public void SetFielding(Fielding innings)
-        {
-            foreach (FieldingEntry entry in innings.FieldingInfo)
-            {
-                if (!FieldingStats.PlayerListed(entry.Name))
-                {
-                    OnPlayerAdded(entry.Name);
-                    AddFieldingEntry(entry.Name, entry.Catches, entry.RunOuts, entry.keeperFielding.Stumpings, entry.keeperFielding.Catches);
-                }
-                else
-                {
-                    EditFieldingEntry(entry.Name, entry.Catches, entry.RunOuts, entry.keeperFielding.Stumpings, entry.keeperFielding.Catches);
-                }
-            }
-        }
-
-        public bool AddFieldingEntry(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches)
-        {
-            if (!FieldingStats.PlayerListed(player))
-            {
-                FieldingStats.AddPlayer(player);
-                FieldingStats.SetFielding(player, catches, runOuts, stumpings, keeperCatches);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool EditFieldingEntry(PlayerName player, int catches, int runOuts, int stumpings, int keeperCatches)
-        {
-            if (FieldingStats.PlayerListed(player))
-            {
-                FieldingStats.SetFielding(player, catches, runOuts, stumpings, keeperCatches);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool DeleteFieldingEntry(PlayerName player)
-        {
-            if (FieldingStats.PlayerListed(player))
-            {
-                return FieldingStats.Remove(player);
-            }
-
-            return false;
-        }
-
-        public BattingEntry GetBatting(PlayerName player)
-        {
-            if (Batting.PlayerListed(player))
-            {
-                return Batting.BattingInfo.First(batsman => batsman.Name.Equals(player));
             }
 
             return null;
         }
 
-        public BowlingEntry GetBowling(PlayerName player)
+        /// <inheritdoc/>
+        public BowlingEntry GetBowling(string team, PlayerName player)
         {
-            if (Bowling.PlayerListed(player))
+            var innings = InningsHelpers.SelectFieldingInnings(FirstInnings, SecondInnings, team);
+            if (innings != null)
             {
-                return Bowling.BowlingInfo.First(bowler => bowler.Name.Equals(player));
+                if (innings.IsBattingPlayer(player))
+                {
+                    return innings.GetBowling(team, player);
+                }
             }
 
             return null;
         }
 
-        public FieldingEntry GetFielding(PlayerName player)
+        /// <inheritdoc/>
+        public FieldingEntry GetFielding(string team, PlayerName player)
         {
-            if (FieldingStats.PlayerListed(player))
+            var innings = InningsHelpers.SelectFieldingInnings(FirstInnings, SecondInnings, team);
+            if (innings != null)
             {
-                return FieldingStats.FieldingInfo.First(fielder => fielder.Name.Equals(player));
+                if (innings.IsFieldingPlayer(player))
+                {
+                    return innings.GetFielding(team, player);
+                }
             }
 
             return null;
         }
 
+        /// <inheritdoc/>
+        public IReadOnlyList<FieldingEntry> GetAllFielding(string team)
+        {
+            var fielding = new List<FieldingEntry>();
+            var innings = InningsHelpers.SelectFieldingInnings(FirstInnings, SecondInnings, team);
+            if (innings != null)
+            {
+
+            }
+
+            return fielding;
+        }
+
+        /// <inheritdoc/>
         public bool Validate()
         {
             return !Validation().Any(validation => !validation.IsValid);
         }
 
+        /// <inheritdoc/>
         public List<ValidationResult> Validation()
         {
             List<ValidationResult> results = new List<ValidationResult>();
             results.AddValidations(MatchData.Validation(), ToString());
-            results.AddValidations(Batting.Validation(), ToString());
-            results.AddValidations(Bowling.Validation(), ToString());
-            results.AddValidations(FieldingStats.Validation(), ToString());
-
+            results.AddValidations(FirstInnings.Validation(), ToString());
+            results.AddValidations(SecondInnings.Validation(), ToString());
             return results;
         }
 
-        public List<Partnership> Partnerships()
+        /// <inheritdoc/>
+        public List<Partnership> Partnerships(string team)
         {
-            List<Partnership> partnerships = Batting.Partnerships();
-            foreach (Partnership ship in partnerships)
+            var innings = InningsHelpers.SelectBattingInnings(FirstInnings, SecondInnings, team);
+            if (innings != null)
             {
-                if (ship != null && ship.MatchData == null)
+                List<Partnership> partnerships = innings.Partnerships();
+                foreach (Partnership ship in partnerships)
                 {
-                    ship.MatchData = MatchData;
+                    if (ship != null && ship.MatchData == null)
+                    {
+                        ship.MatchData = MatchData;
+                    }
                 }
+
+                return partnerships;
             }
-            return partnerships;
+
+            return null;
+        }
+    }
+
+    public static class InningsHelpers
+    {
+        public static CricketInnings SelectBattingInnings(CricketInnings firstInnings, CricketInnings secondInnings, string battingTeam)
+        {
+            return SelectInnings(firstInnings, secondInnings, innings => innings.BattingTeam.Equals(battingTeam));
+        }
+
+        public static CricketInnings SelectFieldingInnings(CricketInnings firstInnings, CricketInnings secondInnings, string fieldingTeam)
+        {
+            return SelectInnings(firstInnings, secondInnings, innings => innings.FieldingTeam.Equals(fieldingTeam));
+        }
+
+        public static CricketInnings SelectInnings(CricketInnings firstInnings, CricketInnings secondInnings, Func<CricketInnings, bool> teamSelector)
+        {
+            if (teamSelector(firstInnings))
+            {
+                return firstInnings;
+            }
+            if (teamSelector(secondInnings))
+            {
+                return secondInnings;
+            }
+
+            return null;
         }
     }
 }

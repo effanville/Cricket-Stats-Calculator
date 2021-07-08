@@ -1,4 +1,4 @@
-﻿namespace Cricket.Match
+﻿namespace CricketStructures.Match
 {
     public enum ResultType
     {

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Interfaces;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 using StructureCommon.FileAccess;
 
-namespace Cricket.Statistics
+namespace CricketStructures.Statistics
 {
     public class PlayerBriefStatistics
     {
@@ -71,36 +72,36 @@ namespace Cricket.Statistics
             Played = new PlayerAttendanceStatistics();
         }
 
-        public PlayerBriefStatistics(PlayerName name, Cricket.Match.MatchType[] matchTypes)
+        public PlayerBriefStatistics(PlayerName name)
         {
             Name = name;
-            BattingStats = new PlayerBattingStatistics(name, matchTypes);
-            BowlingStats = new PlayerBowlingStatistics(name, matchTypes);
-            FieldingStats = new PlayerFieldingStatistics(name, matchTypes);
-            Played = new PlayerAttendanceStatistics(name, matchTypes);
+            BattingStats = new PlayerBattingStatistics(name);
+            BowlingStats = new PlayerBowlingStatistics(name);
+            FieldingStats = new PlayerFieldingStatistics(name);
+            Played = new PlayerAttendanceStatistics(name);
         }
-        public PlayerBriefStatistics(PlayerName name, ICricketSeason season)
-            : this(name, season, MatchHelpers.AllMatchTypes)
+        public PlayerBriefStatistics(string teamName, PlayerName name, ICricketSeason season)
+            : this(teamName, name, season, MatchHelpers.AllMatchTypes)
         {
         }
 
-        public PlayerBriefStatistics(PlayerName name, ICricketSeason season, Cricket.Match.MatchType[] matchTypes)
+        public PlayerBriefStatistics(string teamName, PlayerName name, ICricketSeason season, Match.MatchType[] matchTypes)
         {
             Name = name;
             SeasonName = season.Name;
             SeasonYear = season.Year;
-            BattingStats = new PlayerBattingStatistics(name, season, matchTypes);
-            BowlingStats = new PlayerBowlingStatistics(name, season, matchTypes);
-            FieldingStats = new PlayerFieldingStatistics(name, season, matchTypes);
-            Played = new PlayerAttendanceStatistics(name, season, matchTypes);
-            CalculatePartnerships(season, matchTypes);
+            BattingStats = new PlayerBattingStatistics(teamName, name, season, matchTypes);
+            BowlingStats = new PlayerBowlingStatistics(teamName, name, season, matchTypes);
+            FieldingStats = new PlayerFieldingStatistics(teamName, name, season, matchTypes);
+            Played = new PlayerAttendanceStatistics(teamName, name, season, matchTypes);
+            CalculatePartnerships(teamName, season, matchTypes);
         }
 
         public PlayerBriefStatistics(PlayerName name, ICricketTeam team)
             : this(name, team, MatchHelpers.AllMatchTypes)
         {
         }
-        public PlayerBriefStatistics(PlayerName name, ICricketTeam team, Cricket.Match.MatchType[] matchTypes)
+        public PlayerBriefStatistics(PlayerName name, ICricketTeam team, Match.MatchType[] matchTypes)
         {
             Name = name;
             BattingStats = new PlayerBattingStatistics(name, team, matchTypes);
@@ -111,13 +112,13 @@ namespace Cricket.Statistics
             CalculatePartnerships(team, matchTypes);
         }
 
-        public void CalculatePartnerships(ICricketSeason season, Cricket.Match.MatchType[] matchtypes)
+        public void CalculatePartnerships(string teamName, ICricketSeason season, Match.MatchType[] matchtypes)
         {
             foreach (var match in season.Matches)
             {
                 if (matchtypes.Contains(match.MatchData.Type))
                 {
-                    var partnerships = match.Partnerships();
+                    var partnerships = match.Partnerships(teamName);
                     for (int i = 0; i < partnerships.Count; i++)
                     {
                         if (partnerships[i] != null)
@@ -142,11 +143,11 @@ namespace Cricket.Statistics
             }
         }
 
-        public void CalculatePartnerships(ICricketTeam team, Cricket.Match.MatchType[] matchTypes)
+        public void CalculatePartnerships(ICricketTeam team, Match.MatchType[] matchTypes)
         {
             foreach (var season in team.Seasons)
             {
-                CalculatePartnerships(season, matchTypes);
+                CalculatePartnerships(team.TeamName, season, matchTypes);
             }
         }
 

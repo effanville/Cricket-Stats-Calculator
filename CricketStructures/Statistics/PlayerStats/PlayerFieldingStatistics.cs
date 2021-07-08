@@ -1,9 +1,10 @@
 ﻿using System.Linq;
-using Cricket.Interfaces;
-using Cricket.Match;
-using Cricket.Player;
+using CricketStructures.Interfaces;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 
-namespace Cricket.Statistics
+namespace CricketStructures.Statistics
 {
     public class PlayerFieldingStatistics
     {
@@ -60,19 +61,20 @@ namespace Cricket.Statistics
                 return Catches + RunOuts;
             }
         }
+
         public PlayerFieldingStatistics()
         {
         }
 
-        public PlayerFieldingStatistics(PlayerName name, MatchType[] matchTypes)
+        public PlayerFieldingStatistics(PlayerName name)
         {
             Name = name;
         }
 
-        public PlayerFieldingStatistics(PlayerName name, ICricketSeason season, MatchType[] matchTypes)
+        public PlayerFieldingStatistics(string teamName, PlayerName name, ICricketSeason season, MatchType[] matchTypes)
         {
             Name = name;
-            SetSeasonStats(season, matchTypes);
+            SetSeasonStats(teamName, season, matchTypes);
         }
 
         public PlayerFieldingStatistics(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
@@ -81,7 +83,7 @@ namespace Cricket.Statistics
             SetTeamStats(team, matchTypes);
         }
 
-        public void SetSeasonStats(ICricketSeason season, MatchType[] matchTypes, bool reset = false)
+        public void SetSeasonStats(string teamName, ICricketSeason season, MatchType[] matchTypes, bool reset = false)
         {
             if (reset)
             {
@@ -95,7 +97,7 @@ namespace Cricket.Statistics
             {
                 if (matchTypes.Contains(match.MatchData.Type))
                 {
-                    Match.FieldingEntry fielding = match.GetFielding(Name);
+                    FieldingEntry fielding = match.GetFielding(teamName, Name);
                     if (fielding != null)
                     {
                         Catches += fielding.Catches;
@@ -115,7 +117,7 @@ namespace Cricket.Statistics
             KeeperCatches = 0;
             foreach (ICricketSeason season in team.Seasons)
             {
-                SetSeasonStats(season, matchTypes);
+                SetSeasonStats(team.TeamName, season, matchTypes);
             }
         }
     }
