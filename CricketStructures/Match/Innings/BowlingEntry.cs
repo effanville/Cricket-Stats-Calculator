@@ -1,13 +1,64 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Cricket.Player;
+using CricketStructures.Player;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
 
-namespace Cricket.Match
+namespace CricketStructures.Match.Innings
 {
     public class BowlingEntry : IValidity
     {
+        public PlayerName Name
+        {
+            get;
+            set;
+        }
+
+        public double OversBowled
+        {
+            get;
+            set;
+        }
+
+        public int Maidens
+        {
+            get;
+            set;
+        }
+
+        public int RunsConceded
+        {
+            get;
+            set;
+        }
+
+        public int Wickets
+        {
+            get;
+            set;
+        }
+
+        public int Wides
+        {
+            get;
+            set;
+        }
+
+        public int NoBalls
+        {
+            get;
+            set;
+        }
+
+        public BowlingEntry(PlayerName name)
+        {
+            Name = name;
+        }
+
+        public BowlingEntry()
+        {
+        }
+
         public override string ToString()
         {
             if (Name != null)
@@ -18,70 +69,14 @@ namespace Cricket.Match
             return "Bowler: No name";
         }
 
-        public PlayerName Name
-        {
-            get;
-            set;
-        }
-
-        private double fOversBowled;
-        public double OversBowled
-        {
-            get
-            {
-                return fOversBowled;
-            }
-            set
-            {
-                fOversBowled = value;
-            }
-        }
-
-        private int fMaidens;
-        public int Maidens
-        {
-            get
-            {
-                return fMaidens;
-            }
-            set
-            {
-                fMaidens = value;
-            }
-        }
-
-        private int fRunsConceded;
-        public int RunsConceded
-        {
-            get
-            {
-                return fRunsConceded;
-            }
-            set
-            {
-                fRunsConceded = value;
-            }
-        }
-
-        private int fWickets;
-        public int Wickets
-        {
-            get
-            {
-                return fWickets;
-            }
-            set
-            {
-                fWickets = value;
-            }
-        }
-
-        public void SetBowling(double overs, int maidens, int runsConceded, int wickets)
+        public void SetBowling(double overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0)
         {
             OversBowled = overs;
             Maidens = maidens;
             RunsConceded = runsConceded;
             Wickets = wickets;
+            Wides = wides;
+            NoBalls = noBalls;
         }
 
         public bool Validate()
@@ -98,15 +93,6 @@ namespace Cricket.Match
             results.AddIfNotNull(Validating.NotNegative(Wickets, nameof(Wickets), ToString()));
             results.AddIfNotNull(Validating.NotGreaterThan(Wickets, 10, nameof(Wickets), ToString()));
             return results;
-        }
-
-        public BowlingEntry(PlayerName name)
-        {
-            Name = name;
-        }
-
-        public BowlingEntry()
-        {
         }
     }
 }

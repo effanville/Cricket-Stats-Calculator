@@ -1,26 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Cricket.Player;
+using Cricket.Match;
+using CricketStructures.Player;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
 
-namespace Cricket.Match
+namespace CricketStructures.Match.Innings
 {
     /// <summary>
     /// Represents an entry on the batting part of a cricket scorecard.
     /// </summary>
     public class BattingEntry : IValidity
     {
-        public override string ToString()
-        {
-            if (Name != null)
-            {
-                return "Batsman-" + Name.ToString();
-            }
-
-            return "Batsman: No Name";
-        }
-
         /// <summary>
         /// At what point in the innings did this batsman bat.
         /// This is the number the batsman went into bat.
@@ -79,7 +70,7 @@ namespace Cricket.Match
         }
 
         /// <summary>
-        /// The Wicket of the team this batsman fell at. 
+        /// The Wicket of the team this batsman fell at.
         /// </summary>
         public int WicketFellAt
         {
@@ -97,14 +88,6 @@ namespace Cricket.Match
         }
 
         /// <summary>
-        /// Was this batsman out.
-        /// </summary>
-        public bool Out()
-        {
-            return !(MethodOut == Wicket.NotOut || MethodOut == Wicket.DidNotBat);
-        }
-
-        /// <summary>
         /// Input the values into this batting entry.
         /// </summary>
         public void SetScores(Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, PlayerName bowler = null)
@@ -116,6 +99,33 @@ namespace Cricket.Match
             TeamScoreAtWicket = teamScoreAtWicket;
             Fielder = fielder;
             Bowler = bowler;
+        }
+
+        public BattingEntry(PlayerName name)
+        {
+            Name = name;
+        }
+
+        public BattingEntry()
+        {
+        }
+
+        public override string ToString()
+        {
+            if (Name != null)
+            {
+                return "Batsman-" + Name.ToString();
+            }
+
+            return "Batsman: No Name";
+        }
+
+        /// <summary>
+        /// Was this batsman out.
+        /// </summary>
+        public bool Out()
+        {
+            return !(MethodOut == Wicket.NotOut || MethodOut == Wicket.DidNotBat);
         }
 
         /// <summary>
@@ -191,15 +201,6 @@ namespace Cricket.Match
             }
 
             return results;
-        }
-
-        public BattingEntry(PlayerName name)
-        {
-            Name = name;
-        }
-
-        public BattingEntry()
-        {
         }
     }
 }

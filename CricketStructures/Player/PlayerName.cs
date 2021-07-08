@@ -1,6 +1,6 @@
 ﻿using StructureCommon.NamingStructures;
 
-namespace Cricket.Player
+namespace CricketStructures.Player
 {
     public class PlayerName : Name
     {

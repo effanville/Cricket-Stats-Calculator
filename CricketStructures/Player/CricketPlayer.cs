@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Cricket.Interfaces;
+using CricketStructures.Player.Interfaces;
 using StructureCommon.Validation;
 
-namespace Cricket.Player
+namespace CricketStructures.Player
 {
     /// <summary>
     /// Class containing all information about a player of cricket

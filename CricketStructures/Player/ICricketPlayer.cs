@@ -1,6 +1,4 @@
-﻿using Cricket.Player;
-
-namespace Cricket.Interfaces
+﻿namespace CricketStructures.Player.Interfaces
 {
     public interface ICricketPlayer
     {

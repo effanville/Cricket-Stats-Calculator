@@ -5,7 +5,7 @@ using Cricket.Statistics;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
 
-namespace Cricket.Match
+namespace CricketStructures.Match.Innings
 {
     public sealed class BattingInnings : IValidity
     {
