@@ -12,6 +12,20 @@ namespace Cricket
 {
     public class CricketSeason : ICricketSeason, IValidity
     {
+        /// <inheritdoc/>
+        public DateTime Year
+        {
+            get;
+            set;
+        }
+
+        /// <inheritdoc/>
+        public string Name
+        {
+            get;
+            set;
+        }
+
         public int GamesPlayed
         {
             get;
@@ -141,20 +155,7 @@ namespace Cricket
         }
 
         /// <inheritdoc/>
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        /// <inheritdoc/>
-        public DateTime Year
-        {
-            get;
-            set;
-        }
-
-        /// <inheritdoc/>
+        [XmlIgnore]
         public List<PlayerName> Players
         {
             get
@@ -175,6 +176,7 @@ namespace Cricket
         {
             get
             {
+                SeasonsMatches.Sort((match1, match2) => match1.MatchData.Date.CompareTo(match2.MatchData.Date));
                 return SeasonsMatches.Select(match => (ICricketMatch)match).ToList();
             }
         }
@@ -205,6 +207,7 @@ namespace Cricket
                 var match = new CricketMatch(info);
                 match.PlayerAdded += OnPlayerAdded;
                 SeasonsMatches.Add(match);
+                SeasonsMatches.Sort((match1, match2) => match1.MatchData.Date.CompareTo(match2.MatchData.Date));
                 return true;
             }
 

@@ -69,6 +69,7 @@ namespace Cricket.Team
         {
             get
             {
+                TeamPlayers.Sort((player1, player2) => player1.Name.CompareTo(player2.Name));
                 return TeamPlayers.Select(player => (ICricketPlayer)player).ToList();
             }
         }
@@ -85,6 +86,7 @@ namespace Cricket.Team
         {
             get
             {
+                TeamSeasons.Sort((season1, season2) => season1.Year.CompareTo(season2.Year));
                 return TeamSeasons.Select(season => (ICricketSeason)season).ToList();
             }
         }
@@ -99,6 +101,7 @@ namespace Cricket.Team
             if (!ContainsPlayer(name))
             {
                 TeamPlayers.Add(new CricketPlayer(name));
+                TeamPlayers.Sort((player1, player2) => player1.Name.CompareTo(player2.Name));
                 return true;
             }
 
@@ -150,6 +153,7 @@ namespace Cricket.Team
                 var season = new CricketSeason(year, name);
                 season.PlayerAdded += OnPlayerAdded;
                 TeamSeasons.Add(season);
+                TeamSeasons.Sort((season1, season2) => season1.Year.CompareTo(season2.Year));
                 return true;
             }
 
