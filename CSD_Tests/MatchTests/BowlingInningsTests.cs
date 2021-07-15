@@ -1,53 +1,28 @@
 ﻿using System.Collections.Generic;
-using Cricket.Match;
-using Cricket.Player;
-using CSD_Tests;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 using NUnit.Framework;
 using Common.Structure.Validation;
 
-namespace CricketClasses.MatchTests
+namespace CricketStructures.Tests.MatchTests
 {
     public class BowlingInningsTests
     {
-        [Test]
-        public void CanCreate()
-        {
-            var player1 = new PlayerName("Bloggs", "Joe");
-            var player2 = new PlayerName("Smith", "Steve");
-            var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BowlingInnings(null, playerNames);
-
-            Assert.AreEqual(2, innings.BowlingInfo.Count);
-            Assert.AreEqual(0, innings.ByesLegByes);
-        }
-
-        [Test]
-        public void CanAddPlayer()
-        {
-            var player1 = new PlayerName("Bloggs", "Joe");
-            var playerNames = new List<PlayerName>() { player1 };
-            var innings = new BowlingInnings(null, playerNames);
-
-            Assert.AreEqual(1, innings.BowlingInfo.Count);
-
-            var player2 = new PlayerName("Smith", "Steve");
-            innings.AddPlayer(player2);
-
-            Assert.AreEqual(2, innings.BowlingInfo.Count);
-        }
-
         [Test]
         public void CanCheckPlayerListed()
         {
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
-            var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BowlingInnings(null, playerNames);
+            var innings = new CricketInnings("", "other");
 
-            Assert.AreEqual(2, innings.BowlingInfo.Count);
+            innings.SetBowling(player2, 0, 0, 0, 0);
+            innings.SetBowling(player1, 4, 2, 7, 5);
 
-            Assert.AreEqual(true, innings.PlayerListed(player1));
-            Assert.AreEqual(false, innings.PlayerListed(new PlayerName("Wood", "Mark")));
+            Assert.AreEqual(2, innings.Bowling.Count);
+
+            Assert.AreEqual(false, innings.IsBattingPlayer(player1));
+            Assert.AreEqual(true, innings.IsFieldingPlayer(player1));
+            Assert.AreEqual(false, innings.IsFieldingPlayer(new PlayerName("Wood", "Mark")));
         }
 
         [Test]
@@ -55,13 +30,15 @@ namespace CricketClasses.MatchTests
         {
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
-            var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BowlingInnings(null, playerNames);
+            var innings = new CricketInnings("", "other");
 
-            Assert.AreEqual(2, innings.BowlingInfo.Count);
+            innings.SetBowling(player2, 0, 0, 0, 0);
+            innings.SetBowling(player1, 4, 2, 7, 5);
 
-            innings.Remove(player2);
-            Assert.AreEqual(1, innings.BowlingInfo.Count);
+            Assert.AreEqual(2, innings.Bowling.Count);
+
+            _ = innings.DeleteBowling(player2);
+            Assert.AreEqual(1, innings.Bowling.Count);
         }
 
         [Test]
@@ -69,21 +46,26 @@ namespace CricketClasses.MatchTests
         {
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
-            var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BowlingInnings(null, playerNames);
 
-            Assert.AreEqual(2, innings.BowlingInfo.Count);
-            innings.SetScores(player1, 4, 2, 7, 5);
+            var innings = new CricketInnings("", "other");
 
-            Assert.AreEqual(4, innings.BowlingInfo[0].OversBowled);
-            Assert.AreEqual(2, innings.BowlingInfo[0].Maidens);
-            Assert.AreEqual(7, innings.BowlingInfo[0].RunsConceded);
-            Assert.AreEqual(5, innings.BowlingInfo[0].Wickets);
+            innings.SetBowling(player2, 0, 0, 0, 0);
+            innings.SetBowling(player1, 4, 2, 7, 5);
 
-            Assert.AreEqual(0, innings.BowlingInfo[1].OversBowled);
-            Assert.AreEqual(0, innings.BowlingInfo[1].Maidens);
-            Assert.AreEqual(0, innings.BowlingInfo[1].Wickets);
-            Assert.AreEqual(0, innings.BowlingInfo[1].RunsConceded);
+            Assert.AreEqual(2, innings.Bowling);
+
+            var bowling = innings.GetBowling("other", player1);
+            Assert.AreEqual(4, bowling.OversBowled);
+            Assert.AreEqual(2, bowling.Maidens);
+            Assert.AreEqual(7, bowling.RunsConceded);
+            Assert.AreEqual(5, bowling.Wickets);
+
+
+            var bowling1 = innings.GetBowling("other", player2);
+            Assert.AreEqual(0, bowling1.OversBowled);
+            Assert.AreEqual(0, bowling1.Maidens);
+            Assert.AreEqual(0, bowling1.Wickets);
+            Assert.AreEqual(0, bowling1.RunsConceded);
         }
 
         [TestCase(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0, 0, 0)]
@@ -92,22 +74,23 @@ namespace CricketClasses.MatchTests
         [TestCase(new int[] { 58, 73, 8, 22, 5, 0, 0, 0, 0, 0, 0, 0 }, new[] { 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 }, 5, 5, 171)]
         public void CanGetTotalMatchScore(int[] runs, int[] wicketsTaken, int byes, int expectedWickets, int expectedRuns)
         {
-            var playerNames = new List<PlayerName>();
+            var innings = new CricketInnings(null, "");
             for (int i = 0; i < 11; i++)
             {
                 string surname = "Bloggs" + i;
                 string forename = "Joe" + i;
-                playerNames.Add(new PlayerName(surname, forename));
+                innings.SetBowling(new PlayerName(surname, forename), 0, 0, 0, 0);
             }
-            var innings = new BowlingInnings(null, playerNames);
 
-            Assert.AreEqual(11, innings.BowlingInfo.Count);
-            Assert.AreEqual(0, innings.ByesLegByes);
-            innings.ByesLegByes = byes;
+            Assert.AreEqual(11, innings.Bowling.Count);
+            Assert.AreEqual(null, innings.InningsExtras);
+            innings.InningsExtras = new Extras(byes, 0, 0, 0);
 
             for (int i = 0; i < 11; i++)
             {
-                innings.SetScores(playerNames[i], 0, 0, runs[i], wicketsTaken[i]);
+                string surname = "Bloggs" + i;
+                string forename = "Joe" + i;
+                innings.SetBowling(new PlayerName(surname, forename), 0, 0, runs[i], wicketsTaken[i]);
             }
             var score = innings.Score();
 
@@ -122,21 +105,18 @@ namespace CricketClasses.MatchTests
         [TestCase(9, 0, 12, false)]
         public void ValidityTests(int numberPlayers, int extras, int wicketsTaken, bool isValid)
         {
-
-            var innings = new BowlingInnings();
+            var innings = new CricketInnings();
             for (int i = 0; i < numberPlayers; i++)
             {
-                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
                 if (i == 0 || i == 1)
                 {
-                    innings.SetScores(new PlayerName("Surname" + i, "forename"), 4, 0, 5, wicketsTaken / 2);
+                    innings.SetBowling(new PlayerName("Surname" + i, "forename"), 4, 0, 5, wicketsTaken / 2);
                 }
             }
 
+            innings.InningsExtras = new Extras(extras, 0, 0, 0);
 
-            innings.ByesLegByes = extras;
-
-            var result = innings.Validate();
+            bool result = innings.Validate();
 
             Assert.AreEqual(isValid, result);
         }
@@ -146,13 +126,13 @@ namespace CricketClasses.MatchTests
         [TestCase(12, 0, false, new string[] { "BowlingInfo cannot take values above 11." })]
         public void ValidityMessageTests(int numberPlayers, int extras, bool isValid, string[] messages)
         {
-            var innings = new BowlingInnings();
+            var innings = new CricketInnings();
             for (int i = 0; i < numberPlayers; i++)
             {
-                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
+                innings.SetBowling(new PlayerName("Surname" + i, "forename"), 0, 0, 0, 0);
             }
 
-            innings.ByesLegByes = extras;
+            innings.InningsExtras = new Extras(extras, 0, 0, 0);
 
             var valid = innings.Validation();
 

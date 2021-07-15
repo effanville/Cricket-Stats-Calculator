@@ -16,10 +16,10 @@ namespace CricketStructures.Statistics.DetailedStats
             OppositionName = opposition;
         }
 
-        public TeamOppositionRecord(ICricketMatch match)
+        public TeamOppositionRecord(string teamName, ICricketMatch match)
             : base()
         {
-            OppositionName = match.MatchData.OppositionName();
+            OppositionName = match.MatchData.OppositionName(teamName);
             AddResult(match);
         }
 

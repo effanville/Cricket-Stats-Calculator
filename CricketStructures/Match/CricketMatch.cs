@@ -49,17 +49,17 @@ namespace CricketStructures.Match
         /// <summary>
         /// default generator of match
         /// </summary>
-        public CricketMatch(string homeTeam, string awayTeam, bool isHomeTeam, bool battingFirst)
+        public CricketMatch(string teamName, string homeTeam, string awayTeam, DateTime date, bool battingFirst)
         {
             MatchData = new MatchInfo()
             {
                 HomeTeam = homeTeam,
                 AwayTeam = awayTeam,
-                AtHome = isHomeTeam
+                Date = date
             };
 
-            string team = isHomeTeam ? homeTeam : awayTeam;
-            string opposition = !isHomeTeam ? homeTeam : awayTeam;
+            string team = teamName.Equals(homeTeam) ? homeTeam : awayTeam;
+            string opposition = !teamName.Equals(homeTeam) ? homeTeam : awayTeam;
             FirstInnings = new CricketInnings(battingFirst ? team : opposition, battingFirst ? opposition : team);
             SecondInnings = new CricketInnings(battingFirst ? opposition : team, battingFirst ? team : opposition);
         }
@@ -108,9 +108,9 @@ namespace CricketStructures.Match
         }
 
         /// <inheritdoc/>
-        public List<PlayerName> Players(string team = null)
+        public List<PlayerName> Players(string team)
         {
-            string teamName = team ?? (MatchData.AtHome ? MatchData.HomeTeam : MatchData.AwayTeam);
+            string teamName = team;
             var players = new HashSet<PlayerName>();
             players.UnionWith(FirstInnings.Players(teamName));
             players.UnionWith(SecondInnings.Players(teamName));
@@ -118,7 +118,7 @@ namespace CricketStructures.Match
         }
 
         /// <inheritdoc/>
-        public void EditInfo(string homeTeam = null, string awayTeam = null, bool? isHomeTeam = null, DateTime? date = null, string location = null, MatchType? typeOfMatch = null, ResultType? result = null)
+        public void EditInfo(string homeTeam = null, string awayTeam = null, DateTime? date = null, string location = null, MatchType? typeOfMatch = null, ResultType? result = null)
         {
             if (!string.IsNullOrEmpty(homeTeam))
             {
@@ -127,10 +127,6 @@ namespace CricketStructures.Match
             if (!string.IsNullOrEmpty(awayTeam))
             {
                 MatchData.AwayTeam = awayTeam;
-            }
-            if (isHomeTeam.HasValue)
-            {
-                MatchData.AtHome = isHomeTeam.Value;
             }
             if (date.HasValue)
             {
@@ -164,6 +160,19 @@ namespace CricketStructures.Match
             if (innings != null)
             {
                 innings.SetBatting(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, wasKeeper, bowler);
+            }
+        }
+
+        internal void SetInnings(CricketInnings innings, bool first)
+        {
+            // TODO add checks to ensure the innings has the correct teams.
+            if (first)
+            {
+                FirstInnings = innings;
+            }
+            else
+            {
+                SecondInnings = innings;
             }
         }
 

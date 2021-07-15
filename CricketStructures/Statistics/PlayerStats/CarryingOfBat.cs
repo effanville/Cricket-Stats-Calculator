@@ -24,7 +24,7 @@ namespace CricketStructures.Statistics.PlayerStats
             set;
         }
 
-        public bool AtHome
+        public string Location
         {
             get;
             set;

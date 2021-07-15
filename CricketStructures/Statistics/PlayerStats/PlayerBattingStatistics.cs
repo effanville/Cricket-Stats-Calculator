@@ -103,7 +103,7 @@ namespace CricketStructures.Statistics
                             {
                                 Runs = batting.RunsScored,
                                 HowOut = batting.MethodOut,
-                                Opposition = match.MatchData.OppositionName(),
+                                Opposition = match.MatchData.OppositionName(teamName),
                                 Date = match.MatchData.Date
                             };
 

@@ -67,7 +67,7 @@ namespace CricketStructures.Interfaces
         /// <summary>
         /// Edit the ancillary information for the match.
         /// </summary>
-        void EditInfo(string homeTeam = null, string awayTeam = null, bool? isHomeTeam = null, DateTime? date = null, string location = null, MatchType? typeOfMatch = null, ResultType? result = null);
+        void EditInfo(string homeTeam = null, string awayTeam = null, DateTime? date = null, string location = null, MatchType? typeOfMatch = null, ResultType? result = null);
 
         /// <summary>
         /// Edit the man of the match for the game.

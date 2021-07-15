@@ -4,15 +4,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CricketStatisticsDatabase", "CricketStatisticsDatabase\CricketStatisticsDatabase.csproj", "{895194F1-9054-46B9-B7F7-927F9F92115A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2915ECDF-18C9-4D2B-A1A7-D6E75C4BA220} = {2915ECDF-18C9-4D2B-A1A7-D6E75C4BA220}
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSD_Tests", "CSD_Tests\CSD_Tests.csproj", "{971AC22D-6882-4ADC-A40A-C8C5DFD8167D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CricketStructures.Tests", "CSD_Tests\CricketStructures.Tests.csproj", "{971AC22D-6882-4ADC-A40A-C8C5DFD8167D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2915ECDF-18C9-4D2B-A1A7-D6E75C4BA220} = {2915ECDF-18C9-4D2B-A1A7-D6E75C4BA220}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BE8B2293-4577-4027-B271-844EFF77118F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CricketStructures", "CricketStructures\CricketStructures.csproj", "{2915ECDF-18C9-4D2B-A1A7-D6E75C4BA220}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CricketStructures", "CricketStructures\CricketStructures.csproj", "{2915ECDF-18C9-4D2B-A1A7-D6E75C4BA220}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

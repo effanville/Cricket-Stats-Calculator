@@ -25,7 +25,7 @@ namespace CricketStructures.Statistics.DetailedStats
             set;
         }
 
-        public bool AtHome
+        public string Location
         {
             get;
             set;
@@ -42,24 +42,24 @@ namespace CricketStructures.Statistics.DetailedStats
         }
         public BowlingWinningMargin(string teamName, ICricketMatch match)
         {
-            Opposition = match.MatchData.OppositionName();
+            Opposition = match.MatchData.OppositionName(teamName);
             Date = match.MatchData.Date;
-            AtHome = match.MatchData.AtHome;
+            Location = match.MatchData.Location;
             GameType = match.MatchData.Type;
 
             if (teamName.Equals(Opposition))
             {
-                WinningRuns = match.Score(teamName).Runs - match.Score(match.MatchData.OppositionName()).Runs;
+                WinningRuns = match.Score(teamName).Runs - match.Score(Opposition).Runs;
             }
             else
             {
-                WinningRuns = match.Score(match.MatchData.OppositionName()).Runs - match.Score(teamName).Runs;
+                WinningRuns = match.Score(Opposition).Runs - match.Score(teamName).Runs;
             }
         }
 
         public string ToCSVLine()
         {
-            return WinningRuns + "," + Opposition + "," + Date.ToUkDateString() + "," + AtHome + "," + GameType.ToString();
+            return WinningRuns + "," + Opposition + "," + Date.ToUkDateString() + "," + Location + "," + GameType.ToString();
         }
     }
 }

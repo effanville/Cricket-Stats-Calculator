@@ -1,48 +1,61 @@
-﻿using System.Collections.Generic;
-using Cricket.Match;
-using CSD_Tests;
+﻿using System;
+using System.Collections.Generic;
+using CricketStructures.Match;
 using NUnit.Framework;
 using Common.Structure.Validation;
 
-namespace CricketClasses.MatchTests
+namespace CricketStructures.Tests.MatchTests
 {
     [TestFixture]
     public class MatchInfoTests
     {
-        [TestCase("", false)]
-        [TestCase(null, false)]
-        [TestCase("Sam", true)]
-        public void ValidityTests(string opposition, bool isValid)
+        [TestCase("", "", "", "2020/1/1", false)]
+        [TestCase(null, "walkern", "", "2020/1/1", false)]
+        [TestCase("Sam", "", "", "2020/1/1", false)]
+        [TestCase("Sam", "walkern", "", "2020/1/1", true)]
+        public void ValidityTests(string homeTeam, string awayTeam, string location, DateTime date, bool isValid)
         {
             var info = new MatchInfo
             {
-                Opposition = opposition
+                HomeTeam = homeTeam,
+                AwayTeam = awayTeam,
+                Location = location,
+                Date = date
             };
-            var result = info.Validate();
+
+            bool result = info.Validate();
             Assert.AreEqual(isValid, result);
         }
 
-        [TestCase("", false, new string[] { "Opposition cannot be empty or null." })]
-        [TestCase(null, false, new string[] { "Opposition cannot be empty or null." })]
-        [TestCase("Sam", true, new string[] { })]
-        public void ValidityMessageTests(string opposition, bool isValid, string[] messages)
+        [TestCase("", "", "", "2020/1/1", false, new string[] { "HomeTeam cannot be empty or null.", "AwayTeam cannot be empty or null." })]
+        [TestCase(null, "walkern", "", "2020/1/1", false, new string[] { "HomeTeam cannot be empty or null." })]
+        [TestCase("Sam", "", "", "2020/1/1", false, new string[] { "AwayTeam cannot be empty or null." })]
+        [TestCase("Sam", "walkern", "", "2020/1/1", true, new string[] { })]
+        public void ValidityMessageTests(string homeTeam, string awayTeam, string location, DateTime date, bool isValid, string[] messages)
         {
             var info = new MatchInfo
             {
-                Opposition = opposition
+                HomeTeam = homeTeam,
+                AwayTeam = awayTeam,
+                Location = location,
+                Date = date
             };
             var valid = info.Validation();
 
             var expectedList = new List<ValidationResult>();
-            if (!isValid)
+
+            Array.ForEach(messages, message =>
             {
-                var expected = new ValidationResult
+                if (!isValid)
                 {
-                    IsValid = isValid
-                };
-                expected.Messages.AddRange(messages);
-                expectedList.Add(expected);
-            }
+                    var expected = new ValidationResult
+                    {
+                        IsValid = isValid,
+                    };
+                    expected.AddMessage(message);
+                    expectedList.Add(expected);
+                }
+            });
 
             Assertions.ValidationListsEqual(expectedList, valid);
         }

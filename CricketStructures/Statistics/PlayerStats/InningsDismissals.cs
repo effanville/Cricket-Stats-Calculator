@@ -31,7 +31,7 @@ namespace CricketStructures.Statistics.PlayerStats
             set;
         }
 
-        public bool AtHome
+        public string Location
         {
             get;
             set;
@@ -41,13 +41,13 @@ namespace CricketStructures.Statistics.PlayerStats
         {
         }
 
-        public InningsDismissals(FieldingEntry entry, MatchInfo info)
+        public InningsDismissals(string teamName, FieldingEntry entry, MatchInfo info)
         {
             Name = entry.Name;
             Dismissals = entry.TotalDismissals();
-            Opposition = info.OppositionName();
+            Opposition = info.OppositionName(teamName);
             Date = info.Date;
-            AtHome = info.AtHome;
+            Location = info.Location;
         }
     }
 }

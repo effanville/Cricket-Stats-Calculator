@@ -118,7 +118,7 @@ namespace CricketStructures.Statistics.PlayerStats
                             {
                                 Wickets = bowling.Wickets,
                                 Runs = bowling.RunsConceded,
-                                Opposition = match.MatchData.OppositionName(),
+                                Opposition = match.MatchData.OppositionName(teamName),
                                 Date = match.MatchData.Date
                             };
 

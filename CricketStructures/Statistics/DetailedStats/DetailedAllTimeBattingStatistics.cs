@@ -74,7 +74,7 @@ namespace CricketStructures.Statistics.DetailedStats
             {
                 if (battingEntry.RunsScored >= 100)
                 {
-                    CenturyScores.Add(new Century(battingEntry, match.MatchData));
+                    CenturyScores.Add(new Century(teamName, battingEntry, match.MatchData));
                     if (ScoresPast50.Any(entry => entry.Name.Equals(battingEntry.Name)))
                     {
                         HighScores value = ScoresPast50.First(entry => entry.Name.Equals(battingEntry.Name));
@@ -107,13 +107,13 @@ namespace CricketStructures.Statistics.DetailedStats
                 BattingEntry bat = innings.Batting[0];
                 if (!bat.Out())
                 {
-                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(), AtHome = match.MatchData.AtHome, TeamTotalScore = innings.BattingScore() });
+                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(teamName), Location = match.MatchData.Location, TeamTotalScore = innings.BattingScore() });
                 }
 
                 bat = innings.Batting[1];
                 if (!bat.Out())
                 {
-                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(), AtHome = match.MatchData.AtHome, TeamTotalScore = innings.BattingScore() });
+                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(teamName), Location = match.MatchData.Location, TeamTotalScore = innings.BattingScore() });
                 }
             }
         }

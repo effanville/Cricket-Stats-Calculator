@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Cricket.Match;
-using Cricket.Player;
-using CSD_Tests;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 using NUnit.Framework;
 using Common.Structure.Validation;
 
-namespace CricketClasses.MatchTests
+namespace CricketStructures.Tests.MatchTests
 {
     [TestFixture]
     public sealed class BattingEntryTests
@@ -25,7 +25,7 @@ namespace CricketClasses.MatchTests
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
             var bowler = new PlayerName("Fish", "Simon");
-            batting.SetScores(Wicket.Bowled, 23, 1, 1, 0, name, bowler);
+            batting.SetScores(Wicket.Bowled, 23, 1, 1, 0, name, false, bowler);
             Assert.AreEqual(Wicket.Bowled, batting.MethodOut);
             Assert.AreEqual(23, batting.RunsScored);
             Assert.AreEqual(name, batting.Fielder);
@@ -91,9 +91,9 @@ namespace CricketClasses.MatchTests
             }
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
-            batting.SetScores(howOut, runs, 1, 1, 0, fielder, bowler);
+            batting.SetScores(howOut, runs, 1, 1, 0, fielder, false,  bowler);
 
-            var valid = batting.Validate();
+            bool valid = batting.Validate();
             Assert.AreEqual(isValid, valid);
         }
 
@@ -136,7 +136,7 @@ namespace CricketClasses.MatchTests
             }
             var name = new PlayerName("Bloggs", "Joe");
             var batting = new BattingEntry(name);
-            batting.SetScores(howOut, runs, 1, 1, 0, fielder, bowler);
+            batting.SetScores(howOut, runs, 1, 1, 0, fielder, false, bowler);
 
             var valid = batting.Validation();
             int number = isValid ? 0 : 1;

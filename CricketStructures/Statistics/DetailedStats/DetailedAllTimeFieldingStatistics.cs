@@ -61,7 +61,7 @@ namespace CricketStructures.Statistics.DetailedStats
             {
                 if (field.TotalDismissals() > 4)
                 {
-                    DismissalsInOneInnings.Add(new InningsDismissals(field, match.MatchData));
+                    DismissalsInOneInnings.Add(new InningsDismissals(teamName, field, match.MatchData));
                 }
             }
         }

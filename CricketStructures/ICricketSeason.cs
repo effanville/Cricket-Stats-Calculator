@@ -53,10 +53,7 @@ namespace CricketStructures.Interfaces
         /// <summary>
         /// The players that played in this season.
         /// </summary>
-        List<PlayerName> Players
-        {
-            get;
-        }
+        List<PlayerName> Players(string teamName);
 
         /// <summary>
         /// All matches played in this season.

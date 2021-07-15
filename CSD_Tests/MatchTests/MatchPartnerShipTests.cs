@@ -1,33 +1,32 @@
 ﻿using System.Collections.Generic;
-using Cricket.Match;
-using Cricket.Player;
-using Cricket.Statistics;
-using CSD_Tests;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 using NUnit.Framework;
 
-namespace CricketClasses.MatchTests
+namespace CricketStructures.Tests.MatchTests
 {
     public sealed class MatchPartnerShipTests
     {
-        private (BattingInnings, List<Partnership>) GenerateInnings(int index)
+        private (CricketInnings, List<Partnership>) GenerateInnings(int index)
         {
-            var innings = new BattingInnings();
+            var innings = new CricketInnings();
             List<Partnership> ships = new List<Partnership>();
             switch (index)
             {
                 case 0:
                 {
-                    innings.AddScore(new PlayerName("Lyth", "A"), Wicket.Caught, 55, 1, 1, 116);
-                    innings.AddScore(new PlayerName("Frame", "WAR"), Wicket.Caught, 106, 2, 4, 205);
-                    innings.AddScore(new PlayerName("Ballance", "G"), Wicket.Caught, 23, 3, 2, 187);
-                    innings.AddScore(new PlayerName("Cadmore", "T"), Wicket.Bowled, 5, 4, 3, 201);
-                    innings.AddScore(new PlayerName("Leaning", "J"), Wicket.Caught, 0, 5, 5, 205);
-                    innings.AddScore(new PlayerName("Tattersall", "J"), Wicket.Bowled, 11, 6, 8, 250);
-                    innings.AddScore(new PlayerName("Willey", "D"), Wicket.Caught, 19, 7, 6, 231);
-                    innings.AddScore(new PlayerName("Maharaj", "K"), Wicket.Bowled, 0, 8, 7, 231);
-                    innings.AddScore(new PlayerName("Patterson", "S"), Wicket.Caught, 46, 9, 10, 327);
-                    innings.AddScore(new PlayerName("Coad", "B"), Wicket.Caught, 25, 10, 9, 295);
-                    innings.AddScore(new PlayerName("Olivier", "D"), Wicket.NotOut, 11, 11, 11, 327);
+                    innings.SetBatting(new PlayerName("Lyth", "A"), Wicket.Caught, 55, 1, 1, 116);
+                    innings.SetBatting(new PlayerName("Frame", "WAR"), Wicket.Caught, 106, 2, 4, 205);
+                    innings.SetBatting(new PlayerName("Ballance", "G"), Wicket.Caught, 23, 3, 2, 187);
+                    innings.SetBatting(new PlayerName("Cadmore", "T"), Wicket.Bowled, 5, 4, 3, 201);
+                    innings.SetBatting(new PlayerName("Leaning", "J"), Wicket.Caught, 0, 5, 5, 205);
+                    innings.SetBatting(new PlayerName("Tattersall", "J"), Wicket.Bowled, 11, 6, 8, 250);
+                    innings.SetBatting(new PlayerName("Willey", "D"), Wicket.Caught, 19, 7, 6, 231);
+                    innings.SetBatting(new PlayerName("Maharaj", "K"), Wicket.Bowled, 0, 8, 7, 231);
+                    innings.SetBatting(new PlayerName("Patterson", "S"), Wicket.Caught, 46, 9, 10, 327);
+                    innings.SetBatting(new PlayerName("Coad", "B"), Wicket.Caught, 25, 10, 9, 295);
+                    innings.SetBatting(new PlayerName("Olivier", "D"), Wicket.NotOut, 11, 11, 11, 327);
                     ships.Add(new Partnership(new PlayerName("Lyth", "A"), new PlayerName("Frame", "WAR"), 1, 116));
                     ships.Add(new Partnership(new PlayerName("Frame", "WAR"), new PlayerName("Ballance", "G"), 2, 71));
                     ships.Add(new Partnership(new PlayerName("Frame", "WAR"), new PlayerName("Cadmore", "T"), 3, 14));
@@ -51,12 +50,12 @@ namespace CricketClasses.MatchTests
         {
             var matchInfo = new MatchInfo
             {
-                Opposition = "Evil"
+                AwayTeam = "Evil"
             };
             var match = new CricketMatch(matchInfo);
             var data = GenerateInnings(inningsIndex);
-            match.SetBatting(data.Item1);
-            var ships = match.Partnerships();
+            match.SetInnings(data.Item1, true);
+            var ships = match.Partnerships("Evil");
             Assertions.PartnershipsEqual(data.Item2, ships);
         }
     }

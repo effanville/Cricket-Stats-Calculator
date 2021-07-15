@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Cricket.Player;
-using CSD_Tests;
+using CricketStructures.Player;
 using NUnit.Framework;
 using Common.Structure.Validation;
 
-namespace CricketClasses.PlayerTests
+namespace CricketStructures.Tests.PlayerTests
 {
     [TestFixture]
     public sealed class CricketPlayerTests

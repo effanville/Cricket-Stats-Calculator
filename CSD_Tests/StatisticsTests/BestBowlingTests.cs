@@ -1,8 +1,8 @@
 ﻿using System;
-using Cricket.Statistics;
+using CricketStructures.Statistics;
 using NUnit.Framework;
 
-namespace CricketClasses.StatisticsTests
+namespace CricketStructures.Tests.StatisticsTests
 {
     [TestFixture]
     public sealed class BestBowlingTests

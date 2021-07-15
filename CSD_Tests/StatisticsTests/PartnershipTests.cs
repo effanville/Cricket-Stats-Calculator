@@ -1,8 +1,8 @@
-﻿using Cricket.Player;
-using Cricket.Statistics;
+﻿using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 using NUnit.Framework;
 
-namespace StatisticsTests
+namespace CricketStructures.Tests.StatisticsTests
 {
     public sealed class PartnershipTests
     {

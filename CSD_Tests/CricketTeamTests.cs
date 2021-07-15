@@ -1,9 +1,10 @@
 ﻿using System;
-using Cricket.Player;
-using Cricket.Team;
+using CricketStructures.Player;
+using CricketStructures;
+using CricketStructures.Interfaces;
 using NUnit.Framework;
 
-namespace CricketClasses.TeamTests
+namespace CricketStructures.Tests
 {
     [TestFixture]
     public class CricketTeamTests
@@ -11,7 +12,7 @@ namespace CricketClasses.TeamTests
         [Test]
         public void CanAddPlayer()
         {
-            CricketTeam team = new CricketTeam();
+            ICricketTeam team = new CricketTeam();
             PlayerName player = new PlayerName("Broad", "Stuart");
 
             Assert.IsTrue(team.AddPlayer(player));

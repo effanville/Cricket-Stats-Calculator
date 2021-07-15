@@ -20,12 +20,6 @@ namespace CricketStructures.Match
             set;
         }
 
-        public bool AtHome
-        {
-            get;
-            set;
-        }
-
         public string Location
         {
             get;
@@ -48,14 +42,13 @@ namespace CricketStructures.Match
         {
         }
 
-        public MatchInfo(string homeTeam, string awayTeam, bool atHome, string location, DateTime date, MatchType type)
+        public MatchInfo(string homeTeam, string awayTeam, string location, DateTime date, MatchType type)
         {
             HomeTeam = homeTeam;
             AwayTeam = awayTeam;
             Location = location;
             Date = date;
             Type = type;
-            AtHome = atHome;
         }
 
         public override string ToString()
@@ -96,9 +89,17 @@ namespace CricketStructures.Match
             throw new NotImplementedException();
         }
 
-        public string OppositionName()
+        public string OppositionName(string teamName)
         {
-            return AtHome ? AwayTeam : HomeTeam;
+            if (teamName.Equals(HomeTeam))
+            {
+                return AwayTeam;
+            }
+            if (teamName.Equals(AwayTeam))
+            {
+                return HomeTeam;
+            }
+            return null;
         }
     }
 }

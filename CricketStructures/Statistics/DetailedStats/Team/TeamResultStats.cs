@@ -76,14 +76,14 @@ namespace CricketStructures.Statistics.DetailedStats
             BestResults.UpdateStats(teamName, match);
             WorstLosses.UpdateStats(teamName, match);
 
-            if (TeamAgainstRecords.Any(team => team.OppositionName.Equals(match.MatchData.OppositionName())))
+            if (TeamAgainstRecords.Any(team => team.OppositionName.Equals(match.MatchData.OppositionName(teamName))))
             {
-                TeamOppositionRecord oppo = TeamAgainstRecords.First(team => team.OppositionName.Equals(match.MatchData.OppositionName()));
+                TeamOppositionRecord oppo = TeamAgainstRecords.First(team => team.OppositionName.Equals(match.MatchData.OppositionName(teamName)));
                 oppo.AddResult(match);
             }
             else
             {
-                TeamAgainstRecords.Add(new TeamOppositionRecord(match));
+                TeamAgainstRecords.Add(new TeamOppositionRecord(teamName, match));
             }
         }
 

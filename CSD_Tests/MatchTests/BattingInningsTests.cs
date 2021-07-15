@@ -1,57 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Cricket.Match;
-using Cricket.Player;
-using CSD_Tests;
+using CricketStructures.Match;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 using NUnit.Framework;
 using Common.Structure.Validation;
 
-namespace CricketClasses.MatchTests
+namespace CricketStructures.Tests.MatchTests
 {
     [TestFixture]
     public class BattingInningsTests
     {
-        [Test]
-        public void CanCreate()
-        {
-            var player1 = new PlayerName("Bloggs", "Joe");
-            var player2 = new PlayerName("Smith", "Steve");
-            var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BattingInnings(null, playerNames);
-
-            Assert.AreEqual(2, innings.BattingInfo.Count);
-            Assert.AreEqual(0, innings.Extras);
-        }
-
-        [Test]
-        public void CanAddPlayer()
-        {
-            var player1 = new PlayerName("Bloggs", "Joe");
-            var playerNames = new List<PlayerName>() { player1 };
-            var innings = new BattingInnings(null, playerNames);
-
-            Assert.AreEqual(1, innings.BattingInfo.Count);
-            Assert.AreEqual(0, innings.Extras);
-
-            var player2 = new PlayerName("Smith", "Steve");
-            innings.AddPlayer(player2);
-
-            Assert.AreEqual(2, innings.BattingInfo.Count);
-        }
-
         [Test]
         public void CanCheckPlayerListed()
         {
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BattingInnings(null, playerNames);
+            var innings = new CricketInnings("", "other");
 
-            Assert.AreEqual(2, innings.BattingInfo.Count);
-            Assert.AreEqual(0, innings.Extras);
+            innings.SetBatting(player1, Wicket.Bowled, 5, 1, 2, 3);
+            innings.SetBatting(player2, Wicket.Caught, 0, 0, 1, 3);
+            Assert.AreEqual(2, innings.Batting.Count);
 
-            Assert.AreEqual(true, innings.PlayerListed(player1));
-            Assert.AreEqual(false, innings.PlayerListed(new PlayerName("Wood", "Mark")));
+            Assert.AreEqual(true, innings.IsBattingPlayer(player1));
+            Assert.AreEqual(false, innings.IsFieldingPlayer(player1));
+            Assert.AreEqual(false, innings.IsBattingPlayer(new PlayerName("Wood", "Mark")));
         }
 
         [Test]
@@ -60,13 +34,14 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BattingInnings(null, playerNames);
+            var innings = new CricketInnings("", "other");
 
-            Assert.AreEqual(2, innings.BattingInfo.Count);
-            Assert.AreEqual(0, innings.Extras);
+            innings.SetBatting(player1, Wicket.Bowled, 5, 1, 2, 3);
+            innings.SetBatting(player2, Wicket.Caught, 0, 0, 1, 3);
+            Assert.AreEqual(2, innings.Batting.Count);
 
-            innings.Remove(player2);
-            Assert.AreEqual(1, innings.BattingInfo.Count);
+            _ = innings.DeleteBatting(player2);
+            Assert.AreEqual(1, innings.Batting.Count);
         }
 
         [Test]
@@ -75,15 +50,16 @@ namespace CricketClasses.MatchTests
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
             var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new BattingInnings(null, playerNames);
+            var innings = new CricketInnings("", "other");
 
-            Assert.AreEqual(2, innings.BattingInfo.Count);
-            Assert.AreEqual(0, innings.Extras);
-            innings.SetScores(player1, Wicket.Bowled, 5, 1, 1, 0);
-            var player1Batting = innings.BattingInfo.First(entry => entry.Name.Equals(player1));
+            innings.SetBatting(player1, Wicket.Bowled, 5, 1, 1, 0);
+            innings.SetBatting(player2, Wicket.DidNotBat, 0, 0, 1, 3);
+            Assert.AreEqual(2, innings.Batting.Count);
+
+            var player1Batting = innings.GetBatting("other", player1);
             Assert.AreEqual(5, player1Batting.RunsScored);
             Assert.AreEqual(Wicket.Bowled, player1Batting.MethodOut);
-            var player2Batting = innings.BattingInfo.First(entry => entry.Name.Equals(player2));
+            var player2Batting = innings.GetBatting("other", player2);
             Assert.AreEqual(0, player2Batting.RunsScored);
             Assert.AreEqual(Wicket.DidNotBat, player2Batting.MethodOut);
         }
@@ -94,23 +70,18 @@ namespace CricketClasses.MatchTests
         [TestCase(new int[] { 58, 73, 8, 22, 5, 0, 0, 0, 0, 0, 0, 0 }, new[] { Wicket.Bowled, Wicket.Stumped, Wicket.NotOut, Wicket.Caught, Wicket.NotOut, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat, Wicket.DidNotBat }, 5, 3, 171)]
         public void CanGetTotalMatchScore(int[] runs, Wicket[] wicketTypes, int extras, int expectedWickets, int expectedRuns)
         {
-            var playerNames = new List<PlayerName>();
+            var innings = new CricketInnings(null, "");
             for (int i = 0; i < 11; i++)
             {
                 string surname = "Bloggs" + i;
                 string forename = "Joe" + i;
-                playerNames.Add(new PlayerName(surname, forename));
+                innings.SetBatting(new PlayerName(surname, forename), wicketTypes[i], runs[i], 1, 1, 0);
             }
-            var innings = new BattingInnings(null, playerNames);
 
-            Assert.AreEqual(11, innings.BattingInfo.Count);
-            Assert.AreEqual(0, innings.Extras);
-            innings.Extras = extras;
+            Assert.AreEqual(11, innings.Batting.Count);
+            Assert.AreEqual(null, innings.InningsExtras);
+            innings.InningsExtras = new Extras(extras, 0, 0, 0);
 
-            for (int i = 0; i < 11; i++)
-            {
-                innings.SetScores(playerNames[i], wicketTypes[i], runs[i], 1, 1, 0);
-            }
             var score = innings.Score();
 
             Assert.AreEqual(expectedWickets, score.Wickets, "Wickets not correct");
@@ -123,13 +94,13 @@ namespace CricketClasses.MatchTests
         [TestCase(13, -5, false)]
         public void ValidityTests(int numberPlayers, int extras, bool isValid)
         {
-            var innings = new BattingInnings();
+            var innings = new CricketInnings();
             for (int i = 0; i < numberPlayers; i++)
             {
-                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
+                innings.SetBatting(new PlayerName("Surname" + i, "forename"), Wicket.DidNotBat, 0, 0, 0, 0);
             }
 
-            innings.Extras = extras;
+            innings.InningsExtras = new Extras(extras, 0, 0, 0);
 
             var result = innings.Validate();
 
@@ -141,13 +112,13 @@ namespace CricketClasses.MatchTests
         [TestCase(12, 0, false, new string[] { "BattingInfo cannot take values above 11." })]
         public void ValidityMessageTests(int numberPlayers, int extras, bool isValid, string[] messages)
         {
-            var innings = new BattingInnings();
+            var innings = new CricketInnings();
             for (int i = 0; i < numberPlayers; i++)
             {
-                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
+                innings.SetBatting(new PlayerName("Surname" + i, "forename"), Wicket.DidNotBat, 0, 0, 0, 0);
             }
 
-            innings.Extras = extras;
+            innings.InningsExtras = new Extras(extras, 0, 0, 0);
 
             var valid = innings.Validation();
 

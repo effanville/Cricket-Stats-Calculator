@@ -46,7 +46,7 @@ namespace CricketStructures.Statistics.DetailedStats
             {
                 if (match.SecondInnings.BattingScore().Wickets.Equals(0))
                 {
-                    BattingWinningMargin margin = new BattingWinningMargin(match.MatchData.OppositionName(), match);
+                    BattingWinningMargin margin = new BattingWinningMargin(match.MatchData.OppositionName(teamName), match);
                     HeaviestLossByWickets.Add(margin);
                     HeaviestLossByWickets.Sort((a, b) => b.Score.CompareTo(a.Score));
                 }
@@ -55,7 +55,7 @@ namespace CricketStructures.Statistics.DetailedStats
             {
                 if (match.FirstInnings.BowlingScore().Runs > match.SecondInnings.BattingScore().Runs + 100)
                 {
-                    BowlingWinningMargin margin = new BowlingWinningMargin(match.MatchData.OppositionName(), match);
+                    BowlingWinningMargin margin = new BowlingWinningMargin(match.MatchData.OppositionName(teamName), match);
                     HeaviestLossByRuns.Add(margin);
                     HeaviestLossByRuns.Sort((a, b) => b.WinningRuns.CompareTo(a.WinningRuns));
                 }

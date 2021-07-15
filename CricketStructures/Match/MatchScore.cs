@@ -57,12 +57,12 @@ namespace CricketStructures.Match
                 FirstInningsTeam = teamName;
 
                 SecondInnings = match.SecondInnings.BattingScore();
-                SecondInningsTeam = match.MatchData.OppositionName();
+                SecondInningsTeam = match.MatchData.OppositionName(teamName);
             }
             else
             {
                 FirstInnings = match.FirstInnings.BattingScore();
-                FirstInningsTeam = match.MatchData.OppositionName();
+                FirstInningsTeam = match.MatchData.OppositionName(teamName);
                 SecondInnings = match.SecondInnings.BattingScore();
                 SecondInningsTeam = teamName;
             }

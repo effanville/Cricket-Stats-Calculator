@@ -49,7 +49,7 @@ namespace CricketStructures.Statistics.DetailedStats
         }
         public BattingWinningMargin(string teamName, ICricketMatch match)
         {
-            Opposition = match.MatchData.OppositionName();
+            Opposition = match.MatchData.OppositionName(teamName);
             Date = match.MatchData.Date;
             Location = match.MatchData.Location;
 

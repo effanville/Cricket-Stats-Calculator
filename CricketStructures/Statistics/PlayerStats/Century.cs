@@ -42,7 +42,7 @@ namespace CricketStructures.Statistics.PlayerStats
             set;
         }
 
-        public bool AtHome
+        public string Location
         {
             get;
             set;
@@ -52,15 +52,15 @@ namespace CricketStructures.Statistics.PlayerStats
         {
         }
 
-        public Century(BattingEntry battingEntry, MatchInfo matchData)
+        public Century(string teamName, BattingEntry battingEntry, MatchInfo matchData)
         {
             Name = battingEntry.Name;
             Date = matchData.Date;
             Runs = battingEntry.RunsScored;
             HowOut = battingEntry.MethodOut;
             GameType = matchData.Type;
-            Opposition = matchData.OppositionName();
-            AtHome = matchData.AtHome;
+            Opposition = matchData.OppositionName(teamName);
+            Location = matchData.Location;
         }
     }
 }

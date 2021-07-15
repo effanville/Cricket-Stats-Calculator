@@ -154,15 +154,6 @@ namespace CricketStructures
             set;
         }
 
-        /// <inheritdoc/>
-        public List<PlayerName> Players
-        {
-            get
-            {
-                return SeasonsMatches.SelectMany(match => match.Players()).Distinct().ToList();
-            }
-        }
-
         public List<CricketMatch> SeasonsMatches
         {
             get;
@@ -177,6 +168,12 @@ namespace CricketStructures
             {
                 return SeasonsMatches.Select(match => (ICricketMatch)match).ToList();
             }
+        }
+
+        /// <inheritdoc/>
+        public List<PlayerName> Players(string teamName)
+        {
+            return SeasonsMatches.SelectMany(match => match.Players(teamName)).Distinct().ToList();
         }
 
         /// <inheritdoc/>

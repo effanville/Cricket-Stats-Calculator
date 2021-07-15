@@ -1,9 +1,9 @@
 ﻿using System;
-using Cricket;
-using Cricket.Match;
+using CricketStructures;
+using CricketStructures.Match;
 using NUnit.Framework;
 
-namespace CricketClasses.SeasonTests
+namespace CricketStrucutres.Tests
 {
     [TestFixture]
     public class CricketSeasonTests
@@ -80,9 +80,9 @@ namespace CricketClasses.SeasonTests
             MatchInfo matchInfo = new MatchInfo
             {
                 Date = new DateTime(2010, 4, 3),
-                Opposition = "Sandon"
+                HomeTeam = "Sandon"
             };
-            season.AddMatch(matchInfo);
+            _ = season.AddMatch(matchInfo);
 
             Assert.AreEqual(1, season.Matches.Count);
         }
@@ -99,11 +99,12 @@ namespace CricketClasses.SeasonTests
             MatchInfo matchInfo = new MatchInfo
             {
                 Date = new DateTime(2010, 4, 3),
-                Opposition = "Sandon"
+                HomeTeam = "Sandon",
+                AwayTeam = "Walkern"
             };
-            season.AddMatch(matchInfo);
+            _ = season.AddMatch(matchInfo);
 
-            bool contains = season.ContainsMatch(date, opposition);
+            bool contains = season.ContainsMatch(date, opposition, "Walkern");
             Assert.AreEqual(expectedContains, contains);
         }
 
@@ -119,11 +120,12 @@ namespace CricketClasses.SeasonTests
             MatchInfo matchInfo = new MatchInfo
             {
                 Date = new DateTime(2010, 4, 3),
-                Opposition = "Sandon"
+                HomeTeam = "Sandon",
+                AwayTeam = "Walkern"
             };
-            season.AddMatch(matchInfo);
+            _ = season.AddMatch(matchInfo);
 
-            bool removed = season.RemoveMatch(date, opposition);
+            bool removed = season.RemoveMatch(date, opposition, "Walkern");
 
             Assert.AreEqual(expectedRemoval, removed);
             int number = expectedRemoval ? 0 : 1;

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Cricket.Statistics;
+using CricketStructures.Match.Innings;
 using NUnit.Framework;
 using Common.Structure.Validation;
 
-namespace CSD_Tests
+namespace CricketStructures.Tests
 {
     public static class Assertions
     {

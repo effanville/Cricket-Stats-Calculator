@@ -3,7 +3,7 @@ using CricketStructures.Player;
 
 namespace CricketStructures.Match.Innings
 {
-    public sealed class Partnership : IComparable
+    public sealed class Partnership : IComparable<Partnership>
     {
         public int Runs
         {
@@ -33,21 +33,6 @@ namespace CricketStructures.Match.Innings
         {
             get;
             set;
-        }
-
-        public int CompareTo(object obj)
-        {
-            if (obj is Partnership ship)
-            {
-                if (Wicket.Equals(ship.Wicket))
-                {
-                    // this is only sensible to be this way around
-                    // even if more null checks are needed elsewhere
-                    return Runs.CompareTo(ship.Runs);
-                }
-            }
-
-            return 0;
         }
 
         public bool ContainsPlayer(PlayerName player)
@@ -106,6 +91,29 @@ namespace CricketStructures.Match.Innings
         {
             Wicket = wicket;
             Runs = runs;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is Partnership other)
+            {
+                return CompareTo(other);
+            }
+
+            return 0;
+        }
+
+        public int CompareTo(Partnership other)
+        {
+            if (Wicket.Equals(other.Wicket))
+            {
+                // this is only sensible to be this way around
+                // even if more null checks are needed elsewhere
+                return Runs.CompareTo(other.Runs);
+            }
+
+            // partnerships for different wickets are not comparable.
+            return 0;
         }
     }
 }

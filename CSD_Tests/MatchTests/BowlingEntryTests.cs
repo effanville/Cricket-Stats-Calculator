@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using Cricket.Match;
-using Cricket.Player;
-using CSD_Tests;
+using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 using NUnit.Framework;
 using Common.Structure.Validation;
 
-namespace CricketClasses.MatchTests
+namespace CricketStructures.Tests.MatchTests
 {
     [TestFixture]
     public sealed class BowlingEntryTests
