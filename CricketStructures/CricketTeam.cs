@@ -11,6 +11,44 @@ namespace CricketStructures
 {
     public class CricketTeam : ICricketTeam, IValidity
     {
+        /// <inheritdoc/>
+        public string TeamName
+        {
+            get;
+            set;
+        }
+
+        /// <inheritdoc/>
+        public string HomeLocation
+        {
+            get;
+            set;
+        } = string.Empty;
+
+        public List<CricketPlayer> TeamPlayers
+        {
+            get;
+            set;
+        } = new List<CricketPlayer>();
+
+        /// <inheritdoc/>
+        [XmlIgnore]
+        public IReadOnlyList<ICricketPlayer> Players => TeamPlayers.Select(player => (ICricketPlayer)player).ToList();
+
+        public List<CricketSeason> TeamSeasons
+        {
+            get;
+            set;
+        } = new List<CricketSeason>();
+
+        /// <inheritdoc/>
+        [XmlIgnore]
+        public IReadOnlyList<ICricketSeason> Seasons => TeamSeasons.Select(season => (ICricketSeason)season).ToList();
+
+        public CricketTeam()
+        {
+        }
+
         private void OnPlayerAdded(object obj, EventArgs args)
         {
             if (obj is PlayerName name)
@@ -34,64 +72,6 @@ namespace CricketStructures
         public override string ToString()
         {
             return TeamName;
-        }
-
-        public string TeamName
-        {
-            get;
-            set;
-        } = "MyCricketTeam";
-
-        public void SetTeamName(string name)
-        {
-            TeamName = name;
-        }
-
-        public string HomeLocation
-        {
-            get;
-            set;
-        } = string.Empty;
-
-        public void SetTeamHome(string home)
-        {
-            HomeLocation = home;
-        }
-
-        public List<CricketPlayer> TeamPlayers
-        {
-            get;
-            set;
-        } = new List<CricketPlayer>();
-
-        /// <inheritdoc/>
-        [XmlIgnoreAttribute]
-        public List<ICricketPlayer> Players
-        {
-            get
-            {
-                return TeamPlayers.Select(player => (ICricketPlayer)player).ToList();
-            }
-        }
-
-        public List<CricketSeason> TeamSeasons
-        {
-            get;
-            set;
-        } = new List<CricketSeason>();
-
-        /// <inheritdoc/>
-        [XmlIgnoreAttribute]
-        public List<ICricketSeason> Seasons
-        {
-            get
-            {
-                return TeamSeasons.Select(season => (ICricketSeason)season).ToList();
-            }
-        }
-
-        public CricketTeam()
-        {
         }
 
         /// <inheritdoc/>
@@ -172,19 +152,9 @@ namespace CricketStructures
             return null;
         }
 
-        public bool RemoveSeason(DateTime year, string name)
+        public int RemoveSeason(DateTime year, string name)
         {
-            int removed = TeamSeasons.RemoveAll(season => season.SameSeason(year, name));
-            if (removed == 1)
-            {
-                return true;
-            }
-            if (removed == 0)
-            {
-                return false;
-            }
-
-            throw new Exception($"Had {removed} seasons with year {year} and name {name}, but should have at most 1.");
+            return TeamSeasons.RemoveAll(season => season.SameSeason(year, name));
         }
 
         public bool Validate()

@@ -38,7 +38,7 @@ namespace CricketStructures.Match
             set;
         }
 
-        public MatchInfo()
+        internal MatchInfo()
         {
         }
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using CricketStructures.Match;
-using CricketStructures.Player;
 using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 
 namespace CricketStructures.Interfaces
 {
@@ -52,10 +52,10 @@ namespace CricketStructures.Interfaces
         /// The players for the team who played for the team specified.
         /// A null team defaults to a team specified by the atHome flag.
         /// </summary>
-        List<PlayerName> Players(string team = null);
+        List<PlayerName> Players(string team);
 
         /// <summary>
-        /// Query to determine whether a player played or not for the team.
+        /// Query to determine whether a player played or not for this team.
         /// </summary>
         bool PlayNotPlay(string team, PlayerName name);
 
@@ -85,6 +85,11 @@ namespace CricketStructures.Interfaces
         /// <param name="team"></param>
         /// <returns></returns>
         InningsScore Score(string team);
+
+        /// <summary>
+        /// The result of the match, detailing the winning margin.
+        /// </summary>
+        MatchResult MatchResult();
 
         /// <summary>
         /// Returns whether the team with name team batted first.

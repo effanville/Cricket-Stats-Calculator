@@ -24,24 +24,28 @@ namespace CricketStructures.Match.Innings
         {
             get;
             set;
-        } = new List<BattingEntry>();
+        }
 
         public List<BowlingEntry> Bowling
         {
             get;
             set;
-        } = new List<BowlingEntry>();
+        }
 
         public Extras InningsExtras
         {
-            get; set;
+            get;
+            set;
         }
 
         public CricketInnings()
         {
+            Batting = new List<BattingEntry>();
+            Bowling = new List<BowlingEntry>();
         }
 
         public CricketInnings(string battingTeam, string fieldingTeam)
+            : this()
         {
             BattingTeam = battingTeam;
             FieldingTeam = fieldingTeam;
@@ -117,7 +121,7 @@ namespace CricketStructures.Match.Innings
         public bool IsFieldingPlayer(PlayerName player)
         {
             bool players = Bowling.Any(card => card.Name.Equals(player));
-            bool fielding = Batting.Any(card => card.Fielder.Equals(player));
+            bool fielding = Batting.Any(card => card.Fielder?.Equals(player) ?? false);
             return players | fielding;
         }
 
@@ -161,7 +165,8 @@ namespace CricketStructures.Match.Innings
             BattingEntry result = Batting.Find(entry => entry.Name.Equals(player));
             if (result == null)
             {
-                Batting.Add(new BattingEntry(player));
+                result = new BattingEntry(player);
+                Batting.Add(result);
             }
 
             result.SetScores(howOut, runs, order, wicketToFallAt, teamScoreAtWicket, fielder, wasKeeper, bowler);
@@ -178,7 +183,8 @@ namespace CricketStructures.Match.Innings
             BowlingEntry result = Bowling.Find(entry => entry.Name.Equals(player));
             if (result == null)
             {
-                Bowling.Add(new BowlingEntry(player));
+                result = new BowlingEntry(player);
+                Bowling.Add(result);
             }
 
             result.SetBowling(overs, maidens, runsConceded, wickets, wides, noBalls);

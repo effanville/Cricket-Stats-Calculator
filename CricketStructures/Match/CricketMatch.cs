@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CricketStructures.Match.Innings;
 using CricketStructures.Interfaces;
 using CricketStructures.Player;
 using StructureCommon.Extensions;
 using StructureCommon.Validation;
-using CricketStructures.Match.Innings;
 
 namespace CricketStructures.Match
 {
@@ -49,19 +49,12 @@ namespace CricketStructures.Match
         /// <summary>
         /// default generator of match
         /// </summary>
-        public CricketMatch(string teamName, string homeTeam, string awayTeam, DateTime date, bool battingFirst)
+        public CricketMatch(string homeTeam, string awayTeam, DateTime date, MatchType matchType, bool homeTeamBattingFirst, string location = null)
         {
-            MatchData = new MatchInfo()
-            {
-                HomeTeam = homeTeam,
-                AwayTeam = awayTeam,
-                Date = date
-            };
+            MatchData = new MatchInfo(homeTeam, awayTeam, location, date, matchType);
 
-            string team = teamName.Equals(homeTeam) ? homeTeam : awayTeam;
-            string opposition = !teamName.Equals(homeTeam) ? homeTeam : awayTeam;
-            FirstInnings = new CricketInnings(battingFirst ? team : opposition, battingFirst ? opposition : team);
-            SecondInnings = new CricketInnings(battingFirst ? opposition : team, battingFirst ? team : opposition);
+            FirstInnings = new CricketInnings(homeTeamBattingFirst ? homeTeam : awayTeam, homeTeamBattingFirst ? awayTeam : homeTeam);
+            SecondInnings = new CricketInnings(homeTeamBattingFirst ? awayTeam : homeTeam, homeTeamBattingFirst ? homeTeam : awayTeam);
         }
 
         public CricketMatch(MatchInfo info)
@@ -71,8 +64,10 @@ namespace CricketStructures.Match
             SecondInnings = new CricketInnings();
         }
 
-        public CricketMatch()
+        internal CricketMatch()
         {
+            FirstInnings = new CricketInnings();
+            SecondInnings = new CricketInnings();
         }
 
         public event EventHandler PlayerAdded;
@@ -323,32 +318,10 @@ namespace CricketStructures.Match
 
             return null;
         }
-    }
 
-    public static class InningsHelpers
-    {
-        public static CricketInnings SelectBattingInnings(CricketInnings firstInnings, CricketInnings secondInnings, string battingTeam)
+        public MatchResult MatchResult()
         {
-            return SelectInnings(firstInnings, secondInnings, innings => innings.BattingTeam.Equals(battingTeam));
-        }
-
-        public static CricketInnings SelectFieldingInnings(CricketInnings firstInnings, CricketInnings secondInnings, string fieldingTeam)
-        {
-            return SelectInnings(firstInnings, secondInnings, innings => innings.FieldingTeam.Equals(fieldingTeam));
-        }
-
-        public static CricketInnings SelectInnings(CricketInnings firstInnings, CricketInnings secondInnings, Func<CricketInnings, bool> teamSelector)
-        {
-            if (teamSelector(firstInnings))
-            {
-                return firstInnings;
-            }
-            if (teamSelector(secondInnings))
-            {
-                return secondInnings;
-            }
-
-            return null;
+            throw new NotImplementedException();
         }
     }
 }

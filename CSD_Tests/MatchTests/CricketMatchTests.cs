@@ -72,6 +72,14 @@ namespace CricketStructures.Tests.MatchTests
             Assert.AreEqual(player, match.MenOfMatch);
         }
 
+        [SetUp]
+        public void Setup()
+        {
+            MatchToTest = new CricketMatch("Sandon", "Walkern", new DateTime(), MatchType.League, false);
+        }
+
+        public CricketMatch MatchToTest;
+
         [Test]
         public void CanSetBatting()
         {
@@ -81,24 +89,23 @@ namespace CricketStructures.Tests.MatchTests
 
             innings.SetBatting(player1, Wicket.Bowled, 5, 1, 1, 0);
             innings.SetBatting(player2, Wicket.RunOut, 9, 1, 1, 0);
-            var match = new CricketMatch("Sandon", "Walkern", new DateTime(), false);
 
-            match.SetInnings(innings, first: true);
+            MatchToTest.SetInnings(innings, first: true);
 
-            Assert.AreEqual(3, match.FirstInnings.Batting.Count);
-            var player1Scores = match.GetBatting("Sandon", player1);
+            Assert.AreEqual(3, MatchToTest.FirstInnings.Batting.Count);
+            var player1Scores = MatchToTest.GetBatting("Sandon", player1);
             Assert.AreEqual(Wicket.Bowled, player1Scores.MethodOut);
             Assert.AreEqual(5, player1Scores.RunsScored);
             Assert.AreEqual(null, player1Scores.Fielder);
             Assert.AreEqual(null, player1Scores.Bowler);
 
-            var player2Scores = match.GetBatting("Sandon", player2);
+            var player2Scores = MatchToTest.GetBatting("Sandon", player2);
             Assert.AreEqual(Wicket.RunOut, player2Scores.MethodOut);
             Assert.AreEqual(9, player2Scores.RunsScored);
             Assert.AreEqual(null, player2Scores.Fielder);
             Assert.AreEqual(null, player2Scores.Bowler);
 
-            var playerScores = match.GetBatting("Sandon", new PlayerName("Smith", "Steve"));
+            var playerScores = MatchToTest.GetBatting("Sandon", new PlayerName("Smith", "Steve"));
             Assert.AreEqual(Wicket.DidNotBat, playerScores.MethodOut);
             Assert.AreEqual(0, playerScores.RunsScored);
             Assert.AreEqual(null, playerScores.Fielder);
@@ -113,7 +120,6 @@ namespace CricketStructures.Tests.MatchTests
         [TestCase("Smith", "Jobs", "Bowled", 5, true, false)]
         public void CanAddBattingEntry(string surname, string forename, Wicket howOut, int runs, bool fielderAdd, bool bowlerAdd)
         {
-            var match = new CricketMatch("Sandon", "Walkern", new DateTime(), true);
             PlayerName fielder = null;
             if (fielderAdd)
             {
@@ -125,9 +131,9 @@ namespace CricketStructures.Tests.MatchTests
                 bowler = new PlayerName("Steyn", "Dale");
             }
 
-            match.SetBatting("Sandon", new PlayerName(surname, forename), howOut, runs, 1, 1, 0, fielder, false, bowler);
+            MatchToTest.SetBatting("Sandon", new PlayerName(surname, forename), howOut, runs, 1, 1, 0, fielder, false, bowler);
 
-            var player = match.GetBatting("Sandon", new PlayerName(surname, forename));
+            var player = MatchToTest.GetBatting("Sandon", new PlayerName(surname, forename));
             Assert.AreEqual(howOut, player.MethodOut);
             Assert.AreEqual(runs, player.RunsScored);
             Assert.AreEqual(fielder, player.Fielder);
@@ -142,7 +148,6 @@ namespace CricketStructures.Tests.MatchTests
         [TestCase("Smith", "Steve", "Bowled", 5, true, false, true)]
         public void CanEditBattingEntry(string surname, string forename, Wicket howOut, int runs, bool fielderAdd, bool bowlerAdd, bool edited)
         {
-            var match = new CricketMatch("Sandon", "Walkern", new DateTime(), false);
             PlayerName fielder = null;
             if (fielderAdd)
             {
@@ -154,9 +159,9 @@ namespace CricketStructures.Tests.MatchTests
                 bowler = new PlayerName("Steyn", "Dale");
             }
 
-            match.SetBatting("Sandon", new PlayerName(surname, forename), howOut, runs, 1, 1, 0, fielder, false, bowler);
+            MatchToTest.SetBatting("Sandon", new PlayerName(surname, forename), howOut, runs, 1, 1, 0, fielder, false, bowler);
 
-            var player = match.GetBatting("Sandon", new PlayerName(surname, forename));
+            var player = MatchToTest.GetBatting("Sandon", new PlayerName(surname, forename));
             Assert.AreEqual(howOut, player.MethodOut);
             Assert.AreEqual(runs, player.RunsScored);
             Assert.AreEqual(fielder, player.Fielder);
@@ -168,45 +173,41 @@ namespace CricketStructures.Tests.MatchTests
         [TestCase("Smith", "Jobs", false)]
         public void CanDeleteBattingEntry(string surname, string forename, bool deleted)
         {
-            var match = new CricketMatch("Sandon", "Walkern", new DateTime(), false);
             var player1 = new PlayerName("Smith", "Steve");
             var player2 = new PlayerName("Root", "Joe");
-            match.SetBatting("Sandon", player1, Wicket.Bowled, 0, 0, 0, 0);
-            match.SetBatting("Sandon", player2, Wicket.Bowled, 0, 0, 0, 0);
-            bool didDelete = match.DeleteBattingEntry("Sandon", new PlayerName(surname, forename));
+            MatchToTest.SetBatting("Sandon", player1, Wicket.Bowled, 0, 0, 0, 0);
+            MatchToTest.SetBatting("Sandon", player2, Wicket.Bowled, 0, 0, 0, 0);
+            bool didDelete = MatchToTest.DeleteBattingEntry("Sandon", new PlayerName(surname, forename));
             Assert.AreEqual(deleted, didDelete);
         }
 
         [Test]
         public void CanSetBowling()
         {
-            var players = new List<PlayerName>() { new PlayerName("Smith", "Steve"), new PlayerName("Root", "Joe") };
-
             var player1 = new PlayerName("Root", "Joe");
             var player2 = new PlayerName("Smith", "Jobs");
             var innings = new CricketInnings("Walkern", "Sandon");
 
             innings.SetBowling(player1, 4, 2, 23, 1);
             innings.SetBowling(player2, 5, 1, 19, 4);
-            var match = new CricketMatch("Sandon", "Walkern", new DateTime(), false);
 
-            match.SetInnings(innings, true);
+            MatchToTest.SetInnings(innings, true);
 
-            Assert.AreEqual(3, match.FirstInnings.Bowling.Count);
+            Assert.AreEqual(3, MatchToTest.FirstInnings.Bowling.Count);
 
-            var player1Scores = match.GetBowling("Walkern", player1);
+            var player1Scores = MatchToTest.GetBowling("Walkern", player1);
             Assert.AreEqual(4, player1Scores.OversBowled);
             Assert.AreEqual(2, player1Scores.Maidens);
             Assert.AreEqual(23, player1Scores.RunsConceded);
             Assert.AreEqual(1, player1Scores.Wickets);
 
-            var player2Scores = match.GetBowling("Walkern", player2);
+            var player2Scores = MatchToTest.GetBowling("Walkern", player2);
             Assert.AreEqual(5, player2Scores.OversBowled);
             Assert.AreEqual(1, player2Scores.Maidens);
             Assert.AreEqual(19, player2Scores.RunsConceded);
             Assert.AreEqual(4, player2Scores.Wickets);
 
-            var playerScores = match.GetBowling("Walkern", new PlayerName("Smith", "Steve"));
+            var playerScores = MatchToTest.GetBowling("Walkern", new PlayerName("Smith", "Steve"));
             Assert.AreEqual(0, playerScores.OversBowled);
             Assert.AreEqual(0, playerScores.Maidens);
             Assert.AreEqual(0, playerScores.RunsConceded);
@@ -218,11 +219,9 @@ namespace CricketStructures.Tests.MatchTests
         [TestCase("Smith", "Jobs", 4, 4, 23, 1, true)]
         public void CanAddBowlingEntry(string surname, string forename, int overs, int maidens, int runs, int wickets, bool added)
         {
-            var match = new CricketMatch("Sandon", "Walkern", new DateTime(), false);
+            MatchToTest.SetBowling("Sandon", new PlayerName(surname, forename), overs, maidens, runs, wickets);
 
-            match.SetBowling("Sandon", new PlayerName(surname, forename), overs, maidens, runs, wickets);
-
-            var player = match.GetBowling("Sandon", new PlayerName(surname, forename));
+            var player = MatchToTest.GetBowling("Sandon", new PlayerName(surname, forename));
             Assert.AreEqual(overs, player.OversBowled);
             Assert.AreEqual(maidens, player.Maidens);
             Assert.AreEqual(runs, player.RunsConceded);
@@ -236,12 +235,9 @@ namespace CricketStructures.Tests.MatchTests
         [TestCase("Smith", "Steve", 5, 4, 23, 1, true)]
         public void CanEditBowlingEntry(string surname, string forename, int overs, int maidens, int runs, int wickets, bool edited)
         {
-            var players = new List<PlayerName>() { new PlayerName("Smith", "Steve"), new PlayerName("Root", "Joe") };
-            var match = new CricketMatch("Sandon", "Walkern", new DateTime(), false);
+            MatchToTest.SetBowling("Sandon", new PlayerName(surname, forename), overs, maidens, runs, wickets);
 
-            match.SetBowling("Sandon", new PlayerName(surname, forename), overs, maidens, runs, wickets);
-
-            var player = match.GetBowling("Sandon", new PlayerName(surname, forename));
+            var player = MatchToTest.GetBowling("Sandon", new PlayerName(surname, forename));
             Assert.AreEqual(overs, player.OversBowled);
             Assert.AreEqual(maidens, player.Maidens);
             Assert.AreEqual(runs, player.RunsConceded);
@@ -253,10 +249,9 @@ namespace CricketStructures.Tests.MatchTests
         [TestCase("Smith", "Jobs", false)]
         public void CanDeleteBowlingEntry(string surname, string forename, bool deleted)
         {
-            var match = new CricketMatch("Sandon", "Walkern", new DateTime(), false);
-            match.SetBowling("Sandon", new PlayerName("Smith", "Steve"), 0, 0, 0, 0);
-            match.SetBowling("Sandon", new PlayerName("Root", "Joe"), 0, 0, 0, 0);
-            var didDelete = match.DeleteBowlingEntry("Sandon", new PlayerName(surname, forename));
+            MatchToTest.SetBowling("Sandon", new PlayerName("Smith", "Steve"), 0, 0, 0, 0);
+            MatchToTest.SetBowling("Sandon", new PlayerName("Root", "Joe"), 0, 0, 0, 0);
+            var didDelete = MatchToTest.DeleteBowlingEntry("Sandon", new PlayerName(surname, forename));
             Assert.AreEqual(deleted, didDelete);
         }
 

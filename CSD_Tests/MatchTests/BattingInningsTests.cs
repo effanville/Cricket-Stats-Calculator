@@ -56,10 +56,10 @@ namespace CricketStructures.Tests.MatchTests
             innings.SetBatting(player2, Wicket.DidNotBat, 0, 0, 1, 3);
             Assert.AreEqual(2, innings.Batting.Count);
 
-            var player1Batting = innings.GetBatting("other", player1);
+            var player1Batting = innings.GetBatting("", player1);
             Assert.AreEqual(5, player1Batting.RunsScored);
             Assert.AreEqual(Wicket.Bowled, player1Batting.MethodOut);
-            var player2Batting = innings.GetBatting("other", player2);
+            var player2Batting = innings.GetBatting("", player2);
             Assert.AreEqual(0, player2Batting.RunsScored);
             Assert.AreEqual(Wicket.DidNotBat, player2Batting.MethodOut);
         }

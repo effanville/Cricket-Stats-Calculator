@@ -124,13 +124,13 @@ namespace CricketStructures.Statistics
             {
                 return;
             }
-            season.CalculateGamesPlayed(matchTypes);
+            var seasonGames = season.CalculateGamesPlayed(matchTypes);
 
-            GamesPlayed += season.GamesPlayed;
-            NumberWins += season.NumberWins;
-            NumberLosses += season.NumberLosses;
-            NumberDraws += season.NumberDraws;
-            NumberTies += season.NumberTies;
+            GamesPlayed += seasonGames.GamesPlayed;
+            NumberWins += seasonGames.NumberWins;
+            NumberLosses += seasonGames.NumberLosses;
+            NumberDraws += seasonGames.NumberDraws;
+            NumberTies += seasonGames.NumberTies;
         }
 
         public void CalculatePlayerStats(ICricketTeam team, Match.MatchType[] matchTypes)
@@ -149,7 +149,7 @@ namespace CricketStructures.Statistics
                 return;
             }
 
-            foreach (PlayerName player in season.Players)
+            foreach (PlayerName player in season.Players(teamName))
             {
                 PlayerBriefStatistics playerStats = new PlayerBriefStatistics(teamName, player, season, matchTypes);
                 SeasonPlayerStats.Add(playerStats);

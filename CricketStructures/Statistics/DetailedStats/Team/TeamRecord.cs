@@ -52,12 +52,12 @@ namespace CricketStructures.Statistics.DetailedStats
 
         public TeamRecord(ICricketSeason season)
         {
-            season.CalculateGamesPlayed(MatchHelpers.AllMatchTypes);
-            Played = season.GamesPlayed;
-            Won = season.NumberWins;
-            Lost = season.NumberLosses;
-            Drew = season.NumberDraws;
-            Tie = season.NumberTies;
+            var seasonGames = season.CalculateGamesPlayed(MatchHelpers.AllMatchTypes);
+            Played = seasonGames.GamesPlayed;
+            Won = seasonGames.NumberWins;
+            Lost = seasonGames.NumberLosses;
+            Drew = seasonGames.NumberDraws;
+            Tie = seasonGames.NumberTies;
             WinRatio = Won / (double)Played;
         }
 

@@ -109,19 +109,19 @@ namespace CricketStructures.Tests
             Assert.AreEqual(expectedContains, team.ContainsSeason(dateToTest, nameToTest));
         }
 
-        [TestCase("2000/1/1", "Worst", true)]
-        [TestCase("2000/1/1", "Fish", false)]
-        [TestCase("2001/1/1", "Worst", false)]
-        [TestCase("2001/1/1", "Day", false)]
-        public void CanRemoveSeason(DateTime dateToTest, string nameToTest, bool expectedRemoved)
+        [TestCase("2000/1/1", "Worst", 1)]
+        [TestCase("2000/1/1", "Fish", 0)]
+        [TestCase("2001/1/1", "Worst", 0)]
+        [TestCase("2001/1/1", "Day", 0)]
+        public void CanRemoveSeason(DateTime dateToTest, string nameToTest, int expectedRemoved)
         {
             CricketTeam team = new CricketTeam();
             DateTime date = new DateTime(2000, 1, 1);
-            team.AddSeason(date, "Worst");
+            _ = team.AddSeason(date, "Worst");
             Assert.AreEqual(1, team.Seasons.Count);
 
             Assert.AreEqual(expectedRemoved, team.RemoveSeason(dateToTest, nameToTest));
-            int number = expectedRemoved ? 0 : 1;
+            int number = 1 - expectedRemoved;
             Assert.AreEqual(number, team.Seasons.Count);
         }
     }

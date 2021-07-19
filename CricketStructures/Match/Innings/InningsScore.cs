@@ -4,6 +4,26 @@ namespace CricketStructures.Match.Innings
 {
     public class InningsScore : IComparable, IEquatable<InningsScore>
     {
+        public int Runs
+        {
+            get; set;
+        }
+
+        public int Wickets
+        {
+            get; set;
+        }
+
+        public InningsScore()
+        {
+        }
+
+        public InningsScore(int runs, int wickets)
+        {
+            Runs = runs;
+            Wickets = wickets;
+        }
+
         public override string ToString()
         {
             return Runs + " - " + Wickets;
@@ -29,24 +49,15 @@ namespace CricketStructures.Match.Innings
             return Runs.Equals(other.Runs) && Wickets.Equals(other.Wickets);
         }
 
-        public int Runs
+        public override bool Equals(object obj)
         {
-            get; set;
+            return Equals(obj as InningsScore);
         }
 
-        public int Wickets
+        public override int GetHashCode()
         {
-            get; set;
-        }
-
-        public InningsScore()
-        {
-        }
-
-        public InningsScore(int runs, int wickets)
-        {
-            Runs = runs;
-            Wickets = wickets;
+            int hashcode = 11 + Runs.GetHashCode();
+            return hashcode * Wickets.GetHashCode();
         }
     }
 }

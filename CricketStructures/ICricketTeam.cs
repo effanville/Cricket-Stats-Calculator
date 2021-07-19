@@ -14,6 +14,7 @@ namespace CricketStructures.Interfaces
         string TeamName
         {
             get;
+            set;
         }
 
         /// <summary>
@@ -22,12 +23,13 @@ namespace CricketStructures.Interfaces
         string HomeLocation
         {
             get;
+            set;
         }
 
         /// <summary>
         /// The players associated to this team.
         /// </summary>
-        List<ICricketPlayer> Players
+        IReadOnlyList<ICricketPlayer> Players
         {
             get;
         }
@@ -35,28 +37,19 @@ namespace CricketStructures.Interfaces
         /// <summary>
         /// The seasons for which this team has played games.
         /// </summary>
-        List<ICricketSeason> Seasons
+        IReadOnlyList<ICricketSeason> Seasons
         {
             get;
         }
-
-        /// <summary>
-        /// Sets the name of the team.
-        /// </summary>
-        /// <param name="name"></param>
-        void SetTeamName(string name);
-
-        /// <summary>
-        /// Sets the home location of the team.
-        /// </summary>
-        /// <param name="home"></param>
-        void SetTeamHome(string home);
 
         /// <summary>
         /// Adds a player to the teams player list.
         /// </summary>
         bool AddPlayer(PlayerName name);
 
+        /// <summary>
+        /// Alters the player name in all matches in every season.
+        /// </summary>
         void EditPlayerName(PlayerName oldName, PlayerName newName);
 
         /// <summary>
@@ -93,7 +86,6 @@ namespace CricketStructures.Interfaces
         /// <summary>
         /// Removes the season with the specified name and year.
         /// </summary>
-        /// <exception cref="Exception"> Thrown if removes too many seasons.</exception>
-        bool RemoveSeason(DateTime year, string name);
+        int RemoveSeason(DateTime year, string name);
     }
 }
