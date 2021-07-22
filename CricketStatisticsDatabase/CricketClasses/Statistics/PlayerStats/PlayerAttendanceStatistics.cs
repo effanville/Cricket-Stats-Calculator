@@ -50,7 +50,7 @@ namespace Cricket.Statistics
         {
         }
 
-        public PlayerAttendanceStatistics(PlayerName name, MatchType[] matchTypes)
+        public PlayerAttendanceStatistics(PlayerName name)
         {
             Name = name;
         }

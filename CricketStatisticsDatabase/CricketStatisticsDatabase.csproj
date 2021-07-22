@@ -23,8 +23,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Common.Structure" Version="1.0.21" />
+		<PackageReference Include="Common.Structure" Version="1.0.22" />
 		<PackageReference Include="Common.UI" Version="1.0.9" />
 	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CricketStructures\CricketStructures.csproj" />
+  </ItemGroup>
 
 </Project>

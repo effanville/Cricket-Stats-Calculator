@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Cricket.Interfaces;
-using Cricket.Team;
-using CricketStatisticsDatabase;
+using CricketStructures;
+using GUI.ViewModels;
 using Common.Structure.FileAccess;
 using Common.UI.Commands;
 using Common.UI.Services;
 using Common.UI.ViewModelBases;
 
-namespace GUI.ViewModels
+namespace CSD.GUI.ViewModels
 {
-    public class MainWindowViewModel : PropertyChangedBase
+    internal sealed class MainWindowVM : PropertyChangedBase
     {
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
 
-        public CricketTeam TeamToPlayWith
+        public CricketTeam Database
         {
             get;
             set;
@@ -38,27 +37,23 @@ namespace GUI.ViewModels
             }
         }
 
-        public MainWindowViewModel(IFileInteractionService fileService, IDialogCreationService dialogService)
+        public MainWindowVM(IFileInteractionService fileService, IDialogCreationService dialogService)
         {
-            TeamToPlayWith = new CricketTeam();
+            Database = new CricketTeam();
             fFileService = fileService;
             fDialogService = dialogService;
             NewTeamCommand = new RelayCommand(ExecuteNewTeamCommand);
             LoadTeamCommand = new RelayCommand(ExecuteLoadTeamCommand);
             SaveTeamCommand = new RelayCommand(ExecuteSaveTeamCommand);
-
-            DisplayTabs.Add(new TeamOverviewViewModel(UpdateDatabase, TeamToPlayWith.Players, TeamToPlayWith.Seasons));
-            DisplayTabs.Add(new PlayerEditViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
-            DisplayTabs.Add(new SeasonEditViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
-            DisplayTabs.Add(new StatsViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
-
-            ReportingView = new ReportingViewModel(TeamToPlayWith);
+            ReportingView = new ReportingViewModel(null);
         }
+
+
         public Action<Action<ICricketTeam>> UpdateDatabase => action => UpdateDatabaseFromAction(action);
 
         private void UpdateDatabaseFromAction(Action<ICricketTeam> updateTeam)
         {
-            updateTeam(TeamToPlayWith);
+            updateTeam(Database);
             UpdateSubWindows();
         }
 
@@ -68,11 +63,11 @@ namespace GUI.ViewModels
             {
                 if (tab is ViewModelBase<ICricketTeam> vmb)
                 {
-                    vmb.UpdateData(TeamToPlayWith);
+                    vmb.UpdateData(Database);
                 }
             }
 
-            ReportingView?.UpdateData(TeamToPlayWith);
+            ReportingView?.UpdateData(null);
         }
 
 
@@ -86,7 +81,7 @@ namespace GUI.ViewModels
             System.Windows.MessageBoxResult result = fDialogService.ShowMessageBox("Are you sure you want a new team?", "New Team?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
             if (result == System.Windows.MessageBoxResult.Yes)
             {
-                TeamToPlayWith = new CricketTeam();
+                Database = new CricketTeam();
                 UpdateSubWindows();
             }
         }
@@ -104,8 +99,8 @@ namespace GUI.ViewModels
                 CricketTeam database = XmlFileAccess.ReadFromXmlFile<CricketTeam>(result.FilePath, out string error);
                 if (error == null)
                 {
-                    TeamToPlayWith = database;
-                    TeamToPlayWith.SetupEventListening();
+                    Database = database;
+                    Database.SetupEventListening();
                     UpdateSubWindows();
                 }
             }
@@ -120,9 +115,7 @@ namespace GUI.ViewModels
             FileInteractionResult result = fFileService.SaveFile("xml", string.Empty, string.Empty, "XML Files|*.xml|All Files|*.*");
             if (result.Success != null && (bool)result.Success)
             {
-                XmlFileAccess.WriteToXmlFile<CricketTeam>(result.FilePath, TeamToPlayWith, out string error);
-                var newStyle = TeamConverter.Conversion(TeamToPlayWith);
-                XmlFileAccess.WriteToXmlFile(result.FilePath + "new.xml", newStyle, out error);
+                XmlFileAccess.WriteToXmlFile<CricketTeam>(result.FilePath, Database, out string error);
             }
         }
     }

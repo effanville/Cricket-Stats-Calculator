@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using CricketStructures.Match;
+using System.Text;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
 
-namespace CricketStructures.Interfaces
+namespace CricketStructures.Match
 {
     public interface ICricketMatch
     {
@@ -70,6 +70,13 @@ namespace CricketStructures.Interfaces
         void EditInfo(string homeTeam = null, string awayTeam = null, DateTime? date = null, string location = null, MatchType? typeOfMatch = null, ResultType? result = null);
 
         /// <summary>
+        /// Sets the outcome of the toss as to who bats first. Uses the current home and 
+        /// away team names.
+        /// </summary>
+        /// <param name="isHomeTeam">Whether the home team is batting first.</param>
+        void SetBattingFirst(bool isHomeTeam);
+
+        /// <summary>
         /// Edit the man of the match for the game.
         /// </summary>
         bool EditManOfMatch(PlayerName[] player);
@@ -123,5 +130,6 @@ namespace CricketStructures.Interfaces
         bool DeleteBowlingEntry(string team, PlayerName player);
 
         List<Partnership> Partnerships(string team = null);
+        StringBuilder SerializeToString();
     }
 }

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CricketStructures.Interfaces;
+using CricketStructures.Season;
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
 using CricketStructures.Player.Interfaces;
-using StructureCommon.FileAccess;
+using Common.Structure.FileAccess;
+using Common.Structure.ReportWriting;
 
 namespace CricketStructures.Statistics
 {

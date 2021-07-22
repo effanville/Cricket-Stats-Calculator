@@ -78,7 +78,7 @@ namespace Cricket.Statistics
             BattingStats = new PlayerBattingStatistics(name, matchTypes);
             BowlingStats = new PlayerBowlingStatistics(name, matchTypes);
             FieldingStats = new PlayerFieldingStatistics(name, matchTypes);
-            Played = new PlayerAttendanceStatistics(name, matchTypes);
+            Played = new PlayerAttendanceStatistics(name);
         }
         public PlayerBriefStatistics(PlayerName name, ICricketSeason season)
             : this(name, season, MatchHelpers.AllMatchTypes)

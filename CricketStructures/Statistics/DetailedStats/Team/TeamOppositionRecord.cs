@@ -1,4 +1,4 @@
-﻿using CricketStructures.Interfaces;
+﻿using CricketStructures.Match;
 
 namespace CricketStructures.Statistics.DetailedStats
 {

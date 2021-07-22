@@ -1,7 +1,8 @@
 ﻿using System;
-using CricketStructures.Interfaces;
+using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
+using CricketStructures.Season;
 
 namespace CricketStructures.Statistics.PlayerStats
 {
@@ -79,7 +80,7 @@ namespace CricketStructures.Statistics.PlayerStats
 
         public CareerBowlingRecord(PlayerName name, ICricketTeam team)
         {
-            var teamName = team.TeamName;
+            string teamName = team.TeamName;
             Name = name;
             Overs = 0;
             Maidens = 0;

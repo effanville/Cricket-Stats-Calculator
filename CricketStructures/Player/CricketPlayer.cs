@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CricketStructures.Player.Interfaces;
-using StructureCommon.Validation;
+using Common.Structure.Validation;
 
 namespace CricketStructures.Player
 {
@@ -14,6 +14,7 @@ namespace CricketStructures.Player
         {
             return Name.ToString();
         }
+
         public CricketPlayer()
         {
         }

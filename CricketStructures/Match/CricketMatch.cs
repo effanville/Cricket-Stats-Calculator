@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using CricketStructures.Match.Innings;
-using CricketStructures.Interfaces;
 using CricketStructures.Player;
-using StructureCommon.Extensions;
-using StructureCommon.Validation;
+using Common.Structure.Extensions;
+using Common.Structure.Validation;
+using System.Text;
 
 namespace CricketStructures.Match
 {
     public sealed class CricketMatch : ICricketMatch, IValidity
     {
         /// <inheritdoc/>
+        [XmlElement]
         public MatchInfo MatchData
         {
             get;
@@ -19,6 +21,7 @@ namespace CricketStructures.Match
         }
 
         /// <inheritdoc/>
+        [XmlElement]
         public ResultType Result
         {
             get;
@@ -26,6 +29,7 @@ namespace CricketStructures.Match
         }
 
         /// <inheritdoc/>
+        [XmlElement]
         public PlayerName[] MenOfMatch
         {
             get;
@@ -33,6 +37,7 @@ namespace CricketStructures.Match
         }
 
         /// <inheritdoc/>
+        [XmlElement]
         public CricketInnings FirstInnings
         {
             get;
@@ -40,6 +45,7 @@ namespace CricketStructures.Match
         }
 
         /// <inheritdoc/>
+        [XmlElement]
         public CricketInnings SecondInnings
         {
             get;
@@ -49,7 +55,7 @@ namespace CricketStructures.Match
         /// <summary>
         /// default generator of match
         /// </summary>
-        public CricketMatch(string homeTeam, string awayTeam, DateTime date, MatchType matchType, bool homeTeamBattingFirst, string location = null)
+        internal CricketMatch(string homeTeam, string awayTeam, DateTime date, MatchType matchType, bool homeTeamBattingFirst, string location = null)
         {
             MatchData = new MatchInfo(homeTeam, awayTeam, location, date, matchType);
 
@@ -57,15 +63,16 @@ namespace CricketStructures.Match
             SecondInnings = new CricketInnings(homeTeamBattingFirst ? awayTeam : homeTeam, homeTeamBattingFirst ? homeTeam : awayTeam);
         }
 
-        public CricketMatch(MatchInfo info)
+        internal CricketMatch(MatchInfo info)
         {
             MatchData = info;
             FirstInnings = new CricketInnings();
             SecondInnings = new CricketInnings();
         }
 
-        internal CricketMatch()
+        public CricketMatch()
         {
+            MatchData = new MatchInfo();
             FirstInnings = new CricketInnings();
             SecondInnings = new CricketInnings();
         }
@@ -139,6 +146,19 @@ namespace CricketStructures.Match
             {
                 Result = result.Value;
             }
+        }
+
+        /// <inheritdoc/>
+        public void SetBattingFirst(bool isHomeTeam)
+        {
+            string battingFirst = isHomeTeam ? MatchData.HomeTeam : MatchData.AwayTeam;
+            string bowlingFirst = isHomeTeam ? MatchData.AwayTeam : MatchData.HomeTeam;
+
+            FirstInnings.BattingTeam = battingFirst;
+            FirstInnings.FieldingTeam = bowlingFirst;
+            SecondInnings.BattingTeam = bowlingFirst;
+            SecondInnings.FieldingTeam = battingFirst;
+
         }
 
         /// <inheritdoc/>
@@ -245,7 +265,7 @@ namespace CricketStructures.Match
             var innings = InningsHelpers.SelectFieldingInnings(FirstInnings, SecondInnings, team);
             if (innings != null)
             {
-                if (innings.IsBattingPlayer(player))
+                if (innings.IsBowlingPlayer(player))
                 {
                     return innings.GetBowling(team, player);
                 }
@@ -321,7 +341,44 @@ namespace CricketStructures.Match
 
         public MatchResult MatchResult()
         {
+            var firstInningsScore = FirstInnings.Score();
+            var secondInningsScore = SecondInnings.Score();
+
+            if (firstInningsScore.Runs > secondInningsScore.Runs)
+            {
+                return new MatchResult(FirstInnings.BattingTeam, FirstInnings.FieldingTeam, winningRunMargin: firstInningsScore.Runs - secondInningsScore.Runs);
+            }
+            else if (firstInningsScore.Runs < secondInningsScore.Runs)
+            {
+                return new MatchResult(SecondInnings.BattingTeam, SecondInnings.FieldingTeam, winningWicketMargin: 10 - secondInningsScore.Wickets);
+            }
+            else
+            {
+                return new MatchResult("", "");
+            }
+
             throw new NotImplementedException();
+        }
+
+        public StringBuilder SerializeToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            _ = sb.AppendLine("-------------------------------------")
+                .AppendLine($"{MatchData.HomeTeam} vs {MatchData.AwayTeam}. Venue: {MatchData.Location}. Date: {MatchData.Date}. Type of Match: {MatchData.Type}")
+                .AppendLine("-------------------------------------");
+
+            var firstInningsString = FirstInnings.SerializeToString();
+            _ = sb.Append(firstInningsString)
+                .AppendLine();
+
+            var secondInningsString = SecondInnings.SerializeToString();
+            _ = sb.Append(secondInningsString)
+                .AppendLine();
+
+            var result = MatchResult();
+            _ = sb.AppendLine($"Match Result: ")
+                .AppendLine(result.ToString());
+            return sb;
         }
     }
 }

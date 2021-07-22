@@ -1,89 +1,52 @@
 ﻿using System.Collections.Generic;
-using Cricket.Match;
-using Cricket.Player;
-using CSD_Tests;
 using NUnit.Framework;
 using Common.Structure.Validation;
+using CricketStructures.Player;
+using CricketStructures.Match.Innings;
+using CricketStructures.Match;
 
-namespace CricketClasses.MatchTests
+namespace CricketStructures.Tests.MatchTests
 {
     [TestFixture]
     internal class FieldingTests
     {
         [Test]
-        public void CanCreate()
-        {
-            var player1 = new PlayerName("Bloggs", "Joe");
-            var player2 = new PlayerName("Smith", "Steve");
-            var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new Fielding(null, playerNames);
-
-            Assert.AreEqual(2, innings.FieldingInfo.Count);
-        }
-
-        [Test]
-        public void CanAddPlayer()
-        {
-            var player1 = new PlayerName("Bloggs", "Joe");
-            var playerNames = new List<PlayerName>() { player1 };
-            var innings = new Fielding(null, playerNames);
-
-            Assert.AreEqual(1, innings.FieldingInfo.Count);
-
-            var player2 = new PlayerName("Smith", "Steve");
-            innings.AddPlayer(player2);
-
-            Assert.AreEqual(2, innings.FieldingInfo.Count);
-        }
-
-        [Test]
-        public void CanCheckPlayerListed()
-        {
-            var player1 = new PlayerName("Bloggs", "Joe");
-            var player2 = new PlayerName("Smith", "Steve");
-            var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new Fielding(null, playerNames);
-
-            Assert.AreEqual(2, innings.FieldingInfo.Count);
-
-            Assert.AreEqual(true, innings.PlayerListed(player1));
-            Assert.AreEqual(false, innings.PlayerListed(new PlayerName("Wood", "Mark")));
-        }
-
-        [Test]
-        public void CanRemovePlayer()
-        {
-            var player1 = new PlayerName("Bloggs", "Joe");
-            var player2 = new PlayerName("Smith", "Steve");
-            var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new Fielding(null, playerNames);
-
-            Assert.AreEqual(2, innings.FieldingInfo.Count);
-
-            innings.Remove(player2);
-            Assert.AreEqual(1, innings.FieldingInfo.Count);
-        }
-
-        [Test]
         public void CanSetScores()
         {
             var player1 = new PlayerName("Bloggs", "Joe");
             var player2 = new PlayerName("Smith", "Steve");
-            var playerNames = new List<PlayerName>() { player1, player2 };
-            var innings = new Fielding(null, playerNames);
+            var batters = new List<PlayerName>();
+            for (int i = 0; i < 11; i++)
+            {
+                batters.Add(new PlayerName("Surname" + i, "forename"));
+            }
 
-            Assert.AreEqual(2, innings.FieldingInfo.Count);
-            innings.SetFielding(player1, 4, 2, 7, 5);
+            var innings = new CricketInnings("", "other");
 
-            Assert.AreEqual(4, innings.FieldingInfo[0].Catches);
-            Assert.AreEqual(2, innings.FieldingInfo[0].RunOuts);
-            Assert.AreEqual(7, innings.FieldingInfo[0].KeeperStumpings);
-            Assert.AreEqual(5, innings.FieldingInfo[0].KeeperCatches);
+            innings.SetBatting(batters[0], Wicket.Caught, 0, 0, 0, 0, player1);
+            innings.SetBatting(batters[1], Wicket.RunOut, 0, 0, 0, 0, player1);
+            innings.SetBatting(batters[2], Wicket.RunOut, 0, 0, 0, 0, player1);
+            innings.SetBatting(batters[3], Wicket.Stumped, 0, 0, 0, 0, player1, wasKeeper: true);
+            innings.SetBatting(batters[4], Wicket.Stumped, 0, 0, 0, 0, player1, wasKeeper: true);
+            innings.SetBatting(batters[5], Wicket.Stumped, 0, 0, 0, 0, player1, wasKeeper: true);
+            innings.SetBatting(batters[6], Wicket.Caught, 0, 0, 0, 0, player1, wasKeeper: true);
+            innings.SetBatting(batters[7], Wicket.Caught, 0, 0, 0, 0, player1, wasKeeper: true);
+            innings.SetBatting(batters[8], Wicket.Caught, 0, 0, 0, 0, player1, wasKeeper: true);
+            innings.SetBatting(batters[9], Wicket.Caught, 0, 0, 0, 0, player1, wasKeeper: true);
 
-            Assert.AreEqual(0, innings.FieldingInfo[1].Catches);
-            Assert.AreEqual(0, innings.FieldingInfo[1].RunOuts);
-            Assert.AreEqual(0, innings.FieldingInfo[1].KeeperStumpings);
-            Assert.AreEqual(0, innings.FieldingInfo[1].KeeperCatches);
+
+            var fielding1 = innings.GetFielding("other", player1);
+            Assert.AreEqual(1, fielding1.Catches);
+            Assert.AreEqual(2, fielding1.RunOuts);
+            Assert.AreEqual(3, fielding1.KeeperStumpings);
+            Assert.AreEqual(4, fielding1.KeeperCatches);
+
+
+            var fielding2 = innings.GetFielding("other", player2);
+            Assert.AreEqual(0, fielding2.Catches);
+            Assert.AreEqual(0, fielding2.RunOuts);
+            Assert.AreEqual(0, fielding2.KeeperStumpings);
+            Assert.AreEqual(0, fielding2.KeeperCatches);
         }
 
         [TestCase(5, 5, true)]
@@ -91,10 +54,10 @@ namespace CricketClasses.MatchTests
         [TestCase(13, -5, false)]
         public void ValidityTests(int numberPlayers, int taken, bool isValid)
         {
-            var innings = new Fielding();
+            var innings = new CricketInnings();
             for (int i = 0; i < numberPlayers; i++)
             {
-                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
+                innings.SetBowling(new PlayerName("Surname" + i, "forename"), 0, 0, 0, 0);
             }
 
             var result = innings.Validate();
@@ -103,13 +66,13 @@ namespace CricketClasses.MatchTests
         }
 
         [TestCase(5, true, new string[] { })]
-        [TestCase(12, false, new string[] { "FieldingInfo cannot take values above 11." })]
+        [TestCase(12, false, new string[] { "Bowling cannot take values above 11." })]
         public void ValidityMessageTests(int numberPlayers, bool isValid, string[] messages)
         {
-            var innings = new Fielding();
+            var innings = new CricketInnings();
             for (int i = 0; i < numberPlayers; i++)
             {
-                innings.AddPlayer(new PlayerName("Surname" + i, "forename"));
+                innings.SetBowling(new PlayerName("Surname" + i, "forename"), 0, 0, 0, 0);
             }
 
             var valid = innings.Validation();

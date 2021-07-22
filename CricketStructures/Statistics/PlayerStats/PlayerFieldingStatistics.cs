@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using CricketStructures.Interfaces;
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
+using CricketStructures.Season;
 using CricketStructures.Player;
 
 namespace CricketStructures.Statistics
@@ -38,29 +38,11 @@ namespace CricketStructures.Statistics
             set;
         }
 
-        public int TotalDismissals
-        {
-            get
-            {
-                return Catches + RunOuts + KeeperCatches + KeeperStumpings;
-            }
-        }
+        public int TotalDismissals => Catches + RunOuts + KeeperCatches + KeeperStumpings;
 
-        public int TotalKeeperDismissals
-        {
-            get
-            {
-                return KeeperCatches + KeeperStumpings;
-            }
-        }
+        public int TotalKeeperDismissals => KeeperCatches + KeeperStumpings;
 
-        public int TotalNonKeeperDismissals
-        {
-            get
-            {
-                return Catches + RunOuts;
-            }
-        }
+        public int TotalNonKeeperDismissals => Catches + RunOuts;
 
         public PlayerFieldingStatistics()
         {

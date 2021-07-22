@@ -1,9 +1,9 @@
 ﻿using System;
-using CricketStructures;
 using CricketStructures.Match;
+using CricketStructures.Season;
 using NUnit.Framework;
 
-namespace CricketStrucutres.Tests
+namespace CricketStructures.Tests
 {
     [TestFixture]
     public class CricketSeasonTests

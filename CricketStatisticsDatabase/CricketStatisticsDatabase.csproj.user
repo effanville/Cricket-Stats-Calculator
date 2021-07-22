@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="GUI\CricketInningsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="GUI\PlayerEditView\CreatePlayerDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -48,6 +51,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="GUI\CricketInningsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="GUI\PlayerEditView\CreatePlayerDialog.xaml">
       <SubType>Designer</SubType>
     </Page>

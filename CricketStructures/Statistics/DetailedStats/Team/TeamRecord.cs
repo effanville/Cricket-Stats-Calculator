@@ -1,5 +1,5 @@
-﻿using CricketStructures.Interfaces;
-using CricketStructures.Match;
+﻿using CricketStructures.Match;
+using CricketStructures.Season;
 
 namespace CricketStructures.Statistics.DetailedStats
 {

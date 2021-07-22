@@ -1,7 +1,5 @@
 ﻿using System;
 using CricketStructures.Player;
-using CricketStructures;
-using CricketStructures.Interfaces;
 using NUnit.Framework;
 
 namespace CricketStructures.Tests

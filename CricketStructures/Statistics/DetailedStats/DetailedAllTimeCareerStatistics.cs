@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CricketStructures.Interfaces;
 using CricketStructures.Player;
-using StructureCommon.FileAccess;
+using Common.Structure.FileAccess;
 using CricketStructures.Player.Interfaces;
 using CricketStructures.Statistics.PlayerStats;
+using Common.Structure.ReportWriting;
 
 namespace CricketStructures.Statistics.DetailedStats
 {

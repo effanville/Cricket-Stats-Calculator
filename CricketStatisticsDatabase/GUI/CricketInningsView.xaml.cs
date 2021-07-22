@@ -1,15 +1,16 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Data;
-using Cricket.Player;
+using CricketStatisticsDatabase.UIHelpers.Converters;
+using CricketStructures.Player;
 
-namespace GUI.Dialogs
+namespace CricketStatisticsDatabase.GUI
 {
     /// <summary>
-    /// Interaction logic for EditBattingDialog.xaml
+    /// Interaction logic for CricketInningsView.xaml
     /// </summary>
-    public partial class EditBattingDialog : UserControl
+    public partial class CricketInningsView : UserControl
     {
-        public EditBattingDialog()
+        public CricketInningsView()
         {
             InitializeComponent();
         }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using CricketStructures.Match;
 using CricketStructures.Player;
-using StructureCommon.Validation;
+using Common.Structure.Validation;
 
-namespace CricketStructures.Interfaces
+namespace CricketStructures.Season
 {
     public interface ICricketSeason : IValidity
     {

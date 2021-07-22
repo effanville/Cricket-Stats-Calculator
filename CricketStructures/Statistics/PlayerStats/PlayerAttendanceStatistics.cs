@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using CricketStructures.Interfaces;
 using CricketStructures.Match;
 using CricketStructures.Player;
+using CricketStructures.Season;
 
 namespace CricketStructures.Statistics
 {
@@ -37,13 +37,7 @@ namespace CricketStructures.Statistics
             set;
         }
 
-        public double WinRatio
-        {
-            get
-            {
-                return TotalGamesWon / (double)TotalGamesPlayed;
-            }
-        }
+        public double WinRatio => TotalGamesWon / (double)TotalGamesPlayed;
 
         public PlayerAttendanceStatistics()
         {
@@ -83,7 +77,7 @@ namespace CricketStructures.Statistics
                     if (match.PlayNotPlay(teamName, Name))
                     {
                         TotalGamesPlayed += 1;
-                        if (match.MenOfMatch.Contains(Name))
+                        if (match.MenOfMatch != null && match.MenOfMatch.Contains(Name))
                         {
                             TotalMom += 1;
                         }

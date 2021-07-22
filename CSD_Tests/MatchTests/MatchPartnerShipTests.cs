@@ -54,6 +54,8 @@ namespace CricketStructures.Tests.MatchTests
             };
             var match = new CricketMatch(matchInfo);
             var data = GenerateInnings(inningsIndex);
+            var innings = data.Item1;
+            innings.BattingTeam = "Evil";
             match.SetInnings(data.Item1, true);
             var ships = match.Partnerships("Evil");
             Assertions.PartnershipsEqual(data.Item2, ships);

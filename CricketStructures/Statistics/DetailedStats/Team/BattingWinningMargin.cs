@@ -1,7 +1,7 @@
 ﻿using System;
-using CricketStructures.Interfaces;
+using CricketStructures.Match;
 using CricketStructures.Player;
-using StructureCommon.Extensions;
+using Common.Structure.Extensions;
 using CricketStructures.Match.Innings;
 
 namespace CricketStructures.Statistics.DetailedStats

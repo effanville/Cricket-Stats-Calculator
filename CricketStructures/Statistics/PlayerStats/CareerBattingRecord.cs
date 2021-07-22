@@ -1,7 +1,8 @@
 ﻿using System;
-using CricketStructures.Interfaces;
+using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
+using CricketStructures.Season;
 
 namespace CricketStructures.Statistics.PlayerStats
 {

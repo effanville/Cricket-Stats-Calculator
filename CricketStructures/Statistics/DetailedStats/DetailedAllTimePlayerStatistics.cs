@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
-using CricketStructures.Interfaces;
-using StructureCommon.FileAccess;
+using CricketStructures.Season;
+using CricketStructures.Match;
+using Common.Structure.FileAccess;
+using Common.Structure.ReportWriting;
 
 namespace CricketStructures.Statistics.DetailedStats
 {

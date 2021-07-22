@@ -69,7 +69,8 @@ namespace CricketStructures.Tests.MatchTests
             var match = new CricketMatch(matchInfo);
             var player = new PlayerName("Root", "Joe");
             _ = match.EditManOfMatch(new[] { player });
-            Assert.AreEqual(player, match.MenOfMatch);
+            Assert.AreEqual(1, match.MenOfMatch.Length);
+            Assert.AreEqual(player, match.MenOfMatch[0]);
         }
 
         [SetUp]
@@ -89,6 +90,7 @@ namespace CricketStructures.Tests.MatchTests
 
             innings.SetBatting(player1, Wicket.Bowled, 5, 1, 1, 0);
             innings.SetBatting(player2, Wicket.RunOut, 9, 1, 1, 0);
+            innings.SetBatting(new PlayerName("Smith", "Steve"), Wicket.DidNotBat, 0, 0, 0, 0);
 
             MatchToTest.SetInnings(innings, first: true);
 
@@ -186,10 +188,11 @@ namespace CricketStructures.Tests.MatchTests
         {
             var player1 = new PlayerName("Root", "Joe");
             var player2 = new PlayerName("Smith", "Jobs");
-            var innings = new CricketInnings("Walkern", "Sandon");
+            var innings = new CricketInnings("Sandon", "Walkern");
 
             innings.SetBowling(player1, 4, 2, 23, 1);
             innings.SetBowling(player2, 5, 1, 19, 4);
+            innings.SetBowling(new PlayerName("Smith", "Steve"), 0, 0, 0, 0);
 
             MatchToTest.SetInnings(innings, true);
 
@@ -262,21 +265,23 @@ namespace CricketStructures.Tests.MatchTests
         {
             var info = new MatchInfo
             {
-                HomeTeam = opposition
+                HomeTeam = opposition,
+                AwayTeam = "hi"
             };
             var match = new CricketMatch(info);
             var valid = match.Validate();
             Assert.AreEqual(isValid, valid);
         }
 
-        [TestCase("", false, new string[] { "Opposition cannot be empty or null." })]
-        [TestCase(null, false, new string[] { "Opposition cannot be empty or null." })]
+        [TestCase("", false, new string[] { "AwayTeam cannot be empty or null." })]
+        [TestCase(null, false, new string[] { "AwayTeam cannot be empty or null." })]
         [TestCase("Sam", true, new string[] { })]
         public void ValidityMessageTests(string opposition, bool isValid, string[] messages)
         {
             var info = new MatchInfo
             {
-                AwayTeam = opposition
+                AwayTeam = opposition,
+                HomeTeam = "no"
             };
 
             var match = new CricketMatch(info);

@@ -27,7 +27,7 @@
             set;
         }
 
-        public MatchResult(string winningTeam, string losingTeam, int? winningRunMargin, int? winningWicketMargin)
+        public MatchResult(string winningTeam, string losingTeam, int? winningRunMargin = null, int? winningWicketMargin = null)
         {
             WinningTeam = winningTeam;
             LosingTeam = losingTeam;
@@ -37,6 +37,11 @@
 
         public override string ToString()
         {
+            if (!WinningRunMargin.HasValue && !WinningWicketMargin.HasValue)
+            {
+                return $"{WinningTeam} beat {LosingTeam}.";
+            }
+
             string winningMargin = WinningRunMargin.HasValue ? $"{WinningRunMargin.Value} runs" : $"{WinningWicketMargin.Value} wickets";
             return $"{WinningTeam} beat {LosingTeam} by {winningMargin}.";
         }

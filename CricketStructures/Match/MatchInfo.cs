@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StructureCommon.Extensions;
-using StructureCommon.Validation;
+using Common.Structure.Extensions;
+using Common.Structure.Validation;
 
 namespace CricketStructures.Match
 {
-    public class MatchInfo : IEquatable<MatchInfo>, IValidity
+    public sealed class MatchInfo : IEquatable<MatchInfo>, IValidity
     {
         public string HomeTeam
         {
@@ -69,6 +69,16 @@ namespace CricketStructures.Match
             return results;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is MatchInfo matchInfo)
+            {
+                return Equals(matchInfo);
+            }
+
+            return false;
+        }
+
         public bool Equals(MatchInfo other)
         {
             return Equals(other.Date, other.HomeTeam, other.AwayTeam);
@@ -76,17 +86,12 @@ namespace CricketStructures.Match
 
         public bool Equals(DateTime date, string homeTeam, string awayTeam)
         {
-            return HomeTeam.Equals(homeTeam) && AwayTeam.Equals(awayTeam) & Date.Equals(date);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as MatchInfo);
+            return string.Equals(HomeTeam, homeTeam) && string.Equals(AwayTeam, awayTeam) & DateTime.Equals(Date, date);
         }
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return HashCode.Combine(HomeTeam, AwayTeam, Date);
         }
 
         public string OppositionName(string teamName)

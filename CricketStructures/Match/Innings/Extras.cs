@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using StructureCommon.Extensions;
-using StructureCommon.Validation;
+using Common.Structure.Extensions;
+using Common.Structure.Validation;
 
 namespace CricketStructures.Match.Innings
 {
@@ -15,7 +15,8 @@ namespace CricketStructures.Match.Innings
 
         public int LegByes
         {
-            get; set;
+            get;
+            set;
         }
 
         public int Wides
@@ -35,7 +36,21 @@ namespace CricketStructures.Match.Innings
             get;
             set;
         }
+
+        public Extras()
+        {
+        }
+
         public Extras(int byes, int legByes, int wides, int noBalls, int penalties = 0)
+        {
+            Byes = byes;
+            LegByes = legByes;
+            Wides = wides;
+            NoBalls = noBalls;
+            Penalties = penalties;
+        }
+
+        public void SetExtras(int byes, int legByes, int wides, int noBalls, int penalties = 0)
         {
             Byes = byes;
             LegByes = legByes;

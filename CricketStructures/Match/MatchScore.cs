@@ -1,7 +1,6 @@
 ﻿using System;
-using CricketStructures.Interfaces;
 using CricketStructures.Match.Innings;
-using StructureCommon.Extensions;
+using Common.Structure.Extensions;
 
 namespace CricketStructures.Match
 {

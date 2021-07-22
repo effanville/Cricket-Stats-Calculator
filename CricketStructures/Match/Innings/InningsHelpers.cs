@@ -6,12 +6,12 @@ namespace CricketStructures.Match.Innings
     {
         public static CricketInnings SelectBattingInnings(CricketInnings firstInnings, CricketInnings secondInnings, string battingTeam)
         {
-            return SelectInnings(firstInnings, secondInnings, innings => innings.BattingTeam.Equals(battingTeam));
+            return SelectInnings(firstInnings, secondInnings, innings => string.Equals(innings.BattingTeam, battingTeam));
         }
 
         public static CricketInnings SelectFieldingInnings(CricketInnings firstInnings, CricketInnings secondInnings, string fieldingTeam)
         {
-            return SelectInnings(firstInnings, secondInnings, innings => innings.FieldingTeam.Equals(fieldingTeam));
+            return SelectInnings(firstInnings, secondInnings, innings => string.Equals(innings.FieldingTeam, fieldingTeam));
         }
 
         public static CricketInnings SelectInnings(CricketInnings firstInnings, CricketInnings secondInnings, Func<CricketInnings, bool> teamSelector)

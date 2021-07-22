@@ -1,4 +1,4 @@
-﻿using CricketStructures.Interfaces;
+﻿using CricketStructures.Season;
 
 namespace CricketStructures.Statistics.DetailedStats
 {

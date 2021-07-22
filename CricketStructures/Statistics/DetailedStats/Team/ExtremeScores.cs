@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CricketStructures.Interfaces;
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
-using StructureCommon.FileAccess;
+using CricketStructures.Season;
+using Common.Structure.FileAccess;
+using Common.Structure.ReportWriting;
 
 namespace CricketStructures.Statistics.DetailedStats
 {

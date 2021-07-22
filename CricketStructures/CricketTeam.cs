@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using CricketStructures.Interfaces;
 using CricketStructures.Player;
 using CricketStructures.Player.Interfaces;
-using StructureCommon.Validation;
+using CricketStructures.Season;
+using Common.Structure.Validation;
 
 namespace CricketStructures
 {
     public class CricketTeam : ICricketTeam, IValidity
     {
         /// <inheritdoc/>
+        [XmlAttribute]
         public string TeamName
         {
             get;
@@ -19,12 +20,14 @@ namespace CricketStructures
         }
 
         /// <inheritdoc/>
+        [XmlAttribute]
         public string HomeLocation
         {
             get;
             set;
         } = string.Empty;
 
+        [XmlArray(Order = 1)]
         public List<CricketPlayer> TeamPlayers
         {
             get;
@@ -35,6 +38,7 @@ namespace CricketStructures
         [XmlIgnore]
         public IReadOnlyList<ICricketPlayer> Players => TeamPlayers.Select(player => (ICricketPlayer)player).ToList();
 
+        [XmlArray(Order = 2)]
         public List<CricketSeason> TeamSeasons
         {
             get;

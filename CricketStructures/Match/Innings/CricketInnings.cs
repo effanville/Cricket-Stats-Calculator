@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CricketStructures.Player;
-using StructureCommon.Extensions;
-using StructureCommon.Validation;
+using Common.Structure.Extensions;
+using Common.Structure.Validation;
+using System.Text;
+using System;
 
 namespace CricketStructures.Match.Innings
 {
@@ -42,6 +44,7 @@ namespace CricketStructures.Match.Innings
         {
             Batting = new List<BattingEntry>();
             Bowling = new List<BowlingEntry>();
+            InningsExtras = new Extras();
         }
 
         public CricketInnings(string battingTeam, string fieldingTeam)
@@ -64,6 +67,11 @@ namespace CricketStructures.Match.Innings
         public bool IsBattingPlayer(PlayerName player)
         {
             return Batting.Any(card => card.Name.Equals(player));
+        }
+
+        public bool IsBowlingPlayer(PlayerName player)
+        {
+            return Bowling.Any(card => card.Name.Equals(player));
         }
 
         public BowlingEntry GetBowling(string team, PlayerName player)
@@ -111,7 +119,7 @@ namespace CricketStructures.Match.Innings
                 }
 
                 var fielding = new FieldingEntry(player);
-                fielding.SetScores(numberCatches, numberRunOuts, numberStumpings, 0);
+                fielding.SetScores(numberCatches, numberRunOuts, numberStumpings, numberKeeperCatches);
                 return fielding;
             }
 
@@ -173,6 +181,11 @@ namespace CricketStructures.Match.Innings
             Batting.Sort((entry, entryOther) => entry.Order.CompareTo(entryOther.Order));
         }
 
+        public void SetExtras(int byes, int legByes, int wides, int noBalls, int penalties = 0)
+        {
+            InningsExtras.SetExtras(byes, legByes, wides, noBalls, penalties);
+        }
+
         public bool DeleteBatting(PlayerName player)
         {
             return Batting.RemoveAll(item => item.Name.Equals(player)) != 0;
@@ -199,11 +212,6 @@ namespace CricketStructures.Match.Innings
         public InningsScore Score()
         {
             var battingScore = BattingScore();
-            var bowlingScore = BowlingScore();
-            if (!battingScore.Equals(bowlingScore))
-            {
-                return bowlingScore;
-            }
 
             return battingScore;
         }
@@ -219,6 +227,17 @@ namespace CricketStructures.Match.Innings
             }
 
             return new InningsScore(runs, wickets);
+        }
+
+        public int BatsmenRuns()
+        {
+            int runs = 0;
+            foreach (BattingEntry batsman in Batting)
+            {
+                runs += batsman.RunsScored;
+            }
+
+            return runs;
         }
 
         public InningsScore BowlingScore()
@@ -325,6 +344,95 @@ namespace CricketStructures.Match.Innings
 
             results.AddValidations(InningsExtras.Validation(), ToString());
             return results;
+        }
+
+        public StringBuilder SerializeToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            _ = sb.AppendLine($"Innings of: {BattingTeam}.")
+                .AppendLine("-------------------------------------");
+
+            int maxNameLength = Batting.Max(entry => (entry.Name?.PrimaryName?.Length ?? 0) + (entry.Name?.SecondaryName?.Length ?? 0) + 1);
+            maxNameLength = Math.Max(maxNameLength, "Batsman".Length);
+
+            int maxMethodOutLength = Batting.Max(entry => entry.MethodOut.ToString().Length + (entry.Fielder?.PrimaryName?.Length ?? 0) + (entry.Fielder?.SecondaryName?.Length ?? 0) + 2);
+            maxMethodOutLength = Math.Max(maxMethodOutLength, "How Out".Length);
+
+            int maxBowlerLength = Batting.Max(entry => (entry.Bowler?.PrimaryName?.Length ?? 0) + (entry.Bowler?.SecondaryName?.Length ?? 0) + 1);
+            maxBowlerLength = Math.Max(maxBowlerLength, "Bowler".Length);
+
+            int maxTotalLength = "Total".Length;
+            int maxOrderLength = 4;
+
+            string battingRowSeparator = $"| {"-".PadRight(maxNameLength + maxOrderLength + 1, '-')} | {"-".PadRight(maxMethodOutLength, '-')} | {"-".PadRight(maxBowlerLength, '-')} | {"-".PadRight(maxTotalLength, '-')} |";
+            _ = sb.AppendLine(battingRowSeparator)
+                .AppendLine($"| {"Batsman".PadRight(maxNameLength + maxOrderLength + 1) } | {"How Out".PadRight(maxMethodOutLength)} | {"Bowler".PadRight(maxBowlerLength)} | Total |")
+                .AppendLine(battingRowSeparator);
+            foreach (var batsman in Batting)
+            {
+                string methodOutString = $"{batsman.MethodOut} {batsman.Fielder}";
+                _ = sb
+                    .AppendLine($"| {batsman.Order.ToString().PadLeft(2)} | {batsman.Name.ToString().PadRight(maxNameLength)} | {methodOutString.PadRight(maxMethodOutLength)} | {(batsman.Bowler?.ToString() ?? "").PadRight(maxBowlerLength)} | {batsman.RunsScored.ToString().PadLeft(maxTotalLength)} |")
+                .AppendLine(battingRowSeparator);
+            }
+
+            int offset = maxNameLength + maxOrderLength + maxMethodOutLength + maxBowlerLength - 7;
+            string totalsRowSeparator = $"{"".PadRight(offset)} | {"-".PadRight(13, '-')} | {"-".PadRight(maxTotalLength, '-')} |";
+            _ = sb.AppendLine(totalsRowSeparator)
+                .AppendLine($"{"".PadRight(offset)} | Batting Total | {BatsmenRuns().ToString().PadLeft(maxTotalLength)} |")
+                .AppendLine(totalsRowSeparator)
+                .AppendLine($"{"".PadRight(offset)} | Total Extras  | {InningsExtras.Runs().ToString().PadLeft(maxTotalLength)} |")
+                .AppendLine(totalsRowSeparator)
+                .AppendLine($"{"".PadRight(offset)} | Total         | {Score().Runs.ToString().PadLeft(maxTotalLength)} |")
+                .AppendLine(totalsRowSeparator)
+                .AppendLine();
+
+            int extrasMaxLength = "Total Extras".Length;
+            string extrasRowSeparator = $"| {"".PadRight(extrasMaxLength, '-')} | --- |";
+            _ = sb.AppendLine(extrasRowSeparator)
+                .AppendLine($"| {"Byes".PadRight(extrasMaxLength)} | {InningsExtras.Byes.ToString().PadLeft(3)} |")
+                .AppendLine(extrasRowSeparator)
+                .AppendLine($"| {"Leg Byes".PadRight(extrasMaxLength)} | {InningsExtras.LegByes.ToString().PadLeft(3)} |")
+                .AppendLine(extrasRowSeparator)
+                .AppendLine($"| {"Wides".PadRight(extrasMaxLength)} | {InningsExtras.Wides.ToString().PadLeft(3)} |")
+                .AppendLine(extrasRowSeparator)
+                .AppendLine($"| {"No Balls".PadRight(extrasMaxLength)} | {InningsExtras.NoBalls.ToString().PadLeft(3)} |")
+                .AppendLine(extrasRowSeparator)
+                .AppendLine($"| {"Penalties".PadRight(extrasMaxLength)} | {InningsExtras.Penalties.ToString().PadLeft(3)} |")
+                .AppendLine(extrasRowSeparator)
+                .AppendLine($"| {"Total Extras".PadRight(extrasMaxLength)} | {InningsExtras.Runs().ToString().PadLeft(3)} |")
+                .AppendLine(extrasRowSeparator)
+                .AppendLine();
+
+            var score = Score();
+            string scoreString = $"Final Score: {score.Runs} for {score.Wickets}";
+            int length = scoreString.Length;
+            _ = sb.AppendLine($"{"".PadRight(offset)} | {"-".PadRight(length, '-')} |")
+                .AppendLine($"{"".PadRight(offset)} | {scoreString} |")
+                .AppendLine($"{"".PadRight(offset)} | {"-".PadRight(length, '-')} |")
+                .AppendLine();
+
+            int maxBowlerName = Bowling.Any() ? Bowling.Max(entry => entry?.Name?.ToString().Length ?? 0) : 0;
+            maxBowlerName = Math.Max("Bowler".Length, maxBowlerName);
+            string bowlingRowSeparator = $"| {"-".PadRight(maxBowlerName, '-')} | ----- | -- | ----- | ---- | ---- | ---- | ----- |";
+            _ = sb.AppendLine(bowlingRowSeparator)
+                .AppendLine($"| {"Bowler".PadRight(maxBowlerName)} | Wides | NB | Overs | Mdns | Runs | Wkts | Avg   |")
+                .AppendLine(bowlingRowSeparator);
+            foreach (var bowler in Bowling)
+            {
+                _ = sb.Append($"| {bowler.Name.ToString().PadRight(maxBowlerName)} |")
+                    .Append($" {bowler.Wides.ToString().PadLeft(5)} |")
+                    .Append($" {bowler.NoBalls.ToString().PadLeft(2)} |")
+                    .Append($" {bowler.OversBowled.ToString().PadLeft(5)} |")
+                    .Append($" {bowler.Maidens.ToString().PadLeft(4)} |")
+                    .Append($" {bowler.RunsConceded.ToString().PadLeft(4)} |")
+                    .Append($" {bowler.Wickets.ToString().PadLeft(4)} |")
+                    .Append($" {(bowler.RunsConceded / (double)bowler.Wickets).TruncateToString().PadLeft(5)} |")
+                    .AppendLine()
+                    .AppendLine(bowlingRowSeparator);
+            }
+
+            return sb;
         }
     }
 }

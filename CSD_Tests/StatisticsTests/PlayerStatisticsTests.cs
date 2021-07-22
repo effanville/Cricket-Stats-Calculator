@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CricketStructures.Interfaces;
 using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Statistics;
@@ -22,7 +21,7 @@ namespace CricketStructures.Tests.StatisticsTests
             var batting = new List<(int, Wicket)>(values.Item1);
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
-            var season = CreateTestSeason(player, batting, bowling, fielding);
+            var season = TestCaseInstances.CreateTestSeason(TeamName, player, batting, bowling, fielding);
             var stats = new PlayerBattingStatistics(TeamName, player, season, MatchHelpers.AllMatchTypes);
 
             Assert.AreEqual(expected[0], stats.TotalInnings);
@@ -41,7 +40,7 @@ namespace CricketStructures.Tests.StatisticsTests
             var batting = new List<(int, Wicket)>(values.Item1);
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
-            var season = CreateTestSeason(player, batting, bowling, fielding);
+            var season = TestCaseInstances.CreateTestSeason(TeamName, player, batting, bowling, fielding);
             var stats = new PlayerBowlingStatistics(TeamName, player, season, MatchHelpers.AllMatchTypes);
 
             Assert.AreEqual(expected[0], stats.Average);
@@ -63,7 +62,7 @@ namespace CricketStructures.Tests.StatisticsTests
             var batting = new List<(int, Wicket)>(values.Item1);
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
-            var season = CreateTestSeason(player, batting, bowling, fielding);
+            var season = TestCaseInstances.CreateTestSeason(TeamName, player, batting, bowling, fielding);
             var stats = new PlayerFieldingStatistics(TeamName, player, season, MatchHelpers.AllMatchTypes);
             Assert.AreEqual(expected[0], stats.KeeperCatches, "Keeper Catches");
             Assert.AreEqual(expected[1], stats.KeeperStumpings, "stumpings");
@@ -83,7 +82,7 @@ namespace CricketStructures.Tests.StatisticsTests
             var batting = new List<(int, Wicket)>(values.Item1);
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
-            var season = CreateTestSeason(player, batting, bowling, fielding);
+            var season = TestCaseInstances.CreateTestSeason(TeamName, player, batting, bowling, fielding);
             var stats = new PlayerBriefStatistics(TeamName, player, season);
             Assert.AreEqual(expected[0], stats.Played.TotalGamesPlayed);
             Assert.AreEqual(expected[1], stats.Played.TotalMom);
@@ -108,45 +107,6 @@ namespace CricketStructures.Tests.StatisticsTests
                     fielding = new (int, int, int, int)[] { (1, 0, 0, 0), (0, 1, 0, 0), (2, 0, 0, 0) };
                     return new Tuple<(int, Wicket)[], (int, int, int, int)[], (int, int, int, int)[]>(batting, bowling, fielding);
             }
-        }
-
-        private ICricketSeason CreateTestSeason(PlayerName name, List<(int, Wicket)> battingValues, List<(int, int, int, int)> bowlingValues, List<(int, int, int, int)> fieldingValues)
-        {
-            Assert.AreEqual(battingValues.Count, bowlingValues.Count);
-            Assert.AreEqual(battingValues.Count, fieldingValues.Count);
-            ICricketSeason season = new CricketSeason();
-
-            for (int i = 0; i < battingValues.Count; i++)
-            {
-                string oppo = "oppo" + i;
-                DateTime date = new DateTime(2000, 1, 1);
-                season.AddMatch(new MatchInfo(TeamName, oppo, null, date, MatchType.League));
-                var match = season.GetMatch(date, TeamName, oppo);
-                match.SetBatting("homeTeam", name, battingValues[i].Item2, battingValues[i].Item1, 1, 1, 0);
-                match.SetBowling("homeTeam", name, bowlingValues[i].Item1, bowlingValues[i].Item2, bowlingValues[i].Item3, bowlingValues[i].Item4);
-                for (int j = 0; j < fieldingValues[i].Item1; j++)
-                {
-                    //catches
-                    match.SetBatting(oppo, new PlayerName("other", "this"), Wicket.Caught, 0, 0, 0, 0, name);
-                }
-
-                for (int j = 0; j < fieldingValues[i].Item2; j++)
-                {
-                    // run outs
-                    match.SetBatting(oppo, new PlayerName("other", "this"), Wicket.RunOut, 0, 0, 0, 0, name);
-                }
-                for (int j = 0; j < fieldingValues[i].Item3; j++)
-                {
-                    // stumping
-                    match.SetBatting(oppo, new PlayerName("other", "this"), Wicket.Stumped, 0, 0, 0, 0, name, true);
-                }
-                for (int j = 0; j < fieldingValues[i].Item4; j++)
-                {
-                    match.SetBatting(oppo, new PlayerName("other", "this"), Wicket.Caught, 0, 0, 0, 0, name, true);
-                }
-            }
-
-            return season;
         }
     }
 }

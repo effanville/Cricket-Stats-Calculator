@@ -52,7 +52,7 @@ namespace CricketStructures.Tests.MatchTests
             innings.SetBowling(player2, 0, 0, 0, 0);
             innings.SetBowling(player1, 4, 2, 7, 5);
 
-            Assert.AreEqual(2, innings.Bowling);
+            Assert.AreEqual(2, innings.Bowling.Count);
 
             var bowling = innings.GetBowling("other", player1);
             Assert.AreEqual(4, bowling.OversBowled);
@@ -83,8 +83,7 @@ namespace CricketStructures.Tests.MatchTests
             }
 
             Assert.AreEqual(11, innings.Bowling.Count);
-            Assert.AreEqual(null, innings.InningsExtras);
-            innings.InningsExtras = new Extras(byes, 0, 0, 0);
+            innings.SetExtras(byes, 0, 0, 0);
 
             for (int i = 0; i < 11; i++)
             {
@@ -92,7 +91,7 @@ namespace CricketStructures.Tests.MatchTests
                 string forename = "Joe" + i;
                 innings.SetBowling(new PlayerName(surname, forename), 0, 0, runs[i], wicketsTaken[i]);
             }
-            var score = innings.Score();
+            var score = innings.BowlingScore();
 
             Assert.AreEqual(expectedWickets, score.Wickets, "Wickets not correct");
             Assert.AreEqual(expectedRuns, score.Runs, "Runs not correct");
@@ -108,10 +107,8 @@ namespace CricketStructures.Tests.MatchTests
             var innings = new CricketInnings();
             for (int i = 0; i < numberPlayers; i++)
             {
-                if (i == 0 || i == 1)
-                {
-                    innings.SetBowling(new PlayerName("Surname" + i, "forename"), 4, 0, 5, wicketsTaken / 2);
-                }
+                innings.SetBowling(new PlayerName("Surname" + i, "forename"), 4, 0, 5, wicketsTaken / 2);
+
             }
 
             innings.InningsExtras = new Extras(extras, 0, 0, 0);
@@ -122,8 +119,8 @@ namespace CricketStructures.Tests.MatchTests
         }
 
         [TestCase(5, 5, true, new string[] { })]
-        [TestCase(5, -5, false, new string[] { "ByesLegByes cannot take a negative value." })]
-        [TestCase(12, 0, false, new string[] { "BowlingInfo cannot take values above 11." })]
+        [TestCase(5, -5, false, new string[] { "Byes cannot take a negative value." })]
+        [TestCase(12, 0, false, new string[] { "Bowling cannot take values above 11." })]
         public void ValidityMessageTests(int numberPlayers, int extras, bool isValid, string[] messages)
         {
             var innings = new CricketInnings();

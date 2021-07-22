@@ -1,6 +1,6 @@
 ﻿using System;
 using CricketStructures.Match;
-using StructureCommon.Extensions;
+using Common.Structure.Extensions;
 
 namespace CricketStructures.Statistics
 {

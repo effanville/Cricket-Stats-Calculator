@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CricketStructures.Interfaces;
-using StructureCommon.FileAccess;
+using CricketStructures.Match;
+using CricketStructures.Season;
+using Common.Structure.FileAccess;
+using Common.Structure.ReportWriting;
 
 namespace CricketStructures.Statistics.DetailedStats
 {

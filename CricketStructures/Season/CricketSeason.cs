@@ -2,30 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using CricketStructures.Interfaces;
 using CricketStructures.Match;
 using CricketStructures.Player;
-using StructureCommon.Extensions;
-using StructureCommon.Validation;
+using Common.Structure.Extensions;
+using Common.Structure.Validation;
 
-namespace CricketStructures
+namespace CricketStructures.Season
 {
     public class CricketSeason : ICricketSeason, IValidity
     {
         /// <inheritdoc/>
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        /// <inheritdoc/>
+        [XmlAttribute]
         public DateTime Year
         {
             get;
             set;
         }
 
+        /// <inheritdoc/>
+        [XmlAttribute]
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        [XmlArray]
         public List<CricketMatch> SeasonsMatches
         {
             get;
@@ -33,7 +35,7 @@ namespace CricketStructures
         } = new List<CricketMatch>();
 
         /// <inheritdoc/>
-        [XmlIgnoreAttribute]
+        [XmlIgnore]
         public IReadOnlyList<ICricketMatch> Matches => SeasonsMatches.Select(match => (ICricketMatch)match).ToList();
 
         /// <inheritdoc/>
@@ -44,6 +46,7 @@ namespace CricketStructures
             int numberLosses = 0;
             int numberDraws = 0;
             int numberTies = 0;
+            int numberAbandoned = 0;
             foreach (var match in Matches)
             {
                 if (matchTypes.Contains(match.MatchData.Type))
@@ -66,10 +69,14 @@ namespace CricketStructures
                     {
                         numberTies++;
                     }
+                    if (match.Result == ResultType.Abandoned)
+                    {
+                        numberAbandoned++;
+                    }
                 }
             }
 
-            return new SeasonGames(gamesPlayed, numberWins, numberLosses, numberDraws, numberTies);
+            return new SeasonGames(gamesPlayed, numberWins, numberLosses, numberDraws, numberTies, numberAbandoned);
         }
 
         public event EventHandler PlayerAdded;
@@ -87,46 +94,12 @@ namespace CricketStructures
             }
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj is CricketSeason season)
-            {
-                if (string.IsNullOrEmpty(Name))
-                {
-                    if (string.IsNullOrEmpty(season.Name))
-                    {
-                        return Year.Equals(season.Year);
-                    }
 
-                    return false;
-                }
-
-                return Name.Equals(season.Name) && Year.Equals(season.Year);
-            }
-
-            return false;
-        }
 
         /// <inheritdoc/>
         public void EditPlayerName(PlayerName oldName, PlayerName newName)
         {
             SeasonsMatches.ForEach(match => match.EditPlayerName(oldName, newName));
-        }
-
-        /// <inheritdoc/>
-        public bool SameSeason(DateTime year, string name)
-        {
-            if (string.IsNullOrEmpty(Name))
-            {
-                if (string.IsNullOrEmpty(name))
-                {
-                    return Year.Equals(year);
-                }
-
-                return false;
-            }
-
-            return Year.Equals(year) && Name.Equals(name);
         }
 
         /// <inheritdoc/>
@@ -226,15 +199,41 @@ namespace CricketStructures
         {
         }
 
-        public CricketSeason(DateTime year, string name)
+        internal CricketSeason(DateTime year, string name)
         {
             Name = name;
             Year = year;
         }
 
+        /// <inheritdoc/>
+        public bool SameSeason(DateTime year, string name)
+        {
+            if (string.IsNullOrEmpty(Name))
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    return Year.Equals(year);
+                }
+
+                return false;
+            }
+
+            return Year.Equals(year) && Name.Equals(name);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is CricketSeason season)
+            {
+                return SameSeason(season.Year, season.Name);
+            }
+
+            return false;
+        }
+
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return HashCode.Combine(Year, Name);
         }
     }
 }

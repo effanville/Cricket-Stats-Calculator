@@ -79,10 +79,9 @@ namespace CricketStructures.Tests.MatchTests
             }
 
             Assert.AreEqual(11, innings.Batting.Count);
-            Assert.AreEqual(null, innings.InningsExtras);
-            innings.InningsExtras = new Extras(extras, 0, 0, 0);
+            innings.SetExtras(extras, 0, 0, 0);
 
-            var score = innings.Score();
+            var score = innings.BattingScore();
 
             Assert.AreEqual(expectedWickets, score.Wickets, "Wickets not correct");
             Assert.AreEqual(expectedRuns, score.Runs, "Runs not correct");
@@ -108,8 +107,8 @@ namespace CricketStructures.Tests.MatchTests
         }
 
         [TestCase(5, 5, true, new string[] { })]
-        [TestCase(5, -5, false, new string[] { "Extras cannot take a negative value." })]
-        [TestCase(12, 0, false, new string[] { "BattingInfo cannot take values above 11." })]
+        [TestCase(5, -5, false, new string[] { "Byes cannot take a negative value." })]
+        [TestCase(12, 0, false, new string[] { "Batting cannot take values above 11." })]
         public void ValidityMessageTests(int numberPlayers, int extras, bool isValid, string[] messages)
         {
             var innings = new CricketInnings();
