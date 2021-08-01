@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
@@ -123,8 +124,8 @@ namespace Cricket.Statistics
 
             if (TotalWickets != 0)
             {
-                Average = TotalRunsConceded / (double)TotalWickets;
-                StrikeRate = 6 * (double)TotalOvers / TotalWickets;
+                Average = Math.Round(TotalRunsConceded / (double)TotalWickets, 2);
+                StrikeRate = Math.Round(6 * (double)TotalOvers / TotalWickets, 2);
             }
             else
             {
@@ -134,7 +135,7 @@ namespace Cricket.Statistics
 
             if (TotalOvers != 0)
             {
-                Economy = TotalRunsConceded / (double)TotalOvers;
+                Economy = Math.Round(TotalRunsConceded / (double)TotalOvers, 2);
             }
             else
             {
@@ -156,8 +157,8 @@ namespace Cricket.Statistics
 
             if (TotalWickets != 0)
             {
-                Average = TotalRunsConceded / (double)TotalWickets;
-                StrikeRate = 6 * (double)TotalOvers / TotalWickets;
+                Average = Math.Round(TotalRunsConceded / (double)TotalWickets, 2);
+                StrikeRate = Math.Round(6 * (double)TotalOvers / TotalWickets, 2);
             }
             else
             {
@@ -167,7 +168,7 @@ namespace Cricket.Statistics
 
             if (TotalOvers != 0)
             {
-                Economy = TotalRunsConceded / (double)TotalOvers;
+                Economy = Math.Round(TotalRunsConceded / (double)TotalOvers, 2);
             }
             else
             {

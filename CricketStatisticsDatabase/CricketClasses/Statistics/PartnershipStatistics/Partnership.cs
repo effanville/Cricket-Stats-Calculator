@@ -6,6 +6,11 @@ namespace Cricket.Statistics
 {
     public sealed class Partnership : IComparable
     {
+        public int Wicket
+        {
+            get;
+            set;
+        }
         public int Runs
         {
             get;
@@ -19,12 +24,6 @@ namespace Cricket.Statistics
         }
 
         public PlayerName PlayerTwo
-        {
-            get;
-            set;
-        }
-
-        public int Wicket
         {
             get;
             set;

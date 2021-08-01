@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
@@ -117,7 +118,7 @@ namespace Cricket.Statistics
 
             if (TotalInnings != TotalNotOut)
             {
-                Average = TotalRuns / (TotalInnings - (double)TotalNotOut);
+                Average = Math.Round(TotalRuns / (TotalInnings - (double)TotalNotOut), 2);
             }
         }
 
@@ -135,7 +136,7 @@ namespace Cricket.Statistics
 
             if (TotalInnings != TotalNotOut)
             {
-                Average = TotalRuns / (TotalInnings - (double)TotalNotOut);
+                Average = Math.Round(TotalRuns / (TotalInnings - (double)TotalNotOut), 2);
             }
         }
     }

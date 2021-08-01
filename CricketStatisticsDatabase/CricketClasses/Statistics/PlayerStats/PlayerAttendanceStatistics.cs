@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
@@ -41,7 +42,7 @@ namespace Cricket.Statistics
         {
             get
             {
-                return TotalGamesWon / (double)TotalGamesPlayed;
+                return Math.Round(TotalGamesWon / (double)TotalGamesPlayed, 2);
             }
         }
 
