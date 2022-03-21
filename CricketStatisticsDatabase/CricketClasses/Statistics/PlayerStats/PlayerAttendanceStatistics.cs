@@ -84,7 +84,7 @@ namespace Cricket.Statistics
                     if (match.PlayNotPlay(Name))
                     {
                         TotalGamesPlayed += 1;
-                        if (Name.Equals(match.ManOfMatch))
+                        if (match.ManOfMatch != null && Name.Equals(match?.ManOfMatch))
                         {
                             TotalMom += 1;
                         }
