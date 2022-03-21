@@ -1,43 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net48;netcoreapp3.1</TargetFrameworks>
-    <UseWPF>true</UseWPF>
-    <Deterministic>false</Deterministic>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<PublishSingleFile>false</PublishSingleFile>
+		<SelfContained>true</SelfContained>
+		<PublishReadyToRun>true</PublishReadyToRun>
+		<PublishTrimmed>false</PublishTrimmed>
+		<TrimMode>CopyUsed</TrimMode>
+		<UseWPF>true</UseWPF>
+		<Deterministic>false</Deterministic>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <OutputPath>..\bin</OutputPath>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputPath>..\bin</OutputPath>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="StructureCommon" Version="1.0.8" />
-    <PackageReference Include="UICommon" Version="1.0.6" />
-  </ItemGroup>
-
- <!-- Alternative locations for dlls, if Nuget links cannot be generated
- <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-    <Reference Include="StructureCommon">
-      <HintPath>..\..\Publish\netcoreapp3.1\StructureCommon.dll</HintPath>
-    </Reference>
-	    <Reference Include="UICommon">
-      <HintPath>..\..\Publish\netcoreapp3.1\UICommon.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-    <Reference Include="StructureCommon">
-      <HintPath>..\..\Publish\net48\StructureCommon.dll</HintPath>
-    </Reference>
-	    <Reference Include="UICommon">
-      <HintPath>..\..\Publish\net48\UICommon.dll</HintPath>
-    </Reference>
-  </ItemGroup> -->
+	<ItemGroup>
+		<PackageReference Include="Common.Structure" Version="1.0.21" />
+		<PackageReference Include="Common.UI" Version="1.0.9" />
+	</ItemGroup>
 
 </Project>

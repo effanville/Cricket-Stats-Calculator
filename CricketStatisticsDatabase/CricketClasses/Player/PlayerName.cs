@@ -1,4 +1,4 @@
-﻿using StructureCommon.NamingStructures;
+﻿using Common.Structure.NamingStructures;
 
 namespace Cricket.Player
 {

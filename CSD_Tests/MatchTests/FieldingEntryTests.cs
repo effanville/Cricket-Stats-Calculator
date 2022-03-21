@@ -3,7 +3,7 @@ using Cricket.Match;
 using Cricket.Player;
 using CSD_Tests;
 using NUnit.Framework;
-using StructureCommon.Validation;
+using Common.Structure.Validation;
 
 namespace CricketClasses.MatchTests
 {

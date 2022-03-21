@@ -5,8 +5,8 @@ using System.Xml.Serialization;
 using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
-using StructureCommon.Extensions;
-using StructureCommon.Validation;
+using Common.Structure.Extensions;
+using Common.Structure.Validation;
 
 namespace Cricket
 {

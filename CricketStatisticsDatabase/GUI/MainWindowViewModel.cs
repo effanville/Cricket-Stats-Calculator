@@ -3,10 +3,10 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Cricket.Interfaces;
 using Cricket.Team;
-using StructureCommon.FileAccess;
-using UICommon.Commands;
-using UICommon.Services;
-using UICommon.ViewModelBases;
+using Common.Structure.FileAccess;
+using Common.UI.Commands;
+using Common.UI.Services;
+using Common.UI.ViewModelBases;
 
 namespace GUI.ViewModels
 {

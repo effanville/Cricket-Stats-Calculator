@@ -2,7 +2,7 @@
 using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
-using StructureCommon.Extensions;
+using Common.Structure.Extensions;
 
 namespace Cricket.Statistics.DetailedStats
 {

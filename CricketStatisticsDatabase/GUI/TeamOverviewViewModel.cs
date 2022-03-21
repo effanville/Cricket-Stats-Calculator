@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cricket.Interfaces;
-using UICommon.ViewModelBases;
+using Common.UI.ViewModelBases;
 
 namespace GUI.ViewModels
 {

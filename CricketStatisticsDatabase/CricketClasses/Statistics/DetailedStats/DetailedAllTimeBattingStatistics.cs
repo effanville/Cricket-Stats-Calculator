@@ -4,7 +4,8 @@ using System.Linq;
 using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Statistics.PlayerStats;
-using StructureCommon.FileAccess;
+using Common.Structure.FileAccess;
+using Common.Structure.ReportWriting;
 
 namespace Cricket.Statistics.DetailedStats
 {

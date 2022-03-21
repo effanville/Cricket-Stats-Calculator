@@ -4,8 +4,8 @@ using System.Linq;
 using Cricket.Interfaces;
 using Cricket.Player;
 using Cricket.Statistics;
-using StructureCommon.Extensions;
-using StructureCommon.Validation;
+using Common.Structure.Extensions;
+using Common.Structure.Validation;
 
 namespace Cricket.Match
 {
@@ -44,7 +44,7 @@ namespace Cricket.Match
                 if (entry.Name.Equals(oldName))
                 {
                     entry.Name = newName;
-                    entry.keeperFielding.Name = newName;
+                    entry.KeeperFielding.Name = newName;
                 }
             }
             for (int i = 0; i < PlayerNames.Count; i++)
@@ -354,11 +354,11 @@ namespace Cricket.Match
             {
                 if (!FieldingStats.PlayerListed(entry.Name))
                 {
-                    AddFieldingEntry(entry.Name, entry.Catches, entry.RunOuts, entry.keeperFielding.Stumpings, entry.keeperFielding.Catches);
+                    AddFieldingEntry(entry.Name, entry.Catches, entry.RunOuts, entry.KeeperFielding.Stumpings, entry.KeeperFielding.Catches);
                 }
                 else
                 {
-                    EditFieldingEntry(entry.Name, entry.Catches, entry.RunOuts, entry.keeperFielding.Stumpings, entry.keeperFielding.Catches);
+                    EditFieldingEntry(entry.Name, entry.Catches, entry.RunOuts, entry.KeeperFielding.Stumpings, entry.KeeperFielding.Catches);
                 }
             }
         }

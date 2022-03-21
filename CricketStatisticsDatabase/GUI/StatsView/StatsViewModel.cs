@@ -8,12 +8,12 @@ using Cricket.Match;
 using Cricket.Player;
 using Cricket.Statistics;
 using Cricket.Statistics.DetailedStats;
-using StructureCommon.DisplayClasses;
-using StructureCommon.Extensions;
-using StructureCommon.FileAccess;
-using UICommon.Commands;
-using UICommon.Services;
-using UICommon.ViewModelBases;
+using Common.Structure.DisplayClasses;
+using Common.Structure.Extensions;
+using Common.Structure.FileAccess;
+using Common.UI.Commands;
+using Common.UI.Services;
+using Common.UI.ViewModelBases;
 
 namespace GUI.ViewModels
 {

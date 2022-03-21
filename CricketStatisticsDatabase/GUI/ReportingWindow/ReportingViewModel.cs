@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
 using Cricket.Interfaces;
-using StructureCommon.Validation;
-using UICommon.Commands;
-using UICommon.ViewModelBases;
+using Common.Structure.Validation;
+using Common.UI.Commands;
+using Common.UI.ViewModelBases;
 
 namespace GUI.ViewModels
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cricket.Player;
-using StructureCommon.Validation;
+using Common.Structure.Validation;
 
 namespace Cricket.Interfaces
 {

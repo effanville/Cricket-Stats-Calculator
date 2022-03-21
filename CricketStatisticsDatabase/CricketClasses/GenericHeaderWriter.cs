@@ -1,4 +1,4 @@
-﻿using StructureCommon.Extensions;
+﻿using Common.Structure.Extensions;
 
 namespace ExportHelpers
 {

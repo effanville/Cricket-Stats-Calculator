@@ -2,8 +2,8 @@
 using System.Linq;
 using Cricket.Interfaces;
 using Cricket.Player;
-using StructureCommon.Extensions;
-using StructureCommon.Validation;
+using Common.Structure.Extensions;
+using Common.Structure.Validation;
 
 namespace Cricket.Match
 {
@@ -41,11 +41,11 @@ namespace Cricket.Match
         {
             get
             {
-                return keeperFielding.Stumpings;
+                return KeeperFielding.Stumpings;
             }
             set
             {
-                keeperFielding.Stumpings = value;
+                KeeperFielding.Stumpings = value;
             }
         }
 
@@ -53,15 +53,15 @@ namespace Cricket.Match
         {
             get
             {
-                return keeperFielding.Catches;
+                return KeeperFielding.Catches;
             }
             set
             {
-                keeperFielding.Catches = value;
+                KeeperFielding.Catches = value;
             }
         }
 
-        public WicketKeeperStats keeperFielding
+        public WicketKeeperStats KeeperFielding
         {
             get;
             set;
@@ -86,18 +86,18 @@ namespace Cricket.Match
         {
             Catches = catches;
             RunOuts = runOuts;
-            keeperFielding.SetScores(stumpings, keeperCatches);
+            KeeperFielding.SetScores(stumpings, keeperCatches);
         }
 
         public FieldingEntry(PlayerName name)
         {
             Name = name;
-            keeperFielding = new WicketKeeperStats(name);
+            KeeperFielding = new WicketKeeperStats(name);
         }
 
         public FieldingEntry()
         {
-            keeperFielding = new WicketKeeperStats();
+            KeeperFielding = new WicketKeeperStats();
         }
 
         public void SetSeasonStats(ICricketSeason season)

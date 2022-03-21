@@ -2,8 +2,8 @@
 using System.Linq;
 using Cricket.Player;
 using Cricket.Statistics;
-using StructureCommon.Extensions;
-using StructureCommon.Validation;
+using Common.Structure.Extensions;
+using Common.Structure.Validation;
 
 namespace Cricket.Match
 {

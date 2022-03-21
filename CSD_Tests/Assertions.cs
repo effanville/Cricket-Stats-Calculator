@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cricket.Statistics;
 using NUnit.Framework;
-using StructureCommon.Validation;
+using Common.Structure.Validation;
 
 namespace CSD_Tests
 {

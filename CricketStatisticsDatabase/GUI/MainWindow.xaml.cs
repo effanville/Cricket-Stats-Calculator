@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Windows;
 using GUI.ViewModels;
-using UICommon.Services;
+using Common.UI.Services;
 
 namespace GUI
 {

@@ -6,9 +6,9 @@ using System.Linq;
 using System.Windows.Input;
 using Cricket.Interfaces;
 using Cricket.Player;
-using UICommon.Commands;
-using UICommon.Interfaces;
-using UICommon.ViewModelBases;
+using Common.UI.Commands;
+using Common.UI.Interfaces;
+using Common.UI.ViewModelBases;
 
 namespace GUI.Dialogs.ViewModels
 {
