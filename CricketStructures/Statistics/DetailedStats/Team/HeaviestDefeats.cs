@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CricketStructures.Match;
 using CricketStructures.Season;
 using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
+using System.Text;
 
 namespace CricketStructures.Statistics.DetailedStats
 {
@@ -64,19 +64,19 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, ExportType exportType)
         {
             if (HeaviestLossByRuns.Any())
             {
-                writer.WriteTitle(exportType, "Loss by 100 runs", HtmlTag.h2);
-                writer.WriteTable(exportType, HeaviestLossByRuns, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Loss by 100 runs", HtmlTag.h2);
+                TableWriting.WriteTable(writer, exportType, HeaviestLossByRuns, headerFirstColumn: false);
             }
 
 
             if (HeaviestLossByWickets.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Loss by 10 wickets", HtmlTag.h2);
-                FileWritingSupport.WriteTable(writer, exportType, HeaviestLossByWickets, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Loss by 10 wickets", HtmlTag.h2);
+                TableWriting.WriteTable(writer, exportType, HeaviestLossByWickets, headerFirstColumn: false);
             }
         }
     }

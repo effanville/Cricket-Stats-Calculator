@@ -246,7 +246,7 @@ namespace Cricket
             {
                 results.AddValidations(match.Validation(), ToString());
             }
-            if (Year == null)
+            if (Year == default)
             {
                 var yearNotSet = new ValidationResult
                 {

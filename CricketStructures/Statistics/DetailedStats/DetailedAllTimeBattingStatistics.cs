@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CricketStructures.Season;
 using CricketStructures.Match;
@@ -7,6 +6,7 @@ using CricketStructures.Match.Innings;
 using CricketStructures.Statistics.PlayerStats;
 using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
+using System.Text;
 
 namespace CricketStructures.Statistics.DetailedStats
 {
@@ -105,50 +105,53 @@ namespace CricketStructures.Statistics.DetailedStats
             if (battedFirst || (!battedFirst && match.Result != ResultType.Win))
             {
                 var innings = match.GetInnings(teamName, batting: true);
-                BattingEntry bat = innings.Batting[0];
-                if (!bat.Out())
+                if (innings.Batting.Any())
                 {
-                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(teamName), Location = match.MatchData.Location, TeamTotalScore = innings.BattingScore() });
-                }
+                    BattingEntry bat = innings.Batting[0];
+                    if (!bat.Out())
+                    {
+                        CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(teamName), Location = match.MatchData.Location, TeamTotalScore = innings.BattingScore() });
+                    }
 
-                bat = innings.Batting[1];
-                if (!bat.Out())
-                {
-                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(teamName), Location = match.MatchData.Location, TeamTotalScore = innings.BattingScore() });
+                    bat = innings.Batting[1];
+                    if (!bat.Out())
+                    {
+                        CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(teamName), Location = match.MatchData.Location, TeamTotalScore = innings.BattingScore() });
+                    }
                 }
             }
         }
 
-        public void ExportStats(StreamWriter writer, ExportType exportType)
+        public void ExportStats(StringBuilder stringBuilder, ExportType exportType)
         {
             if (CenturyScores.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Centuries", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, CenturyScores, headerFirstColumn: false);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Centuries", HtmlTag.h3);
+                TableWriting.WriteTable(stringBuilder, exportType, CenturyScores, headerFirstColumn: false);
             }
 
             if (ScoresPast50.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Number Scores Past Fifty", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, ScoresPast50, headerFirstColumn: false);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Number Scores Past Fifty", HtmlTag.h3);
+                TableWriting.WriteTable(stringBuilder, exportType, ScoresPast50, headerFirstColumn: false);
             }
 
             if (CarryingBat.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Carrying of Bat", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, CarryingBat, headerFirstColumn: false);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Carrying of Bat", HtmlTag.h3);
+                TableWriting.WriteTable(stringBuilder, exportType, CarryingBat, headerFirstColumn: false);
             }
 
             if (SeasonRunsOver500.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Over 500 runs in a season", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, SeasonRunsOver500, headerFirstColumn: false);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Over 500 runs in a season", HtmlTag.h3);
+                TableWriting.WriteTable(stringBuilder, exportType, SeasonRunsOver500, headerFirstColumn: false);
             }
 
             if (SeasonAverageOver30.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Average over 30 in a season", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, SeasonAverageOver30, headerFirstColumn: false);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Average over 30 in a season", HtmlTag.h3);
+                TableWriting.WriteTable(stringBuilder, exportType, SeasonAverageOver30, headerFirstColumn: false);
             }
         }
     }

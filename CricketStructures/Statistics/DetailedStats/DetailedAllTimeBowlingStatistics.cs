@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CricketStructures.Season;
 using CricketStructures.Match;
@@ -7,6 +6,7 @@ using CricketStructures.Match.Innings;
 using CricketStructures.Statistics.PlayerStats;
 using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
+using System.Text;
 
 namespace CricketStructures.Statistics.DetailedStats
 {
@@ -113,36 +113,36 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer, ExportType exportType)
+        public void ExportStats(StringBuilder stringBuilder, ExportType exportType)
         {
             if (Over5Wickets.Any())
             {
-                writer.WriteTitle(exportType, "Five Wicket Hauls", HtmlTag.h3);
-                writer.WriteTable(exportType, Over5Wickets, headerFirstColumn: false);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Five Wicket Hauls", HtmlTag.h3);
+                TableWriting.WriteTable(stringBuilder, exportType, Over5Wickets, headerFirstColumn: false);
             }
 
             if (SeasonWicketsOver30.Any())
             {
-                writer.WriteTitle(exportType, "Over 30 Wickets in Season", HtmlTag.h3);
-                writer.WriteTable(exportType, SeasonWicketsOver30, headerFirstColumn: false);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Over 30 Wickets in Season", HtmlTag.h3);
+                TableWriting.WriteTable(stringBuilder, exportType, SeasonWicketsOver30, headerFirstColumn: false);
             }
 
             if (SeasonAverageUnder15.Any())
             {
-                writer.WriteTitle(exportType, "Season Average under 15", HtmlTag.h3);
-                writer.WriteTable(exportType, SeasonAverageUnder15, headerFirstColumn: false);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Season Average under 15", HtmlTag.h3);
+                TableWriting.WriteTable(stringBuilder, exportType, SeasonAverageUnder15, headerFirstColumn: false);
             }
 
             if (LowEconomy.Any())
             {
-                writer.WriteTitle(exportType, "Season Average under 15", HtmlTag.h3);
-                writer.WriteTable(exportType, LowEconomy, headerFirstColumn: false);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Season Average under 15", HtmlTag.h3);
+                TableWriting.WriteTable(stringBuilder, exportType, LowEconomy, headerFirstColumn: false);
             }
 
             if (LowStrikeRate.Any())
             {
-                writer.WriteTitle(exportType, "Season Average under 15", HtmlTag.h3);
-                writer.WriteTable(exportType, LowStrikeRate, headerFirstColumn: false);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Season Average under 15", HtmlTag.h3);
+                TableWriting.WriteTable(stringBuilder, exportType, LowStrikeRate, headerFirstColumn: false);
             }
         }
     }

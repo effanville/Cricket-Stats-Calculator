@@ -27,16 +27,16 @@ namespace CricketStructures.Tests.MatchTests
                     innings.SetBatting(new PlayerName("Patterson", "S"), Wicket.Caught, 46, 9, 10, 327);
                     innings.SetBatting(new PlayerName("Coad", "B"), Wicket.Caught, 25, 10, 9, 295);
                     innings.SetBatting(new PlayerName("Olivier", "D"), Wicket.NotOut, 11, 11, 11, 327);
-                    ships.Add(new Partnership(new PlayerName("Lyth", "A"), new PlayerName("Frame", "WAR"), 1, 116));
-                    ships.Add(new Partnership(new PlayerName("Frame", "WAR"), new PlayerName("Ballance", "G"), 2, 71));
-                    ships.Add(new Partnership(new PlayerName("Frame", "WAR"), new PlayerName("Cadmore", "T"), 3, 14));
-                    ships.Add(new Partnership(new PlayerName("Frame", "WAR"), new PlayerName("Leaning", "J"), 4, 4));
-                    ships.Add(new Partnership(new PlayerName("Leaning", "J"), new PlayerName("Tattersall", "J"), 5, 0));
-                    ships.Add(new Partnership(new PlayerName("Tattersall", "J"), new PlayerName("Willey", "D"), 6, 26));
-                    ships.Add(new Partnership(new PlayerName("Tattersall", "J"), new PlayerName("Maharaj", "K"), 7, 0));
-                    ships.Add(new Partnership(new PlayerName("Tattersall", "J"), new PlayerName("Patterson", "S"), 8, 19));
-                    ships.Add(new Partnership(new PlayerName("Patterson", "S"), new PlayerName("Coad", "B"), 9, 45));
-                    ships.Add(new Partnership(new PlayerName("Patterson", "S"), new PlayerName("Olivier", "D"), 10, 32));
+                    ships.Add(new Partnership(new PlayerName("Lyth", "A"), new PlayerName("Frame", "WAR"), 1, 116, 116, 1));
+                    ships.Add(new Partnership(new PlayerName("Frame", "WAR"), new PlayerName("Ballance", "G"), 2, 71, 187, 3));
+                    ships.Add(new Partnership(new PlayerName("Frame", "WAR"), new PlayerName("Cadmore", "T"), 3, 14, 201, 4));
+                    ships.Add(new Partnership(new PlayerName("Frame", "WAR"), new PlayerName("Leaning", "J"), 4, 4, 205, 2));
+                    ships.Add(new Partnership(new PlayerName("Leaning", "J"), new PlayerName("Tattersall", "J"), 5, 0, 205, 5));
+                    ships.Add(new Partnership(new PlayerName("Tattersall", "J"), new PlayerName("Willey", "D"), 6, 26, 231, 7));
+                    ships.Add(new Partnership(new PlayerName("Tattersall", "J"), new PlayerName("Maharaj", "K"), 7, 0, 231, 8));
+                    ships.Add(new Partnership(new PlayerName("Tattersall", "J"), new PlayerName("Patterson", "S"), 8, 19, 250, 6));
+                    ships.Add(new Partnership(new PlayerName("Patterson", "S"), new PlayerName("Coad", "B"), 9, 45, 295, 10));
+                    ships.Add(new Partnership(new PlayerName("Patterson", "S"), new PlayerName("Olivier", "D"), 10, 32, 327, 11));
                     break;
                 }
             }

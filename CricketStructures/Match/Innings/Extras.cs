@@ -50,6 +50,11 @@ namespace CricketStructures.Match.Innings
             Penalties = penalties;
         }
 
+        public Extras Copy()
+        {
+            return new Extras(Byes, LegByes, Wides, NoBalls, Penalties);
+        }
+
         public void SetExtras(int byes, int legByes, int wides, int noBalls, int penalties = 0)
         {
             Byes = byes;

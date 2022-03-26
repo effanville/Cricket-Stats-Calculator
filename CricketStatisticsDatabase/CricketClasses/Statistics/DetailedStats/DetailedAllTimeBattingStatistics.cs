@@ -102,16 +102,19 @@ namespace Cricket.Statistics.DetailedStats
 
             if (match.BattingFirstOrSecond == TeamInnings.First || (match.BattingFirstOrSecond == TeamInnings.Second && match.Result != ResultType.Win))
             {
-                BattingEntry bat = match.Batting.BattingInfo[0];
-                if (!bat.Out())
+                if (match.Batting.BattingInfo.Any())
                 {
-                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.Opposition, HomeOrAway = match.MatchData.HomeOrAway, TeamTotalScore = match.Batting.Score() });
-                }
+                    BattingEntry bat = match.Batting.BattingInfo[0];
+                    if (!bat.Out())
+                    {
+                        CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.Opposition, HomeOrAway = match.MatchData.HomeOrAway, TeamTotalScore = match.Batting.Score() });
+                    }
 
-                bat = match.Batting.BattingInfo[1];
-                if (!bat.Out())
-                {
-                    CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.Opposition, HomeOrAway = match.MatchData.HomeOrAway, TeamTotalScore = match.Batting.Score() });
+                    bat = match.Batting.BattingInfo[1];
+                    if (!bat.Out())
+                    {
+                        CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.Opposition, HomeOrAway = match.MatchData.HomeOrAway, TeamTotalScore = match.Batting.Score() });
+                    }
                 }
             }
         }

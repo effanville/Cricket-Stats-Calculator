@@ -1,9 +1,9 @@
 ﻿using System;
-using System.IO;
 using CricketStructures.Season;
 using CricketStructures.Match;
 using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
+using System.Text;
 
 namespace CricketStructures.Statistics.DetailedStats
 {
@@ -61,18 +61,18 @@ namespace CricketStructures.Statistics.DetailedStats
             throw new NotImplementedException($"{nameof(DetailedAllTimePlayerStatistics)} stats routine has not been implemented for a match.");
         }
 
-        public void ExportStats(StreamWriter writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, ExportType exportType)
         {
-            FileWritingSupport.WriteTitle(writer, exportType, "Batting Performances", HtmlTag.h2);
+            TextWriting.WriteTitle(writer, exportType, "Batting Performances", HtmlTag.h2);
             BattingStats.ExportStats(writer, exportType);
 
-            FileWritingSupport.WriteTitle(writer, exportType, "Bowling Performances", HtmlTag.h2);
+            TextWriting.WriteTitle(writer, exportType, "Bowling Performances", HtmlTag.h2);
             BowlingStats.ExportStats(writer, exportType);
 
-            FileWritingSupport.WriteTitle(writer, exportType, "Fielding Performances", HtmlTag.h2);
+            TextWriting.WriteTitle(writer, exportType, "Fielding Performances", HtmlTag.h2);
             FieldingStats.ExportStats(writer, exportType);
 
-            FileWritingSupport.WriteTitle(writer, exportType, "Career Performances", HtmlTag.h2);
+            TextWriting.WriteTitle(writer, exportType, "Career Performances", HtmlTag.h2);
             CareerStats.ExportStats(writer, exportType);
         }
     }

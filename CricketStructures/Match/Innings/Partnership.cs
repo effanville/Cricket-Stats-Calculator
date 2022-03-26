@@ -29,6 +29,18 @@ namespace CricketStructures.Match.Innings
             set;
         }
 
+        public int TeamScoreAtEnd
+        {
+            get;
+            set;
+        }
+
+        public int BatsmanOutAtEnd
+        {
+            get;
+            set;
+        }
+
         public MatchInfo MatchData
         {
             get;
@@ -75,22 +87,24 @@ namespace CricketStructures.Match.Innings
             MatchData = matchData;
         }
 
-        public Partnership(PlayerName playerOne, PlayerName playerTwo, int wicket, int runs)
+        public Partnership(PlayerName playerOne, PlayerName playerTwo, int wicket, int runs, int scoreAtEnd, int batsmanOutAtEnd)
         {
             PlayerOne = playerOne;
             PlayerTwo = playerTwo;
 
-            SetScores(wicket, runs);
+            SetScores(wicket, runs, scoreAtEnd, batsmanOutAtEnd);
         }
 
         public Partnership()
         {
         }
 
-        public void SetScores(int wicket, int runs)
+        public void SetScores(int wicket, int runs, int scoreAtEnd, int batsmanOutAtEnd)
         {
             Wicket = wicket;
             Runs = runs;
+            TeamScoreAtEnd = scoreAtEnd;
+            BatsmanOutAtEnd = batsmanOutAtEnd;
         }
 
         public int CompareTo(object obj)

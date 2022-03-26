@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CricketStructures.Match;
 using CricketStructures.Season;
 using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
+using System.Text;
 
 namespace CricketStructures.Statistics.DetailedStats
 {
@@ -89,13 +89,13 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, ExportType exportType)
         {
-            FileWritingSupport.WriteTitle(writer, exportType, "Yearly Records", HtmlTag.h2);
-            FileWritingSupport.WriteTable(writer, exportType, YearByYearRecords, headerFirstColumn: false);
+            TextWriting.WriteTitle(writer, exportType, "Yearly Records", HtmlTag.h2);
+            TableWriting.WriteTable(writer, exportType, YearByYearRecords, headerFirstColumn: false);
 
-            FileWritingSupport.WriteTitle(writer, exportType, "Record against each team", HtmlTag.h2);
-            FileWritingSupport.WriteTable(writer, exportType, TeamAgainstRecords, headerFirstColumn: false);
+            TextWriting.WriteTitle(writer, exportType, "Record against each team", HtmlTag.h2);
+            TableWriting.WriteTable(writer, exportType, TeamAgainstRecords, headerFirstColumn: false);
 
             NotableScores.ExportStats(writer, exportType);
 

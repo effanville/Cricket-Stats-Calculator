@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CricketStructures.Match;
 using CricketStructures.Season;
 using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
+using System.Text;
 
 namespace CricketStructures.Statistics.DetailedStats
 {
@@ -65,18 +65,18 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, ExportType exportType)
         {
             if (WinBy100Runs.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Wins by 100 Runs", HtmlTag.h2);
-                FileWritingSupport.WriteTable(writer, exportType, WinBy100Runs, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Wins by 100 Runs", HtmlTag.h2);
+                TableWriting.WriteTable(writer, exportType, WinBy100Runs, headerFirstColumn: false);
             }
 
             if (WinBy10Wickets.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Wins by 10 wickets", HtmlTag.h2);
-                FileWritingSupport.WriteTable(writer, exportType, WinBy10Wickets, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Wins by 10 wickets", HtmlTag.h2);
+                TableWriting.WriteTable(writer, exportType, WinBy10Wickets, headerFirstColumn: false);
             }
         }
     }

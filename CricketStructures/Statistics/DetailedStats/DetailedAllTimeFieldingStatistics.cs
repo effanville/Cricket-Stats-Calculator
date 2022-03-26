@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CricketStructures.Season;
 using CricketStructures.Match;
@@ -7,6 +6,7 @@ using CricketStructures.Match.Innings;
 using CricketStructures.Statistics.PlayerStats;
 using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
+using System.Text;
 
 namespace CricketStructures.Statistics.DetailedStats
 {
@@ -68,24 +68,24 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, ExportType exportType)
         {
             if (DismissalsInOneInnings.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Most Dismissals in on Innings", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, DismissalsInOneInnings, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Most Dismissals in on Innings", HtmlTag.h3);
+                TableWriting.WriteTable(writer, exportType, DismissalsInOneInnings, headerFirstColumn: false);
             }
 
             if (TwentyCatchesSeason.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Twenty cathces in one season", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, TwentyCatchesSeason, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Twenty cathces in one season", HtmlTag.h3);
+                TableWriting.WriteTable(writer, exportType, TwentyCatchesSeason, headerFirstColumn: false);
             }
 
             if (TenStumpingsSeason.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Ten Stumpings in one season", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, TenStumpingsSeason, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Ten Stumpings in one season", HtmlTag.h3);
+                TableWriting.WriteTable(writer, exportType, TenStumpingsSeason, headerFirstColumn: false);
             }
         }
     }

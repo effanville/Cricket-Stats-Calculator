@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Season;
 using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
+using System.Text;
 
 namespace CricketStructures.Statistics.DetailedStats
 {
@@ -137,48 +137,48 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StreamWriter writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, ExportType exportType)
         {
             if (ScoresOver200.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Scores Over 200", HtmlTag.h2);
-                FileWritingSupport.WriteTable(writer, exportType, ScoresOver200, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Scores Over 200", HtmlTag.h2);
+                TableWriting.WriteTable(writer, exportType, ScoresOver200, headerFirstColumn: false);
             }
 
             if (OppositionScoresOver200.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Opposition scores Over 200", HtmlTag.h2);
-                FileWritingSupport.WriteTable(writer, exportType, OppositionScoresOver200, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Opposition scores Over 200", HtmlTag.h2);
+                TableWriting.WriteTable(writer, exportType, OppositionScoresOver200, headerFirstColumn: false);
             }
 
             if (BothScoresOver200.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Both Team scores Over 200", HtmlTag.h2);
-                FileWritingSupport.WriteTable(writer, exportType, BothScoresOver200, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Both Team scores Over 200", HtmlTag.h2);
+                TableWriting.WriteTable(writer, exportType, BothScoresOver200, headerFirstColumn: false);
             }
 
             if (ScoresUnder25.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Scores Under 25");
-                FileWritingSupport.WriteTable(writer, exportType, ScoresUnder25, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Scores Under 25");
+                TableWriting.WriteTable(writer, exportType, ScoresUnder25, headerFirstColumn: false);
             }
 
             if (OppositionScoresUnder25.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Opposition scores Under 25");
-                FileWritingSupport.WriteTable(writer, exportType, OppositionScoresUnder25, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Opposition scores Under 25");
+                TableWriting.WriteTable(writer, exportType, OppositionScoresUnder25, headerFirstColumn: false);
             }
 
             if (HighestScoresBattingSecond.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Highest Scores batting second");
-                FileWritingSupport.WriteTable(writer, exportType, HighestScoresBattingSecond, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Highest Scores batting second");
+                TableWriting.WriteTable(writer, exportType, HighestScoresBattingSecond, headerFirstColumn: false);
             }
 
             if (LowestScoresBattingFirstNotLose.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Lowest Scores Batting first not to lose");
-                FileWritingSupport.WriteTable(writer, exportType, LowestScoresBattingFirstNotLose, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Lowest Scores Batting first not to lose");
+                TableWriting.WriteTable(writer, exportType, LowestScoresBattingFirstNotLose, headerFirstColumn: false);
             }
         }
     }

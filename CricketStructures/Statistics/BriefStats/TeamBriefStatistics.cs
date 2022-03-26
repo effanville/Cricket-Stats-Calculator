@@ -9,6 +9,8 @@ using CricketStructures.Player;
 using CricketStructures.Player.Interfaces;
 using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
+using System.Text;
+using System.IO.Abstractions;
 
 namespace CricketStructures.Statistics
 {
@@ -194,77 +196,90 @@ namespace CricketStructures.Statistics
             }
         }
 
-        public void ExportStats(string filePath, ExportType exportType)
+        public void ExportStats(IFileSystem fileSystem, string filePath, ExportType exportType)
         {
             try
             {
-                StreamWriter streamWriter = new StreamWriter(filePath);
+                StringBuilder sb = ExportString(exportType);
+
+                using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
+                using (StreamWriter fileWriter = new StreamWriter(stream))
+                {
+                    fileWriter.WriteLine(sb.ToString());
+                }
+            }
+            catch (IOException)
+            {
+                return;
+            }
+
+            StringBuilder ExportString(ExportType exportType)
+            {
+                StringBuilder sb = new StringBuilder();
                 if (exportType.Equals(ExportType.Html))
                 {
-                    streamWriter.CreateHTMLHeader("Statistics for team", useColours: true);
+                    TextWriting.CreateHTMLHeader(sb, "Statistics for team", useColours: true);
                 }
 
                 if (SeasonOrAllYear == StatisticsType.AllTimeBrief)
                 {
-                    streamWriter.WriteTitle(exportType, "All time Brief Statistics", HtmlTag.h1);
+                    TextWriting.WriteTitle(sb, exportType, "All time Brief Statistics", HtmlTag.h1);
                 }
                 if (SeasonOrAllYear == StatisticsType.SeasonBrief)
                 {
-                    streamWriter.WriteTitle(exportType, $"For season {SeasonYear.Year}-{SeasonName}", HtmlTag.h1);
+                    TextWriting.WriteTitle(sb, exportType, $"For season {SeasonYear.Year}-{SeasonName}", HtmlTag.h1);
                 }
 
-                streamWriter.WriteTitle(exportType, "Team Overall", HtmlTag.h2);
-                streamWriter.WriteParagraph(exportType, new string[] { "Games Played:", $"{GamesPlayed}" });
-                streamWriter.WriteParagraph(exportType, new string[] { "Wins:", $"{NumberWins}" });
-                streamWriter.WriteParagraph(exportType, new string[] { "Losses:", $"{NumberLosses}" });
-                streamWriter.WriteParagraph(exportType, new string[] { "Draws:", $"{NumberDraws}" });
-                streamWriter.WriteParagraph(exportType, new string[] { "Ties:", $"{NumberTies}" });
+                TextWriting.WriteTitle(sb, exportType, "Team Overall", HtmlTag.h2);
+                TextWriting.WriteParagraph(sb, exportType, new string[] { "Games Played:", $"{GamesPlayed}" });
+                TextWriting.WriteParagraph(sb, exportType, new string[] { "Wins:", $"{NumberWins}" });
+                TextWriting.WriteParagraph(sb, exportType, new string[] { "Losses:", $"{NumberLosses}" });
+                TextWriting.WriteParagraph(sb, exportType, new string[] { "Draws:", $"{NumberDraws}" });
+                TextWriting.WriteParagraph(sb, exportType, new string[] { "Ties:", $"{NumberTies}" });
 
                 (BestBatting Best, PlayerName Name) bestBatting = SeasonPlayerStats.Select(player => (player.BattingStats.Best, player.Name)).Max();
-                streamWriter.WriteParagraph(exportType, new string[] { "Best Batting:", bestBatting.Name.ToString(), bestBatting.Best.ToString() });
+                TextWriting.WriteParagraph(sb, exportType, new string[] { "Best Batting:", bestBatting.Name.ToString(), bestBatting.Best.ToString() });
 
                 (BestBowling BestFigures, PlayerName Name) = SeasonPlayerStats.Select(player => (player.BowlingStats.BestFigures, player.Name)).Max();
-                streamWriter.WriteParagraph(exportType, new string[] { "Best Bowling:", Name.ToString(), BestFigures.ToString() });
+                TextWriting.WriteParagraph(sb, exportType, new string[] { "Best Bowling:", Name.ToString(), BestFigures.ToString() });
 
                 List<PlayerFieldingStatistics> fielding = SeasonPlayerStats.Select(player => player.FieldingStats).ToList();
                 int mostKeeper = fielding.Max(player => player.TotalKeeperDismissals);
                 List<PlayerName> keepers = fielding.Where(player => player.TotalKeeperDismissals.Equals(mostKeeper)).Select(player => player.Name).ToList();
-                streamWriter.WriteParagraph(exportType, new string[] { "Most Dismissals as keeper:", $"{mostKeeper}", string.Join(",", keepers) });
+                TextWriting.WriteParagraph(sb, exportType, new string[] { "Most Dismissals as keeper:", $"{mostKeeper}", string.Join(",", keepers) });
 
-                streamWriter.WriteTitle(exportType, "Appearances", HtmlTag.h2);
+                TextWriting.WriteTitle(sb, exportType, "Appearances", HtmlTag.h2);
 
                 List<PlayerAttendanceStatistics> played = SeasonPlayerStats.Select(player => player.Played).ToList();
                 played.Sort((x, y) => y.TotalGamesPlayed.CompareTo(x.TotalGamesPlayed));
-                FileWritingSupport.WriteTable(streamWriter, exportType, played, headerFirstColumn: false);
+                TableWriting.WriteTable(sb, exportType, played, headerFirstColumn: false);
 
-                streamWriter.WriteTitle(exportType, "Batting Stats", HtmlTag.h2);
+                TextWriting.WriteTitle(sb, exportType, "Batting Stats", HtmlTag.h2);
                 List<PlayerBattingStatistics> batting = SeasonPlayerStats.Select(player => player.BattingStats).ToList();
                 _ = batting.RemoveAll(bat => bat.TotalInnings.Equals(0));
                 batting.Sort((x, y) => y.TotalRuns.CompareTo(x.TotalRuns));
-                FileWritingSupport.WriteTable(streamWriter, exportType, batting, headerFirstColumn: false);
+                TableWriting.WriteTable(sb, exportType, batting, headerFirstColumn: false);
 
-                streamWriter.WriteTitle(exportType, "Highest Partnerships", HtmlTag.h2);
-                FileWritingSupport.WriteTable(streamWriter, exportType, PartnershipsByWicket, headerFirstColumn: false);
+                TextWriting.WriteTitle(sb, exportType, "Highest Partnerships", HtmlTag.h2);
+                TableWriting.WriteTable(sb, exportType, PartnershipsByWicket, headerFirstColumn: false);
 
-                FileWritingSupport.WriteTitle(streamWriter, exportType, "Bowling Stats", HtmlTag.h2);
+                TextWriting.WriteTitle(sb, exportType, "Bowling Stats", HtmlTag.h2);
                 List<PlayerBowlingStatistics> bowling = SeasonPlayerStats.Select(player => player.BowlingStats).ToList();
                 _ = bowling.RemoveAll(bowl => bowl.TotalOvers.Equals(0));
                 bowling.Sort((x, y) => y.TotalWickets.CompareTo(x.TotalWickets));
-                FileWritingSupport.WriteTable(streamWriter, exportType, bowling, headerFirstColumn: false);
+                TableWriting.WriteTable(sb, exportType, bowling, headerFirstColumn: false);
 
-                streamWriter.WriteTitle(exportType, "Fielding Stats", HtmlTag.h2);
+                TextWriting.WriteTitle(sb, exportType, "Fielding Stats", HtmlTag.h2);
                 _ = fielding.RemoveAll(field => field.TotalDismissals.Equals(0));
                 fielding.Sort((x, y) => y.TotalDismissals.CompareTo(x.TotalDismissals));
-                FileWritingSupport.WriteTable(streamWriter, exportType, fielding, headerFirstColumn: false);
+                TableWriting.WriteTable(sb, exportType, fielding, headerFirstColumn: false);
 
                 if (exportType.Equals(ExportType.Html))
                 {
-                    streamWriter.CreateHTMLFooter();
+                    TextWriting.CreateHTMLFooter(sb);
                 }
-                streamWriter.Close();
-            }
-            catch (Exception)
-            {
+
+                return sb;
             }
         }
     }

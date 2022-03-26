@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Common.Structure.FileAccess;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
 
@@ -119,6 +120,9 @@ namespace CricketStructures.Match
         /// </summary>
         FieldingEntry GetFielding(string team, PlayerName player);
 
+        /// <summary>
+        /// Gets all fielding entries for the team specified.
+        /// </summary>
         IReadOnlyList<FieldingEntry> GetAllFielding(string team);
 
         void SetBatting(string team, PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, bool wasKeeper = false, PlayerName bowler = null);
@@ -130,6 +134,6 @@ namespace CricketStructures.Match
         bool DeleteBowlingEntry(string team, PlayerName player);
 
         List<Partnership> Partnerships(string team = null);
-        StringBuilder SerializeToString();
+        StringBuilder SerializeToString(ExportType exportType);
     }
 }

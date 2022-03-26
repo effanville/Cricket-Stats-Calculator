@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CricketStructures.Player;
 using Common.Structure.FileAccess;
 using CricketStructures.Player.Interfaces;
 using CricketStructures.Statistics.PlayerStats;
 using Common.Structure.ReportWriting;
+using System.Text;
 
 namespace CricketStructures.Statistics.DetailedStats
 {
@@ -167,34 +167,33 @@ namespace CricketStructures.Statistics.DetailedStats
             PlayerBowling.Sort((a, b) => a.Name.CompareTo(b.Name));
         }
 
-        public void ExportStats(StreamWriter writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, ExportType exportType)
         {
-            FileWritingSupport.WriteTitle(writer, exportType, "Leading Career Records", HtmlTag.h2);
+            TextWriting.WriteTitle(writer, exportType, "Leading Career Records", HtmlTag.h2);
 
-            System.Reflection.PropertyInfo[] values = MostClubAppearances[0].GetType().GetProperties();
-            FileWritingSupport.WriteTitle(writer, exportType, "Appearances", HtmlTag.h3);
-            FileWritingSupport.WriteTable(writer, exportType, MostClubAppearances, headerFirstColumn: false);
+            TextWriting.WriteTitle(writer, exportType, "Appearances", HtmlTag.h3);
+            TableWriting.WriteTable(writer, exportType, MostClubAppearances, headerFirstColumn: false);
 
-            FileWritingSupport.WriteTitle(writer, exportType, "Most Club Runs", HtmlTag.h3);
-            FileWritingSupport.WriteTable(writer, exportType, MostClubRuns, headerFirstColumn: false);
+            TextWriting.WriteTitle(writer, exportType, "Most Club Runs", HtmlTag.h3);
+            TableWriting.WriteTable(writer, exportType, MostClubRuns, headerFirstColumn: false);
 
-            FileWritingSupport.WriteTitle(writer, exportType, "Batting Average", HtmlTag.h3);
-            FileWritingSupport.WriteTable(writer, exportType, HighestClubBattingAverage, headerFirstColumn: false);
+            TextWriting.WriteTitle(writer, exportType, "Batting Average", HtmlTag.h3);
+            TableWriting.WriteTable(writer, exportType, HighestClubBattingAverage, headerFirstColumn: false);
 
-            FileWritingSupport.WriteTitle(writer, exportType, "Wickets Taken", HtmlTag.h3);
-            FileWritingSupport.WriteTable(writer, exportType, MostClubWickets, headerFirstColumn: false);
+            TextWriting.WriteTitle(writer, exportType, "Wickets Taken", HtmlTag.h3);
+            TableWriting.WriteTable(writer, exportType, MostClubWickets, headerFirstColumn: false);
 
-            FileWritingSupport.WriteTitle(writer, exportType, "Other Career Records", HtmlTag.h2);
+            TextWriting.WriteTitle(writer, exportType, "Other Career Records", HtmlTag.h2);
             if (PlayerBatting.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Overall Batting Performance", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, PlayerBatting, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Overall Batting Performance", HtmlTag.h3);
+                TableWriting.WriteTable(writer, exportType, PlayerBatting, headerFirstColumn: false);
             }
 
             if (PlayerBowling.Any())
             {
-                FileWritingSupport.WriteTitle(writer, exportType, "Overall Bowling Performance", HtmlTag.h3);
-                FileWritingSupport.WriteTable(writer, exportType, PlayerBowling, headerFirstColumn: false);
+                TextWriting.WriteTitle(writer, exportType, "Overall Bowling Performance", HtmlTag.h3);
+                TableWriting.WriteTable(writer, exportType, PlayerBowling, headerFirstColumn: false);
             }
         }
     }

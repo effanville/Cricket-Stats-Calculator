@@ -1,5 +1,8 @@
 ﻿using System.IO;
+using System.IO.Abstractions;
+using System.Text;
 using Common.Structure.FileAccess;
+using Common.Structure.ReportWriting;
 
 namespace CricketStructures.Statistics.DetailedStats
 {
@@ -39,35 +42,48 @@ namespace CricketStructures.Statistics.DetailedStats
             PlayerAllTimeDetailedStats.CalculateStats(team);
         }
 
-        public void ExportStats(string filePath, ExportType exportType)
+        public void ExportStats(IFileSystem fileSystem, string filePath, ExportType exportType)
         {
             try
             {
-                StreamWriter writer = new StreamWriter(filePath);
+                StringBuilder sb = ExportString(exportType);
 
-                if (exportType.Equals(ExportType.Html))
+                using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
+                using (StreamWriter fileWriter = new StreamWriter(stream))
                 {
-                    FileWritingSupport.CreateHTMLHeader(writer, "Statistics for team", useColours: true);
+                    fileWriter.WriteLine(sb.ToString());
                 }
-
-                FileWritingSupport.WriteTitle(writer, exportType, "Team Records");
-                TeamAllTimeResults.ExportStats(writer, exportType);
-
-                FileWritingSupport.WriteTitle(writer, exportType, "Partnership Records");
-                PartnershipStatistics.ExportStats(writer, exportType);
-
-                FileWritingSupport.WriteTitle(writer, exportType, "Individual Player Records");
-
-                PlayerAllTimeDetailedStats.ExportStats(writer, exportType);
-
-                if (exportType.Equals(ExportType.Html))
-                {
-                    FileWritingSupport.CreateHTMLFooter(writer);
-                }
-                writer.Close();
             }
             catch (IOException)
             {
+                return;
+            }
+
+            StringBuilder ExportString(ExportType exportType)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                if (exportType.Equals(ExportType.Html))
+                {
+                    TextWriting.CreateHTMLHeader(sb, "Statistics for team", useColours: true);
+                }
+
+                TextWriting.WriteTitle(sb, exportType, "Team Records");
+                TeamAllTimeResults.ExportStats(sb, exportType);
+
+                TextWriting.WriteTitle(sb, exportType, "Partnership Records");
+                PartnershipStatistics.ExportStats(sb, exportType);
+
+                TextWriting.WriteTitle(sb, exportType, "Individual Player Records");
+
+                PlayerAllTimeDetailedStats.ExportStats(sb, exportType);
+
+                if (exportType.Equals(ExportType.Html))
+                {
+                    TextWriting.CreateHTMLFooter(sb);
+                }
+
+                return sb;
             }
         }
     }
