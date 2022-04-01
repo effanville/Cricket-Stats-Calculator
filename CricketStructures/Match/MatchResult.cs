@@ -2,6 +2,24 @@
 {
     public sealed class MatchResult
     {
+        public bool HasResult
+        {
+            get;
+            set;
+        }
+
+        public bool IsDraw
+        {
+            get;
+            set;
+        }
+
+        public bool IsNoResult
+        {
+            get;
+            set;
+        }
+
         public string WinningTeam
         {
             get;
@@ -35,8 +53,19 @@
             WinningWicketMargin = winningWicketMargin;
         }
 
+        public static MatchResult IsNoResultMatch(string firstTeam, string secondTeam)
+        {
+            var result = new MatchResult(firstTeam, secondTeam);
+            result.IsNoResult = true;
+            return result;
+        }
+
         public override string ToString()
         {
+            if (IsNoResult)
+            {
+                return $"{WinningTeam} v {LosingTeam} was abandonded.";
+            }
             if (!WinningRunMargin.HasValue && !WinningWicketMargin.HasValue)
             {
                 return $"{WinningTeam} beat {LosingTeam}.";

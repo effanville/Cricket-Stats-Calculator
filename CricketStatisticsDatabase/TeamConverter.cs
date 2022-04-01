@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cricket;
+using Cricket.Interfaces;
 using Cricket.Match;
 using Cricket.Player;
-using Cricket.Team;
 
 namespace CricketStatisticsDatabase
 {
     public static class TeamConverter
     {
-        public static CricketStructures.CricketTeam Conversion(CricketTeam oldStyleTeam)
+        public static CricketStructures.CricketTeam Conversion(ICricketTeam oldStyleTeam)
         {
             var output = new CricketStructures.CricketTeam();
             output.TeamName = oldStyleTeam.TeamName;
             output.HomeLocation = oldStyleTeam.HomeLocation;
-            output.TeamPlayers = oldStyleTeam.TeamPlayers.Select(player => ConvertPlayer(player)).ToList();
-            output.TeamSeasons = oldStyleTeam.TeamSeasons.Select(season => ConvertSeason(oldStyleTeam.TeamName, season)).ToList();
+            output.TeamPlayers = oldStyleTeam.Players.Select(player => ConvertPlayer(player)).ToList();
+            output.TeamSeasons = oldStyleTeam.Seasons.Select(season => ConvertSeason(oldStyleTeam.TeamName, season)).ToList();
             return output;
         }
 
@@ -29,21 +28,21 @@ namespace CricketStatisticsDatabase
         {
             return new CricketStructures.Player.PlayerName(player?.Surname, player?.Forename);
         }
-        private static CricketStructures.Player.CricketPlayer ConvertPlayer(CricketPlayer player)
+        private static CricketStructures.Player.CricketPlayer ConvertPlayer(ICricketPlayer player)
         {
             return new CricketStructures.Player.CricketPlayer(ConvertPlayerName(player.Name));
         }
 
-        private static CricketStructures.Season.CricketSeason ConvertSeason(string teamName, CricketSeason season)
+        private static CricketStructures.Season.CricketSeason ConvertSeason(string teamName, ICricketSeason season)
         {
             var output = new CricketStructures.Season.CricketSeason();
             output.Year = season.Year;
             output.Name = season.Name;
-            output.SeasonsMatches = season.SeasonsMatches.Select(match => ConvertMatch(teamName, match)).ToList();
+            output.SeasonsMatches = season.Matches.Select(match => ConvertMatch(teamName, match)).ToList();
             return output;
         }
 
-        private static CricketStructures.Match.CricketMatch ConvertMatch(string teamName, CricketMatch match)
+        private static CricketStructures.Match.CricketMatch ConvertMatch(string teamName, ICricketMatch match)
         {
             var output = new CricketStructures.Match.CricketMatch();
             output.MatchData.Date = match.MatchData.Date;
@@ -54,14 +53,20 @@ namespace CricketStatisticsDatabase
             output.Result = (CricketStructures.Match.ResultType)Enum.Parse(typeof(CricketStructures.Match.ResultType), match.Result.ToString());
             output.MenOfMatch = new CricketStructures.Player.PlayerName[] { ConvertPlayerName(match.ManOfMatch) };
 
-            output.FirstInnings = match.BattingFirstOrSecond == TeamInnings.First ? ConvertBattingInnings(match.Batting) : ConvertBowlingInnings(match.Bowling, match.FieldingStats);
-            output.SecondInnings = match.BattingFirstOrSecond == TeamInnings.Second ? ConvertBattingInnings(match.Batting) : ConvertBowlingInnings(match.Bowling, match.FieldingStats);
+            output.FirstInnings = match.BattingFirstOrSecond == TeamInnings.First
+                ? ConvertBattingInnings(match.Batting, teamName, match.MatchData.Opposition)
+                : ConvertBowlingInnings(match.Bowling, match.FieldingStats, match.MatchData.Opposition, teamName);
+            output.SecondInnings = match.BattingFirstOrSecond == TeamInnings.Second
+                ? ConvertBattingInnings(match.Batting, teamName, match.MatchData.Opposition)
+                : ConvertBowlingInnings(match.Bowling, match.FieldingStats, match.MatchData.Opposition, teamName);
             return output;
         }
 
-        private static CricketStructures.Match.Innings.CricketInnings ConvertBattingInnings(BattingInnings innings)
+        private static CricketStructures.Match.Innings.CricketInnings ConvertBattingInnings(BattingInnings innings, string battingTeam, string fieldingTeam)
         {
             var output = new CricketStructures.Match.Innings.CricketInnings();
+            output.BattingTeam = battingTeam;
+            output.FieldingTeam = fieldingTeam;
             output.Batting = innings.BattingInfo.Select(info => ConvertBatting(info)).ToList();
             output.InningsExtras.Byes = innings.Extras;
             return output;
@@ -81,9 +86,11 @@ namespace CricketStatisticsDatabase
             }
         }
 
-        private static CricketStructures.Match.Innings.CricketInnings ConvertBowlingInnings(BowlingInnings innings, Fielding fielding)
+        private static CricketStructures.Match.Innings.CricketInnings ConvertBowlingInnings(BowlingInnings innings, Fielding fielding, string battingTeam, string bowlingTeam)
         {
             var output = new CricketStructures.Match.Innings.CricketInnings();
+            output.BattingTeam = battingTeam;
+            output.FieldingTeam = bowlingTeam;
             output.Bowling = innings.BowlingInfo.Select(info => ConvertBowling(info)).ToList();
             output.Batting = ConvertFielding(fielding);
             output.InningsExtras.Byes = innings.ByesLegByes;

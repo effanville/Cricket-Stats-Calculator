@@ -105,7 +105,7 @@ namespace CricketStructures.Statistics.PlayerStats
                             EndYear = match.MatchData.Date.Year;
                         }
 
-                        BattingEntry batting = match.GetBatting("", Name);
+                        BattingEntry batting = match.GetBatting(team.TeamName, Name);
                         if (batting != null)
                         {
                             if (batting.MethodOut != Match.Wicket.DidNotBat)

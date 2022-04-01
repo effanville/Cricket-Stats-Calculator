@@ -1,5 +1,4 @@
-﻿using System;
-using CricketStructures.Season;
+﻿using CricketStructures.Season;
 using CricketStructures.Match;
 using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
@@ -58,7 +57,6 @@ namespace CricketStructures.Statistics.DetailedStats
 
         public void UpdateStats(ICricketMatch match)
         {
-            throw new NotImplementedException($"{nameof(DetailedAllTimePlayerStatistics)} stats routine has not been implemented for a match.");
         }
 
         public void ExportStats(StringBuilder writer, ExportType exportType)

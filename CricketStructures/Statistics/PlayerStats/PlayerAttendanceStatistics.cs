@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Season;
@@ -37,7 +38,7 @@ namespace CricketStructures.Statistics
             set;
         }
 
-        public double WinRatio => TotalGamesWon / (double)TotalGamesPlayed;
+        public double WinRatio => Math.Round(TotalGamesWon / (double)TotalGamesPlayed, 2);
 
         public PlayerAttendanceStatistics()
         {

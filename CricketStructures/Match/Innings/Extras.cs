@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
 
@@ -7,30 +8,36 @@ namespace CricketStructures.Match.Innings
 {
     public sealed class Extras : IValidity
     {
+        [XmlAttribute(AttributeName = "B")]
         public int Byes
         {
             get;
             set;
         }
 
+        [XmlAttribute(AttributeName = "LB")]
         public int LegByes
         {
             get;
             set;
         }
 
+
+        [XmlAttribute(AttributeName = "W")]
         public int Wides
         {
             get;
             set;
         }
 
+        [XmlAttribute(AttributeName = "NB")]
         public int NoBalls
         {
             get;
             set;
         }
 
+        [XmlAttribute(AttributeName = "P")]
         public int Penalties
         {
             get;

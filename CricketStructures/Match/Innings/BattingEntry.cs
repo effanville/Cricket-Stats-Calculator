@@ -3,6 +3,7 @@ using System.Linq;
 using CricketStructures.Player;
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
+using System.Xml.Serialization;
 
 namespace CricketStructures.Match.Innings
 {
@@ -15,6 +16,8 @@ namespace CricketStructures.Match.Innings
         /// At what point in the innings did this batsman bat.
         /// This is the number the batsman went into bat.
         /// </summary>
+
+        [XmlAttribute(AttributeName = "O")]
         public int Order
         {
             get;

@@ -1,10 +1,17 @@
 ﻿using System;
+using System.Xml.Serialization;
 using CricketStructures.Player;
 
 namespace CricketStructures.Match.Innings
 {
     public sealed class Partnership : IComparable<Partnership>
     {
+        public int Wicket
+        {
+            get;
+            set;
+        }
+
         public int Runs
         {
             get;
@@ -23,25 +30,21 @@ namespace CricketStructures.Match.Innings
             set;
         }
 
-        public int Wicket
+        public MatchInfo MatchData
         {
             get;
             set;
         }
 
+        [XmlIgnore]
         public int TeamScoreAtEnd
         {
             get;
             set;
         }
 
+        [XmlIgnore]
         public int BatsmanOutAtEnd
-        {
-            get;
-            set;
-        }
-
-        public MatchInfo MatchData
         {
             get;
             set;

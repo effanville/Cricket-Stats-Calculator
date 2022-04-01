@@ -1,9 +1,11 @@
-﻿using Common.Structure.NamingStructures;
+﻿using System.Xml.Serialization;
+using Common.Structure.NamingStructures;
 
 namespace CricketStructures.Player
 {
     public class PlayerName : Name
     {
+        [XmlAttribute(AttributeName = "F")]
         public string Forename
         {
             get
@@ -16,6 +18,7 @@ namespace CricketStructures.Player
             }
         }
 
+        [XmlAttribute(AttributeName = "S")]
         public string Surname
         {
             get

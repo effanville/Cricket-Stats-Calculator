@@ -7,35 +7,41 @@ using System.Text;
 using System;
 using Common.Structure.ReportWriting;
 using Common.Structure.FileAccess;
+using System.Xml.Serialization;
 
 namespace CricketStructures.Match.Innings
 {
     public sealed class CricketInnings : IValidity
     {
+        [XmlAttribute(AttributeName = "B")]
         public string BattingTeam
         {
             get;
             set;
         }
 
+        [XmlAttribute(AttributeName = "F")]
         public string FieldingTeam
         {
             get;
             set;
         }
 
+        [XmlArray]
         public List<BattingEntry> Batting
         {
             get;
             set;
         }
 
+        [XmlArray]
         public List<BowlingEntry> Bowling
         {
             get;
             set;
         }
 
+        [XmlElement]
         public Extras InningsExtras
         {
             get;
@@ -273,8 +279,10 @@ namespace CricketStructures.Match.Innings
         public InningsScore Score()
         {
             var battingScore = BattingScore();
+            var bowlingScore = BowlingScore();
+            int comparison = battingScore.CompareTo(bowlingScore);
 
-            return battingScore;
+            return comparison < 0 ? bowlingScore : battingScore;
         }
 
         public InningsScore BattingScore()
@@ -466,7 +474,8 @@ namespace CricketStructures.Match.Innings
 
             foreach (var batsman in Batting)
             {
-                battingPerBatsman.Add(new List<string> { batsman.Order.ToString(), batsman.Name.ToString(), $"{batsman.MethodOut} {batsman.Fielder}", batsman.Bowler?.ToString() ?? "", batsman.RunsScored.ToString() });
+                string keeperSymbol = batsman.WasKeeper ? CricketConstants.WicketKeeperSymbol : "";
+                battingPerBatsman.Add(new List<string> { batsman.Order.ToString(), batsman.Name.ToString(), $"{batsman.MethodOut} {batsman.Fielder}{keeperSymbol}", batsman.Bowler?.ToString() ?? "", batsman.RunsScored.ToString() });
             }
 
             battingPerBatsman.Add(new List<string>() { "", "", "", "Batting Total", BatsmenRuns().ToString() });

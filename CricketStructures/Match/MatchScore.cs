@@ -42,6 +42,12 @@ namespace CricketStructures.Match
             set;
         }
 
+        public string Location
+        {
+            get;
+            set;
+        }
+
         public MatchScore()
         {
         }
@@ -50,26 +56,22 @@ namespace CricketStructures.Match
         {
             Date = match.MatchData.Date;
             Result = match.Result;
+            Location = match.MatchData.Location;
             if (match.BattedFirst(teamName))
             {
                 FirstInnings = match.FirstInnings.BattingScore();
                 FirstInningsTeam = teamName;
 
-                SecondInnings = match.SecondInnings.BattingScore();
+                SecondInnings = match.SecondInnings.BowlingScore();
                 SecondInningsTeam = match.MatchData.OppositionName(teamName);
             }
             else
             {
-                FirstInnings = match.FirstInnings.BattingScore();
+                FirstInnings = match.FirstInnings.BowlingScore();
                 FirstInningsTeam = match.MatchData.OppositionName(teamName);
                 SecondInnings = match.SecondInnings.BattingScore();
                 SecondInningsTeam = teamName;
             }
-        }
-
-        public string ToCSVLine()
-        {
-            return FirstInningsTeam + "," + FirstInnings.ToString() + "," + SecondInningsTeam + "," + SecondInnings.ToString() + "," + Date.ToUkDateString();
         }
     }
 }

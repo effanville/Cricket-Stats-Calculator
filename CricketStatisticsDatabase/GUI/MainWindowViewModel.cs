@@ -22,6 +22,12 @@ namespace GUI.ViewModels
             set;
         }
 
+        public CricketStructures.CricketTeam ModernStyleTeamToPlayWith
+        {
+            get;
+            set;
+        }
+
         public ObservableCollection<object> DisplayTabs { get; set; } = new ObservableCollection<object>();
 
         private ReportingViewModel fReportingView;
@@ -41,6 +47,7 @@ namespace GUI.ViewModels
         public MainWindowViewModel(IFileInteractionService fileService, IDialogCreationService dialogService)
         {
             TeamToPlayWith = new CricketTeam();
+            ModernStyleTeamToPlayWith = new CricketStructures.CricketTeam();
             fFileService = fileService;
             fDialogService = dialogService;
             NewTeamCommand = new RelayCommand(ExecuteNewTeamCommand);
@@ -87,6 +94,7 @@ namespace GUI.ViewModels
             if (result == System.Windows.MessageBoxResult.Yes)
             {
                 TeamToPlayWith = new CricketTeam();
+                ModernStyleTeamToPlayWith = new CricketStructures.CricketTeam();
                 UpdateSubWindows();
             }
         }
@@ -99,13 +107,14 @@ namespace GUI.ViewModels
         private void ExecuteLoadTeamCommand()
         {
             FileInteractionResult result = fFileService.OpenFile(string.Empty);
-            if (result.Success != null && (bool)result.Success)
+            if (result.Success)
             {
                 CricketTeam database = XmlFileAccess.ReadFromXmlFile<CricketTeam>(result.FilePath, out string error);
                 if (error == null)
                 {
                     TeamToPlayWith = database;
                     TeamToPlayWith.SetupEventListening();
+                    ModernStyleTeamToPlayWith = TeamConverter.Conversion(TeamToPlayWith);
                     UpdateSubWindows();
                 }
             }
@@ -118,7 +127,7 @@ namespace GUI.ViewModels
         private void ExecuteSaveTeamCommand()
         {
             FileInteractionResult result = fFileService.SaveFile("xml", string.Empty, string.Empty, "XML Files|*.xml|All Files|*.*");
-            if (result.Success != null && (bool)result.Success)
+            if (result.Success)
             {
                 XmlFileAccess.WriteToXmlFile<CricketTeam>(result.FilePath, TeamToPlayWith, out string error);
                 var newStyle = TeamConverter.Conversion(TeamToPlayWith);

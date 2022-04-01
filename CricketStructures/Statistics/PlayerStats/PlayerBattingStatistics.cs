@@ -3,6 +3,7 @@ using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Season;
 using CricketStructures.Player;
+using System;
 
 namespace CricketStructures.Statistics
 {
@@ -118,7 +119,7 @@ namespace CricketStructures.Statistics
 
             if (TotalInnings != TotalNotOut)
             {
-                Average = TotalRuns / (TotalInnings - (double)TotalNotOut);
+                Average = Math.Round(TotalRuns / (TotalInnings - (double)TotalNotOut), 2);
             }
         }
 
@@ -136,7 +137,7 @@ namespace CricketStructures.Statistics
 
             if (TotalInnings != TotalNotOut)
             {
-                Average = TotalRuns / (TotalInnings - (double)TotalNotOut);
+                Average = Math.Round(TotalRuns / (TotalInnings - (double)TotalNotOut), 2);
             }
         }
     }

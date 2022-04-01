@@ -346,7 +346,11 @@ namespace CricketStructures.Match
             var firstInningsScore = FirstInnings.Score();
             var secondInningsScore = SecondInnings.Score();
 
-            if (firstInningsScore.Runs > secondInningsScore.Runs)
+            if (firstInningsScore.Runs == 0 && secondInningsScore.Runs == 0)
+            {
+                return Match.MatchResult.IsNoResultMatch(FirstInnings.BattingTeam, FirstInnings.FieldingTeam);
+            }
+            else if (firstInningsScore.Runs > secondInningsScore.Runs)
             {
                 return new MatchResult(FirstInnings.BattingTeam, FirstInnings.FieldingTeam, winningRunMargin: firstInningsScore.Runs - secondInningsScore.Runs);
             }

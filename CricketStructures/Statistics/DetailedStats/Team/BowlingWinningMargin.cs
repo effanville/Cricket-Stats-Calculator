@@ -45,15 +45,7 @@ namespace CricketStructures.Statistics.DetailedStats
             Date = match.MatchData.Date;
             Location = match.MatchData.Location;
             GameType = match.MatchData.Type;
-
-            if (teamName.Equals(Opposition))
-            {
-                WinningRuns = match.Score(teamName).Runs - match.Score(Opposition).Runs;
-            }
-            else
-            {
-                WinningRuns = match.Score(Opposition).Runs - match.Score(teamName).Runs;
-            }
+            WinningRuns = Math.Abs(match.Score(teamName).Runs - match.Score(Opposition).Runs);
         }
 
         public string ToCSVLine()

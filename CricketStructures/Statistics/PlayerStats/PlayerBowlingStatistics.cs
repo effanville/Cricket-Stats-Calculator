@@ -3,6 +3,7 @@ using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Season;
 using CricketStructures.Player;
+using System;
 
 namespace CricketStructures.Statistics
 {
@@ -124,8 +125,8 @@ namespace CricketStructures.Statistics
 
             if (TotalWickets != 0)
             {
-                Average = TotalRunsConceded / (double)TotalWickets;
-                StrikeRate = 6 * (double)TotalOvers / TotalWickets;
+                Average = Math.Round(TotalRunsConceded / (double)TotalWickets, 2);
+                StrikeRate = Math.Round(6 * (double)TotalOvers / TotalWickets, 2);
             }
             else
             {
@@ -135,7 +136,7 @@ namespace CricketStructures.Statistics
 
             if (TotalOvers != 0)
             {
-                Economy = TotalRunsConceded / (double)TotalOvers;
+                Economy = Math.Round(TotalRunsConceded / (double)TotalOvers, 2);
             }
             else
             {
@@ -157,8 +158,8 @@ namespace CricketStructures.Statistics
 
             if (TotalWickets != 0)
             {
-                Average = TotalRunsConceded / (double)TotalWickets;
-                StrikeRate = 6 * (double)TotalOvers / TotalWickets;
+                Average = Math.Round(TotalRunsConceded / (double)TotalWickets, 2);
+                StrikeRate = Math.Round(6 * (double)TotalOvers / TotalWickets, 2);
             }
             else
             {
@@ -168,7 +169,7 @@ namespace CricketStructures.Statistics
 
             if (TotalOvers != 0)
             {
-                Economy = TotalRunsConceded / (double)TotalOvers;
+                Economy = Math.Round(TotalRunsConceded / (double)TotalOvers, 2);
             }
             else
             {

@@ -14,6 +14,8 @@ using Common.Structure.FileAccess;
 using Common.UI.Commands;
 using Common.UI.Services;
 using Common.UI.ViewModelBases;
+using CricketStatisticsDatabase;
+using System.IO.Abstractions;
 
 namespace GUI.ViewModels
 {
@@ -23,13 +25,7 @@ namespace GUI.ViewModels
         private readonly IDialogCreationService fDialogService;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
 
-        public List<StatisticsType> StatisticTypes
-        {
-            get
-            {
-                return Enum.GetValues(typeof(StatisticsType)).Cast<StatisticsType>().ToList();
-            }
-        }
+        public List<StatisticsType> StatisticTypes => Enum.GetValues(typeof(StatisticsType)).Cast<StatisticsType>().ToList();
 
         private StatisticsType fSelectedStatsType;
         public StatisticsType SelectedStatsType
@@ -77,13 +73,7 @@ namespace GUI.ViewModels
             }
         }
 
-        public bool SeasonStatsSelected
-        {
-            get
-            {
-                return SelectedStatsType == StatisticsType.SeasonBrief;
-            }
-        }
+        public bool SeasonStatsSelected => SelectedStatsType == StatisticsType.SeasonBrief;
 
         public ICricketTeam Team
         {
@@ -237,13 +227,17 @@ namespace GUI.ViewModels
         private void ExecuteExportAllStatsCommand()
         {
             FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
-            if (gotFile.Success != null && (bool)gotFile.Success)
+            if (gotFile.Success)
             {
                 var matchTypesToUse = MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray();
                 TeamBriefStatistics allTimeStats = new TeamBriefStatistics(Team, matchTypesToUse);
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
                 ExportType type = extension.ToEnum<ExportType>();
                 allTimeStats.ExportStats(gotFile.FilePath, type);
+
+                var newStyle = TeamConverter.Conversion(Team);
+                CricketStructures.Statistics.TeamBriefStatistics allTimeStatsNew = new CricketStructures.Statistics.TeamBriefStatistics(newStyle, CricketStructures.Match.MatchHelpers.AllMatchTypes);
+                allTimeStatsNew.ExportStats(new FileSystem(), gotFile.FilePath + "-new.html", type);
             }
         }
 
@@ -255,12 +249,16 @@ namespace GUI.ViewModels
         private void ExecuteExportDetailedAllStatsCommand()
         {
             FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
-            if (gotFile.Success != null && (bool)gotFile.Success)
+            if (gotFile.Success)
             {
                 DetailedAllTimeStatistics allTimeStats = new DetailedAllTimeStatistics(Team);
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
                 ExportType type = extension.ToEnum<ExportType>();
                 allTimeStats.ExportStats(gotFile.FilePath, type);
+
+                var newStyle = TeamConverter.Conversion(Team);
+                CricketStructures.Statistics.DetailedStats.DetailedAllTimeStatistics allTimeStatsNew = new CricketStructures.Statistics.DetailedStats.DetailedAllTimeStatistics(newStyle);
+                allTimeStatsNew.ExportStats(new FileSystem(), gotFile.FilePath + "-new.html", type);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
 
@@ -8,30 +9,35 @@ namespace CricketStructures.Match
 {
     public sealed class MatchInfo : IEquatable<MatchInfo>, IValidity
     {
+        [XmlAttribute(AttributeName = "H")]
         public string HomeTeam
         {
             get;
             set;
         }
 
+        [XmlAttribute(AttributeName = "A")]
         public string AwayTeam
         {
             get;
             set;
         }
 
+        [XmlAttribute(AttributeName = "L")]
         public string Location
         {
             get;
             set;
         }
 
+        [XmlAttribute(AttributeName = "D")]
         public DateTime Date
         {
             get;
             set;
         }
 
+        [XmlAttribute(AttributeName = "T")]
         public MatchType Type
         {
             get;

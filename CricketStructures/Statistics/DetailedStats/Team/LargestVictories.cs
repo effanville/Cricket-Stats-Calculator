@@ -46,17 +46,16 @@ namespace CricketStructures.Statistics.DetailedStats
         {
             if (match.BattedFirst(teamName))
             {
-                if (match.FirstInnings.BattingScore().Runs > match.SecondInnings.BattingScore().Runs + 100)
+                if (!match.MatchResult().IsNoResult && match.FirstInnings.Score().Runs > match.SecondInnings.Score().Runs + 100)
                 {
                     BowlingWinningMargin margin = new BowlingWinningMargin(teamName, match);
                     WinBy100Runs.Add(margin);
                     WinBy100Runs.Sort((a, b) => b.WinningRuns.CompareTo(a.WinningRuns));
                 }
             }
-
-            if (!match.BattedFirst(teamName))
+            else
             {
-                if (match.SecondInnings.BattingScore().Wickets.Equals(0))
+                if (!match.MatchResult().IsNoResult && match.SecondInnings.Score().Wickets.Equals(0))
                 {
                     BattingWinningMargin margin = new BattingWinningMargin(teamName, match);
                     WinBy10Wickets.Add(margin);

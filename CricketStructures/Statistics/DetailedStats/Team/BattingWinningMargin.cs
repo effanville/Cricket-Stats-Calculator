@@ -3,6 +3,7 @@ using CricketStructures.Match;
 using CricketStructures.Player;
 using Common.Structure.Extensions;
 using CricketStructures.Match.Innings;
+using System.Linq;
 
 namespace CricketStructures.Statistics.DetailedStats
 {
@@ -53,12 +54,19 @@ namespace CricketStructures.Statistics.DetailedStats
             Date = match.MatchData.Date;
             Location = match.MatchData.Location;
 
-            Score = match.Score(teamName);
-            if (!teamName.Equals(Opposition))
+            var result = match.MatchResult();
+            Score = match.Score(result.WinningTeam);
+            if (result.HasResult)
             {
-                var batting = match.GetInnings(teamName, batting: true).Batting;
-                BatsmanOne = batting[0].Name;
-                BatsmanTwo = batting[1].Name;
+                var batting = match.GetInnings(result.WinningTeam, batting: true).Batting;
+                if (batting.Any())
+                {
+                    if (!batting[0].Name.PrimaryName.Contains(CricketConstants.DefaultOppositionPlayerSurname))
+                    {
+                        BatsmanOne = batting[0].Name;
+                        BatsmanTwo = batting[1].Name;
+                    }
+                }
             }
         }
 
