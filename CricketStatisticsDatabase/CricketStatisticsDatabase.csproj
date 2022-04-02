@@ -39,7 +39,7 @@
     <Compile Update="StylesAndTemplates\SeasonBriefStatsTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\CreatePlayerDialog.xaml.cs">
+    <Compile Update="Windows\Dialogs\CreatePlayerDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\PlayerEditView.xaml.cs">
@@ -74,7 +74,7 @@
     <Page Update="StylesAndTemplates\ViewModelTemplates.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Windows\CreatePlayerDialog.xaml">
+    <Page Update="Windows\Dialogs\CreatePlayerDialog.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

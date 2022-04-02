@@ -52,8 +52,8 @@ namespace CSD.ViewModels
             }
         }
 
-        private List<ICricketPlayer> fPlayers;
-        public List<ICricketPlayer> Players
+        private IReadOnlyList<ICricketPlayer> fPlayers;
+        public IReadOnlyList<ICricketPlayer> Players
         {
             get
             {
@@ -66,9 +66,9 @@ namespace CSD.ViewModels
             }
         }
 
-        private List<ICricketSeason> fSeasons;
+        private IReadOnlyList<ICricketSeason> fSeasons;
 
-        public List<ICricketSeason> Seasons
+        public IReadOnlyList<ICricketSeason> Seasons
         {
             get
             {
@@ -98,7 +98,7 @@ namespace CSD.ViewModels
 
         private readonly Action<Action<ICricketTeam>> fUpdateTeam;
 
-        public TeamOverviewViewModel(Action<Action<ICricketTeam>> updateTeam, List<ICricketPlayer> players, List<ICricketSeason> seasons)
+        public TeamOverviewViewModel(Action<Action<ICricketTeam>> updateTeam, IReadOnlyList<ICricketPlayer> players, IReadOnlyList<ICricketSeason> seasons)
             : base("Team Overview")
         {
             fUpdateTeam = updateTeam;

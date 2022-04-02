@@ -2,12 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
-
+	<PropertyGroup>
+		<OutputPath>..\bin</OutputPath>
+	</PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Common.Structure" Version="1.0.22" />
   </ItemGroup>

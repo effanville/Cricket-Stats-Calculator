@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+
 using Common.UI.Commands;
 using Common.UI.Services;
 using Common.UI.ViewModelBases;
+
 using CricketStructures;
 using CricketStructures.Player;
 using CricketStructures.Player.Interfaces;
+
+using CSD.ViewModels.Dialogs;
 
 namespace CSD.ViewModels
 {
@@ -16,27 +20,19 @@ namespace CSD.ViewModels
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
+
         private List<ICricketPlayer> fPlayers;
         public List<ICricketPlayer> Players
         {
-            get
-            {
-                return fPlayers;
-            }
+            get => fPlayers;
 
-            set
-            {
-                fPlayers = value;
-                OnPropertyChanged();
-            }
+            set => SetAndNotify(ref fPlayers, value, nameof(Players));
         }
+
         private ICricketPlayer fSelectedPlayer;
         public ICricketPlayer SelectedPlayer
         {
-            get
-            {
-                return fSelectedPlayer;
-            }
+            get => fSelectedPlayer;
 
             set
             {
@@ -55,19 +51,11 @@ namespace CSD.ViewModels
         }
 
         private PlayerName fSelectedPlayerName;
-
         public PlayerName SelectedPlayerName
         {
-            get
-            {
-                return fSelectedPlayerName;
-            }
+            get => fSelectedPlayerName;
 
-            set
-            {
-                fSelectedPlayerName = value;
-                OnPropertyChanged();
-            }
+            set => SetAndNotify(ref fSelectedPlayerName, value, nameof(SelectedPlayerName));
         }
 
         public PlayerEditViewModel(ICricketTeam team, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)
@@ -83,10 +71,12 @@ namespace CSD.ViewModels
 
             AddFromTeamPlayerCommand = new RelayCommand(Execute);
         }
+
         public ICommand AddFromTeamPlayerCommand
         {
             get;
         }
+
         private void Execute()
         {
             foreach (var season in DataStore.Seasons)

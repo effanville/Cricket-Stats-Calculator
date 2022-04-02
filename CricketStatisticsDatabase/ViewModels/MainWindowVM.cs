@@ -51,9 +51,11 @@ namespace CSD.ViewModels
             LoadOldTeamCommand = new RelayCommand(ExecuteLoadOldTeamCommand);
             ReportingView = new ReportingViewModel(null);
 
+            DisplayTabs.Add(new TeamOverviewViewModel(UpdateDatabase, Database.Players, Database.Seasons));
+            DisplayTabs.Add(new PlayerEditViewModel(Database, UpdateDatabase, fFileService, fDialogService));
+            DisplayTabs.Add(new SeasonEditViewModel(Database, UpdateDatabase, fFileService, fDialogService));
             DisplayTabs.Add(new StatsViewModel(Database, fileService));
         }
-
 
         public Action<Action<ICricketTeam>> UpdateDatabase => action => UpdateDatabaseFromAction(action);
 

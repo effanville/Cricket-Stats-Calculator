@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="CSD.Windows.SelectedSeasonEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:uiC="clr-namespace:Common.UI.Converters;assembly=Common.UI"
+             xmlns:player="clr-namespace:CricketStatisticsDatabase.UIHelpers.Converters"
+             xmlns:viewmodels="clr-namespace:CSD.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:SelectedSeasonEditViewModel}"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="600"
+             MinWidth="600">
+    <Grid>
+        <Grid.Resources>
+            <uiC:ArrayMultiValueConverter x:Key="ArrayMultiValueConverter" />
+            <player:PlayerNameToStringConverter x:Key="NameToStringConverter" />
+            <uiC:StringToUKDateConverter x:Key="UKDateConverter" />
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"
+                              MinWidth="300" />
+            <ColumnDefinition Width="4*"
+                              MinWidth="300" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="0">
+                <Button Content="Add Match"
+                        Margin="5"
+                        Command="{Binding AddMatchCommand}" />
+                <Button Grid.Column="0"
+                        Grid.Row="0"
+                        Content="Edit Match"
+                        Margin="5"
+                        Command="{Binding EditMatchCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ArrayMultiValueConverter}">
+                            <Binding ElementName="OppositionBox"
+                                     Path="Text" />
+                            <Binding ElementName="DateBox"
+                                     Path="Text" />
+                            <Binding ElementName="PlaceBox"
+                                     Path="Text" />
+                            <Binding ElementName="MatchTypeBox"
+                                     Path="SelectedItem" />
+                            <Binding ElementName="ResultTypeBox"
+                                     Path="SelectedItem" />
+                            <Binding ElementName="InningsPlaceBox"
+                                     Path="SelectedItem" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+                <Button Grid.Column="0"
+                        Grid.Row="0"
+                        Content="Delete Match"
+                        Margin="5"
+                        Command="{Binding DeleteMatchCommand}" />
+            </StackPanel>
+            <ListBox Grid.Row="1"
+                     ItemsSource="{Binding Path=SelectedMatches, Mode=OneWay}"
+                     SelectedItem="{Binding SelectedMatch}"
+                     MinHeight="300"
+                     Margin="10,10,10,10"
+                     MinWidth="150" />
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0"
+                    Grid.Row="0"
+                    BorderThickness="1"
+                    BorderBrush="Gainsboro">
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="32" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ContentControl Grid.Row="0"
+                                    Grid.ColumnSpan="2"
+                                    Content="{Binding MatchInfoVM}" />
+                    <Label Grid.Column="0"
+                           Grid.Row="1"
+                           Content="Man of Match" />
+                    <TextBox Grid.Column="1"
+                             Grid.Row="1"
+                             Text="{Binding SelectedMatch.ManOfMatch, Converter={StaticResource NameToStringConverter}}" />
+                </Grid>
+            </Border>
+            <StackPanel Grid.Column="0"
+                        Grid.Row="1"
+                        Orientation="Horizontal">
+                <Button Content="Edit Frist Innings"
+                        Command="{Binding EditInningsCommand}"
+                        CommandParameter="First"
+                        Margin="5" />
+                <Button Content="Edit Second Innings"
+                        Command="{Binding EditInningsCommand}"
+                        CommandParameter="Second"
+                        Margin="5" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

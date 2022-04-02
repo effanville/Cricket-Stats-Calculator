@@ -39,7 +39,7 @@
         </TabControl>
         <Expander Grid.Row="2"
                   Content="{Binding ReportingView}"
-                  IsExpanded="True"
+                  IsExpanded="False"
                   Header="Team Validation Reports" />
     </Grid>
 </Window>

@@ -4,21 +4,17 @@ root = true
 # C# files
 [*.cs]
 
-# IDE0005: Using directive is unnecessary.
-dotnet_diagnostic.IDE0005.severity = warning
-
 # IDE0054: Use compound assignment
 dotnet_style_prefer_compound_assignment = true:error
 
 # IDE0055: Fix formatting
 dotnet_diagnostic.IDE0055.severity = error
 
-# IDE1006: Naming Styles
-dotnet_diagnostic.IDE1006.severity = error
+# IDE0005: Using directive is unnecessary.
+dotnet_diagnostic.IDE0005.severity = warning
 
 # CS1591: Missing XML comment for publicly visible type or member
 dotnet_diagnostic.CS1591.severity = warning
-
 
 #### Core EditorConfig Options ####
 
@@ -35,7 +31,7 @@ insert_final_newline = false
 
 # Organize usings
 dotnet_sort_system_directives_first                                       = true
-dotnet_separate_import_directive_groups                                   = false
+dotnet_separate_import_directive_groups                                   = true
 
 # this. and Me. preferences
 dotnet_style_qualification_for_event = false:error
@@ -85,19 +81,19 @@ csharp_style_var_for_built_in_types = false:suggestion
 csharp_style_var_when_type_is_apparent = false:silent
 
 # Expression-bodied members
-csharp_style_expression_bodied_accessors = false:error
+csharp_style_expression_bodied_accessors = when_on_single_line:error
 csharp_style_expression_bodied_constructors = false:error
 csharp_style_expression_bodied_indexers = false:error
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 csharp_style_expression_bodied_methods = false:warning
 csharp_style_expression_bodied_operators = false:silent
-csharp_style_expression_bodied_properties = when_on_single_line:error
+csharp_style_expression_bodied_properties = when_on_single_line:suggestion
 
 # Pattern matching preferences
 csharp_style_pattern_matching_over_as_with_null_check = true:warning
 csharp_style_pattern_matching_over_is_with_cast_check = true:warning
-csharp_style_prefer_switch_expression = true:suggestion
+csharp_style_prefer_switch_expression = false:suggestion
 
 # Null-checking preferences
 csharp_style_conditional_delegate_call = true:suggestion
@@ -111,12 +107,12 @@ csharp_prefer_braces = true:error
 csharp_prefer_simple_using_statement = false:error
 
 # Expression-level preferences
-csharp_prefer_simple_default_expression = true:suggestion
+csharp_prefer_simple_default_expression = false:warning
 csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
 csharp_style_pattern_local_over_anonymous_function = true:suggestion
-csharp_style_prefer_index_operator = true:suggestion
-csharp_style_prefer_range_operator = true:suggestion
+csharp_style_prefer_index_operator = false:warning
+csharp_style_prefer_range_operator = false:warning
 csharp_style_throw_expression = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 csharp_style_unused_value_expression_statement_preference = discard_variable:warning
@@ -215,3 +211,6 @@ dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
 # IDE0090: Use 'new(...)'
 csharp_style_implicit_object_creation_when_type_is_apparent = false
+
+# IDE0078: Use pattern matching
+csharp_style_prefer_pattern_matching = false

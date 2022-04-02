@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
 
@@ -44,7 +45,7 @@ namespace CricketStructures.Match
             set;
         }
 
-        internal MatchInfo()
+        public MatchInfo()
         {
         }
 
