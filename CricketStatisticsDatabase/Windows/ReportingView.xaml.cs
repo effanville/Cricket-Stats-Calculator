@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace GUI
+namespace CSD.Windows
 {
     /// <summary>
     /// Interaction logic for ReportingView.xaml

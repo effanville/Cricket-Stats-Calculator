@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CricketStructures;
-using GUI.ViewModels;
+
 using Common.Structure.FileAccess;
 using Common.UI.Commands;
 using Common.UI.Services;
 using Common.UI.ViewModelBases;
 
-namespace CSD.GUI.ViewModels
+using CricketStructures;
+using CricketStructures.Migration;
+
+namespace CSD.ViewModels
 {
     internal sealed class MainWindowVM : PropertyChangedBase
     {
@@ -26,6 +28,7 @@ namespace CSD.GUI.ViewModels
         private ReportingViewModel fReportingView;
         public ReportingViewModel ReportingView
         {
+
             get
             {
                 return fReportingView;
@@ -45,7 +48,10 @@ namespace CSD.GUI.ViewModels
             NewTeamCommand = new RelayCommand(ExecuteNewTeamCommand);
             LoadTeamCommand = new RelayCommand(ExecuteLoadTeamCommand);
             SaveTeamCommand = new RelayCommand(ExecuteSaveTeamCommand);
+            LoadOldTeamCommand = new RelayCommand(ExecuteLoadOldTeamCommand);
             ReportingView = new ReportingViewModel(null);
+
+            DisplayTabs.Add(new StatsViewModel(Database, fileService));
         }
 
 
@@ -94,7 +100,7 @@ namespace CSD.GUI.ViewModels
         private void ExecuteLoadTeamCommand()
         {
             FileInteractionResult result = fFileService.OpenFile(string.Empty);
-            if (result.Success != null && (bool)result.Success)
+            if (result.Success)
             {
                 CricketTeam database = XmlFileAccess.ReadFromXmlFile<CricketTeam>(result.FilePath, out string error);
                 if (error == null)
@@ -113,9 +119,30 @@ namespace CSD.GUI.ViewModels
         private void ExecuteSaveTeamCommand()
         {
             FileInteractionResult result = fFileService.SaveFile("xml", string.Empty, string.Empty, "XML Files|*.xml|All Files|*.*");
-            if (result.Success != null && (bool)result.Success)
+            if (result.Success)
             {
                 XmlFileAccess.WriteToXmlFile<CricketTeam>(result.FilePath, Database, out string error);
+            }
+        }
+
+        public ICommand LoadOldTeamCommand
+        {
+            get;
+        }
+
+        private void ExecuteLoadOldTeamCommand()
+        {
+            FileInteractionResult result = fFileService.OpenFile(string.Empty);
+            if (result.Success)
+            {
+                Cricket.Team.CricketTeam database = XmlFileAccess.ReadFromXmlFile<Cricket.Team.CricketTeam>(result.FilePath, out string error);
+                var newStyle = TeamConverter.Conversion(database);
+                if (error == null)
+                {
+                    Database = newStyle;
+                    Database.SetupEventListening();
+                    UpdateSubWindows();
+                }
             }
         }
     }

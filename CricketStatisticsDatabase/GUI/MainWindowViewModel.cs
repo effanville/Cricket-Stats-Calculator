@@ -3,11 +3,11 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Cricket.Interfaces;
 using Cricket.Team;
-using CricketStatisticsDatabase;
 using Common.Structure.FileAccess;
 using Common.UI.Commands;
 using Common.UI.Services;
 using Common.UI.ViewModelBases;
+using CricketStructures.Migration;
 
 namespace GUI.ViewModels
 {
@@ -30,20 +30,6 @@ namespace GUI.ViewModels
 
         public ObservableCollection<object> DisplayTabs { get; set; } = new ObservableCollection<object>();
 
-        private ReportingViewModel fReportingView;
-        public ReportingViewModel ReportingView
-        {
-            get
-            {
-                return fReportingView;
-            }
-            set
-            {
-                fReportingView = value;
-                OnPropertyChanged();
-            }
-        }
-
         public MainWindowViewModel(IFileInteractionService fileService, IDialogCreationService dialogService)
         {
             TeamToPlayWith = new CricketTeam();
@@ -55,12 +41,9 @@ namespace GUI.ViewModels
             SaveTeamCommand = new RelayCommand(ExecuteSaveTeamCommand);
 
             DisplayTabs.Add(new TeamOverviewViewModel(UpdateDatabase, TeamToPlayWith.Players, TeamToPlayWith.Seasons));
-            DisplayTabs.Add(new PlayerEditViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
             DisplayTabs.Add(new SeasonEditViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
-            DisplayTabs.Add(new StatsViewModel(TeamToPlayWith, UpdateDatabase, fFileService, fDialogService));
-
-            ReportingView = new ReportingViewModel(TeamToPlayWith);
         }
+
         public Action<Action<ICricketTeam>> UpdateDatabase => action => UpdateDatabaseFromAction(action);
 
         private void UpdateDatabaseFromAction(Action<ICricketTeam> updateTeam)
@@ -78,8 +61,6 @@ namespace GUI.ViewModels
                     vmb.UpdateData(TeamToPlayWith);
                 }
             }
-
-            ReportingView?.UpdateData(TeamToPlayWith);
         }
 
 

@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
-using Cricket.Interfaces;
-using Cricket.Player;
-using GUI.Dialogs.ViewModels;
 using Common.UI.Commands;
 using Common.UI.Services;
 using Common.UI.ViewModelBases;
+using CricketStructures;
+using CricketStructures.Player;
+using CricketStructures.Player.Interfaces;
 
-namespace GUI.ViewModels
+namespace CSD.ViewModels
 {
-    public class PlayerEditViewModel : ViewModelBase<ICricketTeam>
+    public sealed class PlayerEditViewModel : ViewModelBase<ICricketTeam>
     {
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
-        private ICricketTeam teamHere;
         private List<ICricketPlayer> fPlayers;
         public List<ICricketPlayer> Players
         {
@@ -23,6 +23,7 @@ namespace GUI.ViewModels
             {
                 return fPlayers;
             }
+
             set
             {
                 fPlayers = value;
@@ -36,6 +37,7 @@ namespace GUI.ViewModels
             {
                 return fSelectedPlayer;
             }
+
             set
             {
                 fSelectedPlayer = value;
@@ -60,6 +62,7 @@ namespace GUI.ViewModels
             {
                 return fSelectedPlayerName;
             }
+
             set
             {
                 fSelectedPlayerName = value;
@@ -68,13 +71,12 @@ namespace GUI.ViewModels
         }
 
         public PlayerEditViewModel(ICricketTeam team, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)
-            : base("Player Edit")
+            : base("Player Edit", team)
         {
             fFileService = fileService;
             fDialogService = dialogService;
             UpdateTeam = updateTeam;
-            Players = team.Players;
-            teamHere = team;
+            Players = team.Players.ToList();
             AddPlayerCommand = new RelayCommand(ExecuteAddPlayer);
             EditPlayerCommand = new RelayCommand<object[]>(ExecuteEditPlayer);
             DeletePlayerCommand = new RelayCommand(ExecuteDeletePlayer);
@@ -87,9 +89,9 @@ namespace GUI.ViewModels
         }
         private void Execute()
         {
-            foreach (var season in teamHere.Seasons)
+            foreach (var season in DataStore.Seasons)
             {
-                foreach (var name in season.Players)
+                foreach (var name in season.Players(DataStore.TeamName))
                 {
                     UpdateTeam(team => team.AddPlayer(name));
                 }
@@ -140,9 +142,8 @@ namespace GUI.ViewModels
 
         public override void UpdateData(ICricketTeam team)
         {
-            Players = team.Players;
-            teamHere = null;
-            teamHere = team;
+            Players = team.Players.ToList();
+            base.UpdateData(team);
         }
     }
 }

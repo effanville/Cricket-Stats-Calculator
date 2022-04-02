@@ -10,15 +10,6 @@
     <Compile Update="GUI\CricketInningsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="GUI\PlayerEditView\CreatePlayerDialog.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="GUI\PlayerEditView\PlayerEditView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="GUI\ReportingWindow\ReportingView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="GUI\SeasonEditView\MatchEditDialogs\CreateMatchDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -37,9 +28,6 @@
     <Compile Update="GUI\SeasonEditView\SelectedSeasonEditView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="GUI\StatsView\StatsView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="GUI\StylesAndTemplates\DetailedStatsTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -54,16 +42,7 @@
     <Page Update="GUI\CricketInningsView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="GUI\PlayerEditView\CreatePlayerDialog.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="GUI\MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="GUI\PlayerEditView\PlayerEditView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="GUI\ReportingWindow\ReportingView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="GUI\SeasonEditView\MatchEditDialogs\CreateMatchDialog.xaml">
@@ -87,9 +66,6 @@
     <Page Update="GUI\SeasonEditView\SelectedSeasonEditView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="GUI\StatsView\StatsView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="GUI\StylesAndTemplates\DetailedStatsTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -97,6 +73,39 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="GUI\TeamOverview.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="StylesAndTemplates\DefaultStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="StylesAndTemplates\DetailedStatsTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="StylesAndTemplates\Dictionaries.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="StylesAndTemplates\SeasonBriefStatsTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="StylesAndTemplates\ViewModelTemplates.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CreatePlayerDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\PlayerEditView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\PlayerStatsDisplay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\ReportingView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\StatsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\TeamOverview.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

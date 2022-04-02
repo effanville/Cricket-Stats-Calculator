@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
-using Cricket.Interfaces;
 using Common.Structure.Validation;
 using Common.UI.Commands;
 using Common.UI.ViewModelBases;
+using CricketStructures;
 
-namespace GUI.ViewModels
+namespace CSD.ViewModels
 {
-    public class ReportingViewModel : ViewModelBase<ICricketTeam>
+    public sealed class ReportingViewModel : ViewModelBase<ICricketTeam>
     {
         private ICricketTeam team;
         public ICricketTeam TeamToPlayWith

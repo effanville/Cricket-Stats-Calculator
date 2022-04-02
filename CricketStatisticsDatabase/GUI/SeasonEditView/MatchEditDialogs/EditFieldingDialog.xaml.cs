@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Data;
 using Cricket.Player;
+using CricketStatisticsDatabase.UIHelpers.Converters;
 
 namespace GUI.Dialogs
 {

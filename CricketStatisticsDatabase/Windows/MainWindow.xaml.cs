@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows;
-using CSD.GUI.ViewModels;
+using CSD.ViewModels;
 using Common.UI.Services;
 
-namespace CSD.GUI.Windows
+namespace CSD.Windows
 {
     /// <summary>
     /// Interaction logic for NewMainWindow.xaml

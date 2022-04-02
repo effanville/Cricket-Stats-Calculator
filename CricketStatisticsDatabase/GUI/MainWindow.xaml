@@ -33,9 +33,5 @@
                 </Style>
             </TabControl.ItemContainerStyle>
         </TabControl>
-        <Expander Grid.Row="2"
-                  Content="{Binding ReportingView}"
-                  IsExpanded="True"
-                  Header="Team Validation Reports" />
     </Grid>
 </Window>

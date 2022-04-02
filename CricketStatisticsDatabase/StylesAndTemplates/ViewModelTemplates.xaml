@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:CSD.ViewModels"
+                    xmlns:stats="clr-namespace:CricketStructures.Statistics;assembly=CricketStructures"
+                    xmlns:detStats="clr-namespace:CricketStructures.Statistics.DetailedStats;assembly=CricketStructures"
+                    xmlns:gui="clr-namespace:CSD.Windows">
+    <DataTemplate DataType="{x:Type vm:TeamOverviewViewModel }">
+        <gui:TeamOverview />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:PlayerEditViewModel}">
+        <gui:PlayerEditView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:CreatePlayerDialogViewModel}">
+        <gui:CreatePlayerDialog />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:StatsViewModel}">
+        <gui:StatsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type stats:PlayerBriefStatistics}">
+        <gui:PlayerStatsDisplay />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type stats:TeamBriefStatistics}">
+        <gui:SeasonBriefStatsTemplate />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type detStats:DetailedAllTimeStatistics}">
+        <gui:DetailedStatsTemplate />
+    </DataTemplate>
+</ResourceDictionary>

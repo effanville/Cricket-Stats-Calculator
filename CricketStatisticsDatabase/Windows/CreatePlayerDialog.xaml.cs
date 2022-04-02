@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace GUI.Dialogs
+namespace CSD.Windows
 {
     /// <summary>
     /// Interaction logic for CreatePlayerDialog.xaml

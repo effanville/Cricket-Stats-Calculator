@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
-using Cricket.Interfaces;
-using Cricket.Player;
 using Common.UI.Commands;
 using Common.UI.Interfaces;
 using Common.UI.ViewModelBases;
+using CricketStructures;
+using CricketStructures.Player;
 
-namespace GUI.Dialogs.ViewModels
+namespace CSD.ViewModels
 {
     public class CreatePlayerDialogViewModel : ViewModelBase<ICricketTeam>, INotifyDataErrorInfo
     {
@@ -81,13 +81,7 @@ namespace GUI.Dialogs.ViewModels
             Validate();
         }
 
-        public bool HasErrors
-        {
-            get
-            {
-                return fErrorsByPropertyName.Any();
-            }
-        }
+        public bool HasErrors => fErrorsByPropertyName.Any();
 
         public IEnumerable GetErrors(string propertyName)
         {
