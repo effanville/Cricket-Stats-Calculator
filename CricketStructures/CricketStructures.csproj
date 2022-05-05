@@ -13,7 +13,7 @@
 		<OutputPath>..\bin</OutputPath>
 	</PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Common.Structure" Version="1.0.22" />
+    <PackageReference Include="Common.Structure" Version="1.0.24" />
   </ItemGroup>
 
   <ItemGroup>

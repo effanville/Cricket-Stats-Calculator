@@ -4,15 +4,16 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Windows.Input;
+
 using Common.Structure.DisplayClasses;
 using Common.Structure.Extensions;
-using Common.Structure.FileAccess;
+using Common.Structure.ReportWriting;
 using Common.UI.Commands;
 using Common.UI.Services;
 using Common.UI.ViewModelBases;
+
 using CricketStructures;
 using CricketStructures.Match;
-using CricketStructures.Migration;
 using CricketStructures.Player;
 using CricketStructures.Season;
 using CricketStructures.Statistics;
@@ -29,10 +30,7 @@ namespace CSD.ViewModels
         private StatisticsType fSelectedStatsType;
         public StatisticsType SelectedStatsType
         {
-            get
-            {
-                return fSelectedStatsType;
-            }
+            get => fSelectedStatsType;
             set
             {
                 SelectedStats = null;
@@ -61,10 +59,7 @@ namespace CSD.ViewModels
 
         public List<Selectable<CricketStructures.Match.MatchType>> MatchTypeNames
         {
-            get
-            {
-                return fMatchTypeNames;
-            }
+            get => fMatchTypeNames;
             set
             {
                 fMatchTypeNames = value;
@@ -78,10 +73,7 @@ namespace CSD.ViewModels
         private bool fSeasonStatsSet;
         public bool SeasonStatsSet
         {
-            get
-            {
-                return fSeasonStatsSet;
-            }
+            get => fSeasonStatsSet;
             set
             {
                 fSeasonStatsSet = value;
@@ -92,10 +84,7 @@ namespace CSD.ViewModels
         private object fSelectedStats;
         public object SelectedStats
         {
-            get
-            {
-                return fSelectedStats;
-            }
+            get => fSelectedStats;
             set
             {
                 fSelectedStats = value;
@@ -106,10 +95,7 @@ namespace CSD.ViewModels
         private ICricketSeason fSelectedSeason;
         public ICricketSeason SelectedSeason
         {
-            get
-            {
-                return fSelectedSeason;
-            }
+            get => fSelectedSeason;
             set
             {
                 fSelectedSeason = value;
@@ -121,10 +107,7 @@ namespace CSD.ViewModels
         private PlayerName fSelectedPlayer;
         public PlayerName SelectedPlayer
         {
-            get
-            {
-                return fSelectedPlayer;
-            }
+            get => fSelectedPlayer;
             set
             {
                 fSelectedPlayer = value;
@@ -135,10 +118,7 @@ namespace CSD.ViewModels
         private bool fPlayerStatsSet;
         public bool PlayerStatsSet
         {
-            get
-            {
-                return fPlayerStatsSet;
-            }
+            get => fPlayerStatsSet;
             set
             {
                 fPlayerStatsSet = value;
@@ -148,10 +128,7 @@ namespace CSD.ViewModels
         private PlayerBriefStatistics fSelectedPlayerStats;
         public PlayerBriefStatistics SelectedPlayerStats
         {
-            get
-            {
-                return fSelectedPlayerStats;
-            }
+            get => fSelectedPlayerStats;
             set
             {
                 fSelectedPlayerStats = value;
@@ -188,7 +165,7 @@ namespace CSD.ViewModels
             {
                 PlayerBriefStatistics playerStats = new PlayerBriefStatistics(DataStore.TeamName, SelectedPlayer, SelectedSeason, MatchHelpers.AllMatchTypes);
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
-                ExportType type = extension.ToEnum<ExportType>();
+                DocumentType type = extension.ToEnum<DocumentType>();
                 playerStats.ExportStats(new FileSystem(), gotFile.FilePath, type);
             }
         }
@@ -201,11 +178,11 @@ namespace CSD.ViewModels
         private void ExecuteExportStatsCommand()
         {
             FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
-            if (gotFile.Success != null && (bool)gotFile.Success)
+            if (gotFile.Success)
             {
                 TeamBriefStatistics allTimeStats = new TeamBriefStatistics(DataStore.TeamName, SelectedSeason, MatchHelpers.AllMatchTypes);
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
-                ExportType type = extension.ToEnum<ExportType>();
+                DocumentType type = extension.ToEnum<DocumentType>();
                 allTimeStats.ExportStats(new FileSystem(), gotFile.FilePath, type);
             }
         }
@@ -222,7 +199,7 @@ namespace CSD.ViewModels
             {
                 var matchTypesToUse = MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray();
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
-                ExportType type = extension.ToEnum<ExportType>();
+                DocumentType type = extension.ToEnum<DocumentType>();
 
                 TeamBriefStatistics allTimeStatsNew = new TeamBriefStatistics(DataStore, MatchHelpers.AllMatchTypes);
                 allTimeStatsNew.ExportStats(new FileSystem(), gotFile.FilePath, type);
@@ -240,7 +217,7 @@ namespace CSD.ViewModels
             if (gotFile.Success)
             {
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
-                ExportType type = extension.ToEnum<ExportType>();
+                DocumentType type = extension.ToEnum<DocumentType>();
                 DetailedAllTimeStatistics allTimeStatsNew = new DetailedAllTimeStatistics(DataStore);
                 allTimeStatsNew.ExportStats(new FileSystem(), gotFile.FilePath, type);
             }

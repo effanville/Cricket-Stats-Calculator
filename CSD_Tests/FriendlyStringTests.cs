@@ -1,4 +1,5 @@
 ﻿using System.IO;
+
 using NUnit.Framework;
 
 namespace CricketStructures.Tests
@@ -9,7 +10,7 @@ namespace CricketStructures.Tests
         public void DoStuff(string index)
         {
             var matchToTest = TestCaseInstances.ExampleMatches[index];
-            var friendlyString = matchToTest.SerializeToString(Common.Structure.FileAccess.ExportType.Html);
+            var friendlyString = matchToTest.SerializeToString(Common.Structure.ReportWriting.DocumentType.Html);
             var stringThing = friendlyString.ToString();
             File.WriteAllText($"c:\\data\\source\\test{index}.html", stringThing);
         }

@@ -3,7 +3,6 @@ using System.Linq;
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Season;
-using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
 using System.Text;
 
@@ -137,23 +136,23 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StringBuilder writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, DocumentType exportType)
         {
             if (ScoresOver200.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Scores Over 200", HtmlTag.h2);
+                TextWriting.WriteTitle(writer, exportType, "Scores Over 200", DocumentElement.h2);
                 TableWriting.WriteTable(writer, exportType, ScoresOver200, headerFirstColumn: false);
             }
 
             if (OppositionScoresOver200.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Opposition scores Over 200", HtmlTag.h2);
+                TextWriting.WriteTitle(writer, exportType, "Opposition scores Over 200", DocumentElement.h2);
                 TableWriting.WriteTable(writer, exportType, OppositionScoresOver200, headerFirstColumn: false);
             }
 
             if (BothScoresOver200.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Both Team scores Over 200", HtmlTag.h2);
+                TextWriting.WriteTitle(writer, exportType, "Both Team scores Over 200", DocumentElement.h2);
                 TableWriting.WriteTable(writer, exportType, BothScoresOver200, headerFirstColumn: false);
             }
 

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Abstractions;
 using System.Text;
-using Common.Structure.FileAccess;
+
 using Common.Structure.ReportWriting;
 
 namespace CricketStructures.Statistics.DetailedStats
@@ -42,7 +42,7 @@ namespace CricketStructures.Statistics.DetailedStats
             PlayerAllTimeDetailedStats.CalculateStats(team);
         }
 
-        public void ExportStats(IFileSystem fileSystem, string filePath, ExportType exportType)
+        public void ExportStats(IFileSystem fileSystem, string filePath, DocumentType exportType)
         {
             try
             {
@@ -59,14 +59,11 @@ namespace CricketStructures.Statistics.DetailedStats
                 return;
             }
 
-            StringBuilder ExportString(ExportType exportType)
+            StringBuilder ExportString(DocumentType exportType)
             {
                 StringBuilder sb = new StringBuilder();
 
-                if (exportType.Equals(ExportType.Html))
-                {
-                    TextWriting.CreateHTMLHeader(sb, "Statistics for team", useColours: true);
-                }
+                TextWriting.WriteHeader(sb, exportType, "Statistics for team", useColours: true);
 
                 TextWriting.WriteTitle(sb, exportType, "Team Records");
                 TeamAllTimeResults.ExportStats(sb, exportType);
@@ -78,10 +75,7 @@ namespace CricketStructures.Statistics.DetailedStats
 
                 PlayerAllTimeDetailedStats.ExportStats(sb, exportType);
 
-                if (exportType.Equals(ExportType.Html))
-                {
-                    TextWriting.CreateHTMLFooter(sb);
-                }
+                TextWriting.WriteFooter(sb, exportType);
 
                 return sb;
             }

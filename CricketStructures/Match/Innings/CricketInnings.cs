@@ -6,7 +6,6 @@ using Common.Structure.Validation;
 using System.Text;
 using System;
 using Common.Structure.ReportWriting;
-using Common.Structure.FileAccess;
 using System.Xml.Serialization;
 
 namespace CricketStructures.Match.Innings
@@ -457,17 +456,17 @@ namespace CricketStructures.Match.Innings
             return $"{wholeOvers}.{result}";
         }
 
-        public static CricketInnings CreateFromScorecard(string scorecard)
+        public static CricketInnings CreateFromScorecard(DocumentType exportType, string scorecard)
         {
             return null;
         }
 
-        public StringBuilder SerializeToString(ExportType exportType)
+        public StringBuilder SerializeToString(DocumentType exportType)
         {
             StringBuilder sb = new StringBuilder();
-            TextWriting.WriteTitle(sb, exportType, $"Innings of: {BattingTeam}.", HtmlTag.h2);
+            TextWriting.WriteTitle(sb, exportType, $"Innings of: {BattingTeam}.", DocumentElement.h2);
 
-            TextWriting.WriteTitle(sb, exportType, $"Batting", HtmlTag.h3);
+            TextWriting.WriteTitle(sb, exportType, $"Batting", DocumentElement.h3);
 
             List<string> battingHeaders = new List<string>() { "", "Batsman", "How Out", "Bowler", "Total" };
             List<List<string>> battingPerBatsman = new List<List<string>>();
@@ -497,7 +496,7 @@ namespace CricketStructures.Match.Innings
 
             var partnerships = Partnerships();
 
-            TextWriting.WriteTitle(sb, exportType, $"Partnerships", HtmlTag.h3);
+            TextWriting.WriteTitle(sb, exportType, $"Partnerships", DocumentElement.h3);
 
             List<string> partnershipsHeaders = new List<string>();
             List<string> partnershipsRow = new List<string>();
@@ -518,7 +517,7 @@ namespace CricketStructures.Match.Innings
             TableWriting.WriteTableFromEnumerable(sb, exportType, partnershipsHeaders, new List<List<string>> { partnershipsRow }, false);
 
 
-            TextWriting.WriteTitle(sb, exportType, $"Bowling", HtmlTag.h3);
+            TextWriting.WriteTitle(sb, exportType, $"Bowling", DocumentElement.h3);
             List<string> bowlingHeaders = new List<string>() { "Bowler", "Wides", "NB", "Overs", "Mdns", "Runs", "Wkts", "Avg" };
             List<List<string>> bowlingColumns = new List<List<string>>();
             foreach (var bowler in Bowling)
@@ -554,7 +553,7 @@ namespace CricketStructures.Match.Innings
             TableWriting.WriteTableFromEnumerable(sb, exportType, bowlingHeaders, bowlingColumns, false);
 
 
-            TextWriting.WriteTitle(sb, exportType, $"Score", HtmlTag.h3);
+            TextWriting.WriteTitle(sb, exportType, $"Score", DocumentElement.h3);
             var score = Score();
             TextWriting.WriteParagraph(sb, exportType, new[] { $"Final Score: {score.Runs} for {score.Wickets}" });
 

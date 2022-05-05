@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CricketStructures.Player;
-using Common.Structure.FileAccess;
 using CricketStructures.Player.Interfaces;
 using CricketStructures.Statistics.PlayerStats;
 using Common.Structure.ReportWriting;
@@ -167,32 +166,32 @@ namespace CricketStructures.Statistics.DetailedStats
             PlayerBowling.Sort((a, b) => a.Name.CompareTo(b.Name));
         }
 
-        public void ExportStats(StringBuilder writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, DocumentType exportType)
         {
-            TextWriting.WriteTitle(writer, exportType, "Leading Career Records", HtmlTag.h2);
+            TextWriting.WriteTitle(writer, exportType, "Leading Career Records", DocumentElement.h2);
 
-            TextWriting.WriteTitle(writer, exportType, "Appearances", HtmlTag.h3);
+            TextWriting.WriteTitle(writer, exportType, "Appearances", DocumentElement.h3);
             TableWriting.WriteTable(writer, exportType, MostClubAppearances, headerFirstColumn: false);
 
-            TextWriting.WriteTitle(writer, exportType, "Most Club Runs", HtmlTag.h3);
+            TextWriting.WriteTitle(writer, exportType, "Most Club Runs", DocumentElement.h3);
             TableWriting.WriteTable(writer, exportType, MostClubRuns, headerFirstColumn: false);
 
-            TextWriting.WriteTitle(writer, exportType, "Batting Average", HtmlTag.h3);
+            TextWriting.WriteTitle(writer, exportType, "Batting Average", DocumentElement.h3);
             TableWriting.WriteTable(writer, exportType, HighestClubBattingAverage, headerFirstColumn: false);
 
-            TextWriting.WriteTitle(writer, exportType, "Wickets Taken", HtmlTag.h3);
+            TextWriting.WriteTitle(writer, exportType, "Wickets Taken", DocumentElement.h3);
             TableWriting.WriteTable(writer, exportType, MostClubWickets, headerFirstColumn: false);
 
-            TextWriting.WriteTitle(writer, exportType, "Other Career Records", HtmlTag.h2);
+            TextWriting.WriteTitle(writer, exportType, "Other Career Records", DocumentElement.h2);
             if (PlayerBatting.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Overall Batting Performance", HtmlTag.h3);
+                TextWriting.WriteTitle(writer, exportType, "Overall Batting Performance", DocumentElement.h3);
                 TableWriting.WriteTable(writer, exportType, PlayerBatting, headerFirstColumn: false);
             }
 
             if (PlayerBowling.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Overall Bowling Performance", HtmlTag.h3);
+                TextWriting.WriteTitle(writer, exportType, "Overall Bowling Performance", DocumentElement.h3);
                 TableWriting.WriteTable(writer, exportType, PlayerBowling, headerFirstColumn: false);
             }
         }

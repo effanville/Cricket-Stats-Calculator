@@ -3,7 +3,6 @@ using System.Linq;
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Season;
-using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
 using System.Text;
 
@@ -110,17 +109,17 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StringBuilder writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, DocumentType exportType)
         {
             if (PartnershipsByWicket.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Partnerships By Wicket Over 100", HtmlTag.h2);
+                TextWriting.WriteTitle(writer, exportType, "Partnerships By Wicket Over 100", DocumentElement.h2);
 
                 for (int i = 0; i < PartnershipsByWicket.Count; i++)
                 {
                     if (PartnershipsByWicket[i].Any())
                     {
-                        TextWriting.WriteTitle(writer, exportType, $"{i + 1}th Wicket", HtmlTag.h3);
+                        TextWriting.WriteTitle(writer, exportType, $"{i + 1}th Wicket", DocumentElement.h3);
                         TableWriting.WriteTable(writer, exportType, PartnershipsByWicket[i], headerFirstColumn: false);
                     }
                 }
@@ -128,12 +127,12 @@ namespace CricketStructures.Statistics.DetailedStats
 
             if (MostPartnerships.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Most Partnerships", HtmlTag.h2);
+                TextWriting.WriteTitle(writer, exportType, "Most Partnerships", DocumentElement.h2);
                 TableWriting.WriteTable(writer, exportType, MostPartnerships, headerFirstColumn: false);
             }
             if (MostPartnershipsAsPair.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Most Partnerships As a Pair", HtmlTag.h2);
+                TextWriting.WriteTitle(writer, exportType, "Most Partnerships As a Pair", DocumentElement.h2);
                 TableWriting.WriteTable(writer, exportType, MostPartnershipsAsPair, headerFirstColumn: false);
             }
         }

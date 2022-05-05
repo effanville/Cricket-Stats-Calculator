@@ -4,7 +4,6 @@ using CricketStructures.Season;
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Statistics.PlayerStats;
-using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
 using System.Text;
 
@@ -122,35 +121,35 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StringBuilder stringBuilder, ExportType exportType)
+        public void ExportStats(StringBuilder stringBuilder, DocumentType exportType)
         {
             if (CenturyScores.Any())
             {
-                TextWriting.WriteTitle(stringBuilder, exportType, "Centuries", HtmlTag.h3);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Centuries", DocumentElement.h3);
                 TableWriting.WriteTable(stringBuilder, exportType, CenturyScores, headerFirstColumn: false);
             }
 
             if (ScoresPast50.Any())
             {
-                TextWriting.WriteTitle(stringBuilder, exportType, "Number Scores Past Fifty", HtmlTag.h3);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Number Scores Past Fifty", DocumentElement.h3);
                 TableWriting.WriteTable(stringBuilder, exportType, ScoresPast50, headerFirstColumn: false);
             }
 
             if (CarryingBat.Any())
             {
-                TextWriting.WriteTitle(stringBuilder, exportType, "Carrying of Bat", HtmlTag.h3);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Carrying of Bat", DocumentElement.h3);
                 TableWriting.WriteTable(stringBuilder, exportType, CarryingBat, headerFirstColumn: false);
             }
 
             if (SeasonRunsOver500.Any())
             {
-                TextWriting.WriteTitle(stringBuilder, exportType, "Over 500 runs in a season", HtmlTag.h3);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Over 500 runs in a season", DocumentElement.h3);
                 TableWriting.WriteTable(stringBuilder, exportType, SeasonRunsOver500, headerFirstColumn: false);
             }
 
             if (SeasonAverageOver30.Any())
             {
-                TextWriting.WriteTitle(stringBuilder, exportType, "Average over 30 in a season", HtmlTag.h3);
+                TextWriting.WriteTitle(stringBuilder, exportType, "Average over 30 in a season", DocumentElement.h3);
                 TableWriting.WriteTable(stringBuilder, exportType, SeasonAverageOver30, headerFirstColumn: false);
             }
         }

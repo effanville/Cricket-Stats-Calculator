@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Common.Structure.FileAccess;
+
+using Common.Structure.ReportWriting;
+
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
 
@@ -134,6 +136,6 @@ namespace CricketStructures.Match
         bool DeleteBowlingEntry(string team, PlayerName player);
 
         List<Partnership> Partnerships(string team = null);
-        StringBuilder SerializeToString(ExportType exportType);
+        StringBuilder SerializeToString(DocumentType exportType);
     }
 }

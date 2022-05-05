@@ -2,7 +2,6 @@
 using System.Linq;
 using CricketStructures.Match;
 using CricketStructures.Season;
-using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
 using System.Text;
 
@@ -64,17 +63,17 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StringBuilder writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, DocumentType exportType)
         {
             if (WinBy100Runs.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Wins by 100 Runs", HtmlTag.h2);
+                TextWriting.WriteTitle(writer, exportType, "Wins by 100 Runs", DocumentElement.h2);
                 TableWriting.WriteTable(writer, exportType, WinBy100Runs, headerFirstColumn: false);
             }
 
             if (WinBy10Wickets.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Wins by 10 wickets", HtmlTag.h2);
+                TextWriting.WriteTitle(writer, exportType, "Wins by 10 wickets", DocumentElement.h2);
                 TableWriting.WriteTable(writer, exportType, WinBy10Wickets, headerFirstColumn: false);
             }
         }

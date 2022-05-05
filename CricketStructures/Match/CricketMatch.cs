@@ -7,7 +7,6 @@ using CricketStructures.Player;
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
 using System.Text;
-using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
 
 namespace CricketStructures.Match
@@ -366,11 +365,11 @@ namespace CricketStructures.Match
             throw new NotImplementedException();
         }
 
-        public StringBuilder SerializeToString(ExportType exportType)
+        public StringBuilder SerializeToString(DocumentType exportType)
         {
             StringBuilder sb = new StringBuilder();
-            TextWriting.CreateHTMLHeader(sb, "", true);
-            TextWriting.WriteTitle(sb, exportType, $"{MatchData.HomeTeam} vs {MatchData.AwayTeam}. Venue: {MatchData.Location}. Date: {MatchData.Date}. Type of Match: {MatchData.Type}", HtmlTag.h1);
+            TextWriting.WriteHeader(sb, exportType, "", true);
+            TextWriting.WriteTitle(sb, exportType, $"{MatchData.HomeTeam} vs {MatchData.AwayTeam}. Venue: {MatchData.Location}. Date: {MatchData.Date}. Type of Match: {MatchData.Type}", DocumentElement.h1);
 
             var firstInningsString = FirstInnings.SerializeToString(exportType);
             _ = sb.Append(firstInningsString)
@@ -381,10 +380,10 @@ namespace CricketStructures.Match
                 .AppendLine();
 
 
-            TextWriting.WriteTitle(sb, exportType, $"Result", HtmlTag.h2);
+            TextWriting.WriteTitle(sb, exportType, $"Result", DocumentElement.h2);
             var result = MatchResult();
             TextWriting.WriteParagraph(sb, exportType, new[] { $"Match Result: ", result.ToString() });
-            TextWriting.CreateHTMLFooter(sb);
+            TextWriting.WriteFooter(sb, exportType);
             return sb;
         }
     }

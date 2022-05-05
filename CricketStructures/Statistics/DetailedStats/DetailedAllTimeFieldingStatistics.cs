@@ -68,23 +68,23 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StringBuilder writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, DocumentType exportType)
         {
             if (DismissalsInOneInnings.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Most Dismissals in on Innings", HtmlTag.h3);
+                TextWriting.WriteTitle(writer, exportType, "Most Dismissals in on Innings", DocumentElement.h3);
                 TableWriting.WriteTable(writer, exportType, DismissalsInOneInnings, headerFirstColumn: false);
             }
 
             if (TwentyCatchesSeason.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Twenty cathces in one season", HtmlTag.h3);
+                TextWriting.WriteTitle(writer, exportType, "Twenty cathces in one season", DocumentElement.h3);
                 TableWriting.WriteTable(writer, exportType, TwentyCatchesSeason, headerFirstColumn: false);
             }
 
             if (TenStumpingsSeason.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Ten Stumpings in one season", HtmlTag.h3);
+                TextWriting.WriteTitle(writer, exportType, "Ten Stumpings in one season", DocumentElement.h3);
                 TableWriting.WriteTable(writer, exportType, TenStumpingsSeason, headerFirstColumn: false);
             }
         }

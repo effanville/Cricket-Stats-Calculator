@@ -89,12 +89,12 @@ namespace CricketStructures.Statistics.DetailedStats
             }
         }
 
-        public void ExportStats(StringBuilder writer, ExportType exportType)
+        public void ExportStats(StringBuilder writer, DocumentType exportType)
         {
-            TextWriting.WriteTitle(writer, exportType, "Yearly Records", HtmlTag.h2);
+            TextWriting.WriteTitle(writer, exportType, "Yearly Records", DocumentElement.h2);
             TableWriting.WriteTable(writer, exportType, YearByYearRecords, headerFirstColumn: false);
 
-            TextWriting.WriteTitle(writer, exportType, "Record against each team", HtmlTag.h2);
+            TextWriting.WriteTitle(writer, exportType, "Record against each team", DocumentElement.h2);
             TableWriting.WriteTable(writer, exportType, TeamAgainstRecords, headerFirstColumn: false);
 
             NotableScores.ExportStats(writer, exportType);

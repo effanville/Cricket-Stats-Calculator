@@ -6,7 +6,6 @@ using CricketStructures.Season;
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
-using Common.Structure.FileAccess;
 using Common.Structure.ReportWriting;
 using System.IO.Abstractions;
 using System.Text;
@@ -159,7 +158,7 @@ namespace CricketStructures.Statistics
             return Name.ToString();
         }
 
-        public void ExportStats(IFileSystem fileSystem, string filePath, ExportType exportType)
+        public void ExportStats(IFileSystem fileSystem, string filePath, DocumentType exportType)
         {
             try
             {
@@ -176,17 +175,15 @@ namespace CricketStructures.Statistics
                 return;
             }
 
-            StringBuilder ExportString(ExportType exportType)
+            StringBuilder ExportString(DocumentType exportType)
             {
                 StringBuilder sb = new StringBuilder();
-                if (exportType.Equals(ExportType.Html))
-                {
-                    TextWriting.CreateHTMLHeader(sb, $"Statistics for Player {Name}", useColours: true);
-                }
+                TextWriting.WriteHeader(sb, exportType, $"Statistics for Player {Name}", useColours: true);
 
-                TextWriting.WriteTitle(sb, exportType, $"Brief Statistics for player {Name}", HtmlTag.h1);
 
-                TextWriting.WriteTitle(sb, exportType, "Player Overall", HtmlTag.h2);
+                TextWriting.WriteTitle(sb, exportType, $"Brief Statistics for player {Name}", DocumentElement.h1);
+
+                TextWriting.WriteTitle(sb, exportType, "Player Overall", DocumentElement.h2);
                 TextWriting.WriteParagraph(sb, exportType, new string[] { "Games Played:", $"{Played.TotalGamesPlayed}" });
                 TextWriting.WriteParagraph(sb, exportType, new string[] { "Wins:", $"{Played.TotalGamesWon}" });
                 TextWriting.WriteParagraph(sb, exportType, new string[] { "Losses:", $"{Played.TotalGamesLost}" });
@@ -199,26 +196,23 @@ namespace CricketStructures.Statistics
                     TextWriting.WriteParagraph(sb, exportType, new string[] { "Best Bowling:", BowlingStats.BestFigures.ToString() });
                 }
 
-                TextWriting.WriteTitle(sb, exportType, "Appearances", HtmlTag.h2);
+                TextWriting.WriteTitle(sb, exportType, "Appearances", DocumentElement.h2);
 
                 TableWriting.WriteTable(sb, exportType, new PlayerAttendanceStatistics[] { Played }, headerFirstColumn: false);
 
-                TextWriting.WriteTitle(sb, exportType, "Batting Stats", HtmlTag.h2);
+                TextWriting.WriteTitle(sb, exportType, "Batting Stats", DocumentElement.h2);
                 TableWriting.WriteTable(sb, exportType, new PlayerBattingStatistics[] { BattingStats }, headerFirstColumn: false);
 
-                TextWriting.WriteTitle(sb, exportType, "Highest Partnerships", HtmlTag.h2);
+                TextWriting.WriteTitle(sb, exportType, "Highest Partnerships", DocumentElement.h2);
                 TableWriting.WriteTable(sb, exportType, PartnershipsByWicket, headerFirstColumn: false);
 
-                TextWriting.WriteTitle(sb, exportType, "Bowling Stats", HtmlTag.h2);
+                TextWriting.WriteTitle(sb, exportType, "Bowling Stats", DocumentElement.h2);
                 TableWriting.WriteTable(sb, exportType, new PlayerBowlingStatistics[] { BowlingStats }, headerFirstColumn: false);
 
-                TextWriting.WriteTitle(sb, exportType, "Fielding Stats", HtmlTag.h2);
+                TextWriting.WriteTitle(sb, exportType, "Fielding Stats", DocumentElement.h2);
                 TableWriting.WriteTable(sb, exportType, new PlayerFieldingStatistics[] { FieldingStats }, headerFirstColumn: false);
 
-                if (exportType.Equals(ExportType.Html))
-                {
-                    TextWriting.CreateHTMLFooter(sb);
-                }
+                TextWriting.WriteFooter(sb, exportType);
 
                 return sb;
             }
