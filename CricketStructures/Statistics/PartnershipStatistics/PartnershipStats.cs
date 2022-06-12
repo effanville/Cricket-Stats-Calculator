@@ -67,6 +67,8 @@ namespace CricketStructures.Statistics.DetailedStats
         public void UpdateStats(string teamName, ICricketMatch match)
         {
             List<Partnership> partnerships = match.Partnerships(teamName);
+            if(partnerships != null)
+            {
             foreach (Partnership ship in partnerships)
             {
                 if (ship != null)
@@ -106,6 +108,7 @@ namespace CricketStructures.Statistics.DetailedStats
                         }
                     }
                 }
+            }
             }
         }
 

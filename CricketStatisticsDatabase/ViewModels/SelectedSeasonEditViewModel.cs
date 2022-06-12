@@ -16,6 +16,7 @@ namespace CSD.ViewModels
 {
     public class SelectedSeasonEditViewModel : ViewModelBase<ICricketTeam>
     {
+        private string fTeamName;
         private readonly IFileInteractionService fFileService;
         private readonly IDialogCreationService fDialogService;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
@@ -43,7 +44,10 @@ namespace CSD.ViewModels
             set
             {
                 SetAndNotify(ref fSelectedMatch, value, nameof(SelectedMatch));
-                MatchInfoVM.UpdateData(fSelectedMatch.MatchData);
+                if (SelectedMatch != null)
+                {
+                    MatchInfoVM.UpdateData(fSelectedMatch.MatchData);
+                }
             }
         }
 
@@ -80,11 +84,9 @@ namespace CSD.ViewModels
         {
             if (SelectedMatch != null)
             {
-                //TODO: Implement this properly.
-                //TODO: Ensure this can be passed an innings to edit. Should be generic
-                // enough that the same command enables first or second innings to be edited.
                 CricketInnings innings;
-                if (obj is string firstOrSecond && firstOrSecond.Equals("Second"))
+                bool isSecondInnings = obj is string firstOrSecond && firstOrSecond.Equals("Second");
+                if (isSecondInnings)
                 {
                     innings = SelectedMatch.SecondInnings;
                 }
@@ -93,7 +95,13 @@ namespace CSD.ViewModels
                     innings = SelectedMatch.FirstInnings;
                 }
 
-                Action<CricketInnings> updateBatting = (innings) => UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name).GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.HomeTeam, SelectedMatch.MatchData.AwayTeam));
+                Action<CricketInnings> updateBatting = (innings) => 
+                {
+                    UpdateTeam(team => 
+                        team.GetSeason(SelectedSeason.Year, SelectedSeason.Name)
+                            .GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.HomeTeam, SelectedMatch.MatchData.AwayTeam)
+                            .SetInnings(innings, !isSecondInnings));
+                };
                 fDialogService.DisplayCustomDialog(new EditInningsDialogViewModel(updateBatting, innings));
             }
         }

@@ -121,6 +121,8 @@ namespace CricketStructures.Statistics
                 if (matchtypes.Contains(match.MatchData.Type))
                 {
                     var partnerships = match.Partnerships(teamName);
+                    if(partnerships != null)
+                    {
                     for (int i = 0; i < partnerships.Count; i++)
                     {
                         if (partnerships[i] != null)
@@ -140,7 +142,8 @@ namespace CricketStructures.Statistics
                                 }
                             }
                         }
-                    }
+                    }}
+                    
                 }
             }
         }

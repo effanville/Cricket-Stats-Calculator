@@ -30,7 +30,7 @@ namespace CricketStructures.Match
         }
 
         /// <inheritdoc/>
-        [XmlElement]
+        [XmlArray]
         public PlayerName[] MenOfMatch
         {
             get;
@@ -115,6 +115,9 @@ namespace CricketStructures.Match
         {
             string teamName = team;
             var players = new HashSet<PlayerName>();
+            if (FirstInnings != null)
+            {
+            }
             players.UnionWith(FirstInnings.Players(teamName));
             players.UnionWith(SecondInnings.Players(teamName));
             return players.ToList();
@@ -179,7 +182,7 @@ namespace CricketStructures.Match
             }
         }
 
-        internal void SetInnings(CricketInnings innings, bool first)
+        public void SetInnings(CricketInnings innings, bool first)
         {
             // TODO add checks to ensure the innings has the correct teams.
             if (first)
@@ -230,7 +233,7 @@ namespace CricketStructures.Match
         /// <inheritdoc/>
         public CricketInnings GetInnings(string team, bool batting)
         {
-            return InningsHelpers.SelectInnings(FirstInnings, SecondInnings, innings => batting ? innings.BattingTeam.Equals(team) : innings.FieldingTeam.Equals(team));
+            return InningsHelpers.SelectInnings(FirstInnings, SecondInnings, innings => batting ? string.Equals(innings.BattingTeam, team) : string.Equals(innings.FieldingTeam, team));
         }
 
         public InningsScore Score(string team)

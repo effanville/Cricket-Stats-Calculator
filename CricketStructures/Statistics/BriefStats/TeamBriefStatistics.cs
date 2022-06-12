@@ -173,20 +173,23 @@ namespace CricketStructures.Statistics
                 if (matchTypes.Contains(match.MatchData.Type))
                 {
                     List<Partnership> partnerships = match.Partnerships(teamName);
-                    for (int i = 0; i < partnerships.Count; i++)
+                    if (partnerships != null)
                     {
-                        if (partnerships[i] != null)
+                        for (int i = 0; i < partnerships.Count; i++)
                         {
-                            if (PartnershipsByWicket[i] == null)
+                            if (partnerships[i] != null)
                             {
-                                PartnershipsByWicket[i] = partnerships[i];
-
-                            }
-                            else
-                            {
-                                if (partnerships[i].CompareTo(PartnershipsByWicket[i]) > 0)
+                                if (PartnershipsByWicket[i] == null)
                                 {
                                     PartnershipsByWicket[i] = partnerships[i];
+
+                                }
+                                else
+                                {
+                                    if (partnerships[i].CompareTo(PartnershipsByWicket[i]) > 0)
+                                    {
+                                        PartnershipsByWicket[i] = partnerships[i];
+                                    }
                                 }
                             }
                         }
@@ -257,7 +260,7 @@ namespace CricketStructures.Statistics
                 TableWriting.WriteTable(sb, exportType, batting, headerFirstColumn: false);
 
                 TextWriting.WriteTitle(sb, exportType, "Highest Partnerships", DocumentElement.h2);
-                TableWriting.WriteTable(sb, exportType, PartnershipsByWicket, headerFirstColumn: false);
+                TableWriting.WriteTable(sb, exportType, PartnershipsByWicket.Where(ship => ship != null), headerFirstColumn: false);
 
                 TextWriting.WriteTitle(sb, exportType, "Bowling Stats", DocumentElement.h2);
                 List<PlayerBowlingStatistics> bowling = SeasonPlayerStats.Select(player => player.BowlingStats).ToList();

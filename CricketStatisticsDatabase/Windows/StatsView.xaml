@@ -44,7 +44,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <ComboBox ItemsSource="{Binding Team.Seasons}"
+        <ComboBox ItemsSource="{Binding DataStore.Seasons}"
                   SelectedItem="{Binding SelectedSeason}"
                   Visibility="{Binding SeasonStatsSelected, Converter={StaticResource BoolConverter}}"
                   Grid.Column="0"

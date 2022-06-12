@@ -89,6 +89,8 @@ namespace CricketStructures.Match
         /// </summary>
         CricketInnings GetInnings(string team, bool batting);
 
+        void SetInnings(CricketInnings innings, bool first);
+
         /// <summary>
         /// Gets the score of the team specified.
         /// </summary>

@@ -93,7 +93,7 @@ namespace CricketStructures.Match.Innings
 
         public FieldingEntry GetFielding(string team, PlayerName player)
         {
-            if (FieldingTeam.Equals(team))
+            if (string.Equals(FieldingTeam, team))
             {
                 int numberCatches = 0;
                 int numberRunOuts = 0;
@@ -101,7 +101,7 @@ namespace CricketStructures.Match.Innings
                 int numberKeeperCatches = 0;
                 foreach (var batting in Batting)
                 {
-                    if (batting.Fielder.Equals(player))
+                    if (batting.Fielder?.Equals(player)?? false)
                     {
                         if (batting.MethodOut == Wicket.Caught)
                         {
@@ -142,17 +142,17 @@ namespace CricketStructures.Match.Innings
 
         public List<PlayerName> Players(string team)
         {
-            if (BattingTeam.Equals(team))
+            if (string.Equals(BattingTeam, team))
             {
                 return Batting.Select(info => info.Name).ToList();
             }
-            else if (FieldingTeam.Equals(team))
+            else if (string.Equals(FieldingTeam, team))
             {
                 return Bowling.Select(info => info.Name).ToList();
             }
             else
             {
-                return null;
+                return new List<PlayerName>();
             }
         }
 

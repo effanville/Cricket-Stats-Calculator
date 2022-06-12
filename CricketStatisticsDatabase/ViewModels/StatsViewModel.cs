@@ -180,7 +180,7 @@ namespace CSD.ViewModels
             FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success)
             {
-                TeamBriefStatistics allTimeStats = new TeamBriefStatistics(DataStore.TeamName, SelectedSeason, MatchHelpers.AllMatchTypes);
+                TeamBriefStatistics allTimeStats = new TeamBriefStatistics(DataStore.TeamName, SelectedSeason, MatchTypeNames.Where(n => n.Selected).Select(name => name.Instance).ToArray());
                 string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
                 DocumentType type = extension.ToEnum<DocumentType>();
                 allTimeStats.ExportStats(new FileSystem(), gotFile.FilePath, type);
@@ -226,6 +226,7 @@ namespace CSD.ViewModels
         public override void UpdateData(ICricketTeam cricketTeam)
         {
             base.UpdateData(cricketTeam);
+            OnPropertyChanged();
         }
     }
 }

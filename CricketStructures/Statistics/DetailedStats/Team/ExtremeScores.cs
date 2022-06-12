@@ -94,45 +94,53 @@ namespace CricketStructures.Statistics.DetailedStats
 
         public void UpdateStats(string teamName, ICricketMatch match)
         {
-            InningsScore teamScore = match.GetInnings(teamName, batting: true).BattingScore();
-            if (teamScore.Runs >= 200)
+            InningsScore teamScore = match.GetInnings(teamName, batting: true)?.BattingScore();
+            if(teamScore != null)
             {
-                ScoresOver200.Add(new TeamScore(teamScore, match.MatchData));
-                ScoresOver200.Sort((a, b) => b.Score.CompareTo(a.Score));
-            }
-            if (teamScore.Runs > 0 && teamScore.Runs <= 25)
-            {
-                ScoresUnder25.Add(new TeamScore(teamScore, match.MatchData));
-                ScoresUnder25.Sort((a, b) => a.Score.CompareTo(b.Score));
+                if (teamScore.Runs >= 200)
+                {
+                    ScoresOver200.Add(new TeamScore(teamScore, match.MatchData));
+                    ScoresOver200.Sort((a, b) => b.Score.CompareTo(a.Score));
+                }
+                if (teamScore.Runs > 0 && teamScore.Runs <= 25)
+                {
+                    ScoresUnder25.Add(new TeamScore(teamScore, match.MatchData));
+                    ScoresUnder25.Sort((a, b) => a.Score.CompareTo(b.Score));
+                }
+                if (!match.BattedFirst(teamName) && teamScore.Runs > 200)
+                {
+                    HighestScoresBattingSecond.Add(new TeamScore(teamScore, match.MatchData));
+                    HighestScoresBattingSecond.Sort((a, b) => b.Score.CompareTo(a.Score));
+                }
+
+                if (match.BattedFirst(teamName) && teamScore.Runs > 0 && teamScore.Runs < 100 && match.Result != ResultType.Loss)
+                {
+                    LowestScoresBattingFirstNotLose.Add(new TeamScore(teamScore, match.MatchData));
+                    LowestScoresBattingFirstNotLose.Sort((a, b) => a.Score.CompareTo(b.Score));
+                }      
             }
 
-            InningsScore oppoScore = match.GetInnings(teamName, batting: false).BowlingScore();
-            if (oppoScore.Runs >= 200)
+            InningsScore oppoScore = match.GetInnings(teamName, batting: false)?.BowlingScore();
+            if(oppoScore != null)
             {
-                OppositionScoresOver200.Add(new TeamScore(oppoScore, match.MatchData));
-                OppositionScoresOver200.Sort((a, b) => b.Score.CompareTo(a.Score));
+                if (oppoScore.Runs >= 200)
+                {
+                    OppositionScoresOver200.Add(new TeamScore(oppoScore, match.MatchData));
+                    OppositionScoresOver200.Sort((a, b) => b.Score.CompareTo(a.Score));
+                }
+                if (oppoScore.Runs > 0 && oppoScore.Runs <= 25)
+                {
+                    OppositionScoresUnder25.Add(new TeamScore(oppoScore, match.MatchData));
+                    OppositionScoresUnder25.Sort((a, b) => a.Score.CompareTo(b.Score));
+                }
             }
-            if (oppoScore.Runs > 0 && oppoScore.Runs <= 25)
+            
+            if(teamScore != null && oppoScore != null)
             {
-                OppositionScoresUnder25.Add(new TeamScore(oppoScore, match.MatchData));
-                OppositionScoresUnder25.Sort((a, b) => a.Score.CompareTo(b.Score));
-            }
-
-            if (teamScore.Runs > 200 && oppoScore.Runs > 200)
-            {
-                BothScoresOver200.Add(new MatchScore(teamName, match));
-            }
-
-            if (!match.BattedFirst(teamName) && teamScore.Runs > 200)
-            {
-                HighestScoresBattingSecond.Add(new TeamScore(teamScore, match.MatchData));
-                HighestScoresBattingSecond.Sort((a, b) => b.Score.CompareTo(a.Score));
-            }
-
-            if (match.BattedFirst(teamName) && teamScore.Runs > 0 && teamScore.Runs < 100 && match.Result != ResultType.Loss)
-            {
-                LowestScoresBattingFirstNotLose.Add(new TeamScore(teamScore, match.MatchData));
-                LowestScoresBattingFirstNotLose.Sort((a, b) => a.Score.CompareTo(b.Score));
+                if (teamScore.Runs > 200 && oppoScore.Runs > 200)
+                {
+                    BothScoresOver200.Add(new MatchScore(teamName, match));
+                }
             }
         }
 

@@ -70,7 +70,14 @@ namespace CricketStructures.Statistics.DetailedStats
 
         public void UpdateStats(string teamName, ICricketMatch match)
         {
-            foreach (BattingEntry battingEntry in match.GetInnings(teamName, batting: true).Batting)
+            var innings = match.GetInnings(teamName, batting: true);
+            var battingInnings = innings?.Batting;
+            if(battingInnings == null)
+            {
+                return;
+            }
+
+            foreach (BattingEntry battingEntry in battingInnings)
             {
                 if (battingEntry.RunsScored >= 100)
                 {
@@ -103,16 +110,15 @@ namespace CricketStructures.Statistics.DetailedStats
             bool battedFirst = match.BattedFirst(teamName);
             if (battedFirst || (!battedFirst && match.Result != ResultType.Win))
             {
-                var innings = match.GetInnings(teamName, batting: true);
-                if (innings.Batting.Any())
+                if (battingInnings.Any())
                 {
-                    BattingEntry bat = innings.Batting[0];
+                    BattingEntry bat = battingInnings[0];
                     if (!bat.Out())
                     {
                         CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(teamName), Location = match.MatchData.Location, TeamTotalScore = innings.BattingScore() });
                     }
 
-                    bat = innings.Batting[1];
+                    bat = battingInnings[1];
                     if (!bat.Out())
                     {
                         CarryingBat.Add(new CarryingOfBat() { Name = bat.Name, Runs = bat.RunsScored, Date = match.MatchData.Date, Opposition = match.MatchData.OppositionName(teamName), Location = match.MatchData.Location, TeamTotalScore = innings.BattingScore() });
