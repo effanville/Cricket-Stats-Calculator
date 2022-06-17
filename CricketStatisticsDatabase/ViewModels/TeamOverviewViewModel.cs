@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Common.UI.ViewModelBases;
+
 using CricketStructures;
 using CricketStructures.Player.Interfaces;
 using CricketStructures.Season;
@@ -118,7 +120,7 @@ namespace CSD.ViewModels
             }
 
             Seasons = team.Seasons.ToList();
-            Players = team.Players.ToList();
+            Players = team.Players().ToList();
         }
     }
 }

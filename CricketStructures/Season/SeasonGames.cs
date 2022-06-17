@@ -1,6 +1,5 @@
 ﻿namespace CricketStructures.Season
 {
-
     public sealed class SeasonGames
     {
         public int GamesPlayed

@@ -8,6 +8,7 @@ using Common.Structure.Extensions;
 using Common.Structure.Validation;
 using System.Text;
 using Common.Structure.ReportWriting;
+using CricketStructures.Match.Result;
 
 namespace CricketStructures.Match
 {
@@ -350,7 +351,7 @@ namespace CricketStructures.Match
 
             if (firstInningsScore.Runs == 0 && secondInningsScore.Runs == 0)
             {
-                return Match.MatchResult.IsNoResultMatch(FirstInnings.BattingTeam, FirstInnings.FieldingTeam);
+                return Match.Result.MatchResult.IsNoResultMatch(FirstInnings.BattingTeam, FirstInnings.FieldingTeam);
             }
             else if (firstInningsScore.Runs > secondInningsScore.Runs)
             {

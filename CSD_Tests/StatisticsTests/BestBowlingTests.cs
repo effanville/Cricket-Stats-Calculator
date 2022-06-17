@@ -1,5 +1,7 @@
 ﻿using System;
-using CricketStructures.Statistics;
+
+using CricketStructures.Statistics.Implementation.Player.Model;
+
 using NUnit.Framework;
 
 namespace CricketStructures.Tests.StatisticsTests

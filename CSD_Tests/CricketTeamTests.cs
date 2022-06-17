@@ -1,5 +1,7 @@
 ﻿using System;
+
 using CricketStructures.Player;
+
 using NUnit.Framework;
 
 namespace CricketStructures.Tests
@@ -14,7 +16,7 @@ namespace CricketStructures.Tests
             PlayerName player = new PlayerName("Broad", "Stuart");
 
             Assert.IsTrue(team.AddPlayer(player));
-            Assert.AreEqual(1, team.Players.Count);
+            Assert.AreEqual(1, team.Players().Count);
         }
 
         [Test]
@@ -24,7 +26,7 @@ namespace CricketStructures.Tests
             PlayerName player = new PlayerName("Broad", "Stuart");
 
             Assert.IsTrue(team.AddPlayer(player));
-            Assert.AreEqual(1, team.Players.Count);
+            Assert.AreEqual(1, team.Players().Count);
 
             Assert.IsFalse(team.AddPlayer(player));
         }
@@ -61,7 +63,7 @@ namespace CricketStructures.Tests
             team.AddPlayer(player);
             Assert.AreEqual(expectedRemoved, team.RemovePlayer(new PlayerName(surname, forename)));
             int number = expectedRemoved ? 0 : 1;
-            Assert.AreEqual(number, team.Players.Count);
+            Assert.AreEqual(number, team.Players().Count);
         }
 
         [Test]

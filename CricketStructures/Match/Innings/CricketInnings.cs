@@ -101,7 +101,7 @@ namespace CricketStructures.Match.Innings
                 int numberKeeperCatches = 0;
                 foreach (var batting in Batting)
                 {
-                    if (batting.Fielder?.Equals(player)?? false)
+                    if (batting.Fielder?.Equals(player) ?? false)
                     {
                         if (batting.MethodOut == Wicket.Caught)
                         {

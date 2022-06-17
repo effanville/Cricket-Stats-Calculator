@@ -28,20 +28,17 @@ namespace CricketStructures
         }
 
         /// <summary>
-        /// The players associated to this team.
-        /// </summary>
-        IReadOnlyList<ICricketPlayer> Players
-        {
-            get;
-        }
-
-        /// <summary>
         /// The seasons for which this team has played games.
         /// </summary>
         IReadOnlyList<ICricketSeason> Seasons
         {
             get;
         }
+
+        /// <summary>
+        /// The players associated to this team.
+        /// </summary>
+        IReadOnlyList<ICricketPlayer> Players();
 
         /// <summary>
         /// Adds a player to the teams player list.

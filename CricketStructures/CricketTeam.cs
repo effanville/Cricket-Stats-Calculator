@@ -34,10 +34,6 @@ namespace CricketStructures
             set;
         } = new List<CricketPlayer>();
 
-        /// <inheritdoc/>
-        [XmlIgnore]
-        public IReadOnlyList<ICricketPlayer> Players => TeamPlayers.Select(player => (ICricketPlayer)player).ToList();
-
         [XmlArray(Order = 2)]
         public List<CricketSeason> TeamSeasons
         {
@@ -76,6 +72,25 @@ namespace CricketStructures
         public override string ToString()
         {
             return TeamName;
+        }
+
+        /// <inheritdoc/>
+        public IReadOnlyList<ICricketPlayer> Players()
+        {
+            var playersCached = TeamPlayers.Select(player => (ICricketPlayer)player).ToList();
+            foreach (var season in Seasons)
+            {
+                foreach (var name in season.Players(TeamName))
+                {
+                    bool added = AddPlayer(name);
+                    if (added)
+                    {
+                        playersCached.Add(new CricketPlayer(name));
+                    }
+                }
+            }
+
+            return playersCached;
         }
 
         /// <inheritdoc/>

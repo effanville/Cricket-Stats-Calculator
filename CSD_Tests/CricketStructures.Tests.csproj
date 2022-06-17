@@ -14,12 +14,31 @@
     <PackageReference Include="nunit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="17.0.21" />
   </ItemGroup>
 
   <ItemGroup>
 	  <ProjectReference Include="..\Common\Common.Structure\Common.Structure.csproj" />
 	  <ProjectReference Include="..\Common\Common.UI\Common.UI.csproj" />
     <ProjectReference Include="..\CricketStructures\CricketStructures.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Examples\example1-alltime-brief.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Examples\example1-playeralltime-brief.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Examples\example1-playerseason-brief.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Examples\example1-season-brief.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Examples\Example1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

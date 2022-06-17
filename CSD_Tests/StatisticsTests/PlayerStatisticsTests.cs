@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Statistics;
+using CricketStructures.Statistics.Implementation.Collection;
+using CricketStructures.Statistics.Implementation.Player;
+using CricketStructures.Statistics.Implementation.Player.Batting;
+using CricketStructures.Statistics.Implementation.Player.Fielding;
+
 using NUnit.Framework;
 
 namespace CricketStructures.Tests.StatisticsTests
@@ -22,7 +28,8 @@ namespace CricketStructures.Tests.StatisticsTests
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = TestCaseInstances.CreateTestSeason(TeamName, player, batting, bowling, fielding);
-            var stats = new PlayerBattingStatistics(TeamName, player, season, MatchHelpers.AllMatchTypes);
+            var stats = new PlayerBattingStatistics(player);
+            stats.CalculateStats(TeamName, season, MatchHelpers.AllMatchTypes);
 
             Assert.AreEqual(expected[0], stats.TotalInnings);
             Assert.AreEqual(expected[1], stats.TotalNotOut);
@@ -41,7 +48,8 @@ namespace CricketStructures.Tests.StatisticsTests
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = TestCaseInstances.CreateTestSeason(TeamName, player, batting, bowling, fielding);
-            var stats = new PlayerBowlingStatistics(TeamName, player, season, MatchHelpers.AllMatchTypes);
+            var stats = new PlayerBowlingStatistics(player);
+            stats.CalculateStats(TeamName, season, MatchHelpers.AllMatchTypes);
 
             Assert.AreEqual(expected[0], stats.Average);
             Assert.AreEqual(expected[1], stats.Economy);
@@ -55,7 +63,7 @@ namespace CricketStructures.Tests.StatisticsTests
 
         [TestCase(0, new int[] { 0, 0, 1, 1, 2, 0, 2 })]
         [TestCase(1, new int[] { 0, 0, 3, 1, 4, 0, 4 })]
-        public void PlayerFieldingStats(int valueIndex, int[] expected)
+        public void CalculatePlayerFieldingStats(int valueIndex, int[] expected)
         {
             var values = GetValues(valueIndex);
             var player = new PlayerName("Root", "Joe");
@@ -63,7 +71,8 @@ namespace CricketStructures.Tests.StatisticsTests
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = TestCaseInstances.CreateTestSeason(TeamName, player, batting, bowling, fielding);
-            var stats = new PlayerFieldingStatistics(TeamName, player, season, MatchHelpers.AllMatchTypes);
+            var generalStats = CricketStatsFactory.Generate(CricketStatTypes.PlayerFieldingStats, TeamName, season, MatchHelpers.AllMatchTypes, player);
+            var stats = generalStats as PlayerFieldingStatistics;
             Assert.AreEqual(expected[0], stats.KeeperCatches, "Keeper Catches");
             Assert.AreEqual(expected[1], stats.KeeperStumpings, "stumpings");
             Assert.AreEqual(expected[2], stats.Catches, "Catches");
@@ -83,7 +92,12 @@ namespace CricketStructures.Tests.StatisticsTests
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = TestCaseInstances.CreateTestSeason(TeamName, player, batting, bowling, fielding);
-            var stats = new PlayerBriefStatistics(TeamName, player, season);
+            var stats = StatsCollectionBuilder.StandardStat(
+                StatCollection.PlayerSeason,
+                MatchHelpers.AllMatchTypes,
+                teamName: TeamName,
+                playerName: player,
+                season: season) as PlayerBriefStatistics;
             Assert.AreEqual(expected[0], stats.Played.TotalGamesPlayed);
             Assert.AreEqual(expected[1], stats.Played.TotalMom);
         }

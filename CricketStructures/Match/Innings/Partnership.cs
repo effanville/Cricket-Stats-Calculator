@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Xml.Serialization;
+
 using CricketStructures.Player;
 
 namespace CricketStructures.Match.Innings
 {
-    public sealed class Partnership : IComparable<Partnership>
+    public sealed class Partnership : IComparable<Partnership>, IEquatable<Partnership>
     {
         public int Wicket
         {
@@ -131,6 +132,14 @@ namespace CricketStructures.Match.Innings
 
             // partnerships for different wickets are not comparable.
             return 0;
+        }
+
+        public bool Equals(Partnership other)
+        {
+            return PlayerOne.Equals(other.PlayerOne)
+                && PlayerTwo.Equals(other.PlayerTwo)
+                && Wicket.Equals(other.Wicket)
+                && Runs.Equals(other.Runs);
         }
     }
 }

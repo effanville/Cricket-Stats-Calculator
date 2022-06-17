@@ -64,7 +64,7 @@ namespace CSD.ViewModels
             fFileService = fileService;
             fDialogService = dialogService;
             UpdateTeam = updateTeam;
-            Players = team.Players.ToList();
+            Players = team.Players().ToList();
             AddPlayerCommand = new RelayCommand(ExecuteAddPlayer);
             EditPlayerCommand = new RelayCommand<object[]>(ExecuteEditPlayer);
             DeletePlayerCommand = new RelayCommand(ExecuteDeletePlayer);
@@ -132,7 +132,7 @@ namespace CSD.ViewModels
 
         public override void UpdateData(ICricketTeam team)
         {
-            Players = team.Players.ToList();
+            Players = team.Players().ToList();
             base.UpdateData(team);
         }
     }

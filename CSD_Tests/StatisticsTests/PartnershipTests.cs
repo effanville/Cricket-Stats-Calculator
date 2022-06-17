@@ -1,5 +1,6 @@
 ﻿using CricketStructures.Match.Innings;
 using CricketStructures.Player;
+
 using NUnit.Framework;
 
 namespace CricketStructures.Tests.StatisticsTests

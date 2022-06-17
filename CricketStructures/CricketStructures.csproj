@@ -5,9 +5,15 @@
 	  <Platforms>x64</Platforms>
    
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    
+		<Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
 	<PropertyGroup>
@@ -17,4 +23,10 @@
 	  <ProjectReference Include="..\Common\Common.Structure\Common.Structure.csproj" />
     <ProjectReference Include="..\CricketStructures.Old\CricketStructures.Old.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+			<_Parameter1>CricketStructures.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
 </Project>

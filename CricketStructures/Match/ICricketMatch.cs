@@ -5,6 +5,7 @@ using System.Text;
 using Common.Structure.ReportWriting;
 
 using CricketStructures.Match.Innings;
+using CricketStructures.Match.Result;
 using CricketStructures.Player;
 
 namespace CricketStructures.Match

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 using Common.Structure.FileAccess;
+using Common.UI;
 using Common.UI.Commands;
 using Common.UI.Services;
 using Common.UI.ViewModelBases;
@@ -14,9 +15,10 @@ namespace CSD.ViewModels
 {
     internal sealed class MainWindowVM : PropertyChangedBase
     {
-        private readonly IFileInteractionService fFileService;
-        private readonly IDialogCreationService fDialogService;
+        private IFileInteractionService fFileService => fUiGlobals.FileInteractionService;
+        private IDialogCreationService fDialogService => fUiGlobals.DialogCreationService;
 
+        private readonly UiGlobals fUiGlobals;
         public CricketTeam Database
         {
             get;
@@ -29,10 +31,7 @@ namespace CSD.ViewModels
         public ReportingViewModel ReportingView
         {
 
-            get
-            {
-                return fReportingView;
-            }
+            get => fReportingView;
             set
             {
                 fReportingView = value;
@@ -40,21 +39,20 @@ namespace CSD.ViewModels
             }
         }
 
-        public MainWindowVM(IFileInteractionService fileService, IDialogCreationService dialogService)
+        public MainWindowVM(UiGlobals uiGlobals)
         {
+            fUiGlobals = uiGlobals;
             Database = new CricketTeam();
-            fFileService = fileService;
-            fDialogService = dialogService;
             NewTeamCommand = new RelayCommand(ExecuteNewTeamCommand);
             LoadTeamCommand = new RelayCommand(ExecuteLoadTeamCommand);
             SaveTeamCommand = new RelayCommand(ExecuteSaveTeamCommand);
             LoadOldTeamCommand = new RelayCommand(ExecuteLoadOldTeamCommand);
             ReportingView = new ReportingViewModel(null);
 
-            DisplayTabs.Add(new TeamOverviewViewModel(UpdateDatabase, Database.Players, Database.Seasons));
+            DisplayTabs.Add(new TeamOverviewViewModel(UpdateDatabase, Database.Players(), Database.Seasons));
             DisplayTabs.Add(new PlayerEditViewModel(Database, UpdateDatabase, fFileService, fDialogService));
             DisplayTabs.Add(new SeasonEditViewModel(Database, UpdateDatabase, fFileService, fDialogService));
-            DisplayTabs.Add(new StatsViewModel(Database, fileService));
+            DisplayTabs.Add(new StatsViewModel(Database, fUiGlobals));
         }
 
         public Action<Action<ICricketTeam>> UpdateDatabase => action => UpdateDatabaseFromAction(action);

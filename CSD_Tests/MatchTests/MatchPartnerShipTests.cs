@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
+
 using NUnit.Framework;
 
 namespace CricketStructures.Tests.MatchTests
@@ -58,7 +60,7 @@ namespace CricketStructures.Tests.MatchTests
             innings.BattingTeam = "Evil";
             match.SetInnings(data.Item1, true);
             var ships = match.Partnerships("Evil");
-            Assertions.PartnershipsEqual(data.Item2, ships);
+            CollectionAssert.AreEqual(data.Item2, ships);
         }
     }
 }

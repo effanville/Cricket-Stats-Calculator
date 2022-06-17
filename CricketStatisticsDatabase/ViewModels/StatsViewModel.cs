@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Windows.Input;
@@ -8,6 +7,7 @@ using System.Windows.Input;
 using Common.Structure.DisplayClasses;
 using Common.Structure.Extensions;
 using Common.Structure.ReportWriting;
+using Common.UI;
 using Common.UI.Commands;
 using Common.UI.Services;
 using Common.UI.ViewModelBases;
@@ -17,18 +17,19 @@ using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Season;
 using CricketStructures.Statistics;
-using CricketStructures.Statistics.DetailedStats;
+using CricketStructures.Statistics.Implementation.Collection;
 
 namespace CSD.ViewModels
 {
     public class StatsViewModel : ViewModelBase<ICricketTeam>
     {
-        private readonly IFileInteractionService fFileService;
+        private readonly UiGlobals fUiGlobals;
+        private IFileInteractionService fFileService => fUiGlobals.FileInteractionService;
 
-        public List<StatisticsType> StatisticTypes => Enum.GetValues(typeof(StatisticsType)).Cast<StatisticsType>().ToList();
+        public List<StatCollection> StatisticTypes => Enum.GetValues(typeof(StatCollection)).Cast<StatCollection>().ToList();
 
-        private StatisticsType fSelectedStatsType;
-        public StatisticsType SelectedStatsType
+        private StatCollection fSelectedStatsType;
+        public StatCollection SelectedStatsType
         {
             get => fSelectedStatsType;
             set
@@ -40,24 +41,18 @@ namespace CSD.ViewModels
 
                 var matchTypesToUse = MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray();
 
-                if (value == StatisticsType.AllTimeBrief)
-                {
-                    SelectedStats = new TeamBriefStatistics(DataStore, matchTypesToUse);
-                }
-                if (value == StatisticsType.AllTimeDetailed)
-                {
-                    SelectedStats = new DetailedAllTimeStatistics(DataStore);
-                }
-                if (value == StatisticsType.SeasonBrief && SelectedSeason != null)
-                {
-                    SelectedStats = new TeamBriefStatistics(DataStore.TeamName, SelectedSeason, matchTypesToUse);
-                }
+                SelectedStats = StatsCollectionBuilder.StandardStat(
+                    value,
+                    MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray(),
+                    team: DataStore,
+                    teamName: DataStore.TeamName,
+                    season: SelectedSeason);
             }
         }
 
-        private List<Selectable<CricketStructures.Match.MatchType>> fMatchTypeNames = new List<Selectable<CricketStructures.Match.MatchType>>();
+        private List<Selectable<MatchType>> fMatchTypeNames = new List<Selectable<MatchType>>();
 
-        public List<Selectable<CricketStructures.Match.MatchType>> MatchTypeNames
+        public List<Selectable<MatchType>> MatchTypeNames
         {
             get => fMatchTypeNames;
             set
@@ -67,7 +62,7 @@ namespace CSD.ViewModels
             }
         }
 
-        public bool SeasonStatsSelected => SelectedStatsType == StatisticsType.SeasonBrief;
+        public bool SeasonStatsSelected => SelectedStatsType == StatCollection.SeasonBrief;
 
 
         private bool fSeasonStatsSet;
@@ -100,7 +95,11 @@ namespace CSD.ViewModels
             {
                 fSelectedSeason = value;
                 OnPropertyChanged(nameof(SelectedSeason));
-                SelectedStats = new TeamBriefStatistics(DataStore.TeamName, value);
+                SelectedStats = StatsCollectionBuilder.StandardStat(
+                    StatCollection.SeasonBrief,
+                    MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray(),
+                    teamName: DataStore.TeamName,
+                    season: value);
             }
         }
 
@@ -137,37 +136,17 @@ namespace CSD.ViewModels
             }
         }
 
-        public StatsViewModel(ICricketTeam team, IFileInteractionService fileService)
+        public StatsViewModel(ICricketTeam team, UiGlobals uiGlobals)
             : base("Statistics", team)
         {
-            fFileService = fileService;
-            MatchTypeNames = new List<Selectable<CricketStructures.Match.MatchType>>();
+            fUiGlobals = uiGlobals;
+            MatchTypeNames = new List<Selectable<MatchType>>();
             foreach (var name in MatchHelpers.AllMatchTypes)
             {
-                MatchTypeNames.Add(new Selectable<CricketStructures.Match.MatchType>(name, false));
+                MatchTypeNames.Add(new Selectable<MatchType>(name, true));
             }
 
-            ExportPlayerStatsCommand = new RelayCommand(ExecuteExportPlayerStatsCommand);
             ExportStatsCommand = new RelayCommand(ExecuteExportStatsCommand);
-            ExportAllStatsCommand = new RelayCommand(ExecuteExportAllStatsCommand);
-            ExportDetailedAllStatsCommand = new RelayCommand(ExecuteExportDetailedAllStatsCommand);
-        }
-
-        public ICommand ExportPlayerStatsCommand
-        {
-            get;
-        }
-
-        private void ExecuteExportPlayerStatsCommand()
-        {
-            FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
-            if (gotFile.Success)
-            {
-                PlayerBriefStatistics playerStats = new PlayerBriefStatistics(DataStore.TeamName, SelectedPlayer, SelectedSeason, MatchHelpers.AllMatchTypes);
-                string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
-                DocumentType type = extension.ToEnum<DocumentType>();
-                playerStats.ExportStats(new FileSystem(), gotFile.FilePath, type);
-            }
         }
 
         public ICommand ExportStatsCommand
@@ -180,46 +159,15 @@ namespace CSD.ViewModels
             FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
             if (gotFile.Success)
             {
-                TeamBriefStatistics allTimeStats = new TeamBriefStatistics(DataStore.TeamName, SelectedSeason, MatchTypeNames.Where(n => n.Selected).Select(name => name.Instance).ToArray());
-                string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
+                var allTimeStats = StatsCollectionBuilder.StandardStat(
+                    SelectedStatsType,
+                    MatchTypeNames.Where(n => n.Selected).Select(name => name.Instance).ToArray(),
+                    DataStore,
+                    teamName: DataStore.TeamName,
+                    season: SelectedSeason);
+                string extension = new FileSystem().Path.GetExtension(gotFile.FilePath).Trim('.');
                 DocumentType type = extension.ToEnum<DocumentType>();
                 allTimeStats.ExportStats(new FileSystem(), gotFile.FilePath, type);
-            }
-        }
-
-        public ICommand ExportAllStatsCommand
-        {
-            get;
-        }
-
-        private void ExecuteExportAllStatsCommand()
-        {
-            FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
-            if (gotFile.Success)
-            {
-                var matchTypesToUse = MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray();
-                string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
-                DocumentType type = extension.ToEnum<DocumentType>();
-
-                TeamBriefStatistics allTimeStatsNew = new TeamBriefStatistics(DataStore, MatchHelpers.AllMatchTypes);
-                allTimeStatsNew.ExportStats(new FileSystem(), gotFile.FilePath, type);
-            }
-        }
-
-        public ICommand ExportDetailedAllStatsCommand
-        {
-            get;
-        }
-
-        private void ExecuteExportDetailedAllStatsCommand()
-        {
-            FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
-            if (gotFile.Success)
-            {
-                string extension = Path.GetExtension(gotFile.FilePath).Trim('.');
-                DocumentType type = extension.ToEnum<DocumentType>();
-                DetailedAllTimeStatistics allTimeStatsNew = new DetailedAllTimeStatistics(DataStore);
-                allTimeStatsNew.ExportStats(new FileSystem(), gotFile.FilePath, type);
             }
         }
 
