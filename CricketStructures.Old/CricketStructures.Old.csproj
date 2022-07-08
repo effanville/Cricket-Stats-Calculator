@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-	
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	  <Platforms>x64</Platforms>
   </PropertyGroup>
 	<PropertyGroup>
 		<OutputPath>..\bin</OutputPath>
