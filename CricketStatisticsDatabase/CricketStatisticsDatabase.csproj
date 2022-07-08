@@ -22,12 +22,9 @@
 		<None Include="..\.editorconfig" Link=".editorconfig" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Common.Structure" Version="1.0.25" />
-		<PackageReference Include="Common.UI" Version="1.0.9" />
-	</ItemGroup>
-
   <ItemGroup>
+	  <ProjectReference Include="..\Common\Common.Structure\Common.Structure.csproj" />
+	  <ProjectReference Include="..\Common\Common.UI\Common.UI.csproj" />
     <ProjectReference Include="..\CricketStructures.Old\CricketStructures.Old.csproj" />
     <ProjectReference Include="..\CricketStructures\CricketStructures.csproj" />
   </ItemGroup>
