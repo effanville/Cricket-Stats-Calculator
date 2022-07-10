@@ -6,6 +6,7 @@
              xmlns:uiC="clr-namespace:Common.UI.Converters;assembly=Common.UI"
              xmlns:player="clr-namespace:CricketStatisticsDatabase.UIHelpers.Converters"
              xmlns:viewmodels="clr-namespace:CSD.ViewModels"
+             xmlns:gui="clr-namespace:CSD"
              d:DataContext="{d:DesignInstance Type=viewmodels:SelectedSeasonEditViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450"
@@ -15,7 +16,9 @@
         <Grid.Resources>
             <uiC:ArrayMultiValueConverter x:Key="ArrayMultiValueConverter" />
             <player:PlayerNameToStringConverter x:Key="NameToStringConverter" />
+            <player:PlayerNameArrayToStringConverter x:Key="NameArrayToStringConverter" />
             <uiC:StringToUKDateConverter x:Key="UKDateConverter" />
+            <gui:CricketConstants x:Key="Consts" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"
@@ -40,18 +43,8 @@
                         Command="{Binding EditMatchCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource ArrayMultiValueConverter}">
-                            <Binding ElementName="OppositionBox"
-                                     Path="Text" />
-                            <Binding ElementName="DateBox"
-                                     Path="Text" />
-                            <Binding ElementName="PlaceBox"
-                                     Path="Text" />
-                            <Binding ElementName="MatchTypeBox"
-                                     Path="SelectedItem" />
-                            <Binding ElementName="ResultTypeBox"
-                                     Path="SelectedItem" />
-                            <Binding ElementName="InningsPlaceBox"
-                                     Path="SelectedItem" />
+                            <Binding ElementName="MatchInfoName"
+                                     Path="Content" />
                         </MultiBinding>
                     </Button.CommandParameter>
                 </Button>
@@ -84,12 +77,14 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="32" />
+                        <RowDefinition Height="32" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <ContentControl Grid.Row="0"
+                    <ContentControl x:Name="MatchInfoName"
+                                    Grid.Row="0"
                                     Grid.ColumnSpan="2"
                                     Content="{Binding MatchInfoVM}" />
                     <Label Grid.Column="0"
@@ -97,7 +92,15 @@
                            Content="Man of Match" />
                     <TextBox Grid.Column="1"
                              Grid.Row="1"
-                             Text="{Binding SelectedMatch.ManOfMatch, Converter={StaticResource NameToStringConverter}}" />
+                             Text="{Binding SelectedMatch.MenOfMatch, Converter={StaticResource NameArrayToStringConverter}, Mode=TwoWay}" />
+                    <Label Grid.Column="0"
+                           Grid.Row="2"
+                           Content="Result" />
+            <ComboBox x:Name="MatchResultBox"
+            Grid.Column="1"
+                      Grid.Row="2"
+                      SelectedItem="{Binding SelectedMatch.Result, Mode=TwoWay}"
+                      ItemsSource="{Binding Source={StaticResource Consts}, Path=MatchResultTypes}" />
                 </Grid>
             </Border>
             <StackPanel Grid.Column="0"

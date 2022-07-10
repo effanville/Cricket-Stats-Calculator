@@ -42,6 +42,12 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             set;
         }
 
+        public double RunsPerInnings
+        {
+            get;
+            set;
+        }
+
         private List<int> WicketLossNumbers
         {
             get;
@@ -78,6 +84,8 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             {
                 Average = Math.Round(TotalRuns / (TotalInnings - (double)TotalNotOut), 2);
             }
+
+            RunsPerInnings = Math.Round((double)TotalRuns/ TotalInnings, 2);
         }
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)

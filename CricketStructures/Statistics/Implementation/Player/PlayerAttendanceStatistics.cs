@@ -18,12 +18,6 @@ namespace CricketStructures.Statistics.Implementation.Player
             set;
         }
 
-        internal int TotalMom
-        {
-            get;
-            set;
-        }
-
         public int TotalGamesPlayed
         {
             get;
@@ -37,6 +31,12 @@ namespace CricketStructures.Statistics.Implementation.Player
         }
 
         public int TotalGamesLost
+        {
+            get;
+            set;
+        }
+
+        public int TotalMom
         {
             get;
             set;
