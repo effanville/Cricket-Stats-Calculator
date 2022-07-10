@@ -14,8 +14,43 @@ namespace CricketStructures.Match
 {
     public sealed class CricketMatch : ICricketMatch, IValidity
     {
+        [XmlAttribute(AttributeName = "H")]
+        public string HomeTeam
+        {
+            get => MatchData.HomeTeam;
+            set => MatchData.HomeTeam = value;
+        }
+
+        [XmlAttribute(AttributeName = "A")]
+        public string AwayTeam
+        {
+            get => MatchData.AwayTeam;
+            set => MatchData.AwayTeam = value;
+        }
+
+        [XmlAttribute(AttributeName = "L")]
+        public string Location
+        {
+            get => MatchData.Location;
+            set => MatchData.Location = value;
+        }
+
+        [XmlAttribute(AttributeName = "D")]
+        public DateTime Date
+        {
+            get=> MatchData.Date;
+            set => MatchData.Date = value;
+        }
+
+        [XmlAttribute(AttributeName = "T")]
+        public MatchType Type
+        {
+            get => MatchData.Type;
+            set => MatchData.Type = value;
+        }
+
         /// <inheritdoc/>
-        [XmlElement]
+        [XmlIgnore]
         public MatchInfo MatchData
         {
             get;
