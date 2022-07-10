@@ -141,15 +141,18 @@ namespace CricketStructures.Season
                 var match = new CricketMatch(info);
                 match.PlayerAdded += OnPlayerAdded;
                 SeasonsMatches.Add(match);
+                SeasonsMatches.Sort((a,b) =>a.MatchData.Date.CompareTo(b.MatchData.Date));
                 return true;
             }
 
+            SeasonsMatches.Sort((a,b) =>a.MatchData.Date.CompareTo(b.MatchData.Date));
             return false;
         }
 
         /// <inheritdoc/>
         public bool ContainsMatch(DateTime date, string homeTeam, string awayTeam)
         {
+            SeasonsMatches.Sort((a,b) =>a.MatchData.Date.CompareTo(b.MatchData.Date));
             return SeasonsMatches.Any(match => match.SameMatch(date, homeTeam, awayTeam));
         }
 
