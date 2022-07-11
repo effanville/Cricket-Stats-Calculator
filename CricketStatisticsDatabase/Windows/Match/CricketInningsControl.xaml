@@ -29,11 +29,11 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Batting Team:"
                            Grid.Column="0" />
-                <TextBox Text="{Binding BattingTeam}"
+                <TextBox Text="{Binding BattingTeam, Mode=TwoWay}"
                          Grid.Column="1" />
                 <TextBlock Text="Fielding Team:"
                            Grid.Column="2" />
-                <TextBox Text="{Binding FieldingTeam}"
+                <TextBox Text="{Binding FieldingTeam, Mode=TwoWay}"
                          Grid.Column="3" />
             </Grid>
         </Border>

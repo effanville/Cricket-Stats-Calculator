@@ -142,6 +142,10 @@ namespace CricketStructures.Match.Innings
 
         public List<PlayerName> Players(string team)
         {
+            if (string.IsNullOrEmpty(team))
+            {
+                return new List<PlayerName>();
+            }
             if (string.Equals(BattingTeam, team))
             {
                 return Batting.Select(info => info.Name).ToList();

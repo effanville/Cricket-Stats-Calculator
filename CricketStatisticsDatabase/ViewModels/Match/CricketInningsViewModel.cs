@@ -19,45 +19,75 @@ namespace CSD.ViewModels.Match
         public string BattingTeam
         {
             get => fBattingTeam;
-            set => SetAndNotify(ref fBattingTeam, value, nameof(BattingTeam));
+            set
+            {
+                SetAndNotify(ref fBattingTeam, value, nameof(BattingTeam));
+                DataStore.BattingTeam = fBattingTeam;
+                UpdateDatabase();
+            }
         }
 
         public string FieldingTeam
         {
             get => fFieldingTeam;
-            set => SetAndNotify(ref fFieldingTeam, value, nameof(FieldingTeam));
+            set
+            {
+                SetAndNotify(ref fFieldingTeam, value, nameof(FieldingTeam));
+                DataStore.FieldingTeam = fFieldingTeam;
+                UpdateDatabase();
+            }
         }
 
         public List<BattingEntry> Batting
         {
             get => fBatting;
-            set => SetAndNotify(ref fBatting, value, nameof(Batting));
+            set
+            {
+                SetAndNotify(ref fBatting, value, nameof(Batting));
+                UpdateDatabase();
+            }
         }
 
         private BattingEntry fSelectedBatting;
         public BattingEntry SelectedBatting
         {
             get => fSelectedBatting;
-            set => SetAndNotify(ref fSelectedBatting, value, nameof(SelectedBatting));
+            set
+            {
+                SetAndNotify(ref fSelectedBatting, value, nameof(SelectedBatting));
+                UpdateDatabase();
+            }
         }
 
         public List<BowlingEntry> Bowling
         {
             get => fBowling;
-            set => SetAndNotify(ref fBowling, value, nameof(Bowling));
+            set
+            {
+                SetAndNotify(ref fBowling, value, nameof(Bowling));
+                UpdateDatabase();
+            }
         }
 
         private BowlingEntry fSelectedBowling;
         public BowlingEntry SelectedBowling
         {
             get => fSelectedBowling;
-            set => SetAndNotify(ref fSelectedBowling, value, nameof(SelectedBowling));
+            set
+            {
+                SetAndNotify(ref fSelectedBowling, value, nameof(SelectedBowling));
+                UpdateDatabase();
+            }
         }
 
         public Extras InningsExtras
         {
             get => fInningsExtras;
-            set => SetAndNotify(ref fInningsExtras, value, nameof(InningsExtras));
+            set
+            {
+                SetAndNotify(ref fInningsExtras, value, nameof(InningsExtras));
+                UpdateDatabase();
+            }
         }
 
         public CricketInningsViewModel(CricketInnings database, Action<CricketInnings> updateInningsAction)
@@ -83,6 +113,11 @@ namespace CSD.ViewModels.Match
                 Batting = new List<BattingEntry>();
                 Bowling = new List<BowlingEntry>();
             }
+        }
+
+        public void UpdateDatabase()
+        {
+            fUpdateInningsAction(DataStore);
         }
 
         public void ExecuteMoveBatsmanUp()
