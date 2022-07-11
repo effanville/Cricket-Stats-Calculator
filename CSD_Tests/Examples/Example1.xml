@@ -5,8 +5,7 @@
   <TeamSeasons>
     <CricketSeason Year="2015-01-01T00:00:00">
       <SeasonsMatches>
-        <CricketMatch>
-          <MatchData H="TeamName" A="AwayTeam1" L="Home" D="2015-08-08T00:00:00" T="League" />
+        <CricketMatch H="TeamName" A="AwayTeam1" L="Home" D="2015-08-08T00:00:00" T="League">
           <Result>Loss</Result>
           <MenOfMatch />
           <FirstInnings B="TeamName" F="AwayTeam1">
@@ -232,8 +231,7 @@
             <InningsExtras B="15" LB="0" W="0" NB="0" P="0" />
           </SecondInnings>
         </CricketMatch>
-        <CricketMatch>
-          <MatchData H="AwayTeam2" A="TeamName" L="AwayTeam2" D="2015-08-15T00:00:00" T="League" />
+        <CricketMatch H="AwayTeam2" A="TeamName" L="AwayTeam2" D="2015-08-15T00:00:00" T="League">
           <Result>Loss</Result>
           <MenOfMatch />
           <FirstInnings B="TeamName" F="AwayTeam2">
