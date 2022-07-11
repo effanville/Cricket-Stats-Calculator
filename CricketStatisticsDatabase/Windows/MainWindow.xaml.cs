@@ -17,9 +17,10 @@ namespace CSD.Windows
         public MainWindow()
         {
             InitializeComponent();
-            var programInfo = Assembly.GetExecutingAssembly().GetName();
-            Version version = programInfo.Version;
-            Title = programInfo.Name + " v" + version.ToString();
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string informationVersion = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            Title = assembly.GetName().Name + " v" + informationVersion;
             FileInteractionService FileInteractionService = new FileInteractionService(this);
             DialogCreationService DialogCreationService = new DialogCreationService(this);
             fUiGlobals = new UiGlobals(null, new DispatcherInstance(), new FileSystem(), FileInteractionService, DialogCreationService, null);

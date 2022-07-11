@@ -10,11 +10,16 @@
 		<PublishTrimmed>false</PublishTrimmed>
 		<TrimMode>CopyUsed</TrimMode>
 		<UseWPF>true</UseWPF>
-		<Deterministic>false</Deterministic>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<Platforms>x64</Platforms>
 	</PropertyGroup>
-
+	
+	<PropertyGroup>
+		<AssemblyTitle>CricketStatisticsDatabase</AssemblyTitle>
+		<Product>CricketStatisticsDatabase</Product>
+		<VersionPrefix>22.0.0.$([System.DateTime]::UtcNow.ToString(`MMdd`))</VersionPrefix>
+		<VersionSuffix>$([System.DateTime]::UtcNow.ToString(`yyyyMMdd-HHmm`))</VersionSuffix>
+	</PropertyGroup>
+	
 	<PropertyGroup>
 		<OutputPath>..\bin</OutputPath>
 	</PropertyGroup>
