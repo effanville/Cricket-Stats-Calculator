@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -172,10 +170,8 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             EndYear = new DateTime().Year;
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
-            TextWriting.WriteTitle(writer, exportType, "Overall Bowling Performance", headerElement);
             var fields = new string[]
             {
                 Name.ToString(),
@@ -190,8 +186,8 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
                 Catches.ToString(),
                 KeeperDismissals.ToString()
             };
-            TableWriting.WriteTable(writer, exportType, fields, headerFirstColumn: false);
-            return writer;
+            _ = rb.WriteTitle("Overall Bowling Performance", headerElement)
+                .WriteTable(fields, headerFirstColumn: false);
         }
     }
 }

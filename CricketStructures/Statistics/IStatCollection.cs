@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -43,6 +42,6 @@ namespace CricketStructures.Statistics
         /// <param name="exportType">The type of file to export to</param>
         /// <param name="headerElement">The base header value to use for the export.</param>
         /// <returns>A stringbuilder containing the exported stats.</returns>
-        StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement);
+        void ExportStats(ReportBuilder reportBuilder, DocumentElement headerElement);
     }
 }

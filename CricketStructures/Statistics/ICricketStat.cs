@@ -40,11 +40,10 @@ namespace CricketStructures.Statistics
         void ResetStats();
 
         /// <summary>
-        /// Export the stats into a string format.
+        /// Export the stats into a RebortBuilder format.
         /// </summary>
-        /// <param name="exportType">The type of file to export to</param>
+        /// <param name="rb">The reportbuilder to export to.</param>
         /// <param name="headerElement">The base header value to use for the export.</param>
-        /// <returns>A stringbuilder containing the exported stats.</returns>
-        StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement);
+        void ExportStats(ReportBuilder rb, DocumentElement headerElement);
     }
 }

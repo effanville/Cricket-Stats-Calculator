@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -84,16 +83,13 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             }
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
             if (CarryingBat.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Carrying of Bat", headerElement);
-                TableWriting.WriteTable(writer, exportType, CarryingBat, headerFirstColumn: false);
+                _ = rb.WriteTitle("Carrying of Bat", headerElement)
+                    .WriteTable(CarryingBat, headerFirstColumn: false);
             }
-
-            return writer;
         }
     }
 }

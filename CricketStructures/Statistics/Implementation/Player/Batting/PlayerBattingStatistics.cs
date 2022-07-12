@@ -3,7 +3,6 @@ using CricketStructures.Match.Innings;
 using CricketStructures.Season;
 using CricketStructures.Player;
 using System;
-using System.Text;
 using Common.Structure.ReportWriting;
 using System.Collections.Generic;
 using CricketStructures.Statistics.Implementation.Player.Model;
@@ -85,7 +84,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
                 Average = Math.Round(TotalRuns / (TotalInnings - (double)TotalNotOut), 2);
             }
 
-            RunsPerInnings = Math.Round((double)TotalRuns/ TotalInnings, 2);
+            RunsPerInnings = Math.Round((double)TotalRuns / TotalInnings, 2);
         }
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
@@ -137,12 +136,10 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             Best = new BestBatting();
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var sb = new StringBuilder();
-            TextWriting.WriteTitle(sb, exportType, "Batting Stats", headerElement);
-            TableWriting.WriteTable(sb, exportType, new PlayerBattingStatistics[] { this }, headerFirstColumn: false);
-            return sb;
+            _ = rb.WriteTitle("Batting Stats", headerElement)
+                .WriteTable(new PlayerBattingStatistics[] { this }, headerFirstColumn: false);
         }
     }
 }

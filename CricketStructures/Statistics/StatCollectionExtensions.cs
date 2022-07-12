@@ -19,12 +19,13 @@ namespace CricketStructures.Statistics
         {
             try
             {
-                StringBuilder sb = collection.ExportStats(exportType, DocumentElement.h1);
+                ReportBuilder rb = new ReportBuilder(exportType, new ReportSettings() { UseColours = true });
+                collection.ExportStats(rb, DocumentElement.h1);
 
                 using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
                 using (StreamWriter fileWriter = new StreamWriter(stream))
                 {
-                    fileWriter.WriteLine(sb.ToString());
+                    fileWriter.WriteLine(rb.ToString());
                 }
             }
             catch (IOException)

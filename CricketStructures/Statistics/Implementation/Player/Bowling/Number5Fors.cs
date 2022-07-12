@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -82,16 +81,13 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             }
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var stringBuilder = new StringBuilder();
             if (NumberFiveFors.Any())
             {
-                TextWriting.WriteTitle(stringBuilder, exportType, "Number Five Fors", headerElement);
-                TableWriting.WriteTableFromEnumerable(stringBuilder, exportType, new string[] { "Name", "NumberFiveFor" }, NumberFiveFors.Select(value => new string[] { value.Name.ToString(), value.Value.ToString() }), headerFirstColumn: false);
+                _ = rb.WriteTitle("Number Five Fors", headerElement)
+                    .WriteTableFromEnumerable(new string[] { "Name", "NumberFiveFor" }, NumberFiveFors.Select(value => new string[] { value.Name.ToString(), value.Value.ToString() }), headerFirstColumn: false);
             }
-
-            return stringBuilder;
         }
     }
 }

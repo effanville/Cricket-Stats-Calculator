@@ -4,7 +4,6 @@ using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Season;
 using Common.Structure.ReportWriting;
-using System.Text;
 using CricketStructures.Statistics.Implementation.Partnerships.Model;
 
 namespace CricketStructures.Statistics.Implementation.Partnerships
@@ -122,37 +121,34 @@ namespace CricketStructures.Statistics.Implementation.Partnerships
             MostPartnershipsAsPair = new List<PartnershipPairNumber>();
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
             DocumentElement lowerLevelElement = headerElement++;
-            StringBuilder writer = new StringBuilder();
-            TextWriting.WriteTitle(writer, exportType, "Partnership Records", headerElement);
+            _ = rb.WriteTitle("Partnership Records", headerElement);
             if (PartnershipsByWicket.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Partnerships By Wicket Over 100", lowerLevelElement);
+                _ = rb.WriteTitle("Partnerships By Wicket Over 100", lowerLevelElement);
 
                 for (int i = 0; i < PartnershipsByWicket.Count; i++)
                 {
                     if (PartnershipsByWicket[i].Any())
                     {
-                        TextWriting.WriteTitle(writer, exportType, $"{i + 1}th Wicket", lowerLevelElement);
-                        TableWriting.WriteTable(writer, exportType, PartnershipsByWicket[i], headerFirstColumn: false);
+                        _ = rb.WriteTitle($"{i + 1}th Wicket", lowerLevelElement)
+                            .WriteTable(PartnershipsByWicket[i], headerFirstColumn: false);
                     }
                 }
             }
 
             if (MostPartnerships.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Most Partnerships", lowerLevelElement);
-                TableWriting.WriteTable(writer, exportType, MostPartnerships, headerFirstColumn: false);
+                _ = rb.WriteTitle("Most Partnerships", lowerLevelElement)
+                    .WriteTable(MostPartnerships, headerFirstColumn: false);
             }
             if (MostPartnershipsAsPair.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Most Partnerships As a Pair", lowerLevelElement);
-                TableWriting.WriteTable(writer, exportType, MostPartnershipsAsPair, headerFirstColumn: false);
+                _ = rb.WriteTitle("Most Partnerships As a Pair", lowerLevelElement)
+                    .WriteTable(MostPartnershipsAsPair, headerFirstColumn: false);
             }
-
-            return writer;
         }
     }
 }

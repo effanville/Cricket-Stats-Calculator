@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -57,16 +56,13 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             throw new NotImplementedException();
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var stringBuilder = new StringBuilder();
             if (SeasonWicketsOver30.Any())
             {
-                TextWriting.WriteTitle(stringBuilder, exportType, "Over 30 Wickets in Season", headerElement);
-                TableWriting.WriteTable(stringBuilder, exportType, SeasonWicketsOver30, headerFirstColumn: false);
+                _ = rb.WriteTitle("Over 30 Wickets in Season", headerElement)
+                    .WriteTable(SeasonWicketsOver30, headerFirstColumn: false);
             }
-
-            return stringBuilder;
         }
     }
 }

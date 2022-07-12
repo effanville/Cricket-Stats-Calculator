@@ -139,21 +139,18 @@ namespace CricketStructures.Statistics.Implementation.Collection
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder reportBuilder, DocumentElement headerElement)
         {
-            StringBuilder sb = new StringBuilder();
-
-            TextWriting.WriteHeader(sb, exportType, Header, useColours: true);
+            _ = reportBuilder.WriteHeader(Header);
 
             var statsTypes = Statistics.Keys;
             foreach (CricketStatTypes statName in statsTypes)
             {
                 var stats = Statistics[statName];
-                _ = sb.Append(stats.ExportStats(exportType, headerElement));
+                stats.ExportStats(reportBuilder, headerElement);
             }
 
-            TextWriting.WriteFooter(sb, exportType);
-            return sb;
+            _ = reportBuilder.WriteFooter();
         }
     }
 }

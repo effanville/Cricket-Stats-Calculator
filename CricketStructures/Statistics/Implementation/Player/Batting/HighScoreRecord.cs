@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -90,18 +89,15 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             }
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
             if (ScoresPast50.Any())
             {
                 var values = ScoresPast50.Values.ToList();
                 values.Sort((a, b) => b.Value.CompareTo(a.Value));
-                TextWriting.WriteTitle(writer, exportType, "Number Scores Past Fifty", headerElement);
-                TableWriting.WriteTableFromEnumerable(writer, exportType, new string[] { "Name", "Centuries", "Fifties" }, values.Select(value => new string[] { value.Name.ToString(), value.Value.ToString(), value.SecondValue.ToString() }), headerFirstColumn: false);
+                _ = rb.WriteTitle("Number Scores Past Fifty", headerElement)
+                    .WriteTableFromEnumerable(new string[] { "Name", "Centuries", "Fifties" }, values.Select(value => new string[] { value.Name.ToString(), value.Value.ToString(), value.SecondValue.ToString() }), headerFirstColumn: false);
             }
-
-            return writer;
         }
     }
 }

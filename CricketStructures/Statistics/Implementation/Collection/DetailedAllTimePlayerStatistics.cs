@@ -124,16 +124,13 @@ namespace CricketStructures.Statistics.Implementation.Collection
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder reportBuilder, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
-
-            TextWriting.WriteHeader(writer, exportType, "Individual Player Records", useColours: true);
-            _ = writer.Append(BattingStats.ExportStats(exportType, headerElement));
-            _ = writer.Append(BowlingStats.ExportStats(exportType, headerElement));
-            _ = writer.Append(FieldingStats.ExportStats(exportType, headerElement));
-            _ = writer.Append(CareerStats.ExportStats(exportType, headerElement));
-            return writer;
+            _ = reportBuilder.WriteHeader("Individual Player Records");
+            BattingStats.ExportStats(reportBuilder, headerElement);
+            BowlingStats.ExportStats(reportBuilder, headerElement);
+            FieldingStats.ExportStats(reportBuilder, headerElement);
+            CareerStats.ExportStats(reportBuilder, headerElement);
         }
     }
 }

@@ -4,7 +4,6 @@ using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Season;
 using Common.Structure.ReportWriting;
-using System.Text;
 using CricketStructures.Player;
 
 namespace CricketStructures.Statistics.Implementation.Partnerships
@@ -88,13 +87,10 @@ namespace CricketStructures.Statistics.Implementation.Partnerships
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            StringBuilder writer = new StringBuilder();
-            TextWriting.WriteTitle(writer, exportType, "Highest Partnerships", headerElement);
-            TableWriting.WriteTable(writer, exportType, PartnershipsByWicket.Where(ship => ship != null), headerFirstColumn: false);
-
-            return writer;
+            _ = rb.WriteTitle("Highest Partnerships", headerElement)
+                .WriteTable(PartnershipsByWicket.Where(ship => ship != null), headerFirstColumn: false);
         }
     }
 }

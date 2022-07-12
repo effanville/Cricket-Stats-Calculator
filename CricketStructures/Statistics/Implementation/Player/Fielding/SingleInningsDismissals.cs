@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -64,16 +63,13 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
             }
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
             if (DismissalsInOneInnings.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Most Dismissals in on Innings", headerElement);
-                TableWriting.WriteTable(writer, exportType, DismissalsInOneInnings, headerFirstColumn: false);
+                _ = rb.WriteTitle("Most Dismissals in on Innings", headerElement)
+                    .WriteTable(DismissalsInOneInnings, headerFirstColumn: false);
             }
-
-            return writer;
         }
     }
 }

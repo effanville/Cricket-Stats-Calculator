@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -180,9 +178,24 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             EndYear = new DateTime().Year;
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            throw new NotImplementedException();
+            var fields = new string[]
+            {
+                Name.ToString(),
+                StartYear.ToString(),
+                EndYear.ToString(),
+                MatchesPlayed.ToString(),
+                Innings.ToString(),
+                Runs.ToString(),
+                NotOut.ToString(),
+                High.ToString(),
+                Average.ToString(),
+                Centuries.ToString(),
+                Fifties.ToString()
+            };
+            _ = rb.WriteTitle("Overall Batting Performance", headerElement)
+                .WriteTable(fields, headerFirstColumn: false);
         }
     }
 }

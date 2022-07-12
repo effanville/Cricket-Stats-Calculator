@@ -3,7 +3,6 @@ using System.Linq;
 using CricketStructures.Match;
 using CricketStructures.Season;
 using Common.Structure.ReportWriting;
-using System.Text;
 using System;
 using CricketStructures.Statistics.Implementation.Collection;
 
@@ -85,14 +84,13 @@ namespace CricketStructures.Statistics.Implementation.Team
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            StringBuilder writer = new StringBuilder();
-            TextWriting.WriteTitle(writer, exportType, "Team Records", headerElement);
+            _ = rb.WriteTitle("Team Records", headerElement);
 
-            DocumentElement lowerLevelElement = headerElement++;
+            DocumentElement lowerLevelElement = headerElement.GetNext();
 
-            TextWriting.WriteTitle(writer, exportType, "Yearly Records", lowerLevelElement);
+            _ = rb.WriteTitle("Yearly Records", lowerLevelElement);
             var yearRecords = YearByYearRecords
                 .ToList()
                 .Select(record => new List<string>()
@@ -103,9 +101,9 @@ namespace CricketStructures.Statistics.Implementation.Team
                     record.Value.Lost.ToString(),
                     record.Value.WinRatio.ToString()
                 });
-            TableWriting.WriteTableFromEnumerable(writer, exportType, new string[] { "Year", "Played", "Won", "Lost", "Win Ratio" }, yearRecords, headerFirstColumn: false);
+            _ = rb.WriteTableFromEnumerable(new string[] { "Year", "Played", "Won", "Lost", "Win Ratio" }, yearRecords, headerFirstColumn: false);
 
-            TextWriting.WriteTitle(writer, exportType, "Record against each team", lowerLevelElement);
+            _ = rb.WriteTitle("Record against each team", lowerLevelElement);
             var oppoRecords = TeamAgainstRecords
                 .ToList()
                 .Select(record => new List<string>()
@@ -116,11 +114,10 @@ namespace CricketStructures.Statistics.Implementation.Team
                                 record.Value.Lost.ToString(),
                                 record.Value.WinRatio.ToString()
                 });
-            TableWriting.WriteTableFromEnumerable(writer, exportType, new string[] { "Opposition", "Played", "Won", "Lost", "Win Ratio" }, oppoRecords, headerFirstColumn: false);
+            _ = rb.WriteTableFromEnumerable(new string[] { "Opposition", "Played", "Won", "Lost", "Win Ratio" }, oppoRecords, headerFirstColumn: false);
 
-            _ = writer.Append(Stats.ExportStats(exportType, lowerLevelElement));
+            Stats.ExportStats(rb, lowerLevelElement);
 
-            return writer;
         }
 
         /// <inheritdoc/>

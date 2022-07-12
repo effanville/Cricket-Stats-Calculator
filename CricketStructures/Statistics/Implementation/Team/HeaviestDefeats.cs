@@ -3,7 +3,6 @@ using System.Linq;
 using CricketStructures.Match;
 using CricketStructures.Season;
 using Common.Structure.ReportWriting;
-using System.Text;
 using CricketStructures.Match.Result;
 
 namespace CricketStructures.Statistics.Implementation.Team
@@ -67,22 +66,19 @@ namespace CricketStructures.Statistics.Implementation.Team
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            StringBuilder writer = new StringBuilder();
             if (HeaviestLossByRuns.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Loss by 100 runs", headerElement);
-                TableWriting.WriteTable(writer, exportType, HeaviestLossByRuns, headerFirstColumn: false);
+                _ = rb.WriteTitle("Loss by 100 runs", headerElement)
+                    .WriteTable(HeaviestLossByRuns, headerFirstColumn: false);
             }
 
             if (HeaviestLossByWickets.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Loss by 10 wickets", headerElement);
-                TableWriting.WriteTable(writer, exportType, HeaviestLossByWickets, headerFirstColumn: false);
+                _ = rb.WriteTitle("Loss by 10 wickets", headerElement)
+                    .WriteTable(HeaviestLossByWickets, headerFirstColumn: false);
             }
-
-            return writer;
         }
 
         /// <inheritdoc/>

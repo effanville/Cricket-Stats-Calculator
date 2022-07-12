@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -57,16 +56,13 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             throw new NotImplementedException();
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
             if (SeasonRuns.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Over 500 runs in a season", headerElement);
-                TableWriting.WriteTable(writer, exportType, SeasonRuns, headerFirstColumn: false);
+                _ = rb.WriteTitle("Over 500 runs in a season", headerElement)
+                    .WriteTable(SeasonRuns, headerFirstColumn: false);
             }
-
-            return writer;
         }
     }
 }

@@ -2,7 +2,6 @@
 using CricketStructures.Match.Innings;
 using CricketStructures.Season;
 using CricketStructures.Player;
-using System.Text;
 using Common.Structure.ReportWriting;
 
 namespace CricketStructures.Statistics.Implementation.Player.Fielding
@@ -82,12 +81,10 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
             }
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            StringBuilder sb = new StringBuilder();
-            TextWriting.WriteTitle(sb, exportType, "Fielding Stats", headerElement);
-            TableWriting.WriteTable(sb, exportType, new PlayerFieldingStatistics[] { this }, headerFirstColumn: false);
-            return sb;
+            _ = rb.WriteTitle("Fielding Stats", headerElement)
+                .WriteTable(new PlayerFieldingStatistics[] { this }, headerFirstColumn: false);
         }
 
         public void ResetStats()

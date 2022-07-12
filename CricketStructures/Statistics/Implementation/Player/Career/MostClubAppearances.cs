@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -57,13 +56,11 @@ namespace CricketStructures.Statistics.Implementation.Player.Career
             ClubAppearances.Clear();
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
-            TextWriting.WriteTitle(writer, exportType, "Appearances", headerElement);
             var export = ClubAppearances.Take(5);
-            TableWriting.WriteTableFromEnumerable(writer, exportType, new string[] { "Name", "StartDate", "EndDate", "Appearances" }, export.Select(value => new string[] { value.Name.ToString(), value.Start.ToShortDateString(), value.End.ToShortDateString(), value.Value.ToString() }), headerFirstColumn: false);
-            return writer;
+            _ = rb.WriteTitle("Appearances", headerElement)
+                .WriteTableFromEnumerable(new string[] { "Name", "StartDate", "EndDate", "Appearances" }, export.Select(value => new string[] { value.Name.ToString(), value.Start.ToShortDateString(), value.End.ToShortDateString(), value.Value.ToString() }), headerFirstColumn: false);
         }
     }
 }

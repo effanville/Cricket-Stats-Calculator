@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -57,16 +56,13 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             throw new NotImplementedException();
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var stringBuilder = new StringBuilder();
             if (SeasonAvUnder15.Any())
             {
-                TextWriting.WriteTitle(stringBuilder, exportType, "Season Average under 15", headerElement);
-                TableWriting.WriteTable(stringBuilder, exportType, SeasonAvUnder15, headerFirstColumn: false);
+                _ = rb.WriteTitle("Season Average under 15", headerElement)
+                    .WriteTable(SeasonAvUnder15, headerFirstColumn: false);
             }
-
-            return stringBuilder;
         }
     }
 }

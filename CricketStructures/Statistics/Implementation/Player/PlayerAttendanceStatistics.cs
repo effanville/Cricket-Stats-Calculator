@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -102,13 +101,10 @@ namespace CricketStructures.Statistics.Implementation.Player
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var sb = new StringBuilder();
-            TextWriting.WriteTitle(sb, exportType, "Appearances", headerElement);
-
-            TableWriting.WriteTable(sb, exportType, new PlayerAttendanceStatistics[] { this }, headerFirstColumn: false);
-            return sb;
+            _ = rb.WriteTitle("Appearances", headerElement)
+                .WriteTable(new PlayerAttendanceStatistics[] { this }, headerFirstColumn: false);
         }
     }
 }

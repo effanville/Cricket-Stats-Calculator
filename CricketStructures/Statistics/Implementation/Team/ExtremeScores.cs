@@ -4,7 +4,6 @@ using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Season;
 using Common.Structure.ReportWriting;
-using System.Text;
 using CricketStructures.Match.Result;
 
 namespace CricketStructures.Statistics.Implementation.Team
@@ -149,52 +148,49 @@ namespace CricketStructures.Statistics.Implementation.Team
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            StringBuilder writer = new StringBuilder();
             if (ScoresOver200.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Scores Over 200", headerElement);
-                TableWriting.WriteTable(writer, exportType, ScoresOver200, headerFirstColumn: false);
+                _ = rb.WriteTitle("Scores Over 200", headerElement)
+                    .WriteTable(ScoresOver200, headerFirstColumn: false);
             }
 
             if (OppositionScoresOver200.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Opposition scores Over 200", headerElement);
-                TableWriting.WriteTable(writer, exportType, OppositionScoresOver200, headerFirstColumn: false);
+                _ = rb.WriteTitle("Opposition scores Over 200", headerElement)
+                    .WriteTable(OppositionScoresOver200, headerFirstColumn: false);
             }
 
             if (BothScoresOver200.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Both Team scores Over 200", headerElement);
-                TableWriting.WriteTable(writer, exportType, BothScoresOver200, headerFirstColumn: false);
+                _ = rb.WriteTitle("Both Team scores Over 200", headerElement)
+                    .WriteTable(BothScoresOver200, headerFirstColumn: false);
             }
 
             if (ScoresUnder25.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Scores Under 25", headerElement);
-                TableWriting.WriteTable(writer, exportType, ScoresUnder25, headerFirstColumn: false);
+                _ = rb.WriteTitle("Scores Under 25", headerElement)
+                    .WriteTable(ScoresUnder25, headerFirstColumn: false);
             }
 
             if (OppositionScoresUnder25.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Opposition scores Under 25", headerElement);
-                TableWriting.WriteTable(writer, exportType, OppositionScoresUnder25, headerFirstColumn: false);
+                _ = rb.WriteTitle("Opposition scores Under 25", headerElement)
+                    .WriteTable(OppositionScoresUnder25, headerFirstColumn: false);
             }
 
             if (HighestScoresBattingSecond.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Highest Scores batting second");
-                TableWriting.WriteTable(writer, exportType, HighestScoresBattingSecond, headerFirstColumn: false);
+                _ = rb.WriteTitle("Highest Scores batting second", headerElement)
+                    .WriteTable(HighestScoresBattingSecond, headerFirstColumn: false);
             }
 
             if (LowestScoresBattingFirstNotLose.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Lowest Scores Batting first not to lose");
-                TableWriting.WriteTable(writer, exportType, LowestScoresBattingFirstNotLose, headerFirstColumn: false);
+                _ = rb.WriteTitle("Lowest Scores Batting first not to lose", headerElement)
+                    .WriteTable(LowestScoresBattingFirstNotLose, headerFirstColumn: false);
             }
-
-            return writer;
         }
 
         /// <inheritdoc/>

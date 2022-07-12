@@ -3,7 +3,6 @@ using CricketStructures.Match.Innings;
 using CricketStructures.Season;
 using CricketStructures.Player;
 using System;
-using System.Text;
 using Common.Structure.ReportWriting;
 using CricketStructures.Statistics.Implementation.Player.Model;
 
@@ -157,13 +156,10 @@ namespace CricketStructures.Statistics.Implementation.Player
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var sb = new StringBuilder();
-            TextWriting.WriteTitle(sb, exportType, "Bowling Stats", headerElement);
-            TableWriting.WriteTable(sb, exportType, new PlayerBowlingStatistics[] { this }, headerFirstColumn: false);
-            return sb;
+            _ = rb.WriteTitle("Bowling Stats", headerElement)
+                .WriteTable(new PlayerBowlingStatistics[] { this }, headerFirstColumn: false);
         }
-
     }
 }

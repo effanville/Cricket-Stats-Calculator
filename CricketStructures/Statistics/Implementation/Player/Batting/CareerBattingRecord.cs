@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -184,10 +183,8 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             EndYear = new DateTime().Year;
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
-            TextWriting.WriteTitle(writer, exportType, "Overall Batting Performance", headerElement);
             var fields = new string[]
             {
                 Name.ToString(),
@@ -202,8 +199,8 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
                 Centuries.ToString(),
                 Fifties.ToString()
             };
-            TableWriting.WriteTable(writer, exportType, fields, headerFirstColumn: false);
-            return writer;
+            _ = rb.WriteTitle("Overall Batting Performance", headerElement)
+                .WriteTable(fields, headerFirstColumn: false);
         }
     }
 }

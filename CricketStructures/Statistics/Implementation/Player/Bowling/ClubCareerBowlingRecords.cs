@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -47,18 +46,15 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
         {
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
             if (PlayerBowling.Any())
             {
                 var values = PlayerBowling.Values.ToList();
                 values.Sort((a, b) => a.Name.CompareTo(b.Name));
-                TextWriting.WriteTitle(writer, exportType, "Overall Bowling Performance", headerElement);
-                TableWriting.WriteTable(writer, exportType, values, headerFirstColumn: false);
+                _ = rb.WriteTitle("Overall Bowling Performance", headerElement)
+                    .WriteTable(values, headerFirstColumn: false);
             }
-
-            return writer;
         }
     }
 }

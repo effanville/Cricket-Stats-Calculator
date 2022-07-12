@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -68,14 +67,10 @@ namespace CricketStructures.Statistics.Implementation.Player.Career
             ClubBattingAverage.Clear();
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
-            TextWriting.WriteTitle(writer, exportType, "Batting Average", headerElement);
-            TableWriting.WriteTable(writer, exportType, ClubBattingAverage, headerFirstColumn: false);
-            return writer;
+            _ = rb.WriteTitle("Batting Average", headerElement)
+                .WriteTable(ClubBattingAverage, headerFirstColumn: false);
         }
-
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -58,16 +57,13 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
             throw new NotImplementedException();
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
             if (TwentyCatches.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Twenty catches in one season", headerElement);
-                TableWriting.WriteTableFromEnumerable(writer, exportType, TwentyCatches.Select(value => new string[] { value.Name.ToString(), value.Date.ToShortDateString(), value.Value.ToString() }), headerFirstColumn: false);
+                _ = rb.WriteTitle("Twenty catches in one season", headerElement)
+                    .WriteTableFromEnumerable(TwentyCatches.Select(value => new string[] { value.Name.ToString(), value.Date.ToShortDateString(), value.Value.ToString() }), headerFirstColumn: false);
             }
-
-            return writer;
         }
     }
 }

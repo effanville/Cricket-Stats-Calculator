@@ -35,9 +35,9 @@ namespace CricketStructures.Statistics.Implementation.Collection
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder reportBuilder, DocumentElement headerElement)
         {
-            return Stats.ExportStats(exportType, headerElement);
+            Stats.ExportStats(reportBuilder, headerElement);
         }
     }
 }

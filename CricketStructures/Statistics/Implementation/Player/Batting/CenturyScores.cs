@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -71,16 +70,13 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             }
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var writer = new StringBuilder();
             if (Centuries.Any())
             {
-                TextWriting.WriteTitle(writer, exportType, "Centuries", headerElement);
-                TableWriting.WriteTable(writer, exportType, Centuries, headerFirstColumn: false);
+                _ = rb.WriteTitle("Centuries", headerElement)
+                    .WriteTable(Centuries, headerFirstColumn: false);
             }
-
-            return writer;
         }
     }
 }

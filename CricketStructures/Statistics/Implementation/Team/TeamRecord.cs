@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using Common.Structure.ReportWriting;
+﻿using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
 using CricketStructures.Season;
@@ -115,16 +113,14 @@ namespace CricketStructures.Statistics.Implementation.Team
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            StringBuilder sb = new StringBuilder();
-            TextWriting.WriteTitle(sb, exportType, "Team Overall", headerElement);
-            TextWriting.WriteParagraph(sb, exportType, new string[] { "Games Played:", $"{Played}" });
-            TextWriting.WriteParagraph(sb, exportType, new string[] { "Wins:", $"{Won}" });
-            TextWriting.WriteParagraph(sb, exportType, new string[] { "Losses:", $"{Lost}" });
-            TextWriting.WriteParagraph(sb, exportType, new string[] { "Draws:", $"{Drew}" });
-            TextWriting.WriteParagraph(sb, exportType, new string[] { "Ties:", $"{Tie}" });
-            return sb;
+            _ = rb.WriteTitle("Team Overall", headerElement)
+                .WriteParagraph(new string[] { "Games Played:", $"{Played}" })
+                .WriteParagraph(new string[] { "Wins:", $"{Won}" })
+                .WriteParagraph(new string[] { "Losses:", $"{Lost}" })
+                .WriteParagraph(new string[] { "Draws:", $"{Drew}" })
+                .WriteParagraph(new string[] { "Ties:", $"{Tie}" });
         }
     }
 }

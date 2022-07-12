@@ -5,7 +5,6 @@ using CricketStructures.Season;
 using CricketStructures.Player;
 using CricketStructures.Player.Interfaces;
 using Common.Structure.ReportWriting;
-using System.Text;
 using CricketStructures.Statistics.Implementation.Player;
 using CricketStructures.Statistics.Implementation.Player.Batting;
 using CricketStructures.Statistics.Implementation.Player.Fielding;
@@ -98,61 +97,58 @@ namespace CricketStructures.Statistics.Implementation.Collection
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            StringBuilder sb = new StringBuilder();
-            TextWriting.WriteHeader(sb, exportType, "Statistics for team", useColours: true);
-            var innerHeaderElement = headerElement++;
+            _ = rb.WriteHeader("Statistics for team");
+            var innerHeaderElement = headerElement.GetNext();
             if (!SeasonYear.HasValue)
             {
-                TextWriting.WriteTitle(sb, exportType, "All time Brief Statistics", headerElement);
+                _ = rb.WriteTitle("All time Brief Statistics", headerElement);
             }
             else
             {
-                TextWriting.WriteTitle(sb, exportType, $"For season {SeasonYear.Value.Year}", headerElement);
+                _ = rb.WriteTitle($"For season {SeasonYear.Value.Year}", headerElement);
             }
 
-            _ = sb.Append(TeamRecord.ExportStats(exportType, innerHeaderElement));
+            TeamRecord.ExportStats(rb, innerHeaderElement);
 
             (BestBatting Best, PlayerName Name) bestBatting = SeasonPlayerStats.Select(player => (player.BattingStats.Best, player.Name)).Max();
-            TextWriting.WriteParagraph(sb, exportType, new string[] { "Best Batting:", bestBatting.Name.ToString(), bestBatting.Best.ToString() });
+            _ = rb.WriteParagraph(new string[] { "Best Batting:", bestBatting.Name.ToString(), bestBatting.Best.ToString() });
 
             (BestBowling BestFigures, PlayerName Name) = SeasonPlayerStats.Select(player => (player.BowlingStats.BestFigures, player.Name)).Max();
-            TextWriting.WriteParagraph(sb, exportType, new string[] { "Best Bowling:", Name.ToString(), BestFigures.ToString() });
+            _ = rb.WriteParagraph(new string[] { "Best Bowling:", Name.ToString(), BestFigures.ToString() });
 
             List<PlayerFieldingStatistics> fielding = SeasonPlayerStats.Select(player => player.FieldingStats).ToList();
             int mostKeeper = fielding.Max(player => player.TotalKeeperDismissals);
             List<PlayerName> keepers = fielding.Where(player => player.TotalKeeperDismissals.Equals(mostKeeper)).Select(player => player.Name).ToList();
-            TextWriting.WriteParagraph(sb, exportType, new string[] { "Most Dismissals as keeper:", $"{mostKeeper}", string.Join(",", keepers) });
+            _ = rb.WriteParagraph(new string[] { "Most Dismissals as keeper:", $"{mostKeeper}", string.Join(",", keepers) });
 
-            TextWriting.WriteTitle(sb, exportType, "Appearances", innerHeaderElement);
+            _ = rb.WriteTitle("Appearances", innerHeaderElement);
 
             List<PlayerAttendanceStatistics> played = SeasonPlayerStats.Select(player => player.Played as PlayerAttendanceStatistics).ToList();
             played.Sort((x, y) => y.TotalGamesPlayed.CompareTo(x.TotalGamesPlayed));
-            TableWriting.WriteTable(sb, exportType, played, headerFirstColumn: false);
+            _ = rb.WriteTable(played, headerFirstColumn: false);
 
-            TextWriting.WriteTitle(sb, exportType, "Batting Stats", innerHeaderElement);
+            _ = rb.WriteTitle("Batting Stats", innerHeaderElement);
             List<PlayerBattingStatistics> batting = SeasonPlayerStats.Select(player => player.BattingStats).ToList();
             _ = batting.RemoveAll(bat => bat.TotalInnings.Equals(0));
             batting.Sort((x, y) => y.TotalRuns.CompareTo(x.TotalRuns));
-            TableWriting.WriteTable(sb, exportType, batting, headerFirstColumn: false);
+            _ = rb.WriteTable(batting, headerFirstColumn: false);
 
-            _ = sb.Append(Partnerships.ExportStats(exportType, innerHeaderElement));
+            Partnerships.ExportStats(rb, innerHeaderElement);
 
-            TextWriting.WriteTitle(sb, exportType, "Bowling Stats", innerHeaderElement);
+            _ = rb.WriteTitle("Bowling Stats", innerHeaderElement);
             List<PlayerBowlingStatistics> bowling = SeasonPlayerStats.Select(player => player.BowlingStats).ToList();
             _ = bowling.RemoveAll(bowl => bowl.TotalOvers.Equals(0));
             bowling.Sort((x, y) => y.TotalWickets.CompareTo(x.TotalWickets));
-            TableWriting.WriteTable(sb, exportType, bowling, headerFirstColumn: false);
+            _ = rb.WriteTable(bowling, headerFirstColumn: false);
 
-            TextWriting.WriteTitle(sb, exportType, "Fielding Stats", innerHeaderElement);
+            _ = rb.WriteTitle("Fielding Stats", innerHeaderElement);
             _ = fielding.RemoveAll(field => field.TotalDismissals.Equals(0));
             fielding.Sort((x, y) => y.TotalDismissals.CompareTo(x.TotalDismissals));
-            TableWriting.WriteTable(sb, exportType, fielding, headerFirstColumn: false);
+            _ = rb.WriteTable(fielding, headerFirstColumn: false);
 
-            TextWriting.WriteFooter(sb, exportType);
-
-            return sb;
+            _ = rb.WriteFooter();
         }
     }
 }

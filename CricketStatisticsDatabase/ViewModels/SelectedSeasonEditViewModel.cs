@@ -95,9 +95,9 @@ namespace CSD.ViewModels
                     innings = SelectedMatch.FirstInnings;
                 }
 
-                Action<CricketInnings> updateBatting = (innings) => 
+                Action<CricketInnings> updateBatting = (innings) =>
                 {
-                    UpdateTeam(team => 
+                    UpdateTeam(team =>
                         team.GetSeason(SelectedSeason.Year, SelectedSeason.Name)
                             .GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.HomeTeam, SelectedMatch.MatchData.AwayTeam)
                             .SetInnings(innings, !isSecondInnings));
@@ -127,13 +127,14 @@ namespace CSD.ViewModels
         {
             if (SelectedSeason != null)
             {
-                if(array[0] is MatchInfoViewModel vm)
+                if (array[0] is MatchInfoViewModel vm)
                 {
-                // TODO: Implement this properly
-                UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name)
-                    .GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.HomeTeam, SelectedMatch.MatchData.AwayTeam)
-                    .EditInfo(vm.HomeTeam, vm.AwayTeam, vm.Date, vm.Location, vm.Type));
-            }}
+                    // TODO: Implement this properly
+                    UpdateTeam(team => team.GetSeason(SelectedSeason.Year, SelectedSeason.Name)
+                        .GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.HomeTeam, SelectedMatch.MatchData.AwayTeam)
+                        .EditInfo(vm.HomeTeam, vm.AwayTeam, vm.Date, vm.Location, vm.Type));
+                }
+            }
         }
 
         public ICommand DeleteMatchCommand

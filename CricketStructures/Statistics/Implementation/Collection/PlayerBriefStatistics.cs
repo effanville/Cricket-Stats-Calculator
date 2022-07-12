@@ -2,7 +2,6 @@
 using CricketStructures.Season;
 using CricketStructures.Player;
 using Common.Structure.ReportWriting;
-using System.Text;
 using CricketStructures.Statistics.Implementation.Player;
 using CricketStructures.Statistics.Implementation.Player.Batting;
 using CricketStructures.Statistics.Implementation.Player.Fielding;
@@ -82,36 +81,33 @@ namespace CricketStructures.Statistics.Implementation.Collection
         }
 
         /// <inheritdoc/>
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            StringBuilder sb = new StringBuilder();
-            var innerHeaderElement = headerElement++;
-            TextWriting.WriteHeader(sb, exportType, $"Statistics for Player {Name}", useColours: true);
+            var innerHeaderElement = headerElement.GetNext();
+            _ = rb.WriteHeader($"Statistics for Player {Name}")
+                .WriteTitle($"Brief Statistics for player {Name}", headerElement)
+                .WriteTitle("Player Overall", innerHeaderElement);
 
-            TextWriting.WriteTitle(sb, exportType, $"Brief Statistics for player {Name}", headerElement);
-
-            TextWriting.WriteTitle(sb, exportType, "Player Overall", innerHeaderElement);
             var played = Stats[CricketStatTypes.PlayerAttendanceStats] as PlayerAttendanceStatistics;
-            TextWriting.WriteParagraph(sb, exportType, new string[] { "Games Played:", $"{played.TotalGamesPlayed}" });
-            TextWriting.WriteParagraph(sb, exportType, new string[] { "Wins:", $"{played.TotalGamesWon}" });
-            TextWriting.WriteParagraph(sb, exportType, new string[] { "Losses:", $"{played.TotalGamesLost}" });
+            _ = rb.WriteParagraph(new string[] { "Games Played:", $"{played.TotalGamesPlayed}" })
+                .WriteParagraph(new string[] { "Wins:", $"{played.TotalGamesWon}" })
+                .WriteParagraph(new string[] { "Losses:", $"{played.TotalGamesLost}" });
+
             var battingStats = Stats[CricketStatTypes.PlayerBattingStats] as PlayerBattingStatistics;
             if (battingStats.Best != null)
             {
-                TextWriting.WriteParagraph(sb, exportType, new string[] { "Best Batting:", battingStats.Best.ToString() });
+                _ = rb.WriteParagraph(new string[] { "Best Batting:", battingStats.Best.ToString() });
             }
 
             var bowlingStats = Stats[CricketStatTypes.PlayerBowlingStats] as PlayerBowlingStatistics;
             if (bowlingStats.BestFigures != null)
             {
-                TextWriting.WriteParagraph(sb, exportType, new string[] { "Best Bowling:", bowlingStats.BestFigures.ToString() });
+                _ = rb.WriteParagraph(new string[] { "Best Bowling:", bowlingStats.BestFigures.ToString() });
             }
 
-            _ = sb.Append(Stats.ExportStats(exportType, innerHeaderElement));
+            Stats.ExportStats(rb, innerHeaderElement);
 
-            TextWriting.WriteFooter(sb, exportType);
-
-            return sb;
+            _ = rb.WriteFooter();
         }
     }
 }

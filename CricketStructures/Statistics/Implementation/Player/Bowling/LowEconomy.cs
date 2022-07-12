@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -72,16 +71,13 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             throw new NotImplementedException();
         }
 
-        public StringBuilder ExportStats(DocumentType exportType, DocumentElement headerElement)
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var stringBuilder = new StringBuilder();
             if (LowEconomy.Any())
             {
-                TextWriting.WriteTitle(stringBuilder, exportType, "Low Economy", headerElement);
-                TableWriting.WriteTableFromEnumerable(stringBuilder, exportType, new string[] { "Name", "Wickets", "Economy" }, LowEconomy.Select(value => new string[] { value.Name.ToString(), value.Value.ToString(), value.SecondValue.ToString() }), headerFirstColumn: false);
+                _ = rb.WriteTitle("Low Economy", headerElement)
+                    .WriteTableFromEnumerable(new string[] { "Name", "Wickets", "Economy" }, LowEconomy.Select(value => new string[] { value.Name.ToString(), value.Value.ToString(), value.SecondValue.ToString() }), headerFirstColumn: false);
             }
-
-            return stringBuilder;
         }
     }
 }
