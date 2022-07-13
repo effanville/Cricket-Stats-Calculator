@@ -139,6 +139,6 @@ namespace CricketStructures.Match
         bool DeleteBowlingEntry(string team, PlayerName player);
 
         List<Partnership> Partnerships(string team = null);
-        StringBuilder SerializeToString(DocumentType exportType);
+        ReportBuilder SerializeToString(DocumentType exportType);
     }
 }

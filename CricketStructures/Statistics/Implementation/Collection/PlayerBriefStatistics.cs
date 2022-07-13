@@ -63,7 +63,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
                 CricketStatTypes.PlayerBowlingStats,
                 CricketStatTypes.PlayerFieldingStats
             };
-            Stats = new CricketStatsCollection("Player Brief Statistics", stats, teamName, season, matchTypes, name);
+            Stats = new CricketStatsCollection($"Brief Statistics for player {name}", stats, teamName, season, matchTypes, name);
         }
 
         internal PlayerBriefStatistics(PlayerName name, ICricketTeam team, Match.MatchType[] matchTypes)
@@ -77,7 +77,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
                 CricketStatTypes.PlayerBowlingStats,
                 CricketStatTypes.PlayerFieldingStats
             };
-            Stats = new CricketStatsCollection("Player Brief Statistics", stats, team, matchTypes, name);
+            Stats = new CricketStatsCollection($"Brief Statistics for player {name}", stats, team, matchTypes, name);
         }
 
         /// <inheritdoc/>

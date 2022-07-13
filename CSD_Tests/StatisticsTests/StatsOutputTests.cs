@@ -21,7 +21,7 @@ namespace CricketStructures.Tests.StatisticsTests
             var stats = StatsCollectionBuilder.StandardStat(statType, MatchHelpers.AllMatchTypes, team, "TeamName", season, null);
 
             var expectedFile = ExampleFileHelpers.GetLazyCachedExampleFile(expectedOutputFile);
-            var rb = new ReportBuilder(DocumentType.Html, new ReportSettings() { UseColours = true });
+            var rb = new ReportBuilder(DocumentType.Html, new ReportSettings(useColours: false, useDefaultStyle: true, useScripts: false));
             stats.ExportStats(rb, DocumentElement.h1);
             var outputString = rb.ToString();
             Assert.AreEqual(expectedFile, outputString);
@@ -36,7 +36,7 @@ namespace CricketStructures.Tests.StatisticsTests
             var season = seasons[0];
             var playerName = new PlayerName("Chief", "Master");
             var stats = StatsCollectionBuilder.StandardStat(statType, MatchHelpers.AllMatchTypes, team, "TeamName", season, playerName);
-            var rb = new ReportBuilder(DocumentType.Html, new ReportSettings() { UseColours = true });
+            var rb = new ReportBuilder(DocumentType.Html, new ReportSettings(useColours: false, useDefaultStyle: true, useScripts: false));
             stats.ExportStats(rb, DocumentElement.h1);
             var outputString = rb.ToString();
             var expectedFile = ExampleFileHelpers.GetLazyCachedExampleFile(expectedOutputFile);

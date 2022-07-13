@@ -3,7 +3,6 @@ using System.Linq;
 using CricketStructures.Player;
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
-using System.Text;
 using System;
 using Common.Structure.ReportWriting;
 using System.Xml.Serialization;
@@ -465,12 +464,12 @@ namespace CricketStructures.Match.Innings
             return null;
         }
 
-        public StringBuilder SerializeToString(DocumentType exportType)
+        public ReportBuilder SerializeToString(DocumentType exportType)
         {
-            StringBuilder sb = new StringBuilder();
-            TextWriting.WriteTitle(sb, exportType, $"Innings of: {BattingTeam}.", DocumentElement.h2);
+            ReportBuilder sb = new ReportBuilder(exportType, new ReportSettings(useColours: true, useDefaultStyle: false, useScripts: true));
+            _ = sb.WriteTitle($"Innings of: {BattingTeam}.", DocumentElement.h2);
 
-            TextWriting.WriteTitle(sb, exportType, $"Batting", DocumentElement.h3);
+            _ = sb.WriteTitle($"Batting", DocumentElement.h3);
 
             List<string> battingHeaders = new List<string>() { "", "Batsman", "How Out", "Bowler", "Total" };
             List<List<string>> battingPerBatsman = new List<List<string>>();
@@ -485,7 +484,7 @@ namespace CricketStructures.Match.Innings
             battingPerBatsman.Add(new List<string>() { "", "", "", "Total Extras ", InningsExtras.Runs().ToString() });
             battingPerBatsman.Add(new List<string>() { "", "", "", "Total", Score().Runs.ToString() });
 
-            TableWriting.WriteTableFromEnumerable(sb, exportType, battingHeaders, battingPerBatsman, false);
+            _ = sb.WriteTableFromEnumerable(battingHeaders, battingPerBatsman, false);
 
             List<string> extrasHeaders = new List<string>() { "", "" };
             List<List<string>> extras = new List<List<string>>();
@@ -496,11 +495,11 @@ namespace CricketStructures.Match.Innings
             extras.Add(new List<string>() { "Penalties", InningsExtras.Penalties.ToString() });
             extras.Add(new List<string>() { "Total Extras", InningsExtras.Runs().ToString() });
 
-            TableWriting.WriteTableFromEnumerable(sb, exportType, extrasHeaders, extras, headerFirstColumn: true);
+            _ = sb.WriteTableFromEnumerable(extrasHeaders, extras, headerFirstColumn: true);
 
             var partnerships = Partnerships();
 
-            TextWriting.WriteTitle(sb, exportType, $"Partnerships", DocumentElement.h3);
+            _ = sb.WriteTitle($"Partnerships", DocumentElement.h3);
 
             List<string> partnershipsHeaders = new List<string>();
             List<string> partnershipsRow = new List<string>();
@@ -518,10 +517,10 @@ namespace CricketStructures.Match.Innings
                 partnershipIndex++;
             }
 
-            TableWriting.WriteTableFromEnumerable(sb, exportType, partnershipsHeaders, new List<List<string>> { partnershipsRow }, false);
+            _ = sb.WriteTableFromEnumerable(partnershipsHeaders, new List<List<string>> { partnershipsRow }, false);
 
 
-            TextWriting.WriteTitle(sb, exportType, $"Bowling", DocumentElement.h3);
+            _ = sb.WriteTitle($"Bowling", DocumentElement.h3);
             List<string> bowlingHeaders = new List<string>() { "Bowler", "Wides", "NB", "Overs", "Mdns", "Runs", "Wkts", "Avg" };
             List<List<string>> bowlingColumns = new List<List<string>>();
             foreach (var bowler in Bowling)
@@ -554,12 +553,12 @@ namespace CricketStructures.Match.Innings
                 });
 
 
-            TableWriting.WriteTableFromEnumerable(sb, exportType, bowlingHeaders, bowlingColumns, false);
+            _ = sb.WriteTableFromEnumerable(bowlingHeaders, bowlingColumns, false);
 
 
-            TextWriting.WriteTitle(sb, exportType, $"Score", DocumentElement.h3);
+            _ = sb.WriteTitle($"Score", DocumentElement.h3);
             var score = Score();
-            TextWriting.WriteParagraph(sb, exportType, new[] { $"Final Score: {score.Runs} for {score.Wickets}" });
+            _ = sb.WriteParagraph(new[] { $"Final Score: {score.Runs} for {score.Wickets}" });
 
             return sb;
         }

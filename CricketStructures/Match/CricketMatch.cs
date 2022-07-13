@@ -6,7 +6,6 @@ using CricketStructures.Match.Innings;
 using CricketStructures.Player;
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
-using System.Text;
 using Common.Structure.ReportWriting;
 using CricketStructures.Match.Result;
 
@@ -38,7 +37,7 @@ namespace CricketStructures.Match
         [XmlAttribute(AttributeName = "D")]
         public DateTime Date
         {
-            get=> MatchData.Date;
+            get => MatchData.Date;
             set => MatchData.Date = value;
         }
 
@@ -404,11 +403,11 @@ namespace CricketStructures.Match
             throw new NotImplementedException();
         }
 
-        public StringBuilder SerializeToString(DocumentType exportType)
+        public ReportBuilder SerializeToString(DocumentType exportType)
         {
-            StringBuilder sb = new StringBuilder();
-            TextWriting.WriteHeader(sb, exportType, "", true);
-            TextWriting.WriteTitle(sb, exportType, $"{MatchData.HomeTeam} vs {MatchData.AwayTeam}. Venue: {MatchData.Location}. Date: {MatchData.Date}. Type of Match: {MatchData.Type}", DocumentElement.h1);
+            ReportBuilder sb = new ReportBuilder(exportType, new ReportSettings(useColours: true, useDefaultStyle: false, useScripts: true));
+            _ = sb.WriteHeader("")
+                .WriteTitle($"{MatchData.HomeTeam} vs {MatchData.AwayTeam}. Venue: {MatchData.Location}. Date: {MatchData.Date}. Type of Match: {MatchData.Type}", DocumentElement.h1);
 
             var firstInningsString = FirstInnings.SerializeToString(exportType);
             _ = sb.Append(firstInningsString)
@@ -419,10 +418,10 @@ namespace CricketStructures.Match
                 .AppendLine();
 
 
-            TextWriting.WriteTitle(sb, exportType, $"Result", DocumentElement.h2);
             var result = MatchResult();
-            TextWriting.WriteParagraph(sb, exportType, new[] { $"Match Result: ", result.ToString() });
-            TextWriting.WriteFooter(sb, exportType);
+            _ = sb.WriteTitle($"Result", DocumentElement.h2)
+                .WriteParagraph(new[] { $"Match Result: ", result.ToString() })
+                .WriteFooter();
             return sb;
         }
     }
