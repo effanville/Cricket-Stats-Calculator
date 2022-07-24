@@ -109,9 +109,19 @@ namespace CricketStructures.Season
         }
 
         /// <inheritdoc/>
-        public IReadOnlyList<PlayerName> Players(string teamName)
+        public IReadOnlyList<PlayerName> Players(string teamName, MatchType[] matchTypes)
         {
-            return SeasonsMatches.SelectMany(match => match.Players(teamName)).Distinct().ToList();
+            return SeasonsMatches.SelectMany(match => MatchPlayers(match)).Distinct().ToList();
+
+            List<PlayerName> MatchPlayers(ICricketMatch match)
+            {
+                if(matchTypes.Contains(match.MatchData.Type))
+                {
+                    return match.Players(teamName);
+                }
+                
+                return new List<PlayerName>();
+            }
         }
 
         /// <inheritdoc/>

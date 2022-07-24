@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Player.Interfaces;
 using CricketStructures.Season;
@@ -80,7 +81,7 @@ namespace CricketStructures
             var playersCached = TeamPlayers.Select(player => (ICricketPlayer)player).ToList();
             foreach (var season in Seasons)
             {
-                foreach (var name in season.Players(TeamName))
+                foreach (var name in season.Players(TeamName, MatchHelpers.AllMatchTypes))
                 {
                     bool added = AddPlayer(name);
                     if (added)

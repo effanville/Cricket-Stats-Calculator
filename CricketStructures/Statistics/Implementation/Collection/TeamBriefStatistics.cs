@@ -89,7 +89,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
                 return;
             }
 
-            foreach (PlayerName player in season.Players(teamName))
+            foreach (PlayerName player in season.Players(teamName, matchTypes))
             {
                 PlayerBriefStatistics playerStats = new PlayerBriefStatistics(teamName, player, season, matchTypes);
                 SeasonPlayerStats.Add(playerStats);

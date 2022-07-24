@@ -38,7 +38,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
         {
-            var playerNames = Name == null ? season.Players(teamName).ToList() : new List<PlayerName>() { Name };
+            var playerNames = Name == null ? season.Players(teamName, matchTypes) : new List<PlayerName>() { Name };
             List<PlayerBriefStatistics> playerStats = playerNames.Select(name => new PlayerBriefStatistics(teamName, name, season, matchTypes)).ToList();
 
             IEnumerable<PlayerBriefStatistics> manyCatches = playerStats.Where(player => player.FieldingStats.Catches > 20);

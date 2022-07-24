@@ -38,7 +38,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
         {
-            var playerNames = Name == null ? season.Players(teamName).ToList() : new List<PlayerName>() { Name };
+            var playerNames = Name == null ? season.Players(teamName, matchTypes) : new List<PlayerName>() { Name };
             List<PlayerBriefStatistics> playerStats = playerNames.Select(name => new PlayerBriefStatistics(teamName, name, season, matchTypes)).ToList();
             IEnumerable<PlayerBriefStatistics> goodAverage = playerStats.Where(player => player.Played.TotalGamesPlayed > 5 && player.BattingStats.Average > 30);
             SeasonAverage.AddRange(goodAverage.Select(element => new SeasonRuns(element.SeasonYear, element.Name, element.BattingStats.TotalInnings, element.BattingStats.TotalNotOut, element.BattingStats.TotalRuns, element.BattingStats.Average)));

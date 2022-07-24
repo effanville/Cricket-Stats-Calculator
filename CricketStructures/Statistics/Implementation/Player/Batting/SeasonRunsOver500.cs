@@ -37,7 +37,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
         {
-            var playerNames = Name == null ? season.Players(teamName).ToList() : new List<PlayerName>() { Name };
+            var playerNames = Name == null ? season.Players(teamName, matchTypes) : new List<PlayerName>() { Name };
             List<PlayerBriefStatistics> playerStats = playerNames.Select(name => new PlayerBriefStatistics(teamName, name, season, matchTypes)).ToList();
 
             IEnumerable<PlayerBriefStatistics> manyRuns = playerStats.Where(player => player.BattingStats.TotalRuns > 500);

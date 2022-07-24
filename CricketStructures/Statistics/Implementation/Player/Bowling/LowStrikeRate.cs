@@ -47,7 +47,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
         {
-            var playerNames = Name == null ? season.Players(teamName).ToList() : new List<PlayerName>() { Name };
+            var playerNames = Name == null ? season.Players(teamName, matchTypes) : new List<PlayerName>() { Name };
             List<PlayerBriefStatistics> playerStats = playerNames.Select(name => new PlayerBriefStatistics(teamName, name, season, matchTypes)).ToList();
 
             foreach (var player in playerStats)

@@ -8,6 +8,7 @@ using Common.UI.Services;
 using Common.UI.ViewModelBases;
 
 using CricketStructures;
+using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Player.Interfaces;
 
@@ -81,7 +82,7 @@ namespace CSD.ViewModels
         {
             foreach (var season in DataStore.Seasons)
             {
-                foreach (var name in season.Players(DataStore.TeamName))
+                foreach (var name in season.Players(DataStore.TeamName, MatchHelpers.AllMatchTypes))
                 {
                     UpdateTeam(team => team.AddPlayer(name));
                 }
