@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewmodels="clr-namespace:CSD.ViewModels"
+             xmlns:gui="clr-namespace:CSD"
              d:DataContext="{d:DesignInstance Type=viewmodels:StatsViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450"
@@ -11,6 +12,7 @@
     <Grid>
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BoolConverter" />
+            <gui:CricketConstants x:Key="Consts" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
@@ -27,7 +29,7 @@
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ComboBox ItemsSource="{Binding StatisticTypes}"
+        <ComboBox ItemsSource="{Binding Source={StaticResource Consts}, Path=StatisticTypes}"
                   SelectedItem="{Binding  SelectedStatsType}"
                   Grid.Column="0"
                   Grid.Row="0"
@@ -49,12 +51,6 @@
                   Visibility="{Binding SeasonStatsSelected, Converter={StaticResource BoolConverter}}"
                   Grid.Column="0"
                   Grid.Row="2"
-                  Margin="5" />
-        <ComboBox ItemsSource="{Binding SelectedSeason.Players}"
-                  SelectedItem="{Binding SelectedPlayer}"
-                  Visibility="{Binding SeasonStatsSelected, Converter={StaticResource BoolConverter}}"
-                  Grid.Column="0"
-                  Grid.Row="3"
                   Margin="5" />
         <Button Content="Export stats"
                 Grid.Column="0"

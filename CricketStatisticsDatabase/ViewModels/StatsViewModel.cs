@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Abstractions;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
@@ -12,12 +10,12 @@ using Common.UI.Commands;
 using Common.UI.Services;
 using Common.UI.ViewModelBases;
 
+using CricketStructures.Player;
+
 using CricketStructures;
 using CricketStructures.Match;
-using CricketStructures.Player;
 using CricketStructures.Season;
 using CricketStructures.Statistics;
-using CricketStructures.Statistics.Implementation.Collection;
 
 namespace CSD.ViewModels
 {
@@ -25,8 +23,6 @@ namespace CSD.ViewModels
     {
         private readonly UiGlobals fUiGlobals;
         private IFileInteractionService fFileService => fUiGlobals.FileInteractionService;
-
-        public List<StatCollection> StatisticTypes => Enum.GetValues(typeof(StatCollection)).Cast<StatCollection>().ToList();
 
         private StatCollection fSelectedStatsType;
         public StatCollection SelectedStatsType
@@ -41,15 +37,16 @@ namespace CSD.ViewModels
 
                 var matchTypesToUse = MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray();
 
-if(SelectedSeason != null)
-{
-                SelectedStats = StatsCollectionBuilder.StandardStat(
-                    value,
-                    MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray(),
-                    team: DataStore,
-                    teamName: DataStore.TeamName,
-                    season: SelectedSeason);
-            }}
+                if (SelectedSeason != null)
+                {
+                    SelectedStats = StatsCollectionBuilder.StandardStat(
+                        value,
+                        MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray(),
+                        team: DataStore,
+                        teamName: DataStore.TeamName,
+                        season: SelectedSeason);
+                }
+            }
         }
 
         private List<Selectable<MatchType>> fMatchTypeNames = new List<Selectable<MatchType>>();
@@ -64,7 +61,7 @@ if(SelectedSeason != null)
             }
         }
 
-        public bool SeasonStatsSelected => SelectedStatsType == StatCollection.SeasonBrief;
+        public bool SeasonStatsSelected => SelectedStatsType.IsSeasonStat();
 
 
         private bool fSeasonStatsSet;
@@ -105,39 +102,6 @@ if(SelectedSeason != null)
             }
         }
 
-        private PlayerName fSelectedPlayer;
-        public PlayerName SelectedPlayer
-        {
-            get => fSelectedPlayer;
-            set
-            {
-                fSelectedPlayer = value;
-                OnPropertyChanged(nameof(SelectedPlayer));
-            }
-        }
-
-        private bool fPlayerStatsSet;
-        public bool PlayerStatsSet
-        {
-            get => fPlayerStatsSet;
-            set
-            {
-                fPlayerStatsSet = value;
-                OnPropertyChanged(nameof(PlayerStatsSet));
-            }
-        }
-        private PlayerBriefStatistics fSelectedPlayerStats;
-        public PlayerBriefStatistics SelectedPlayerStats
-        {
-            get => fSelectedPlayerStats;
-            set
-            {
-                fSelectedPlayerStats = value;
-                OnPropertyChanged(nameof(SelectedPlayerStats));
-                PlayerStatsSet = value == null ? false : true;
-            }
-        }
-
         public StatsViewModel(ICricketTeam team, UiGlobals uiGlobals)
             : base("Statistics", team)
         {
@@ -148,32 +112,7 @@ if(SelectedSeason != null)
                 MatchTypeNames.Add(new Selectable<MatchType>(name, false));
             }
 
-            ExportPlayerStatsCommand = new RelayCommand(ExecuteExportPlayerStatsCommand);
             ExportStatsCommand = new RelayCommand(ExecuteExportStatsCommand);
-            ExportAllStatsCommand = new RelayCommand(ExecuteExportAllStatsCommand);
-            ExportDetailedAllStatsCommand = new RelayCommand(ExecuteExportDetailedAllStatsCommand);
-        }
-
-        public ICommand ExportPlayerStatsCommand
-        {
-            get;
-        }
-
-        private void ExecuteExportPlayerStatsCommand()
-        {
-            FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
-            if (gotFile.Success)
-            {
-                var playerStats = StatsCollectionBuilder.StandardStat(
-                    StatCollection.PlayerSeason,
-                    MatchTypeNames.Where(n => n.Selected).Select(name => name.Instance).ToArray(),
-                    teamName: DataStore.TeamName,
-                    playerName: SelectedPlayer,
-                    season: SelectedSeason);
-                string extension = new FileSystem().Path.GetExtension(gotFile.FilePath).Trim('.');
-                DocumentType type = extension.ToEnum<DocumentType>();
-                playerStats.ExportStats(new FileSystem(), gotFile.FilePath, type);
-            }
         }
 
         public ICommand ExportStatsCommand
@@ -183,58 +122,57 @@ if(SelectedSeason != null)
 
         private void ExecuteExportStatsCommand()
         {
-            FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
-            if (gotFile.Success)
+            if (SelectedStatsType.IsPlayerStat())
             {
-                var allTimeStats = StatsCollectionBuilder.StandardStat(
-                    StatCollection.SeasonBrief,
-                    MatchTypeNames.Where(n => n.Selected).Select(name => name.Instance).ToArray(),
-                    teamName: DataStore.TeamName,
-                    season: SelectedSeason);
-                string extension = new FileSystem().Path.GetExtension(gotFile.FilePath).Trim('.');
-                DocumentType type = extension.ToEnum<DocumentType>();
-                allTimeStats.ExportStats(new FileSystem(), gotFile.FilePath, type);
+                SaveAllPlayerStats();
+            }
+            else
+            {
+                FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
+                if (gotFile.Success)
+                {
+                    var allTimeStats = StatsCollectionBuilder.StandardStat(
+                        SelectedStatsType,
+                        MatchTypeNames.Where(n => n.Selected).Select(name => name.Instance).ToArray(),
+                        team: DataStore,
+                        teamName: DataStore.TeamName,
+                        season: SelectedSeason);
+                    string extension = fUiGlobals.CurrentFileSystem.Path.GetExtension(gotFile.FilePath).Trim('.');
+                    DocumentType type = extension.ToEnum<DocumentType>();
+                    allTimeStats.ExportStats(fUiGlobals.CurrentFileSystem, gotFile.FilePath, type);
+                }
             }
         }
 
-        public ICommand ExportAllStatsCommand
+        private void SaveAllPlayerStats()
         {
-            get;
-        }
-
-        private void ExecuteExportAllStatsCommand()
-        {
-            FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
+            FileInteractionResult gotFile = fFileService.SaveFile("", "", filter: "Html Files|*.html|All Files|*.*");
             if (gotFile.Success)
             {
-                string extension = new FileSystem().Path.GetExtension(gotFile.FilePath).Trim('.');
-                DocumentType type = extension.ToEnum<DocumentType>();
+                string extension = fUiGlobals.CurrentFileSystem.Path.GetExtension(gotFile.FilePath).Trim('.');
+                string location = fUiGlobals.CurrentFileSystem.Path.GetDirectoryName(gotFile.FilePath);
+                var matchTypes = MatchTypeNames.Where(n => n.Selected).Select(name => name.Instance).ToArray();
+                IReadOnlyList<PlayerName> players = SelectedStatsType == StatCollection.PlayerBrief
+                    ? DataStore.Players().Select(player => player.Name).ToList()
+                    : SelectedStatsType == StatCollection.PlayerSeason
+                        ? SelectedSeason.Players(DataStore.TeamName, matchTypes)
+                        : new List<PlayerName>();
 
-                var allTimeStatsNew = StatsCollectionBuilder.StandardStat(
-                    StatCollection.AllTimeBrief,
-                    MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray(),
-                    team: DataStore);
-                allTimeStatsNew.ExportStats(new FileSystem(), gotFile.FilePath, type);
-            }
-        }
+                DocumentType type = DocumentType.Html;
+                foreach (var playerName in players)
+                {
+                    string filePath = $"{location}\\{playerName}.{type}";
+                    var allTimeStats = StatsCollectionBuilder.StandardStat(
+                        SelectedStatsType,
+                        matchTypes,
+                        team: DataStore,
+                        teamName: DataStore.TeamName,
+                        season: SelectedSeason,
+                        playerName: playerName);
+                    allTimeStats.ExportStats(fUiGlobals.CurrentFileSystem, filePath, type);
 
-        public ICommand ExportDetailedAllStatsCommand
-        {
-            get;
-        }
+                }
 
-        private void ExecuteExportDetailedAllStatsCommand()
-        {
-            FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
-            if (gotFile.Success)
-            {
-                string extension = new FileSystem().Path.GetExtension(gotFile.FilePath).Trim('.');
-                DocumentType type = extension.ToEnum<DocumentType>();
-                var allTimeStatsNew = StatsCollectionBuilder.StandardStat(
-                    StatCollection.AllTimeDetailed,
-                    MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray(),
-                    team: DataStore);
-                allTimeStatsNew.ExportStats(new FileSystem(), gotFile.FilePath, type);
             }
         }
 

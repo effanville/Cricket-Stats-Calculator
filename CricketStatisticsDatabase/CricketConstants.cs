@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using CricketStructures.Match;
+using CricketStructures.Statistics;
 
 namespace CSD
 {
@@ -13,6 +14,7 @@ namespace CSD
 
         public static IReadOnlyList<MatchType> MatchTypes => CricketStructures.CricketConstants.MatchTypes;
         public static IReadOnlyList<ResultType> MatchResultTypes => CricketStructures.CricketConstants.MatchResultTypes;
+        public static IReadOnlyList<StatCollection> StatisticTypes => CricketStructures.CricketConstants.StatisticTypes;
 
         public CricketConstants()
         {
