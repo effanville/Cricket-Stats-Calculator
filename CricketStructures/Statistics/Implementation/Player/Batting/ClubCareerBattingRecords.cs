@@ -11,11 +11,11 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
 {
     public sealed class ClubCareerBattingRecords : ICricketStat
     {
-        public IDictionary<PlayerName, CareerBattingRecord> PlayerBatting
+        public IDictionary<PlayerName, BattingRecord> PlayerBatting
         {
             get;
             set;
-        } = new Dictionary<PlayerName, CareerBattingRecord>();
+        } = new Dictionary<PlayerName, BattingRecord>();
 
 
         public ClubCareerBattingRecords()
@@ -30,7 +30,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
         {
             foreach (var player in team.Players())
             {
-                PlayerBatting.Add(player.Name, new CareerBattingRecord(player.Name, team));
+                PlayerBatting.Add(player.Name, new BattingRecord(player.Name, team));
             }
         }
 

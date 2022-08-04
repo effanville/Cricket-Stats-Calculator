@@ -1,6 +1,5 @@
 ﻿using CricketStructures.Season;
 using Common.Structure.ReportWriting;
-using System.Text;
 using CricketStructures.Match;
 using CricketStructures.Player;
 
@@ -81,7 +80,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
             };
             FieldingStats = new CricketStatsCollection("Fielding Performances", fieldingStats, playerName);
             var stats = new[] {
-                CricketStatTypes.CareerBatting,
+                CricketStatTypes.BattingRecord,
                 CricketStatTypes.CareerBowling,
             };
             CareerStats = new CricketStatsCollection("Leading Career Records", stats);

@@ -132,8 +132,6 @@ namespace CricketStructures.Statistics
                     return new LowEconomyStat(playerName);
                 case CricketStatTypes.LowStrikeRate:
                     return new LowStrikeRateStat(playerName);
-                case CricketStatTypes.CareerBatting:
-                    return new CareerBattingRecord(playerName);
                 case CricketStatTypes.CareerBowling:
                     return new CareerBowlingRecord(playerName);
                 case CricketStatTypes.DetailedAllTimeCareerStatistics:

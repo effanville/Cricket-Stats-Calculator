@@ -65,6 +65,5 @@
         LowStrikeRate,
         CareerBowling,
         CareerFielding,
-        CareerBatting,
     }
 }

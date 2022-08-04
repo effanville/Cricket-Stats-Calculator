@@ -10,7 +10,7 @@ using CricketStructures.Statistics.Implementation.Player.Model;
 
 namespace CricketStructures.Statistics.Implementation.Player.Batting
 {
-    internal class BattingRecord : ICricketStat
+    public sealed class BattingRecord : ICricketStat
     {
         public PlayerName Name
         {
@@ -85,6 +85,12 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
         public BattingRecord(PlayerName name)
         {
             Name = name;
+        }
+
+        public BattingRecord(PlayerName name, ICricketTeam team)
+            : this(name)
+        {
+            CalculateStats(team, MatchHelpers.AllMatchTypes);
         }
 
         public void CalculateStats(ICricketTeam team, MatchType[] matchTypes)
