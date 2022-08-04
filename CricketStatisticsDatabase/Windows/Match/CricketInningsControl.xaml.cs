@@ -3,7 +3,10 @@ using System.Windows.Data;
 
 using CricketStatisticsDatabase.UIHelpers.Converters;
 
+using CricketStructures.Match.Innings;
 using CricketStructures.Player;
+
+using CSD.ViewModels.Match;
 
 namespace CSD.Windows.Match
 {
@@ -24,6 +27,15 @@ namespace CSD.Windows.Match
                 DataGridTextColumn dgtc = e.Column as DataGridTextColumn;
                 var con = new PlayerNameToStringConverter();
                 (dgtc.Binding as Binding).Converter = con;
+            }
+        }
+
+        private void DataGrid_AddingNewItem(object sender, AddingNewItemEventArgs e)
+        {
+            if (DataContext is CricketInningsViewModel vm)
+            {
+                int numberEntries = vm.Batting.Count;
+                e.NewItem = new BattingEntry() { Order = numberEntries + 1 };
             }
         }
     }

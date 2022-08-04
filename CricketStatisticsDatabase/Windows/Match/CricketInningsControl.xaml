@@ -51,6 +51,7 @@
                       CanUserDeleteRows="True"
                       AutoGenerateColumns="True"
                       AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
+                      AddingNewItem="DataGrid_AddingNewItem"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto" />
         </Border>
