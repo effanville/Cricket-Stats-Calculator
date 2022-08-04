@@ -163,11 +163,15 @@ namespace CricketStructures.Match
         {
             if (!string.IsNullOrEmpty(homeTeam))
             {
+                string oldHomeTeam = MatchData.HomeTeam;
                 MatchData.HomeTeam = homeTeam;
+                FirstInnings.UpdateTeamName(oldHomeTeam, homeTeam);
             }
             if (!string.IsNullOrEmpty(awayTeam))
             {
+                string oldAwayTeam = MatchData.AwayTeam;
                 MatchData.AwayTeam = awayTeam;
+                FirstInnings.UpdateTeamName(oldAwayTeam, awayTeam);
             }
             if (date.HasValue)
             {

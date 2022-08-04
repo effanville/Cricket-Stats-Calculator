@@ -60,6 +60,18 @@ namespace CricketStructures.Match.Innings
             FieldingTeam = fieldingTeam;
         }
 
+        public void UpdateTeamName(string oldName, string newName)
+        {
+            if (string.Equals(BattingTeam, oldName))
+            {
+                BattingTeam = newName;
+            }
+            if (string.Equals(FieldingTeam, oldName))
+            {
+                BattingTeam = newName;
+            }
+        }
+
         public BattingEntry GetBatting(string team, PlayerName player)
         {
             if (BattingTeam.Equals(team))
