@@ -9,21 +9,30 @@ using CricketStructures.Player;
 using CricketStructures.Season;
 using CricketStructures.Statistics.Implementation.Collection;
 
-namespace CricketStructures.Statistics.Implementation.Player.Bowling
+namespace CricketStructures.Statistics.Implementation.Player.Batting
 {
-    internal class SeasonOver30Wickets : ICricketStat
+    internal sealed class SeasonAverageRecord : ICricketStat
     {
+        private int MinimumAverage;
         private readonly PlayerName Name;
-        public List<SeasonWickets> SeasonWicketsOver30
+        public List<SeasonRuns> SeasonAverage
         {
             get;
-        } = new List<SeasonWickets>();
+            set;
+        } = new List<SeasonRuns>();
 
-        public SeasonOver30Wickets()
+
+        public SeasonAverageRecord()
         {
         }
 
-        public SeasonOver30Wickets(PlayerName name)
+        public SeasonAverageRecord(int minimumAverage)
+            : this()
+        {
+            MinimumAverage = minimumAverage;
+        }
+        public SeasonAverageRecord(int minimumAverage, PlayerName name)
+            : this(minimumAverage)
         {
             Name = name;
         }
@@ -39,16 +48,15 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
         {
             var playerNames = Name == null ? season.Players(teamName, matchTypes) : new List<PlayerName>() { Name };
             List<PlayerBriefStatistics> playerStats = playerNames.Select(name => new PlayerBriefStatistics(teamName, name, season, matchTypes)).ToList();
+            IEnumerable<PlayerBriefStatistics> goodAverage = playerStats.Where(player => player.Played.TotalGamesPlayed > 5 && player.BattingStats.Average > MinimumAverage);
+            SeasonAverage.AddRange(goodAverage.Select(element => new SeasonRuns(element.SeasonYear, element.Name, element.BattingStats.TotalInnings, element.BattingStats.TotalNotOut, element.BattingStats.TotalRuns, element.BattingStats.Average)));
 
-            IEnumerable<PlayerBriefStatistics> manyWickets = playerStats.Where(player => player.BowlingStats.TotalWickets >= 30);
-            SeasonWicketsOver30.AddRange(manyWickets.Select(lots => new SeasonWickets(lots.Name, lots.BowlingStats.TotalWickets, season.Year.Year, lots.BowlingStats.Average)));
-
-            SeasonWicketsOver30.Sort((a, b) => b.Wickets.CompareTo(a.Wickets));
+            SeasonAverage.Sort((a, b) => b.Average.CompareTo(a.Average));
         }
 
         public void ResetStats()
         {
-            SeasonWicketsOver30.Clear();
+            SeasonAverage.Clear();
         }
 
         public void UpdateStats(string teamName, ICricketMatch match)
@@ -58,10 +66,10 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
 
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            if (SeasonWicketsOver30.Any())
+            if (SeasonAverage.Any())
             {
-                _ = rb.WriteTitle("Over 30 Wickets in Season", headerElement)
-                    .WriteTable(SeasonWicketsOver30, headerFirstColumn: false);
+                _ = rb.WriteTitle($"Average over {MinimumAverage} in a season", headerElement)
+                    .WriteTable(SeasonAverage, headerFirstColumn: false);
             }
         }
     }

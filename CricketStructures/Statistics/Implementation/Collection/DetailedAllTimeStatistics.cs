@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -23,8 +22,15 @@ namespace CricketStructures.Statistics.Implementation.Collection
         /// <inheritdoc/>
         public IReadOnlyList<CricketStatTypes> StatisticTypes => Stats.StatisticTypes;
 
+        public string Header
+        {
+            get;
+            private set;
+        }
+
         internal DetailedAllTimeStatistics(ICricketTeam team, MatchType[] matchTypes)
         {
+            Header = $"Detailed Statistics for {team.TeamName}";
             var stats = new List<CricketStatTypes>()
             {
                 CricketStatTypes.TeamResultStats,

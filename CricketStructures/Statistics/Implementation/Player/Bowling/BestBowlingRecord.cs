@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Common.Structure.ReportWriting;
@@ -11,8 +12,9 @@ using CricketStructures.Statistics.Implementation.Player.Model;
 
 namespace CricketStructures.Statistics.Implementation.Player.Bowling
 {
-    internal class Over5Wickets : ICricketStat
+    internal sealed class BestBowlingRecord : ICricketStat
     {
+        private int MinimumNumberWickets;
         private readonly PlayerName Name;
         public List<BowlingPerformance> ManyWickets
         {
@@ -20,20 +22,41 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             set;
         } = new List<BowlingPerformance>();
 
-        public Over5Wickets()
+        public BestBowlingRecord()
         {
         }
 
-        public Over5Wickets(PlayerName name)
+        public BestBowlingRecord(int minimumNumberWickets)
+            : this()
+        {
+            MinimumNumberWickets = minimumNumberWickets;
+        }
+        public BestBowlingRecord(int minimumNumberWickets, PlayerName name)
+            : this(minimumNumberWickets)
         {
             Name = name;
         }
 
         public void CalculateStats(ICricketTeam team, MatchType[] matchTypes)
         {
-            CricketStatsHelpers.SeasonIterator(
+            // try to display many.
+            int minimumNumbertoDisplay = 10;
+            int numberEntries = 0;
+            int previousMinNumber = MinimumNumberWickets;
+            do
+            {
+                CricketStatsHelpers.SeasonIterator(
                 team.Seasons,
-                season => CalculateStats(team.TeamName, season, matchTypes));
+                season => CalculateStats(team.TeamName, season, matchTypes),
+                preCycleAction: ResetStats);
+                numberEntries = ManyWickets.Count;
+                if (numberEntries < minimumNumbertoDisplay)
+                {
+                    previousMinNumber = MinimumNumberWickets;
+                    MinimumNumberWickets = Math.Max(0, MinimumNumberWickets - 5);
+                }
+            }
+            while (numberEntries < minimumNumbertoDisplay && previousMinNumber != MinimumNumberWickets);
         }
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
@@ -60,7 +83,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             {
                 if (Name == null || bowlingEntry.Name.Equals(Name))
                 {
-                    if (bowlingEntry.Wickets >= 5)
+                    if (bowlingEntry.Wickets >= MinimumNumberWickets)
                     {
                         ManyWickets.Add(new BowlingPerformance(bowlingEntry, match.MatchData));
                     }
@@ -72,7 +95,8 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
         {
             if (ManyWickets.Any())
             {
-                _ = rb.WriteTitle("Five Wicket Hauls", headerElement)
+                string title = MinimumNumberWickets == 0 ? "All Bowling Performances" : $"Bowling performances over {MinimumNumberWickets} wickets";
+                _ = rb.WriteTitle(title, headerElement)
                     .WriteTable(ManyWickets, headerFirstColumn: false);
             }
         }

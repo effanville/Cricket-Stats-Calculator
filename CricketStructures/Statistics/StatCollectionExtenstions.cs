@@ -5,6 +5,7 @@
         public static bool IsPlayerStat(this StatCollection stat)
         {
             return stat == StatCollection.PlayerBrief
+                || stat == StatCollection.PlayerDetailed
                 || stat == StatCollection.PlayerSeason;
         }
 

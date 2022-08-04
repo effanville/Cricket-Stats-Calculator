@@ -16,6 +16,11 @@
         PlayerBrief,
 
         /// <summary>
+        /// A collection for a single player with a detailed output.
+        /// </summary>
+        PlayerDetailed,
+
+        /// <summary>
         /// A collection of statistics for a player over a season.
         /// </summary>
         PlayerSeason,

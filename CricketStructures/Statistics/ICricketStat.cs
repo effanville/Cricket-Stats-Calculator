@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using Common.Structure.ReportWriting;
+﻿using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
 using CricketStructures.Season;

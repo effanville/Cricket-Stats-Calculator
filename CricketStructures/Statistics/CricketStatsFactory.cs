@@ -52,15 +52,17 @@ namespace CricketStructures.Statistics
                 case CricketStatTypes.DetailedAllTimePlayerStatistics:
                     return new DetailedAllTimePlayerStatistics();
                 case CricketStatTypes.ClubCenturies:
-                    return new CenturyScores();
+                    return new HighScores(100);
                 case CricketStatTypes.ClubHighScoreRecord:
                     return new HighScoreRecord();
                 case CricketStatTypes.ClubCarryingOfBat:
                     return new CarryingOfBat();
+                case CricketStatTypes.ClubSeasonRunsOver300:
+                    return new SeasonRunsRecord(300);
                 case CricketStatTypes.ClubSeasonRunsOver500:
-                    return new SeasonRunsOver500();
+                    return new SeasonRunsRecord(500);
                 case CricketStatTypes.ClubSeasonAverageOver30:
-                    return new SeasonAverageOver30();
+                    return new SeasonAverageRecord(30);
                 case CricketStatTypes.ClubInningsDismissals:
                     return new SingleInningsDismissals();
                 case CricketStatTypes.ClubSeasonTwentyCatches:
@@ -68,9 +70,9 @@ namespace CricketStructures.Statistics
                 case CricketStatTypes.ClubSeasonTenStumpings:
                     return new TenStumpingsSeason();
                 case CricketStatTypes.ClubOver5Wickets:
-                    return new Over5Wickets();
+                    return new BestBowlingRecord();
                 case CricketStatTypes.ClubSeasonOver30Wickets:
-                    return new SeasonOver30Wickets();
+                    return new SeasonWicketsRecord();
                 case CricketStatTypes.ClubSeasonAverageUnder15:
                     return new SeasonAverageUnder15();
                 case CricketStatTypes.ClubNumber5For:
@@ -102,18 +104,28 @@ namespace CricketStructures.Statistics
                     return new PlayerFieldingStatistics(playerName);
                 case CricketStatTypes.PlayerAttendanceStats:
                     return new PlayerAttendanceStatistics(playerName);
+                case CricketStatTypes.SeasonAttendanceRecord:
+                    return new SeasonAttendanceRecord(playerName);
                 case CricketStatTypes.BattingRecord:
                     return new BattingRecord(playerName);
                 case CricketStatTypes.CenturyScores:
-                    return new CenturyScores(playerName);
+                    return new HighScores(100, playerName);
+                case CricketStatTypes.FiftyScores:
+                    return new HighScores(50, playerName);
+                case CricketStatTypes.ThirtyScores:
+                    return new HighScores(30, playerName);
                 case CricketStatTypes.HighScoreRecord:
                     return new HighScoreRecord(playerName);
                 case CricketStatTypes.CarryingOfBat:
                     return new CarryingOfBat(playerName);
+                case CricketStatTypes.SeasonBattingRecord:
+                    return new SeasonRunsRecord(0, playerName);
+                case CricketStatTypes.SeasonRunsOver300:
+                    return new SeasonRunsRecord(300, playerName);
                 case CricketStatTypes.SeasonRunsOver500:
-                    return new SeasonRunsOver500(playerName);
+                    return new SeasonRunsRecord(500, playerName);
                 case CricketStatTypes.SeasonAverageOver30:
-                    return new SeasonAverageOver30(playerName);
+                    return new SeasonAverageRecord(30, playerName);
                 case CricketStatTypes.InningsDismissals:
                     return new SingleInningsDismissals(playerName);
                 case CricketStatTypes.SeasonTwentyCatches:
@@ -121,9 +133,11 @@ namespace CricketStructures.Statistics
                 case CricketStatTypes.SeasonTenStumpings:
                     return new TenStumpingsSeason(playerName);
                 case CricketStatTypes.Over5Wickets:
-                    return new Over5Wickets(playerName);
+                    return new BestBowlingRecord(5, playerName);
+                case CricketStatTypes.SeasonBowlingRecord:
+                    return new SeasonWicketsRecord(0, playerName);
                 case CricketStatTypes.SeasonOver30Wickets:
-                    return new SeasonOver30Wickets(playerName);
+                    return new SeasonWicketsRecord(20, playerName);
                 case CricketStatTypes.SeasonAverageUnder15:
                     return new SeasonAverageUnder15(playerName);
                 case CricketStatTypes.Number5For:
@@ -132,6 +146,8 @@ namespace CricketStructures.Statistics
                     return new LowEconomyStat(playerName);
                 case CricketStatTypes.LowStrikeRate:
                     return new LowStrikeRateStat(playerName);
+                case CricketStatTypes.SeasonFieldingRecord:
+                    return new SeasonFieldingRecord(playerName);
                 case CricketStatTypes.CareerBowling:
                     return new CareerBowlingRecord(playerName);
                 case CricketStatTypes.DetailedAllTimeCareerStatistics:

@@ -1,10 +1,36 @@
 ﻿using CricketStructures.Player;
+using CricketStructures.Statistics.Implementation.Player;
+using CricketStructures.Statistics.Implementation.Player.Model;
 
 namespace CricketStructures.Season
 {
     public class SeasonWickets
     {
+        public int Year
+        {
+            get;
+            set;
+        }
+
         public PlayerName Name
+        {
+            get;
+            set;
+        }
+
+        public double Overs
+        {
+            get;
+            set;
+        }
+
+        public int Maidens
+        {
+            get;
+            set;
+        }
+
+        public int RunsConceded
         {
             get;
             set;
@@ -16,13 +42,24 @@ namespace CricketStructures.Season
             set;
         }
 
-        public int Year
+        public double Average
         {
             get;
             set;
         }
 
-        public double Average
+        public double Economy
+        {
+            get;
+            set;
+        }
+        public double StrikeRate
+        {
+            get;
+            set;
+        }
+
+        public BestBowling BestFigures
         {
             get;
             set;
@@ -32,12 +69,18 @@ namespace CricketStructures.Season
         {
         }
 
-        public SeasonWickets(PlayerName name, int wickets, int year, double average)
+        public SeasonWickets(int year, PlayerName name, PlayerBowlingStatistics stats)
         {
-            Name = name;
-            Wickets = wickets;
             Year = year;
-            Average = average;
+            Name = name;
+            Overs = stats.TotalOvers;
+            Maidens = stats.TotalMaidens;
+            RunsConceded = stats.TotalRunsConceded;
+            Wickets = stats.TotalWickets;
+            Average = stats.Average;
+            Economy = stats.Economy;
+            StrikeRate = stats.StrikeRate;
+            BestFigures = stats.BestFigures;
         }
     }
 }

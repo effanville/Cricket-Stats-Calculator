@@ -104,6 +104,9 @@ namespace CricketStructures.Statistics
                     return new TeamBriefStatistics(team, matchTypes);
                 case StatCollection.AllTimeDetailed:
                     return new DetailedAllTimeStatistics(team, matchTypes);
+                case StatCollection.PlayerDetailed:
+                    return new IndividualPlayerStatistics(team, playerName, matchTypes);
+                case StatCollection.Custom:
                 default:
                     return null;
             }

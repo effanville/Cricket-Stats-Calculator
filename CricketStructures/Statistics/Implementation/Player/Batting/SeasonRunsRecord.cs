@@ -11,8 +11,9 @@ using CricketStructures.Statistics.Implementation.Collection;
 
 namespace CricketStructures.Statistics.Implementation.Player.Batting
 {
-    internal sealed class SeasonRunsOver500 : ICricketStat
+    internal sealed class SeasonRunsRecord : ICricketStat
     {
+        private readonly int MinimumNumber;
         private readonly PlayerName Name;
         public List<SeasonRuns> SeasonRuns
         {
@@ -20,19 +21,26 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             set;
         } = new List<SeasonRuns>();
 
-        public SeasonRunsOver500()
+        private SeasonRunsRecord()
         {
         }
-
-        public SeasonRunsOver500(PlayerName name)
+        public SeasonRunsRecord(int minimumNumber)
+            : this()
+        {
+            MinimumNumber = minimumNumber;
+        }
+        public SeasonRunsRecord(int minimumNumber, PlayerName name)
+            : this(minimumNumber)
         {
             Name = name;
         }
+
         public void CalculateStats(ICricketTeam team, MatchType[] matchTypes)
         {
             CricketStatsHelpers.SeasonIterator(
                 team.Seasons,
-                season => CalculateStats(team.TeamName, season, matchTypes));
+                season => CalculateStats(team.TeamName, season, matchTypes),
+                preCycleAction: ResetStats);
         }
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
@@ -40,10 +48,17 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             var playerNames = Name == null ? season.Players(teamName, matchTypes) : new List<PlayerName>() { Name };
             List<PlayerBriefStatistics> playerStats = playerNames.Select(name => new PlayerBriefStatistics(teamName, name, season, matchTypes)).ToList();
 
-            IEnumerable<PlayerBriefStatistics> manyRuns = playerStats.Where(player => player.BattingStats.TotalRuns > 500);
+            IEnumerable<PlayerBriefStatistics> manyRuns = playerStats.Where(player => player.BattingStats.TotalRuns > MinimumNumber);
             SeasonRuns.AddRange(manyRuns.Select(element => new SeasonRuns(element.SeasonYear, element.Name, element.BattingStats.TotalInnings, element.BattingStats.TotalNotOut, element.BattingStats.TotalRuns, element.BattingStats.Average)));
 
-            SeasonRuns.Sort((a, b) => b.Runs.CompareTo(a.Runs));
+            if (MinimumNumber == 0)
+            {
+                SeasonRuns.Sort((a, b) => a.Year.CompareTo(b.Year));
+            }
+            else
+            {
+                SeasonRuns.Sort((a, b) => b.Runs.CompareTo(a.Runs));
+            }
         }
 
         public void ResetStats()
@@ -60,8 +75,20 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
         {
             if (SeasonRuns.Any())
             {
-                _ = rb.WriteTitle("Over 500 runs in a season", headerElement)
-                    .WriteTable(SeasonRuns, headerFirstColumn: false);
+                string title = MinimumNumber == 0 ? "Yearly Batting Record" : $"Over {MinimumNumber} runs in a season";
+                string[] headers = new string[] { "Year", "Innings", "Not Out", "Runs", "Average" };
+                var values = SeasonRuns
+                    .Select(value =>
+                        new string[]
+                        {
+                            value.Year.Year.ToString(),
+                            value.Innings.ToString(),
+                            value.NotOut.ToString(),
+                            value.Runs.ToString(),
+                            value.Average.ToString()
+                        });
+                _ = rb.WriteTitle(title, headerElement)
+                    .WriteTableFromEnumerable(headers, values, headerFirstColumn: false);
             }
         }
     }

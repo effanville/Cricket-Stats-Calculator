@@ -19,7 +19,9 @@ namespace CricketStructures.Statistics
             try
             {
                 ReportBuilder rb = new ReportBuilder(exportType, new ReportSettings() { UseColours = true });
+                _ = rb.WriteHeader(collection.Header);
                 collection.ExportStats(rb, DocumentElement.h1);
+                _ = rb.WriteFooter();
 
                 using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
                 using (StreamWriter fileWriter = new StreamWriter(stream))

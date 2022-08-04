@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Common.Structure.ReportWriting;
@@ -11,29 +12,53 @@ using CricketStructures.Statistics.Implementation.Player.Model;
 
 namespace CricketStructures.Statistics.Implementation.Player.Batting
 {
-    internal sealed class CenturyScores : ICricketStat
+    internal class HighScores : ICricketStat
     {
+        private int MinimumScoreValue;
         private readonly PlayerName Name;
+
         public List<PlayerScore> Centuries
         {
             get;
             set;
         } = new List<PlayerScore>();
 
-        public CenturyScores()
+        public HighScores()
         {
         }
 
-        public CenturyScores(PlayerName name)
+        public HighScores(int minimumScoreValue)
+            : this()
+        {
+            MinimumScoreValue = minimumScoreValue;
+        }
+
+        public HighScores(int minimumScoreValue, PlayerName name)
+            : this(minimumScoreValue)
         {
             Name = name;
         }
 
         public void CalculateStats(ICricketTeam team, MatchType[] matchTypes)
         {
-            CricketStatsHelpers.SeasonIterator(
+            // try to display many scores.
+            int minimumNumbertoDisplay = 10;
+            int numberEntries = 0;
+            int previousMinNumber = MinimumScoreValue;
+            do
+            {
+                CricketStatsHelpers.SeasonIterator(
                 team.Seasons,
-                season => CalculateStats(team.TeamName, season, matchTypes));
+                season => CalculateStats(team.TeamName, season, matchTypes),
+                preCycleAction: ResetStats);
+                numberEntries = Centuries.Count;
+                if (numberEntries < minimumNumbertoDisplay)
+                {
+                    previousMinNumber = MinimumScoreValue;
+                    MinimumScoreValue = Math.Max(0, MinimumScoreValue - 5);
+                }
+            }
+            while (numberEntries < minimumNumbertoDisplay && previousMinNumber != MinimumScoreValue);
         }
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
@@ -60,11 +85,11 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             }
             foreach (BattingEntry battingEntry in battingInnings)
             {
-                if (battingEntry.RunsScored >= 100)
+                if (battingEntry.RunsScored >= MinimumScoreValue && battingEntry.MethodOut != Wicket.DidNotBat)
                 {
                     if (Name == null || battingEntry.Name.Equals(Name))
                     {
-                        Centuries.Add(new PlayerScore(teamName, battingEntry, match.MatchData));
+                        Centuries.Add(new PlayerScore(teamName, battingEntry, match.MatchData, innings.Score()));
                     }
                 }
             }
@@ -74,7 +99,8 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
         {
             if (Centuries.Any())
             {
-                _ = rb.WriteTitle("Centuries", headerElement)
+                string title = MinimumScoreValue == 0 ? "All Scores" : $"Scores over {MinimumScoreValue}";
+                _ = rb.WriteTitle(title, headerElement)
                     .WriteTable(Centuries, headerFirstColumn: false);
             }
         }

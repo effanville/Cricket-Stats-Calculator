@@ -59,7 +59,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Model
         {
         }
 
-        public PlayerScore(string teamName, BattingEntry battingEntry, MatchInfo matchData)
+        public PlayerScore(string teamName, BattingEntry battingEntry, MatchInfo matchData, InningsScore score)
         {
             Name = battingEntry.Name;
             Date = matchData.Date;
@@ -68,6 +68,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Model
             GameType = matchData.Type;
             Opposition = matchData.OppositionName(teamName);
             Location = matchData.Location;
+            TeamTotalScore = score;
         }
     }
 }

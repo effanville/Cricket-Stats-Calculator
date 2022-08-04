@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Common.Structure.ReportWriting;
 
@@ -18,7 +17,11 @@ namespace CricketStructures.Statistics.Implementation.Collection
         /// <summary>
         /// The header as an overall description of the statistics.
         /// </summary>
-        private readonly string Header;
+        public string Header
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// The statistics contained in this collection.
@@ -141,16 +144,14 @@ namespace CricketStructures.Statistics.Implementation.Collection
         /// <inheritdoc/>
         public void ExportStats(ReportBuilder reportBuilder, DocumentElement headerElement)
         {
-            _ = reportBuilder.WriteHeader(Header);
+            _ = reportBuilder.WriteTitle(Header, headerElement);
 
             var statsTypes = Statistics.Keys;
             foreach (CricketStatTypes statName in statsTypes)
             {
                 var stats = Statistics[statName];
-                stats.ExportStats(reportBuilder, headerElement);
+                stats.ExportStats(reportBuilder, headerElement.GetNext());
             }
-
-            _ = reportBuilder.WriteFooter();
         }
     }
 }

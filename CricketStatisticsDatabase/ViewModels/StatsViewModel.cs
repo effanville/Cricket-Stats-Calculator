@@ -109,7 +109,7 @@ namespace CSD.ViewModels
             MatchTypeNames = new List<Selectable<MatchType>>();
             foreach (var name in MatchHelpers.AllMatchTypes)
             {
-                MatchTypeNames.Add(new Selectable<MatchType>(name, false));
+                MatchTypeNames.Add(new Selectable<MatchType>(name, true));
             }
 
             ExportStatsCommand = new RelayCommand(ExecuteExportStatsCommand);
@@ -152,7 +152,7 @@ namespace CSD.ViewModels
                 string extension = fUiGlobals.CurrentFileSystem.Path.GetExtension(gotFile.FilePath).Trim('.');
                 string location = fUiGlobals.CurrentFileSystem.Path.GetDirectoryName(gotFile.FilePath);
                 var matchTypes = MatchTypeNames.Where(n => n.Selected).Select(name => name.Instance).ToArray();
-                IReadOnlyList<PlayerName> players = SelectedStatsType == StatCollection.PlayerBrief
+                IReadOnlyList<PlayerName> players = SelectedStatsType == StatCollection.PlayerBrief || SelectedStatsType == StatCollection.PlayerDetailed
                     ? DataStore.Players().Select(player => player.Name).ToList()
                     : SelectedStatsType == StatCollection.PlayerSeason
                         ? SelectedSeason.Players(DataStore.TeamName, matchTypes)
@@ -161,7 +161,7 @@ namespace CSD.ViewModels
                 DocumentType type = DocumentType.Html;
                 foreach (var playerName in players)
                 {
-                    string filePath = $"{location}\\{playerName}.{type}";
+                    string filePath = SelectedStatsType.IsSeasonStat() ? $"{location}\\{playerName}-{SelectedSeason.Year.Year}.{type}" : $"{location}\\{playerName}-{SelectedSeason.Year.Year}.{type}";
                     var allTimeStats = StatsCollectionBuilder.StandardStat(
                         SelectedStatsType,
                         matchTypes,
@@ -170,9 +170,7 @@ namespace CSD.ViewModels
                         season: SelectedSeason,
                         playerName: playerName);
                     allTimeStats.ExportStats(fUiGlobals.CurrentFileSystem, filePath, type);
-
                 }
-
             }
         }
 

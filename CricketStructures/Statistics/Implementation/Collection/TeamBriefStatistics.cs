@@ -18,6 +18,12 @@ namespace CricketStructures.Statistics.Implementation.Collection
     /// </summary>
     public sealed class TeamBriefStatistics : IStatCollection
     {
+        public string Header
+        {
+            get;
+            private set;
+        }
+
         public DateTime? SeasonYear
         {
             get;
@@ -60,6 +66,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
 
         internal TeamBriefStatistics(ICricketTeam team, Match.MatchType[] matchTypes)
         {
+            Header = $"Brief Statistics for {team.TeamName}";
             CalculatePlayerStats(team, matchTypes);
             Partnerships = CricketStatsFactory.Generate(CricketStatTypes.TeamPartnershipStats, team, matchTypes);
             TeamRecord = CricketStatsFactory.Generate(CricketStatTypes.TeamRecord, team, matchTypes);
@@ -67,6 +74,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
 
         internal TeamBriefStatistics(string teamName, ICricketSeason season, Match.MatchType[] matchTypes)
         {
+            Header = $"Brief Statistics for {teamName} for the year {season.Year.Year}";
             SeasonYear = season.Year;
             CalculatePlayerStats(teamName, season, matchTypes);
             Partnerships = CricketStatsFactory.Generate(CricketStatTypes.TeamPartnershipStats, teamName, season, matchTypes);
@@ -99,7 +107,6 @@ namespace CricketStructures.Statistics.Implementation.Collection
         /// <inheritdoc/>
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            _ = rb.WriteHeader("Statistics for team");
             var innerHeaderElement = headerElement.GetNext();
             if (!SeasonYear.HasValue)
             {
@@ -112,10 +119,10 @@ namespace CricketStructures.Statistics.Implementation.Collection
 
             TeamRecord.ExportStats(rb, innerHeaderElement);
 
-            (BestBatting Best, PlayerName Name) bestBatting = SeasonPlayerStats.Select(player => (player.BattingStats.Best, player.Name)).Max();
+            (BestBatting Best, PlayerName Name) bestBatting = SeasonPlayerStats?.Select(player => (player.BattingStats.Best, player.Name))?.Max() ?? (null, null);
             _ = rb.WriteParagraph(new string[] { "Best Batting:", bestBatting.Name.ToString(), bestBatting.Best.ToString() });
 
-            (BestBowling BestFigures, PlayerName Name) = SeasonPlayerStats.Select(player => (player.BowlingStats.BestFigures, player.Name)).Max();
+            (BestBowling BestFigures, PlayerName Name) = SeasonPlayerStats.Select(player => (player.BowlingStats.BestFigures, player.Name))?.Max() ?? (null, null);
             _ = rb.WriteParagraph(new string[] { "Best Bowling:", Name.ToString(), BestFigures.ToString() });
 
             List<PlayerFieldingStatistics> fielding = SeasonPlayerStats.Select(player => player.FieldingStats).ToList();
@@ -147,8 +154,6 @@ namespace CricketStructures.Statistics.Implementation.Collection
             _ = fielding.RemoveAll(field => field.TotalDismissals.Equals(0));
             fielding.Sort((x, y) => y.TotalDismissals.CompareTo(x.TotalDismissals));
             _ = rb.WriteTable(fielding, headerFirstColumn: false);
-
-            _ = rb.WriteFooter();
         }
     }
 }

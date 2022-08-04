@@ -19,6 +19,12 @@ namespace CricketStructures.Statistics.Implementation.Collection
             set;
         }
 
+        public string Header
+        {
+            get;
+            private set;
+        }
+
         public string SeasonName
         {
             get;
@@ -52,6 +58,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
 
         internal PlayerBriefStatistics(string teamName, PlayerName name, ICricketSeason season, Match.MatchType[] matchTypes)
         {
+            Header = $"Brief statistics for {name} for the season {season.Year.Year}";
             Name = name;
             SeasonName = season.Name;
             SeasonYear = season.Year;
@@ -68,9 +75,10 @@ namespace CricketStructures.Statistics.Implementation.Collection
 
         internal PlayerBriefStatistics(PlayerName name, ICricketTeam team, Match.MatchType[] matchTypes)
         {
+            Header = $"Brief statistics for {name}.";
             Name = name;
             var stats = new[]
-{
+            {
                 CricketStatTypes.PlayerAttendanceStats,
                 CricketStatTypes.PlayerBattingStats,
                 CricketStatTypes.PlayerPartnershipStats,
@@ -84,8 +92,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
             var innerHeaderElement = headerElement.GetNext();
-            _ = rb.WriteHeader($"Statistics for Player {Name}")
-                .WriteTitle($"Brief Statistics for player {Name}", headerElement)
+            _ = rb.WriteTitle($"Brief Statistics for player {Name}", headerElement)
                 .WriteTitle("Player Overall", innerHeaderElement);
 
             var played = Stats[CricketStatTypes.PlayerAttendanceStats] as PlayerAttendanceStatistics;
@@ -106,8 +113,6 @@ namespace CricketStructures.Statistics.Implementation.Collection
             }
 
             Stats.ExportStats(rb, innerHeaderElement);
-
-            _ = rb.WriteFooter();
         }
     }
 }

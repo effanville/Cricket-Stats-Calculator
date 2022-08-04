@@ -41,7 +41,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             List<PlayerBriefStatistics> playerStats = playerNames.Select(name => new PlayerBriefStatistics(teamName, name, season, matchTypes)).ToList();
 
             IEnumerable<PlayerBriefStatistics> lowAverage = playerStats.Where(player => player.BowlingStats.TotalWickets > 15 && player.BowlingStats.Average < 15);
-            SeasonAvUnder15.AddRange(lowAverage.Select(lots => new SeasonWickets(lots.Name, lots.BowlingStats.TotalWickets, season.Year.Year, lots.BowlingStats.Average)));
+            SeasonAvUnder15.AddRange(lowAverage.Select(lots => new SeasonWickets(season.Year.Year, lots.Name, lots.BowlingStats)));
 
             SeasonAvUnder15.Sort((a, b) => b.Wickets.CompareTo(a.Wickets));
         }

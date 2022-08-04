@@ -19,6 +19,14 @@ namespace CricketStructures.Statistics
         where T : class
     {
         /// <summary>
+        /// The header title for the stats collection.
+        /// </summary>
+        string Header
+        {
+            get;
+        }
+
+        /// <summary>
         /// Retrieve all statistics held in this collection.
         /// </summary>
         IReadOnlyList<S> StatisticTypes
