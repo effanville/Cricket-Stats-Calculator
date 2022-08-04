@@ -16,6 +16,13 @@ namespace CSD.ViewModels.Match
         private List<BowlingEntry> fBowling;
         private Extras fInningsExtras;
 
+        private List<string> fTeamNames = new List<string>();
+        public List<string> TeamNames
+        {
+            get => fTeamNames;
+            set => SetAndNotify(ref fTeamNames, value, nameof(TeamNames));
+        }
+
         public string BattingTeam
         {
             get => fBattingTeam;
@@ -90,9 +97,10 @@ namespace CSD.ViewModels.Match
             }
         }
 
-        public CricketInningsViewModel(CricketInnings database, Action<CricketInnings> updateInningsAction)
+        public CricketInningsViewModel(string homeTeam, string awayTeam, CricketInnings database, Action<CricketInnings> updateInningsAction)
             : base("Cricket Innings", database)
         {
+            TeamNames = new List<string>(2) { homeTeam, awayTeam };
             fUpdateInningsAction = updateInningsAction;
             UpdateData(database);
         }

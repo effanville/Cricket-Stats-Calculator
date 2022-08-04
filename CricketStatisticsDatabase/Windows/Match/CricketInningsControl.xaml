@@ -4,6 +4,7 @@
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:match="clr-namespace:CSD.ViewModels.Match"
+                xmlns:controls="clr-namespace:System.Windows.Controls;assembly=DotNetProjects.Input.Toolkit"
                 d:DataContext="{d:DesignInstance Type=match:CricketInningsViewModel}"
                 mc:Ignorable="d"
                 d:DesignHeight="450"
@@ -28,13 +29,17 @@
                                       MinWidth="100" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Batting Team:"
-                           Grid.Column="0" />
-                <TextBox Text="{Binding BattingTeam, Mode=TwoWay}"
-                         Grid.Column="1" />
+                           Grid.Column="0"/>
+                <controls:AutoCompleteBox Grid.Column="1"
+                                          Text="{Binding BattingTeam, Mode=TwoWay}"
+                                          ItemsSource="{Binding TeamNames, Mode=OneWay}" 
+                                          MinimumPrefixLength="0"/>
                 <TextBlock Text="Fielding Team:"
-                           Grid.Column="2" />
-                <TextBox Text="{Binding FieldingTeam, Mode=TwoWay}"
-                         Grid.Column="3" />
+                           Grid.Column="2"/>
+                <controls:AutoCompleteBox Grid.Column="3"
+                                          Text="{Binding FieldingTeam, Mode=TwoWay}"
+                                          ItemsSource="{Binding TeamNames, Mode=OneWay}"
+                                          MinimumPrefixLength="0" />
             </Grid>
         </Border>
         <Border BorderThickness="2"

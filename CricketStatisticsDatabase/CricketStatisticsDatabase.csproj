@@ -32,6 +32,10 @@
 		<None Include="..\.editorconfig" Link=".editorconfig" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="DotNetProjects.WpfToolkit.Input" Version="6.1.94" />
+	</ItemGroup>
+
   <ItemGroup>
 	  <ProjectReference Include="..\Common\Common.Structure\Common.Structure.csproj" />
 	  <ProjectReference Include="..\Common\Common.UI\Common.UI.csproj" />

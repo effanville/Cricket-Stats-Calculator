@@ -21,12 +21,12 @@ namespace CSD.ViewModels.Dialogs
             set => SetAndNotify(ref fInnings, value, nameof(Innings));
         }
 
-        public EditInningsDialogViewModel(Action<CricketInnings> updateInnings, CricketInnings innings)
+        public EditInningsDialogViewModel(Action<CricketInnings> updateInnings, string homeTeam, string awayTeam, CricketInnings innings)
             : base("Batting Innings Edit")
         {
             fCricketInnings = innings;
             UpdateInnings = updateInnings;
-            Innings = new CricketInningsViewModel(innings, UpdateCricketInnings);
+            Innings = new CricketInningsViewModel(homeTeam, awayTeam, innings, UpdateCricketInnings);
             SubmitCommand = new RelayCommand<ICloseable>(ExecuteSubmitCommand);
             MoveUpCommand = new RelayCommand(ExecuteMoveUp);
             MoveDownCommand = new RelayCommand(ExecuteMoveDown);

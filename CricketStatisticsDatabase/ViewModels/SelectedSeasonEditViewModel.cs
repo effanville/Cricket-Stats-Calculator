@@ -102,7 +102,7 @@ namespace CSD.ViewModels
                             .GetMatch(SelectedMatch.MatchData.Date, SelectedMatch.MatchData.HomeTeam, SelectedMatch.MatchData.AwayTeam)
                             .SetInnings(innings, !isSecondInnings));
                 };
-                fDialogService.DisplayCustomDialog(new EditInningsDialogViewModel(updateBatting, innings));
+                fDialogService.DisplayCustomDialog(new EditInningsDialogViewModel(updateBatting, SelectedMatch.MatchData.HomeTeam, SelectedMatch.MatchData.AwayTeam, innings));
             }
         }
 
