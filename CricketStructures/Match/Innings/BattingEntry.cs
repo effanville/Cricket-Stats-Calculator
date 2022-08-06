@@ -3,21 +3,22 @@ using System.Linq;
 using CricketStructures.Player;
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
+using System;
 
 namespace CricketStructures.Match.Innings
 {
     /// <summary>
     /// Represents an entry on the batting part of a cricket scorecard.
     /// </summary>
-    public class BattingEntry : IValidity
+    public class BattingEntry : IValidity, IXmlSerializable
     {
         /// <summary>
         /// At what point in the innings did this batsman bat.
         /// This is the number the batsman went into bat.
         /// </summary>
-
-        [XmlAttribute(AttributeName = "O")]
         public int Order
         {
             get;
@@ -223,6 +224,125 @@ namespace CricketStructures.Match.Innings
             }
 
             return results;
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXmlOld(XmlReader reader)
+        {
+            string order = reader.GetAttribute("O");
+
+            reader.ReadStartElement("BattingEntry");
+
+            string forename = reader.GetAttribute("F");
+            string surname = reader.GetAttribute("S");
+            reader.ReadStartElement("Name");
+
+            reader.ReadStartElement("MethodOut");
+            string methodOut = reader.ReadContentAsString();
+            reader.ReadEndElement();
+
+            string fielderforename = reader.GetAttribute("F");
+            string fieldersurname = reader.GetAttribute("S");
+            try
+            {
+
+                reader.ReadStartElement("Fielder");
+            }
+            catch (Exception)
+            {
+            }
+
+            reader.ReadStartElement("WasKeeper");
+            string wasKeeper = reader.ReadContentAsString();
+            reader.ReadEndElement();
+
+            string bowlerforename = reader.GetAttribute("F");
+            string bowlersurname = reader.GetAttribute("S");
+            try
+            {
+
+                reader.ReadStartElement("Bowler");
+            }
+            catch (System.Exception)
+            {
+            }
+            reader.ReadStartElement("RunsScored");
+            string runs = reader.ReadContentAsString();
+            reader.ReadEndElement();
+
+            reader.ReadStartElement("WicketFellAt");
+            string wicket = reader.ReadContentAsString();
+            reader.ReadEndElement();
+
+            reader.ReadStartElement("TeamScoreAtWicket");
+            string teamScore = reader.ReadContentAsString();
+            reader.ReadEndElement();
+
+            Order = int.Parse(order);
+            Name = new PlayerName(surname, forename);
+
+            MethodOut = (Wicket)Wicket.Parse(typeof(Wicket), methodOut);
+
+            Fielder = new PlayerName(fieldersurname, fielderforename);
+
+            WasKeeper = bool.Parse(wasKeeper);
+
+            Bowler = new PlayerName(bowlersurname, bowlerforename);
+            RunsScored = int.Parse(runs);
+            WicketFellAt = int.Parse(wicket);
+            TeamScoreAtWicket = int.Parse(teamScore);
+
+            reader.ReadEndElement();
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            _ = reader.MoveToContent();
+            string order = reader.GetAttribute("O");
+            string name = reader.GetAttribute("N");
+            string howOut = reader.GetAttribute("HO");
+            string fielder = reader.GetAttribute("F");
+            string wasKeeper = reader.GetAttribute("K");
+            string bowler = reader.GetAttribute("B");
+            string runs = reader.GetAttribute("R");
+            string wicket = reader.GetAttribute("W");
+            string teamScore = reader.GetAttribute("TS");
+
+            try
+            {
+                Order = int.Parse(order);
+                Name = PlayerName.FromString(name);
+                MethodOut = (Wicket)Wicket.Parse(typeof(Wicket), howOut);
+                Fielder = PlayerName.FromString(fielder);
+                WasKeeper = bool.Parse(wasKeeper);
+                Bowler = PlayerName.FromString(bowler);
+                RunsScored = int.Parse(runs);
+                WicketFellAt = int.Parse(wicket);
+                TeamScoreAtWicket = int.Parse(teamScore);
+            }
+            catch (Exception)
+            {
+            }
+
+            _ = reader.MoveToElement();
+            reader.ReadStartElement();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteAttributeString("O", Order.ToString());
+            writer.WriteAttributeString("N", Name.ToString());
+            writer.WriteAttributeString("HO", MethodOut.ToString());
+            writer.WriteAttributeString("F", Fielder?.ToString() ?? " ");
+            writer.WriteAttributeString("K", WasKeeper.ToString());
+            writer.WriteAttributeString("B", Bowler?.ToString() ?? " ");
+            writer.WriteAttributeString("R", RunsScored.ToString());
+            writer.WriteAttributeString("W", WicketFellAt.ToString());
+            writer.WriteAttributeString("TS", TeamScoreAtWicket.ToString());
         }
     }
 }

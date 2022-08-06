@@ -8,27 +8,15 @@ namespace CricketStructures.Player
         [XmlAttribute(AttributeName = "F")]
         public string Forename
         {
-            get
-            {
-                return SecondaryName;
-            }
-            set
-            {
-                SecondaryName = value;
-            }
+            get => SecondaryName;
+            set => SecondaryName = value;
         }
 
         [XmlAttribute(AttributeName = "S")]
         public string Surname
         {
-            get
-            {
-                return PrimaryName;
-            }
-            set
-            {
-                PrimaryName = value;
-            }
+            get => PrimaryName;
+            set => PrimaryName = value;
         }
 
         public PlayerName(string surname, string forename)
@@ -46,11 +34,26 @@ namespace CricketStructures.Player
         {
         }
 
-        public override string ToString()
+        private static readonly string StringSeparator = " ";
+        public static PlayerName FromString(string playerNameAsString)
         {
-            return Forename + " " + Surname;
+            string[] splitted = playerNameAsString.Split(StringSeparator);
+            if (splitted.Length == 2)
+            {
+                return new PlayerName(splitted[1], splitted[0]);
+            }
+            if (splitted.Length == 1)
+            {
+                return new PlayerName(splitted[0], "");
+            }
+
+            return new PlayerName();
         }
 
+        public override string ToString()
+        {
+            return $"{Forename}{StringSeparator}{Surname}";
+        }
 
         public new PlayerName Copy()
         {

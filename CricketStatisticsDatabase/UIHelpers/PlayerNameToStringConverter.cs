@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+
 using CricketStructures.Player;
 
 namespace CricketStatisticsDatabase.UIHelpers.Converters
@@ -21,17 +22,7 @@ namespace CricketStatisticsDatabase.UIHelpers.Converters
         {
             if (value != null)
             {
-                string[] splitted = value.ToString().Split(' ');
-                if (splitted.Length == 2)
-                {
-                    return new PlayerName(splitted[1], splitted[0]);
-                }
-                if (splitted.Length == 1)
-                {
-                    return new PlayerName(splitted[0], "");
-                }
-
-                return new PlayerName();
+                return PlayerName.FromString(value.ToString());
             }
 
             return value;

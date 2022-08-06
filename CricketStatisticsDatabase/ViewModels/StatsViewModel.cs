@@ -161,7 +161,7 @@ namespace CSD.ViewModels
                 DocumentType type = DocumentType.Html;
                 foreach (var playerName in players)
                 {
-                    string filePath = SelectedStatsType.IsSeasonStat() ? $"{location}\\{playerName}-{SelectedSeason.Year.Year}.{type}" : $"{location}\\{playerName}-{SelectedSeason.Year.Year}.{type}";
+                    string filePath = SelectedStatsType.IsSeasonStat() ? $"{location}\\{playerName}-{SelectedSeason.Year.Year}.{type}" : $"{location}\\{playerName}.{type}";
                     var allTimeStats = StatsCollectionBuilder.StandardStat(
                         SelectedStatsType,
                         matchTypes,
