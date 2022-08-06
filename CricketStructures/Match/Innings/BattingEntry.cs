@@ -138,7 +138,7 @@ namespace CricketStructures.Match.Innings
         /// </summary>
         public bool Out()
         {
-            return !(MethodOut == Wicket.NotOut || MethodOut == Wicket.DidNotBat);
+            return MethodOut.IsOut();
         }
 
         /// <summary>
@@ -156,24 +156,12 @@ namespace CricketStructures.Match.Innings
         {
             List<ValidationResult> results = Name.Validation();
             results.AddIfNotNull(Validating.NotNegative(RunsScored, nameof(RunsScored), ToString()));
-            if (MethodOut == Wicket.DidNotBat)
+            if (MethodOut.DidNotBat())
             {
-                if (!PlayerName.IsNullOrEmpty(Bowler))
-                {
-                    ValidationResult bowlerShouldntBeSet = new ValidationResult(false, nameof(Bowler), ToString());
-                    bowlerShouldntBeSet.AddMessage($"{nameof(Bowler)} cannot be set with DidnotBat.");
-                    results.Add(bowlerShouldntBeSet);
-                }
-                if (!PlayerName.IsNullOrEmpty(Fielder))
-                {
-                    ValidationResult fielderShouldntBeSet = new ValidationResult(false, nameof(Fielder), ToString());
-                    fielderShouldntBeSet.AddMessage($"{nameof(Fielder)} cannot be set with DidnotBat.");
-                    results.Add(fielderShouldntBeSet);
-                }
                 results.AddIfNotNull(Validating.NotEqualTo(RunsScored, 0, nameof(RunsScored), ToString()));
             }
 
-            if (MethodOut == Wicket.Bowled || MethodOut == Wicket.LBW || MethodOut == Wicket.Caught || MethodOut == Wicket.HitWicket || MethodOut == Wicket.Stumped)
+            if (MethodOut.IsBowlerWicket())
             {
                 if (PlayerName.IsNullOrEmpty(Bowler))
                 {
@@ -182,28 +170,7 @@ namespace CricketStructures.Match.Innings
                     results.Add(bowlerShouldBeSet);
                 }
             }
-
-            if (MethodOut == Wicket.Caught || MethodOut == Wicket.RunOut || MethodOut == Wicket.Stumped)
-            {
-                if (PlayerName.IsNullOrEmpty(Fielder))
-                {
-                    ValidationResult bowlerShouldBeSet = new ValidationResult(false, nameof(Fielder), ToString());
-                    bowlerShouldBeSet.AddMessage($"{nameof(Fielder)} should be set with {MethodOut}.");
-                    results.Add(bowlerShouldBeSet);
-                }
-            }
-
-            if (MethodOut == Wicket.Stumped)
-            {
-                if (!WasKeeper)
-                {
-                    ValidationResult shouldBeKeeper = new ValidationResult(false, nameof(WasKeeper), ToString());
-                    shouldBeKeeper.AddMessage($"{nameof(WasKeeper)} should be true with {MethodOut}.");
-                    results.Add(shouldBeKeeper);
-                }
-            }
-
-            if (MethodOut == Wicket.RunOut || MethodOut == Wicket.NotOut)
+            else
             {
                 if (!PlayerName.IsNullOrEmpty(Bowler))
                 {
@@ -213,13 +180,32 @@ namespace CricketStructures.Match.Innings
                 }
             }
 
-            if (MethodOut == Wicket.Bowled || MethodOut == Wicket.NotOut || MethodOut == Wicket.HitWicket || MethodOut == Wicket.LBW)
+            if (MethodOut.IsFielderWicket())
+            {
+                if (PlayerName.IsNullOrEmpty(Fielder))
+                {
+                    ValidationResult bowlerShouldBeSet = new ValidationResult(false, nameof(Fielder), ToString());
+                    bowlerShouldBeSet.AddMessage($"{nameof(Fielder)} should be set with {MethodOut}.");
+                    results.Add(bowlerShouldBeSet);
+                }
+            }
+            else
             {
                 if (!PlayerName.IsNullOrEmpty(Fielder))
                 {
                     ValidationResult fielderShouldntBeSet = new ValidationResult(false, nameof(Fielder), ToString());
                     fielderShouldntBeSet.AddMessage($"{nameof(Fielder)} should not be set with {MethodOut}.");
                     results.Add(fielderShouldntBeSet);
+                }
+            }
+
+            if (MethodOut.MustBeKeeper())
+            {
+                if (!WasKeeper)
+                {
+                    ValidationResult shouldBeKeeper = new ValidationResult(false, nameof(WasKeeper), ToString());
+                    shouldBeKeeper.AddMessage($"{nameof(WasKeeper)} should be true with {MethodOut}.");
+                    results.Add(shouldBeKeeper);
                 }
             }
 

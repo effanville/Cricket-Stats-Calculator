@@ -45,7 +45,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Career
                 var playerRuns = ClubBattingAverage.FirstOrDefault(run => run.Name.Equals(batting.Name));
                 if (playerRuns != null)
                 {
-                    if (batting.MethodOut != Wicket.DidNotBat)
+                    if (batting.MethodOut.DidBat())
                     {
                         playerRuns.UpdateValues(match.MatchData.Date, batting.RunsScored, batting.MethodOut == Wicket.NotOut);
                     }

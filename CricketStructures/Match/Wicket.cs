@@ -12,6 +12,8 @@
         LBW = 4,
         Stumped = 5,
         RunOut = 6,
-        HitWicket = 7
+        HitWicket = 7,
+        RetiredOut = 8,
+        RetiredNotOut = 9,
     }
 }

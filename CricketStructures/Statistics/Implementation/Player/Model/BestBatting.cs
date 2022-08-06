@@ -31,17 +31,17 @@ namespace CricketStructures.Statistics.Implementation.Player.Model
 
                 if (Runs.Equals(otherBest.Runs))
                 {
-                    if (HowOut == Wicket.NotOut && otherBest.HowOut == Wicket.NotOut)
+                    if (HowOut.IsNotOut() && otherBest.HowOut.IsNotOut())
                     {
                         return 0;
                     }
 
-                    if (HowOut == Wicket.NotOut)
+                    if (HowOut.IsNotOut())
                     {
                         return 1;
                     }
 
-                    if (otherBest.HowOut == Wicket.NotOut)
+                    if (otherBest.HowOut.IsNotOut())
                     {
                         return -1;
                     }

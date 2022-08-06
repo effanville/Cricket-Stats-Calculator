@@ -101,7 +101,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             BattingEntry batting = match.GetBatting(teamName, Name);
             if (batting != null)
             {
-                if (batting.MethodOut != Wicket.DidNotBat)
+                if (batting.MethodOut.DidBat())
                 {
                     TotalInnings++;
                     if (!batting.Out())

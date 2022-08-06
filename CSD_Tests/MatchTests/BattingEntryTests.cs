@@ -101,8 +101,8 @@ namespace CricketStructures.Tests.MatchTests
 
         [TestCase(Wicket.DidNotBat, 0, false, false, false, true, new string[] { })]
         [TestCase(Wicket.DidNotBat, 3, false, false, false, false, new string[] { "RunsScored was expected to be equal to 0." })]
-        [TestCase(Wicket.DidNotBat, 0, false, true, false, false, new string[] { "Fielder cannot be set with DidnotBat." })]
-        [TestCase(Wicket.DidNotBat, 0, true, false, false, false, new string[] { "Bowler cannot be set with DidnotBat." })]
+        [TestCase(Wicket.DidNotBat, 0, false, true, false, false, new string[] { "Fielder should not be set with DidNotBat." })]
+        [TestCase(Wicket.DidNotBat, 0, true, false, false, false, new string[] { "Bowler should not be set with DidNotBat." })]
         [TestCase(Wicket.NotOut, 1, false, false, false, true, new string[] { })]
         [TestCase(Wicket.NotOut, 1, true, false, false, false, new string[] { "Bowler should not be set with NotOut." })]
         [TestCase(Wicket.NotOut, 1, false, true, false, false, new string[] { "Fielder should not be set with NotOut." })]
