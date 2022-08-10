@@ -91,7 +91,7 @@ namespace CricketStructures
                 }
             }
 
-            return playersCached;
+            return playersCached.Distinct().ToList();
         }
 
         /// <inheritdoc/>

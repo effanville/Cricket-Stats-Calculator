@@ -3,7 +3,6 @@ using System.Linq;
 using CricketStructures.Player;
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
-using System;
 using Common.Structure.ReportWriting;
 using System.Xml.Serialization;
 
@@ -268,12 +267,12 @@ namespace CricketStructures.Match.Innings
             return Batting.RemoveAll(item => item.Name.Equals(player)) != 0;
         }
 
-        public void SetBowling(string surname, string forename, double overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0)
+        public void SetBowling(string surname, string forename, Over overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0)
         {
             SetBowling(new PlayerName(surname, forename), overs, maidens, runsConceded, wickets, wides, noBalls);
         }
 
-        public void SetBowling(PlayerName player, double overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0)
+        public void SetBowling(PlayerName player, Over overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0)
         {
             BowlingEntry result = Bowling.Find(entry => entry.Name.Equals(player));
             if (result == null)
@@ -343,10 +342,10 @@ namespace CricketStructures.Match.Innings
             int nb = 0;
             int wickets = 0;
             int maidens = 0;
-            double overs = 0;
+            Over overs = default;
             foreach (BowlingEntry bowler in Bowling)
             {
-                overs += bowler.OversBowled;
+                overs = overs + bowler.OversBowled;
                 maidens += bowler.Maidens;
                 runs += bowler.RunsConceded;
                 wickets += bowler.Wickets;
@@ -463,14 +462,6 @@ namespace CricketStructures.Match.Innings
             return results;
         }
 
-        private static string ToOversString(double overs)
-        {
-            double numberBalls = overs * 6;
-            _ = int.TryParse(numberBalls.ToString(), out int numBalls);
-            double wholeOvers = Math.DivRem(numBalls, 6, out int result);
-            return $"{wholeOvers}.{result}";
-        }
-
         public static CricketInnings CreateFromScorecard(DocumentType exportType, string scorecard)
         {
             return null;
@@ -526,6 +517,7 @@ namespace CricketStructures.Match.Innings
                     partnershipsRow.Add(partnership.TeamScoreAtEnd.ToString());
                     partnershipsRow.Add(partnership.BatsmanOutAtEnd.ToString());
                 }
+
                 partnershipIndex++;
             }
 
@@ -542,7 +534,7 @@ namespace CricketStructures.Match.Innings
                     bowler.Name.ToString(),
                     bowler.Wides.ToString(),
                     bowler.NoBalls.ToString(),
-                    ToOversString(bowler.OversBowled),
+                    bowler.OversBowled.ToString(),
                     bowler.Maidens.ToString(),
                     bowler.RunsConceded.ToString(),
                     bowler.Wickets.ToString(),
@@ -557,7 +549,7 @@ namespace CricketStructures.Match.Innings
                     "Bowling Totals",
                     bowlingTotals.Wides.ToString(),
                     bowlingTotals.NoBalls.ToString(),
-                    ToOversString(bowlingTotals.OversBowled),
+                    bowlingTotals.OversBowled.ToString(),
                     bowlingTotals.Maidens.ToString(),
                     bowlingTotals.RunsConceded.ToString(),
                     bowlingTotals.Wickets.ToString(),

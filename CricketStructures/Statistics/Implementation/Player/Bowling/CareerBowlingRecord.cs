@@ -30,7 +30,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             set;
         }
 
-        public double Overs
+        public Over Overs
         {
             get;
             set;
@@ -161,7 +161,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
 
         public void ResetStats()
         {
-            Overs = 0;
+            Overs = Over.Min;
             Maidens = 0;
             RunsConceded = 0;
             Wickets = 0;

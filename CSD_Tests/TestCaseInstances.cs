@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using CricketStructures.Match;
+using CricketStructures.Match.Innings;
 using CricketStructures.Player;
 using CricketStructures.Season;
+
 using NUnit.Framework;
 
 namespace CricketStructures.Tests
@@ -57,7 +60,7 @@ namespace CricketStructures.Tests
                     sAInnings.SetBatting("Hall", "AJ", Wicket.Caught, 7, 10, 9, 433, "Clarke", "MJ", false, "Lee", "B");
                     sAInnings.SetBatting("Ntini", "M", Wicket.NotOut, 1, 11, 0, 0);
                     sAInnings.SetExtras(4, 8, 4, 4);
-                    sAInnings.SetBowling("Lee", "B", (double)47 / 6, 0, 68, 1, 1, 3);
+                    sAInnings.SetBowling("Lee", "B", (Over)(47 / 6), 0, 68, 1, 1, 3);
                     sAInnings.SetBowling("Bracken", "NW", 10, 0, 67, 5, 0, 0);
                     sAInnings.SetBowling("Clark", "SR", 6, 0, 54, 0, 0, 0);
                     sAInnings.SetBowling("Lewis", "ML", 10, 0, 113, 0, 1, 1);

@@ -16,7 +16,7 @@ namespace CricketStructures.Statistics.Implementation.Player
             set;
         }
 
-        public double TotalOvers
+        public Over TotalOvers
         {
             get;
             set;
@@ -132,7 +132,7 @@ namespace CricketStructures.Statistics.Implementation.Player
                 StrikeRate = double.NaN;
             }
 
-            if (TotalOvers != 0)
+            if (TotalOvers != Over.Min)
             {
                 Economy = Math.Round(TotalRunsConceded / (double)TotalOvers, 2);
             }
@@ -145,7 +145,7 @@ namespace CricketStructures.Statistics.Implementation.Player
         /// <inheritdoc/>
         public void ResetStats()
         {
-            TotalOvers = 0;
+            TotalOvers = Over.Min;
             TotalMaidens = 0;
             TotalRunsConceded = 0;
             TotalWickets = 0;

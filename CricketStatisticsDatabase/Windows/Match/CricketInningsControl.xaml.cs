@@ -28,6 +28,13 @@ namespace CSD.Windows.Match
                 var con = new PlayerNameToStringConverter();
                 (dgtc.Binding as Binding).Converter = con;
             }
+
+            if (e.PropertyType == typeof(Over))
+            {
+                DataGridTextColumn dgtc = e.Column as DataGridTextColumn;
+                var con = new OverToStringConverter();
+                (dgtc.Binding as Binding).Converter = con;
+            }
         }
 
         private void DataGrid_AddingNewItem(object sender, AddingNewItemEventArgs e)

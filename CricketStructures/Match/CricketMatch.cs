@@ -248,7 +248,7 @@ namespace CricketStructures.Match
         }
 
         /// <inheritdoc/>
-        public void SetBowling(string team, PlayerName player, double overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0)
+        public void SetBowling(string team, PlayerName player, Over overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0)
         {
             var innings = InningsHelpers.SelectFieldingInnings(FirstInnings, SecondInnings, team);
             if (innings != null)

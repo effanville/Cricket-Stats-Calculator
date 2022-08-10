@@ -25,7 +25,7 @@ namespace CricketStructures.Tests.MatchTests
             var bowling = new BowlingEntry(name);
 
             bowling.SetBowling(4, 1, 23, 1);
-            Assert.AreEqual(4, bowling.OversBowled);
+            Assert.AreEqual((Over)4, bowling.OversBowled);
             Assert.AreEqual(1, bowling.Maidens);
             Assert.AreEqual(23, bowling.RunsConceded);
             Assert.AreEqual(1, bowling.Wickets);
@@ -50,7 +50,7 @@ namespace CricketStructures.Tests.MatchTests
 
         [TestCase(1, 1, 1, 1, true, new string[] { })]
         [TestCase(5, 4, 3, 11, false, new string[] { "Wickets cannot take values above 10." })]
-        [TestCase(-1, 4, 3, 1, false, new string[] { "OversBowled cannot take a negative value." })]
+        [TestCase(-1, 4, 3, 1, false, new string[] { "OversBowled cannot take values below 0." })]
         [TestCase(5, -1, 3, 1, false, new string[] { "Maidens cannot take a negative value." })]
         [TestCase(5, 4, -2, 1, false, new string[] { "RunsConceded cannot take a negative value." })]
         [TestCase(5, 4, 3, -3, false, new string[] { "Wickets cannot take a negative value." })]

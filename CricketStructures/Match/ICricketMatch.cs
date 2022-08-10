@@ -134,7 +134,7 @@ namespace CricketStructures.Match
 
         bool DeleteBattingEntry(string team, PlayerName player);
 
-        void SetBowling(string team, PlayerName player, double overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0);
+        void SetBowling(string team, PlayerName player, Over overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0);
 
         bool DeleteBowlingEntry(string team, PlayerName player);
 

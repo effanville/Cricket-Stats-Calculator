@@ -30,22 +30,11 @@ namespace CSD.ViewModels
             get => fSelectedStatsType;
             set
             {
-                SelectedStats = null;
                 fSelectedStatsType = value;
                 OnPropertyChanged(nameof(SelectedStatsType));
                 OnPropertyChanged(nameof(SeasonStatsSelected));
 
                 var matchTypesToUse = MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray();
-
-                if (SelectedSeason != null)
-                {
-                    SelectedStats = StatsCollectionBuilder.StandardStat(
-                        value,
-                        MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray(),
-                        team: DataStore,
-                        teamName: DataStore.TeamName,
-                        season: SelectedSeason);
-                }
             }
         }
 
@@ -75,17 +64,6 @@ namespace CSD.ViewModels
             }
         }
 
-        private object fSelectedStats;
-        public object SelectedStats
-        {
-            get => fSelectedStats;
-            set
-            {
-                fSelectedStats = value;
-                OnPropertyChanged(nameof(SelectedStats));
-            }
-        }
-
         private ICricketSeason fSelectedSeason;
         public ICricketSeason SelectedSeason
         {
@@ -94,11 +72,6 @@ namespace CSD.ViewModels
             {
                 fSelectedSeason = value;
                 OnPropertyChanged(nameof(SelectedSeason));
-                SelectedStats = StatsCollectionBuilder.StandardStat(
-                    StatCollection.SeasonBrief,
-                    MatchTypeNames.Where(name => name.Selected).Select(name => name.Instance).ToArray(),
-                    teamName: DataStore.TeamName,
-                    season: value);
             }
         }
 

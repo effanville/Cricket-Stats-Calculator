@@ -55,14 +55,14 @@ namespace CricketStructures.Tests.MatchTests
             Assert.AreEqual(2, innings.Bowling.Count);
 
             var bowling = innings.GetBowling("other", player1);
-            Assert.AreEqual(4, bowling.OversBowled);
+            Assert.AreEqual((Over)4, bowling.OversBowled);
             Assert.AreEqual(2, bowling.Maidens);
             Assert.AreEqual(7, bowling.RunsConceded);
             Assert.AreEqual(5, bowling.Wickets);
 
 
             var bowling1 = innings.GetBowling("other", player2);
-            Assert.AreEqual(0, bowling1.OversBowled);
+            Assert.AreEqual((Over)0, bowling1.OversBowled);
             Assert.AreEqual(0, bowling1.Maidens);
             Assert.AreEqual(0, bowling1.Wickets);
             Assert.AreEqual(0, bowling1.RunsConceded);

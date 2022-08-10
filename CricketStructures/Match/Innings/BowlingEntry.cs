@@ -18,7 +18,7 @@ namespace CricketStructures.Match.Innings
             set;
         }
 
-        public double OversBowled
+        public Over OversBowled
         {
             get;
             set;
@@ -73,7 +73,7 @@ namespace CricketStructures.Match.Innings
             return "Bowler: No name";
         }
 
-        public void SetBowling(double overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0)
+        public void SetBowling(Over overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0)
         {
             OversBowled = overs;
             Maidens = maidens;
@@ -91,7 +91,7 @@ namespace CricketStructures.Match.Innings
         public List<ValidationResult> Validation()
         {
             List<ValidationResult> results = Name.Validation();
-            results.AddIfNotNull(Validating.NotNegative(OversBowled, nameof(OversBowled), ToString()));
+            results.AddIfNotNull(Validating.NotLessThan(OversBowled, Over.Min, nameof(OversBowled), ToString()));
             results.AddIfNotNull(Validating.NotNegative(Maidens, nameof(Maidens), ToString()));
             results.AddIfNotNull(Validating.NotNegative(RunsConceded, nameof(RunsConceded), ToString()));
             results.AddIfNotNull(Validating.NotNegative(Wickets, nameof(Wickets), ToString()));
@@ -136,7 +136,7 @@ namespace CricketStructures.Match.Innings
             string nb = reader.ReadContentAsString();
             reader.ReadEndElement();
 
-            OversBowled = double.Parse(overs);
+            OversBowled = (Over)double.Parse(overs);
             Name = new PlayerName(surname, forename);
             Maidens = int.Parse(maidens);
             RunsConceded = int.Parse(runs);
@@ -146,6 +146,7 @@ namespace CricketStructures.Match.Innings
 
             reader.ReadEndElement();
         }
+
         public void ReadXml(XmlReader reader)
         {
             _ = reader.MoveToContent();
@@ -160,7 +161,7 @@ namespace CricketStructures.Match.Innings
             try
             {
                 Name = PlayerName.FromString(name);
-                OversBowled = double.Parse(overs);
+                OversBowled = (Over)overs;
                 Maidens = int.Parse(m);
                 RunsConceded = int.Parse(r);
                 Wickets = int.Parse(w);

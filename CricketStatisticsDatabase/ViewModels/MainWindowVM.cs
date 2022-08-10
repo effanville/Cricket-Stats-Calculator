@@ -9,7 +9,6 @@ using Common.UI.Services;
 using Common.UI.ViewModelBases;
 
 using CricketStructures;
-using CricketStructures.Migration;
 
 namespace CSD.ViewModels
 {
@@ -102,11 +101,10 @@ namespace CSD.ViewModels
             FileInteractionResult result = fFileService.OpenFile(string.Empty);
             if (result.Success)
             {
-                CricketTeam database = XmlFileAccess.ReadFromXmlFile<CricketTeam>(result.FilePath, out string error);
-                if (error == null)
+                var database = CricketTeamFactory.CreateFromFile(fUiGlobals.CurrentFileSystem, result.FilePath, out string error);
+                if (string.IsNullOrEmpty(error))
                 {
                     Database = database;
-                    Database.SetupEventListening();
                     UpdateSubWindows();
                 }
             }
@@ -135,12 +133,10 @@ namespace CSD.ViewModels
             FileInteractionResult result = fFileService.OpenFile(string.Empty);
             if (result.Success)
             {
-                Cricket.Team.CricketTeam database = XmlFileAccess.ReadFromXmlFile<Cricket.Team.CricketTeam>(result.FilePath, out string error);
-                var newStyle = TeamConverter.Conversion(database);
-                if (error == null)
+                var database = CricketTeamFactory.CreateFromOldStyleFile(fUiGlobals.CurrentFileSystem, result.FilePath, out string error);
+                if (string.IsNullOrEmpty(error))
                 {
-                    Database = newStyle;
-                    Database.SetupEventListening();
+                    Database = database;
                     UpdateSubWindows();
                 }
             }

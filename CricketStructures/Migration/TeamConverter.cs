@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
@@ -105,7 +106,7 @@ namespace CricketStructures.Migration
             {
                 var entry = new BowlingEntry(ConvertPlayerName(bowlingEntry.Name));
                 entry.SetBowling(
-                    bowlingEntry.OversBowled,
+                    (Over)bowlingEntry.OversBowled,
                     bowlingEntry.Maidens,
                     bowlingEntry.RunsConceded,
                     bowlingEntry.Wickets,

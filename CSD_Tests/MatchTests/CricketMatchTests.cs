@@ -199,19 +199,19 @@ namespace CricketStructures.Tests.MatchTests
             Assert.AreEqual(3, MatchToTest.FirstInnings.Bowling.Count);
 
             var player1Scores = MatchToTest.GetBowling("Walkern", player1);
-            Assert.AreEqual(4, player1Scores.OversBowled);
+            Assert.AreEqual((Over)4, player1Scores.OversBowled);
             Assert.AreEqual(2, player1Scores.Maidens);
             Assert.AreEqual(23, player1Scores.RunsConceded);
             Assert.AreEqual(1, player1Scores.Wickets);
 
             var player2Scores = MatchToTest.GetBowling("Walkern", player2);
-            Assert.AreEqual(5, player2Scores.OversBowled);
+            Assert.AreEqual((Over)5, player2Scores.OversBowled);
             Assert.AreEqual(1, player2Scores.Maidens);
             Assert.AreEqual(19, player2Scores.RunsConceded);
             Assert.AreEqual(4, player2Scores.Wickets);
 
             var playerScores = MatchToTest.GetBowling("Walkern", new PlayerName("Smith", "Steve"));
-            Assert.AreEqual(0, playerScores.OversBowled);
+            Assert.AreEqual((Over)0, playerScores.OversBowled);
             Assert.AreEqual(0, playerScores.Maidens);
             Assert.AreEqual(0, playerScores.RunsConceded);
             Assert.AreEqual(0, playerScores.Wickets);
@@ -225,7 +225,7 @@ namespace CricketStructures.Tests.MatchTests
             MatchToTest.SetBowling("Sandon", new PlayerName(surname, forename), overs, maidens, runs, wickets);
 
             var player = MatchToTest.GetBowling("Sandon", new PlayerName(surname, forename));
-            Assert.AreEqual(overs, player.OversBowled);
+            Assert.AreEqual((Over)overs, player.OversBowled);
             Assert.AreEqual(maidens, player.Maidens);
             Assert.AreEqual(runs, player.RunsConceded);
             Assert.AreEqual(wickets, player.Wickets);
@@ -241,7 +241,7 @@ namespace CricketStructures.Tests.MatchTests
             MatchToTest.SetBowling("Sandon", new PlayerName(surname, forename), overs, maidens, runs, wickets);
 
             var player = MatchToTest.GetBowling("Sandon", new PlayerName(surname, forename));
-            Assert.AreEqual(overs, player.OversBowled);
+            Assert.AreEqual((Over)overs, player.OversBowled);
             Assert.AreEqual(maidens, player.Maidens);
             Assert.AreEqual(runs, player.RunsConceded);
             Assert.AreEqual(wickets, player.Wickets);

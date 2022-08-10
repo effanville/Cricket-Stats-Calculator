@@ -12,7 +12,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Model
             set;
         }
 
-        public double Overs
+        public Over Overs
         {
             get;
             set;

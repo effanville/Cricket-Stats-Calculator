@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using CricketStructures.Match;
+using CricketStructures.Match.Innings;
 using CricketStructures.Player;
 using CricketStructures.Statistics;
 using CricketStructures.Statistics.Implementation.Collection;
@@ -55,7 +56,7 @@ namespace CricketStructures.Tests.StatisticsTests
             Assert.AreEqual(expected[1], stats.Economy);
             Assert.AreEqual(expected[2], stats.BestFigures.Runs);
             Assert.AreEqual(expected[3], stats.BestFigures.Wickets);
-            Assert.AreEqual(expected[4], stats.TotalOvers);
+            Assert.AreEqual((Over)expected[4], stats.TotalOvers);
             Assert.AreEqual(expected[5], stats.TotalMaidens);
             Assert.AreEqual(expected[6], stats.TotalRunsConceded);
             Assert.AreEqual(expected[7], stats.TotalWickets);

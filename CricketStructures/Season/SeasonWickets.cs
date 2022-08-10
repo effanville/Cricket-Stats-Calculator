@@ -1,4 +1,5 @@
-﻿using CricketStructures.Player;
+﻿using CricketStructures.Match.Innings;
+using CricketStructures.Player;
 using CricketStructures.Statistics.Implementation.Player;
 using CricketStructures.Statistics.Implementation.Player.Model;
 
@@ -18,7 +19,7 @@ namespace CricketStructures.Season
             set;
         }
 
-        public double Overs
+        public Over Overs
         {
             get;
             set;
