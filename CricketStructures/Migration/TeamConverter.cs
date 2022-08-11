@@ -11,7 +11,7 @@ namespace CricketStructures.Migration
 {
     public static class TeamConverter
     {
-        public static CricketTeam Conversion(Cricket.Interfaces.ICricketTeam oldStyleTeam)
+        internal static CricketTeam Conversion(Cricket.Interfaces.ICricketTeam oldStyleTeam)
         {
             var output = new CricketTeam();
             output.TeamName = oldStyleTeam.TeamName;

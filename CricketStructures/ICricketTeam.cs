@@ -4,6 +4,7 @@ using CricketStructures.Player;
 using CricketStructures.Player.Interfaces;
 using CricketStructures.Season;
 using Common.Structure.Validation;
+using System.IO.Abstractions;
 
 namespace CricketStructures
 {
@@ -85,5 +86,13 @@ namespace CricketStructures
         /// Removes the season with the specified name and year.
         /// </summary>
         int RemoveSeason(DateTime year, string name);
+
+        /// <summary>
+        /// Save the portfolio to the file specified.
+        /// </summary>
+        /// <param name="fileSystem"></param>
+        /// <param name="filepath"></param>
+        /// <param name="error"></param>
+        void Save(IFileSystem fileSystem, string filepath, out string error);
     }
 }

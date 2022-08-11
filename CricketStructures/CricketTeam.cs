@@ -7,10 +7,12 @@ using CricketStructures.Player;
 using CricketStructures.Player.Interfaces;
 using CricketStructures.Season;
 using Common.Structure.Validation;
+using System.IO.Abstractions;
+using Common.Structure.FileAccess;
 
 namespace CricketStructures
 {
-    public class CricketTeam : ICricketTeam, IValidity
+    public sealed class CricketTeam : ICricketTeam, IValidity
     {
         /// <inheritdoc/>
         [XmlAttribute]
@@ -195,6 +197,11 @@ namespace CricketStructures
             }
 
             return results;
+        }
+
+        public void Save(IFileSystem fileSystem, string filepath, out string error)
+        {
+            XmlFileAccess.WriteToXmlFile(fileSystem, filepath, this, out error);
         }
     }
 }

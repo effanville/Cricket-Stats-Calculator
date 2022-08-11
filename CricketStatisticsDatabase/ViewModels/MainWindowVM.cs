@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
-using Common.Structure.FileAccess;
 using Common.UI;
 using Common.UI.Commands;
 using Common.UI.Services;
@@ -16,7 +15,7 @@ namespace CSD.ViewModels
     internal sealed class MainWindowVM : PropertyChangedBase
     {
         private readonly UiGlobals fUiGlobals;
-        public CricketTeam Database
+        public ICricketTeam Database
         {
             get;
             set;
@@ -39,7 +38,7 @@ namespace CSD.ViewModels
         public MainWindowVM(UiGlobals uiGlobals)
         {
             fUiGlobals = uiGlobals;
-            Database = new CricketTeam();
+            Database = CricketTeamFactory.Create();
             NewTeamCommand = new RelayCommand(ExecuteNewTeamCommand);
             LoadTeamCommand = new RelayCommand(ExecuteLoadTeamCommand);
             SaveTeamCommand = new RelayCommand(ExecuteSaveTeamCommand);
@@ -81,10 +80,10 @@ namespace CSD.ViewModels
 
         private void ExecuteNewTeamCommand()
         {
-            System.Windows.MessageBoxResult result = fUiGlobals.DialogCreationService.ShowMessageBox("Are you sure you want a new team?", "New Team?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
-            if (result == System.Windows.MessageBoxResult.Yes)
+            MessageBoxResult result = fUiGlobals.DialogCreationService.ShowMessageBox("Are you sure you want a new team?", "New Team?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
             {
-                Database = new CricketTeam();
+                Database = CricketTeamFactory.Create();
                 UpdateSubWindows();
             }
         }
@@ -121,7 +120,7 @@ namespace CSD.ViewModels
             FileInteractionResult result = fUiGlobals.FileInteractionService.SaveFile("xml", string.Empty, string.Empty, "XML Files|*.xml|All Files|*.*");
             if (result.Success)
             {
-                XmlFileAccess.WriteToXmlFile(result.FilePath, Database, out string error);
+                Database.Save(fUiGlobals.CurrentFileSystem, result.FilePath, out string error);
                 if (!string.IsNullOrEmpty(error))
                 {
                     _ = fUiGlobals.DialogCreationService.ShowMessageBox(error, "Saving Error", MessageBoxButton.OK, MessageBoxImage.Error);
