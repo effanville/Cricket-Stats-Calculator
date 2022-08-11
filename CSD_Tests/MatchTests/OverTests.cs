@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CricketStructures.Match.Innings;
+﻿using CricketStructures.Match.Innings;
 
 using NUnit.Framework;
 
 namespace CricketStructures.Tests.MatchTests
 {
-    internal class OverTests
+    [TestFixture]
+    internal sealed class OverTests
     {
         [TestCase(1, 2, 1, 2, true)]
         [TestCase(1, 2, 1, 3, false)]
@@ -25,6 +20,7 @@ namespace CricketStructures.Tests.MatchTests
         [TestCase("1.2", 1, 2)]
         [TestCase("3.5", 3, 5)]
         [TestCase("3", 3, 0)]
+        [TestCase("0.4", 0, 4)]
         public void FromString(string inputString, int overOvers1, int overBalls1)
         {
             var over = new Over(overOvers1, overBalls1);
@@ -35,6 +31,7 @@ namespace CricketStructures.Tests.MatchTests
         [TestCase("1.2", 1, 2)]
         [TestCase("3.5", 3, 5)]
         [TestCase("3", 3, 0)]
+        [TestCase("0.4", 0, 4)]
         public void ToString(string expectedString, int overOvers1, int overBalls1)
         {
             var over = new Over(overOvers1, overBalls1);

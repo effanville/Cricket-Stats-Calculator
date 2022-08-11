@@ -27,7 +27,7 @@ namespace CricketStructures.Match.Innings
             if (serialised.Contains('.'))
             {
                 string[] parts = serialised.Split('.');
-                int wholeOvers = int.Parse(parts[0]);
+                int wholeOvers = string.IsNullOrWhiteSpace(parts[0]) ? 0 : int.Parse(parts[0]);
                 int numberBalls = int.Parse(parts[1]);
                 return new Over(wholeOvers, numberBalls);
             }
