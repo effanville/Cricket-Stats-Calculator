@@ -4,73 +4,51 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using CSD.ViewModels.Dialogs;
 using Common.UI.Commands;
-using Common.UI.Services;
 using Common.UI.ViewModelBases;
 using CricketStructures;
 using CricketStructures.Season;
+using Common.UI;
 
 namespace CSD.ViewModels
 {
     public class SeasonEditViewModel : ViewModelBase<ICricketTeam>
     {
-        private readonly IFileInteractionService fFileService;
-        private readonly IDialogCreationService fDialogService;
+        private readonly UiGlobals fUiGlobals;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
         private List<ICricketSeason> fSeasons;
 
-        private string fTeamHomeLocation;
-
         public List<ICricketSeason> Seasons
         {
-            get
-            {
-                return fSeasons;
-            }
-            set
-            {
-                fSeasons = value;
-                OnPropertyChanged();
-            }
+            get => fSeasons;
+            set => SetAndNotify(ref fSeasons, value, nameof(Seasons));
         }
 
         private ICricketSeason fSelectedSeason;
         public ICricketSeason SelectedSeason
         {
-            get
-            {
-                return fSelectedSeason;
-            }
+            get => fSelectedSeason;
             set
             {
                 fSelectedSeason = value;
                 OnPropertyChanged();
-                SelectedSeasonViewModel.UpdateSelected(value, fTeamHomeLocation);
+                SelectedSeasonViewModel.UpdateSelected(value);
             }
         }
 
         private SelectedSeasonEditViewModel fSelectedSeasonViewModel;
         public SelectedSeasonEditViewModel SelectedSeasonViewModel
         {
-            get
-            {
-                return fSelectedSeasonViewModel;
-            }
-            set
-            {
-                fSelectedSeasonViewModel = value;
-                OnPropertyChanged();
-            }
+            get => fSelectedSeasonViewModel;
+            set => SetAndNotify(ref fSelectedSeasonViewModel, value);
         }
 
-        public SeasonEditViewModel(ICricketTeam team, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)
+        public SeasonEditViewModel(ICricketTeam team, Action<Action<ICricketTeam>> updateTeam, UiGlobals uiGlobals)
             : base("Season Edit", team)
         {
-            fFileService = fileService;
-            fDialogService = dialogService;
+            fUiGlobals = uiGlobals;
             UpdateTeam = updateTeam;
             Seasons = team.Seasons.ToList();
-            fTeamHomeLocation = team.HomeLocation;
-            SelectedSeasonViewModel = new SelectedSeasonEditViewModel(team.TeamName, null, updateTeam, fileService, dialogService, fTeamHomeLocation);
+            SelectedSeasonViewModel = new SelectedSeasonEditViewModel(null, updateTeam, fUiGlobals);
             AddSeasonCommand = new RelayCommand(ExecuteAddSeason);
             EditSeasonCommand = new RelayCommand<object[]>(ExecuteEditSeason);
             DeleteSeasonCommand = new RelayCommand(ExecuteDeleteSeason);
@@ -82,8 +60,8 @@ namespace CSD.ViewModels
         }
         private void ExecuteAddSeason()
         {
-            Action<DateTime, string> getName = (year, name) => UpdateTeam(team => team.AddSeason(year, name));
-            fDialogService.DisplayCustomDialog(new CreateSeasonDialogViewModel(getName));
+            void getName(DateTime year, string name) => UpdateTeam(team => team.AddSeason(year, name));
+            fUiGlobals.DialogCreationService.DisplayCustomDialog(new CreateSeasonDialogViewModel(getName));
         }
 
         public ICommand EditSeasonCommand
@@ -118,9 +96,7 @@ namespace CSD.ViewModels
         {
             Seasons = team.Seasons.ToList();
             DataStore = team;
-            fTeamHomeLocation = team.HomeLocation;
-            SelectedSeasonViewModel.UpdateSelected(SelectedSeason, team.HomeLocation);
-            ;
+            SelectedSeasonViewModel.UpdateSelected(SelectedSeason);
         }
     }
 }

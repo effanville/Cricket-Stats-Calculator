@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:uiC="clr-namespace:Common.UI.Converters;assembly=Common.UI"
              xmlns:gui="clr-namespace:CSD.Windows"
+             xmlns:viewmodels="clr-namespace:CSD.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:SeasonEditViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">

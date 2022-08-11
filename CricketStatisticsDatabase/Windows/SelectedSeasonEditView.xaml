@@ -38,18 +38,6 @@
                         Command="{Binding AddMatchCommand}" />
                 <Button Grid.Column="0"
                         Grid.Row="0"
-                        Content="Edit Match"
-                        Margin="5"
-                        Command="{Binding EditMatchCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource ArrayMultiValueConverter}">
-                            <Binding ElementName="MatchInfoName"
-                                     Path="Content" />
-                        </MultiBinding>
-                    </Button.CommandParameter>
-                </Button>
-                <Button Grid.Column="0"
-                        Grid.Row="0"
                         Content="Delete Match"
                         Margin="5"
                         Command="{Binding DeleteMatchCommand}" />
@@ -106,7 +94,7 @@
             <StackPanel Grid.Column="0"
                         Grid.Row="1"
                         Orientation="Horizontal">
-                <Button Content="Edit Frist Innings"
+                <Button Content="Edit First Innings"
                         Command="{Binding EditInningsCommand}"
                         CommandParameter="First"
                         Margin="5" />

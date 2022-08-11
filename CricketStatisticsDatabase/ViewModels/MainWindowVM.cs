@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 
 using Common.Structure.FileAccess;
@@ -14,9 +15,6 @@ namespace CSD.ViewModels
 {
     internal sealed class MainWindowVM : PropertyChangedBase
     {
-        private IFileInteractionService fFileService => fUiGlobals.FileInteractionService;
-        private IDialogCreationService fDialogService => fUiGlobals.DialogCreationService;
-
         private readonly UiGlobals fUiGlobals;
         public CricketTeam Database
         {
@@ -49,8 +47,8 @@ namespace CSD.ViewModels
             ReportingView = new ReportingViewModel(null);
 
             DisplayTabs.Add(new TeamOverviewViewModel(UpdateDatabase, Database.Players(), Database.Seasons));
-            DisplayTabs.Add(new PlayerEditViewModel(Database, UpdateDatabase, fFileService, fDialogService));
-            DisplayTabs.Add(new SeasonEditViewModel(Database, UpdateDatabase, fFileService, fDialogService));
+            DisplayTabs.Add(new PlayerEditViewModel(Database, UpdateDatabase, fUiGlobals));
+            DisplayTabs.Add(new SeasonEditViewModel(Database, UpdateDatabase, fUiGlobals));
             DisplayTabs.Add(new StatsViewModel(Database, fUiGlobals));
         }
 
@@ -83,7 +81,7 @@ namespace CSD.ViewModels
 
         private void ExecuteNewTeamCommand()
         {
-            System.Windows.MessageBoxResult result = fDialogService.ShowMessageBox("Are you sure you want a new team?", "New Team?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
+            System.Windows.MessageBoxResult result = fUiGlobals.DialogCreationService.ShowMessageBox("Are you sure you want a new team?", "New Team?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
             if (result == System.Windows.MessageBoxResult.Yes)
             {
                 Database = new CricketTeam();
@@ -98,7 +96,7 @@ namespace CSD.ViewModels
 
         private void ExecuteLoadTeamCommand()
         {
-            FileInteractionResult result = fFileService.OpenFile(string.Empty);
+            FileInteractionResult result = fUiGlobals.FileInteractionService.OpenFile(string.Empty);
             if (result.Success)
             {
                 var database = CricketTeamFactory.CreateFromFile(fUiGlobals.CurrentFileSystem, result.FilePath, out string error);
@@ -106,6 +104,10 @@ namespace CSD.ViewModels
                 {
                     Database = database;
                     UpdateSubWindows();
+                }
+                else
+                {
+                    _ = fUiGlobals.DialogCreationService.ShowMessageBox(error, "Loading Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -116,10 +118,14 @@ namespace CSD.ViewModels
         }
         private void ExecuteSaveTeamCommand()
         {
-            FileInteractionResult result = fFileService.SaveFile("xml", string.Empty, string.Empty, "XML Files|*.xml|All Files|*.*");
+            FileInteractionResult result = fUiGlobals.FileInteractionService.SaveFile("xml", string.Empty, string.Empty, "XML Files|*.xml|All Files|*.*");
             if (result.Success)
             {
-                XmlFileAccess.WriteToXmlFile<CricketTeam>(result.FilePath, Database, out string error);
+                XmlFileAccess.WriteToXmlFile(result.FilePath, Database, out string error);
+                if (!string.IsNullOrEmpty(error))
+                {
+                    _ = fUiGlobals.DialogCreationService.ShowMessageBox(error, "Saving Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -130,7 +136,7 @@ namespace CSD.ViewModels
 
         private void ExecuteLoadOldTeamCommand()
         {
-            FileInteractionResult result = fFileService.OpenFile(string.Empty);
+            FileInteractionResult result = fUiGlobals.FileInteractionService.OpenFile(string.Empty);
             if (result.Success)
             {
                 var database = CricketTeamFactory.CreateFromOldStyleFile(fUiGlobals.CurrentFileSystem, result.FilePath, out string error);
@@ -138,6 +144,10 @@ namespace CSD.ViewModels
                 {
                     Database = database;
                     UpdateSubWindows();
+                }
+                else
+                {
+                    _ = fUiGlobals.DialogCreationService.ShowMessageBox(error, "Loading Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

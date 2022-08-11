@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
+using Common.UI;
 using Common.UI.Commands;
-using Common.UI.Services;
 using Common.UI.ViewModelBases;
 
 using CricketStructures;
@@ -18,8 +18,7 @@ namespace CSD.ViewModels
 {
     public sealed class PlayerEditViewModel : ViewModelBase<ICricketTeam>
     {
-        private readonly IFileInteractionService fFileService;
-        private readonly IDialogCreationService fDialogService;
+        private readonly UiGlobals fUiGlobals;
         private readonly Action<Action<ICricketTeam>> UpdateTeam;
 
         private List<ICricketPlayer> fPlayers;
@@ -59,11 +58,10 @@ namespace CSD.ViewModels
             set => SetAndNotify(ref fSelectedPlayerName, value, nameof(SelectedPlayerName));
         }
 
-        public PlayerEditViewModel(ICricketTeam team, Action<Action<ICricketTeam>> updateTeam, IFileInteractionService fileService, IDialogCreationService dialogService)
+        public PlayerEditViewModel(ICricketTeam team, Action<Action<ICricketTeam>> updateTeam, UiGlobals uiGlobals)
             : base("Player Edit", team)
         {
-            fFileService = fileService;
-            fDialogService = dialogService;
+            fUiGlobals = uiGlobals;
             UpdateTeam = updateTeam;
             Players = team.Players().ToList();
             AddPlayerCommand = new RelayCommand(ExecuteAddPlayer);
@@ -95,8 +93,8 @@ namespace CSD.ViewModels
         }
         private void ExecuteAddPlayer()
         {
-            Action<PlayerName> getName = (name) => UpdateTeam(team => team.AddPlayer(name));
-            fDialogService.DisplayCustomDialog(new CreatePlayerDialogViewModel(getName));
+            void getName(PlayerName name) => UpdateTeam(team => team.AddPlayer(name));
+            fUiGlobals.DialogCreationService.DisplayCustomDialog(new CreatePlayerDialogViewModel(getName));
         }
 
         public ICommand EditPlayerCommand

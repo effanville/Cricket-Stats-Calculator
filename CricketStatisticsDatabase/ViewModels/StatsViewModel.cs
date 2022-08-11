@@ -22,7 +22,6 @@ namespace CSD.ViewModels
     public class StatsViewModel : ViewModelBase<ICricketTeam>
     {
         private readonly UiGlobals fUiGlobals;
-        private IFileInteractionService fFileService => fUiGlobals.FileInteractionService;
 
         private StatCollection fSelectedStatsType;
         public StatCollection SelectedStatsType
@@ -101,7 +100,7 @@ namespace CSD.ViewModels
             }
             else
             {
-                FileInteractionResult gotFile = fFileService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
+                FileInteractionResult gotFile = fUiGlobals.FileInteractionService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
                 if (gotFile.Success)
                 {
                     var allTimeStats = StatsCollectionBuilder.StandardStat(
@@ -119,7 +118,7 @@ namespace CSD.ViewModels
 
         private void SaveAllPlayerStats()
         {
-            FileInteractionResult gotFile = fFileService.SaveFile("", "", filter: "Html Files|*.html|All Files|*.*");
+            FileInteractionResult gotFile = fUiGlobals.FileInteractionService.SaveFile("", "", filter: "Html Files|*.html|All Files|*.*");
             if (gotFile.Success)
             {
                 string extension = fUiGlobals.CurrentFileSystem.Path.GetExtension(gotFile.FilePath).Trim('.');
