@@ -6,22 +6,23 @@ using Common.Structure.ReportWriting;
 using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Season;
+using CricketStructures.Statistics.Implementation.Player;
 
-namespace CricketStructures.Statistics.Implementation.Player.Bowling
+namespace CricketStructures.Statistics.Implementation.Team
 {
-    public sealed class ClubCareerBowlingRecords : ICricketStat
+    public sealed class ClubCareerBattingRecords : ICricketStat
     {
-        public IDictionary<PlayerName, CareerBowlingRecord> PlayerBowling
+        public IDictionary<PlayerName, PlayerBattingRecord> PlayerBatting
         {
             get;
             set;
-        } = new Dictionary<PlayerName, CareerBowlingRecord>();
+        } = new Dictionary<PlayerName, PlayerBattingRecord>();
 
 
-        public ClubCareerBowlingRecords()
+        public ClubCareerBattingRecords()
         {
         }
-        public ClubCareerBowlingRecords(ICricketTeam team)
+        public ClubCareerBattingRecords(ICricketTeam team)
         {
             CalculateStats(team, MatchHelpers.AllMatchTypes);
         }
@@ -30,7 +31,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
         {
             foreach (var player in team.Players())
             {
-                PlayerBowling.Add(player.Name, new CareerBowlingRecord(player.Name, team));
+                PlayerBatting.Add(player.Name, new PlayerBattingRecord(player.Name, team));
             }
         }
 
@@ -48,12 +49,12 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
 
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            if (PlayerBowling.Any())
+            if (PlayerBatting.Any())
             {
-                var values = PlayerBowling.Values.ToList();
+                var values = PlayerBatting.Values.ToList();
                 values.Sort((a, b) => a.Name.CompareTo(b.Name));
-                _ = rb.WriteTitle("Overall Bowling Performance", headerElement)
-                    .WriteTable(values, headerFirstColumn: false);
+                _ = rb.WriteTitle("Overall Batting Performance", headerElement)
+                    .WriteTable(PlayerBatting.Values, headerFirstColumn: false);
             }
         }
     }

@@ -26,7 +26,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
             var bowlingStats = new[]
             {
                 CricketStatTypes.ClubOver5Wickets,
-                CricketStatTypes.ClubSeasonOver30Wickets,
+                CricketStatTypes.ClubSeasonOver20Wickets,
                 CricketStatTypes.ClubSeasonAverageUnder15,
                 CricketStatTypes.ClubNumber5For,
                 CricketStatTypes.ClubLowEconomy,
@@ -65,7 +65,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
             var bowlingStats = new[]
             {
                 CricketStatTypes.Over5Wickets,
-                CricketStatTypes.SeasonOver30Wickets,
+                CricketStatTypes.SeasonOver20Wickets,
                 CricketStatTypes.SeasonAverageUnder15,
                 CricketStatTypes.Number5For,
                 CricketStatTypes.LowEconomy,
@@ -80,8 +80,8 @@ namespace CricketStructures.Statistics.Implementation.Collection
             };
             FieldingStats = new CricketStatsCollection("Fielding Performances", fieldingStats, playerName);
             var stats = new[] {
-                CricketStatTypes.BattingRecord,
-                CricketStatTypes.CareerBowling,
+                CricketStatTypes.PlayerBattingRecord,
+                CricketStatTypes.PlayerBowlingRecord,
             };
             CareerStats = new CricketStatsCollection("Leading Career Records", stats);
         }
@@ -114,6 +114,15 @@ namespace CricketStructures.Statistics.Implementation.Collection
         }
 
         /// <inheritdoc/>
+        public void Finalise()
+        {
+            BattingStats.Finalise();
+            BowlingStats.Finalise();
+            FieldingStats.Finalise();
+            CareerStats.Finalise();
+        }
+
+        /// <inheritdoc/>
         public void UpdateStats(string teamName, ICricketMatch match)
         {
             BattingStats.UpdateStats(teamName, match);
@@ -125,7 +134,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
         /// <inheritdoc/>
         public void ExportStats(ReportBuilder reportBuilder, DocumentElement headerElement)
         {
-            _ = reportBuilder.WriteHeader("Individual Player Records");
+            _ = reportBuilder.WriteTitle("Individual Player Records", headerElement);
             BattingStats.ExportStats(reportBuilder, headerElement);
             BowlingStats.ExportStats(reportBuilder, headerElement);
             FieldingStats.ExportStats(reportBuilder, headerElement);

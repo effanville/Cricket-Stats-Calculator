@@ -73,7 +73,7 @@ namespace CricketStructures.Statistics.Implementation.Player
         /// <inheritdoc/>
         public void UpdateStats(string teamName, ICricketMatch match)
         {
-            if (match.PlayNotPlay(teamName, Name))
+            if (match.Played(teamName, Name))
             {
                 TotalGamesPlayed += 1;
                 if (match.MenOfMatch != null && match.MenOfMatch.Contains(Name))

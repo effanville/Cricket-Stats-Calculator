@@ -3,12 +3,31 @@ using CricketStructures.Match.Innings;
 using CricketStructures.Season;
 using CricketStructures.Player;
 using Common.Structure.ReportWriting;
+using System;
 
 namespace CricketStructures.Statistics.Implementation.Player.Fielding
 {
-    public class PlayerFieldingStatistics : ICricketStat
+    public sealed class PlayerFieldingStatistics : ICricketStat
     {
         public PlayerName Name
+        {
+            get;
+            set;
+        }
+
+        public DateTime StartYear
+        {
+            get;
+            private set;
+        }
+
+        public DateTime EndYear
+        {
+            get;
+            private set;
+        }
+
+        public int MatchesPlayed
         {
             get;
             set;
@@ -63,6 +82,15 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
         {
+            if (season.Year < StartYear)
+            {
+                StartYear = season.Year;
+            }
+            if (season.Year > EndYear)
+            {
+                EndYear = season.Year;
+            }
+
             CricketStatsHelpers.MatchIterator(
                 season,
                 matchTypes,
@@ -71,13 +99,17 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
 
         public void UpdateStats(string teamName, ICricketMatch match)
         {
-            FieldingEntry fielding = match.GetFielding(teamName, Name);
-            if (fielding != null)
+            if (match.Played(teamName, Name))
             {
-                Catches += fielding.Catches;
-                RunOuts += fielding.RunOuts;
-                KeeperCatches += fielding.KeeperCatches;
-                KeeperStumpings += fielding.KeeperStumpings;
+                MatchesPlayed++;
+                FieldingEntry fielding = match.GetFielding(teamName, Name);
+                if (fielding != null)
+                {
+                    Catches += fielding.Catches;
+                    RunOuts += fielding.RunOuts;
+                    KeeperCatches += fielding.KeeperCatches;
+                    KeeperStumpings += fielding.KeeperStumpings;
+                }
             }
         }
 
@@ -85,6 +117,10 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
         {
             _ = rb.WriteTitle("Fielding Stats", headerElement)
                 .WriteTable(new PlayerFieldingStatistics[] { this }, headerFirstColumn: false);
+        }
+
+        public void Finalise()
+        {
         }
 
         public void ResetStats()

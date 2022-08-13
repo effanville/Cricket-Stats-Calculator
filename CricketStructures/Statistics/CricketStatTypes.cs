@@ -19,7 +19,6 @@
 
         // Player Collection Stats
         DetailedAllTimePlayerStatistics,
-        DetailedAllTimeCareerStatistics,
         ClubCenturies,
         ClubHighScoreRecord,
         ClubCarryingOfBat,
@@ -30,7 +29,7 @@
         ClubSeasonTwentyCatches,
         ClubSeasonTenStumpings,
         ClubOver5Wickets,
-        ClubSeasonOver30Wickets,
+        ClubSeasonOver20Wickets,
         ClubSeasonAverageUnder15,
         ClubNumber5For,
         ClubLowEconomy,
@@ -45,12 +44,11 @@
         ClubCareerFielding,
 
         // Player Individual Stats.
-        PlayerBattingStats,
-        PlayerBowlingStats,
+        PlayerBattingRecord,
+        PlayerBowlingRecord,
         PlayerFieldingStats,
         PlayerAttendanceStats,
         SeasonAttendanceRecord,
-        BattingRecord,
         CenturyScores,
         FiftyScores,
         ThirtyScores,
@@ -65,13 +63,12 @@
         SeasonTenStumpings,
         Over5Wickets,
         SeasonBowlingRecord,
-        SeasonOver30Wickets,
+        SeasonOver20Wickets,
         SeasonAverageUnder15,
         Number5For,
         LowEconomy,
         LowStrikeRate,
         SeasonFieldingRecord,
-        CareerBowling,
         CareerFielding,
     }
 }

@@ -73,6 +73,26 @@ namespace CricketStructures.Statistics
             }
         }
 
+        /// <summary>
+        /// Cycles through the batting for the team in the match and performs an action on each entry.
+        /// </summary>
+        public static void BattingIterator(
+            ICricketMatch match,
+            string teamName,
+            Action<BattingEntry, CricketInnings> matchAction)
+        {
+            var innings = match.GetInnings(teamName, batting: true);
+            var battingInnings = innings?.Batting;
+            if (battingInnings == null)
+            {
+                return;
+            }
+            foreach (BattingEntry batting in battingInnings)
+            {
+                matchAction(batting, innings);
+            }
+        }
+
         public static void BattingIterator(
             ICricketMatch match,
             string teamName,
@@ -108,6 +128,23 @@ namespace CricketStructures.Statistics
         public static void BowlingIterator(
             ICricketMatch match,
             string teamName,
+            Action<BowlingEntry, CricketInnings> matchAction)
+        {
+            var innings = match.GetInnings(teamName, batting: false);
+            var bowlingInnings = innings?.Bowling;
+            if (bowlingInnings == null)
+            {
+                return;
+            }
+            foreach (BowlingEntry bowling in bowlingInnings)
+            {
+                matchAction(bowling, innings);
+            }
+        }
+
+        public static void BowlingIterator(
+            ICricketMatch match,
+            string teamName,
             PlayerName playerName,
             Action<BowlingEntry> matchAction)
         {
@@ -125,11 +162,10 @@ namespace CricketStructures.Statistics
             string teamName,
             Action<FieldingEntry> matchAction)
         {
-            var innings = match.GetInnings(teamName, batting: false);
-            List<FieldingEntry> allFielding = new List<FieldingEntry>();
-            foreach (var player in innings.Players(teamName))
+            var allFielding = match.GetAllFielding(teamName);
+            if (allFielding == null)
             {
-                allFielding.Add(innings.GetFielding(teamName, player));
+                return;
             }
 
             foreach (FieldingEntry fielding in allFielding)

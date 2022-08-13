@@ -142,6 +142,11 @@ namespace CricketStructures.Statistics.Implementation.Collection
         }
 
         /// <inheritdoc/>
+        public void Finalise()
+        {
+        }
+
+        /// <inheritdoc/>
         public void ExportStats(ReportBuilder reportBuilder, DocumentElement headerElement)
         {
             _ = reportBuilder.WriteTitle(Header, headerElement);
@@ -153,5 +158,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
                 stats.ExportStats(reportBuilder, headerElement.GetNext());
             }
         }
+
+
     }
 }

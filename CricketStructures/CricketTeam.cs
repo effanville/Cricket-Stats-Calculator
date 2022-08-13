@@ -12,6 +12,7 @@ using Common.Structure.FileAccess;
 
 namespace CricketStructures
 {
+    /// <inheritdoc/>
     public sealed class CricketTeam : ICricketTeam, IValidity
     {
         /// <inheritdoc/>
@@ -108,6 +109,7 @@ namespace CricketStructures
             return false;
         }
 
+        /// <inheritdoc/>
         public void EditPlayerName(PlayerName oldName, PlayerName newName)
         {
             TeamSeasons.ForEach(season => season.EditPlayerName(oldName, newName));
@@ -146,6 +148,7 @@ namespace CricketStructures
             throw new Exception($"Had {removed} players with name {name}, but should have at most 1.");
         }
 
+        /// <inheritdoc/>
         public bool AddSeason(DateTime year, string name)
         {
             if (!ContainsSeason(year, name))
@@ -153,17 +156,21 @@ namespace CricketStructures
                 var season = new CricketSeason(year, name);
                 season.PlayerAdded += OnPlayerAdded;
                 TeamSeasons.Add(season);
+
+                TeamSeasons.Sort((a, b) => a.Year.CompareTo(b.Year));
                 return true;
             }
 
             return false;
         }
 
+        /// <inheritdoc/>
         public bool ContainsSeason(DateTime year, string name)
         {
             return TeamSeasons.Any(season => season.SameSeason(year, name));
         }
 
+        /// <inheritdoc/>
         public ICricketSeason GetSeason(DateTime year, string name)
         {
             if (ContainsSeason(year, name))
@@ -174,16 +181,19 @@ namespace CricketStructures
             return null;
         }
 
+        /// <inheritdoc/>
         public int RemoveSeason(DateTime year, string name)
         {
             return TeamSeasons.RemoveAll(season => season.SameSeason(year, name));
         }
 
+        /// <inheritdoc/>
         public bool Validate()
         {
             return !Validation().Any(validation => !validation.IsValid);
         }
 
+        /// <inheritdoc/>
         public List<ValidationResult> Validation()
         {
             var results = new List<ValidationResult>();
@@ -199,6 +209,7 @@ namespace CricketStructures
             return results;
         }
 
+        /// <inheritdoc/>
         public void Save(IFileSystem fileSystem, string filepath, out string error)
         {
             XmlFileAccess.WriteToXmlFile(fileSystem, filepath, this, out error);

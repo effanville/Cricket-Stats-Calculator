@@ -8,7 +8,7 @@ using CricketStructures.Match.Innings;
 using CricketStructures.Season;
 using CricketStructures.Statistics.Implementation.Player.Model;
 
-namespace CricketStructures.Statistics.Implementation.Player.Career
+namespace CricketStructures.Statistics.Implementation.Team
 {
     internal sealed class HighestClubBattingAverage : ICricketStat
     {

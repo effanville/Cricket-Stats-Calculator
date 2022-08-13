@@ -101,6 +101,32 @@ namespace CricketStructures.Match.Innings
             return null;
         }
 
+        public IReadOnlyList<FieldingEntry> GetAllFielding(string teamName)
+        {
+            var fielding = new Dictionary<PlayerName, FieldingEntry>();
+            if (string.Equals(FieldingTeam, teamName))
+            {
+                foreach (var batting in Batting)
+                {
+                    if (batting.MethodOut.IsFielderWicket())
+                    {
+                        if (fielding.TryGetValue(batting.Fielder, out var value))
+                        {
+                            value.UpdateEntry(batting.MethodOut, batting.WasKeeper);
+                        }
+                        else
+                        {
+                            var entry = new FieldingEntry(batting.Fielder);
+                            entry.UpdateEntry(batting.MethodOut, batting.WasKeeper);
+                            fielding.Add(batting.Fielder, entry);
+                        }
+                    }
+                }
+            }
+
+            return fielding.Select(kvp => kvp.Value).ToList();
+        }
+
         public FieldingEntry GetFielding(string team, PlayerName player)
         {
             if (string.Equals(FieldingTeam, team))
@@ -135,8 +161,7 @@ namespace CricketStructures.Match.Innings
                     }
                 }
 
-                var fielding = new FieldingEntry(player);
-                fielding.SetScores(numberCatches, numberRunOuts, numberStumpings, numberKeeperCatches);
+                var fielding = new FieldingEntry(player, numberCatches, numberRunOuts, numberStumpings, numberKeeperCatches);
                 return fielding;
             }
 

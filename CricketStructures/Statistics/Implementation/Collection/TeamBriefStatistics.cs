@@ -6,9 +6,9 @@ using CricketStructures.Player;
 using CricketStructures.Player.Interfaces;
 using Common.Structure.ReportWriting;
 using CricketStructures.Statistics.Implementation.Player;
-using CricketStructures.Statistics.Implementation.Player.Batting;
-using CricketStructures.Statistics.Implementation.Player.Fielding;
 using CricketStructures.Statistics.Implementation.Player.Model;
+using CricketStructures.Statistics.Implementation.Player.Fielding;
+using CricketStructures.Match.Innings;
 
 namespace CricketStructures.Statistics.Implementation.Collection
 {
@@ -119,10 +119,10 @@ namespace CricketStructures.Statistics.Implementation.Collection
 
             TeamRecord.ExportStats(rb, innerHeaderElement);
 
-            (BestBatting Best, PlayerName Name) bestBatting = SeasonPlayerStats?.Select(player => (player.BattingStats.Best, player.Name))?.Max() ?? (null, null);
+            (PlayerScore Best, PlayerName Name) bestBatting = SeasonPlayerStats?.Select(player => (player.BattingStats.Best, player.Name))?.Max() ?? (null, null);
             _ = rb.WriteParagraph(new string[] { "Best Batting:", bestBatting.Name.ToString(), bestBatting.Best.ToString() });
 
-            (BestBowling BestFigures, PlayerName Name) = SeasonPlayerStats.Select(player => (player.BowlingStats.BestFigures, player.Name))?.Max() ?? (null, null);
+            (BowlingPerformance BestFigures, PlayerName Name) = SeasonPlayerStats.Select(player => (player.BowlingStats.BestFigures, player.Name))?.Max() ?? (null, null);
             _ = rb.WriteParagraph(new string[] { "Best Bowling:", Name.ToString(), BestFigures.ToString() });
 
             List<PlayerFieldingStatistics> fielding = SeasonPlayerStats.Select(player => player.FieldingStats).ToList();
@@ -137,18 +137,67 @@ namespace CricketStructures.Statistics.Implementation.Collection
             _ = rb.WriteTable(played, headerFirstColumn: false);
 
             _ = rb.WriteTitle("Batting Stats", innerHeaderElement);
-            List<PlayerBattingStatistics> batting = SeasonPlayerStats.Select(player => player.BattingStats).ToList();
+            List<PlayerBattingRecord> batting = SeasonPlayerStats.Select(player => player.BattingStats).ToList();
             _ = batting.RemoveAll(bat => bat.TotalInnings.Equals(0));
             batting.Sort((x, y) => y.TotalRuns.CompareTo(x.TotalRuns));
-            _ = rb.WriteTable(batting, headerFirstColumn: false);
+
+
+            var headers = new string[]
+            {
+                "Name",
+                "Innings",
+                "Not Out",
+                "Runs",
+                "Average",
+                "Centuries",
+                "Fifties",
+                "Best"
+            };
+            var fields = batting.Select(stat => new string[]
+            {
+                stat.Name.ToString(),
+                stat.TotalInnings.ToString(),
+                stat.TotalNotOut.ToString(),
+                stat.TotalRuns.ToString(),
+                stat.Average.ToString(),
+                stat.Centuries.ToString(),
+                stat.Fifties.ToString(),
+                stat.Best.ToString()
+            });
+            _ = rb.WriteTableFromEnumerable(headers, fields, headerFirstColumn: false);
 
             Partnerships.ExportStats(rb, innerHeaderElement);
 
             _ = rb.WriteTitle("Bowling Stats", innerHeaderElement);
-            List<PlayerBowlingStatistics> bowling = SeasonPlayerStats.Select(player => player.BowlingStats).ToList();
+            List<PlayerBowlingRecord> bowling = SeasonPlayerStats.Select(player => player.BowlingStats).ToList();
             _ = bowling.RemoveAll(bowl => bowl.TotalOvers.Equals(0));
             bowling.Sort((x, y) => y.TotalWickets.CompareTo(x.TotalWickets));
-            _ = rb.WriteTable(bowling, headerFirstColumn: false);
+
+            var bowlingHeaders = new string[]
+    {
+                    "Name",
+                    "Overs",
+                    "Maidens",
+                    "Runs Conceded",
+                    "Wickets",
+                    "Average",
+                    "Economy",
+                    "Strike Rate",
+                    "Best Figures"
+    };
+            var bowlingFields = bowling.Select(stat => new string[]
+            {
+                stat.Name.ToString(),
+                stat.TotalOvers.ToString(),
+                stat.TotalMaidens.ToString(),
+                stat.TotalRunsConceded.ToString(),
+                stat.TotalWickets.ToString(),
+                stat.Average.ToString(),
+                stat.Economy.ToString(),
+                stat.StrikeRate.ToString(),
+                stat.BestFigures.ToString(),
+            });
+            _ = rb.WriteTableFromEnumerable(bowlingHeaders, bowlingFields, headerFirstColumn: false);
 
             _ = rb.WriteTitle("Fielding Stats", innerHeaderElement);
             _ = fielding.RemoveAll(field => field.TotalDismissals.Equals(0));

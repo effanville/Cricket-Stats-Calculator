@@ -7,7 +7,6 @@ using CricketStructures.Player;
 using CricketStructures.Statistics;
 using CricketStructures.Statistics.Implementation.Collection;
 using CricketStructures.Statistics.Implementation.Player;
-using CricketStructures.Statistics.Implementation.Player.Batting;
 using CricketStructures.Statistics.Implementation.Player.Fielding;
 
 using NUnit.Framework;
@@ -29,7 +28,7 @@ namespace CricketStructures.Tests.StatisticsTests
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = TestCaseInstances.CreateTestSeason(TeamName, player, batting, bowling, fielding);
-            var stats = new PlayerBattingStatistics(player);
+            var stats = new PlayerBattingRecord(player);
             stats.CalculateStats(TeamName, season, MatchHelpers.AllMatchTypes);
 
             Assert.AreEqual(expected[0], stats.TotalInnings);
@@ -49,12 +48,12 @@ namespace CricketStructures.Tests.StatisticsTests
             var bowling = new List<(int, int, int, int)>(values.Item2);
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = TestCaseInstances.CreateTestSeason(TeamName, player, batting, bowling, fielding);
-            var stats = new PlayerBowlingStatistics(player);
+            var stats = new PlayerBowlingRecord(player);
             stats.CalculateStats(TeamName, season, MatchHelpers.AllMatchTypes);
 
             Assert.AreEqual(expected[0], stats.Average);
             Assert.AreEqual(expected[1], stats.Economy);
-            Assert.AreEqual(expected[2], stats.BestFigures.Runs);
+            Assert.AreEqual(expected[2], stats.BestFigures.RunsConceded);
             Assert.AreEqual(expected[3], stats.BestFigures.Wickets);
             Assert.AreEqual((Over)expected[4], stats.TotalOvers);
             Assert.AreEqual(expected[5], stats.TotalMaidens);

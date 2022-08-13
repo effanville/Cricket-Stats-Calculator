@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Common.Structure.NamingStructures;
 using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Season;
 using CricketStructures.Statistics.Implementation.Collection;
-using CricketStructures.Statistics.Implementation.Player.Model;
 
 namespace CricketStructures.Statistics.Implementation.Player.Bowling
 {
@@ -33,7 +33,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
         {
             var playerNames = Name == null ? team.Players().Select(player => player.Name).ToList() : new List<PlayerName>() { Name };
             List<PlayerBriefStatistics> playerStats = playerNames.Select(name => new PlayerBriefStatistics(name, team, matchTypes)).ToList();
-
+            var stats = playerStats.Where(stat => !double.IsNaN(stat.BowlingStats.StrikeRate));
             foreach (var player in playerStats)
             {
                 if (!double.IsNaN(player.BowlingStats.StrikeRate))
@@ -57,12 +57,17 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
                     LowStrikeRate.Add(new NamedRecord<int, double>("LowStrikeRate", player.Name, player.BowlingStats.TotalWickets, player.BowlingStats.StrikeRate));
                 }
             }
+
             LowStrikeRate.Sort((a, b) => a.SecondValue.CompareTo(b.SecondValue));
         }
 
         public void ResetStats()
         {
             LowStrikeRate.Clear();
+        }
+
+        public void Finalise()
+        {
         }
 
         public void UpdateStats(string teamName, ICricketMatch match)

@@ -1,13 +1,13 @@
 ﻿using System;
 
-using CricketStructures.Statistics.Implementation.Player.Model;
+using CricketStructures.Match.Innings;
 
 using NUnit.Framework;
 
-namespace CricketStructures.Tests.StatisticsTests
+namespace CricketStructures.Tests.Match.Innings
 {
     [TestFixture]
-    public sealed class BestBowlingTests
+    public sealed class BowlingPerformanceTests
     {
         [TestCase(10, 0, 10, 0, 0)]
         [TestCase(10, 0, 5, 0, -1)]
@@ -21,15 +21,15 @@ namespace CricketStructures.Tests.StatisticsTests
         [TestCase(10, 4, 10, 2, 1)]
         public void ComparisonTests(int runs, int wickets, int otherRuns, int otherWickets, int expected)
         {
-            var best = new BestBowling
+            var best = new BowlingPerformance
             {
-                Runs = runs,
+                RunsConceded = runs,
                 Wickets = wickets
             };
 
-            var otherBest = new BestBowling
+            var otherBest = new BowlingPerformance
             {
-                Runs = otherRuns,
+                RunsConceded = otherRuns,
                 Wickets = otherWickets
             };
 
@@ -43,9 +43,9 @@ namespace CricketStructures.Tests.StatisticsTests
         [TestCase(10, 2, null, null, "2-10 vs unknown opposition")]
         public void ToStringTests(int runs, int wickets, string opposition, DateTime date, string expected)
         {
-            var best = new BestBowling
+            var best = new BowlingPerformance
             {
-                Runs = runs,
+                RunsConceded = runs,
                 Wickets = wickets,
                 Opposition = opposition,
                 Date = date

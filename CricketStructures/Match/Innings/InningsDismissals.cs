@@ -1,6 +1,7 @@
 ﻿using System;
 
-using CricketStructures.Match;
+using Common.Structure.Extensions;
+
 using CricketStructures.Player;
 
 namespace CricketStructures.Match.Innings
@@ -48,6 +49,13 @@ namespace CricketStructures.Match.Innings
             Opposition = info.OppositionName(teamName);
             Date = info.Date;
             Location = info.Location;
+        }
+
+        public static string[] DisplayHeaders => new[] { "Dismissals", "Name", "Opposition", "Date", "Location" };
+
+        public string[] ArrayOfValues()
+        {
+            return new string[] { Dismissals.ToString(), Name.ToString(), Opposition, Date.ToUkDateString(), Location };
         }
     }
 }

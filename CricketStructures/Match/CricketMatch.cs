@@ -134,7 +134,7 @@ namespace CricketStructures.Match
         }
 
         /// <inheritdoc/>
-        public bool PlayNotPlay(string team, PlayerName person)
+        public bool Played(string team, PlayerName person)
         {
             return Players(team).Contains(person);
         }
@@ -335,14 +335,13 @@ namespace CricketStructures.Match
         /// <inheritdoc/>
         public IReadOnlyList<FieldingEntry> GetAllFielding(string team)
         {
-            var fielding = new List<FieldingEntry>();
             var innings = InningsHelpers.SelectFieldingInnings(FirstInnings, SecondInnings, team);
             if (innings != null)
             {
-
+                return innings.GetAllFielding(team);
             }
 
-            return fielding;
+            return null;
         }
 
         /// <inheritdoc/>

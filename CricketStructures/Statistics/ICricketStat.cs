@@ -38,6 +38,13 @@ namespace CricketStructures.Statistics
         void ResetStats();
 
         /// <summary>
+        /// Perform any final action on the statistics.
+        /// </summary>
+        void Finalise()
+        {
+        }
+
+        /// <summary>
         /// Export the stats into a RebortBuilder format.
         /// </summary>
         /// <param name="rb">The reportbuilder to export to.</param>

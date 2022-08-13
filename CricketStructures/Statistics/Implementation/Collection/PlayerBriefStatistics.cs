@@ -3,9 +3,8 @@ using CricketStructures.Season;
 using CricketStructures.Player;
 using Common.Structure.ReportWriting;
 using CricketStructures.Statistics.Implementation.Player;
-using CricketStructures.Statistics.Implementation.Player.Batting;
-using CricketStructures.Statistics.Implementation.Player.Fielding;
 using System.Collections.Generic;
+using CricketStructures.Statistics.Implementation.Player.Fielding;
 
 namespace CricketStructures.Statistics.Implementation.Collection
 {
@@ -45,9 +44,9 @@ namespace CricketStructures.Statistics.Implementation.Collection
         /// <inheritdoc/>
         public IReadOnlyList<CricketStatTypes> StatisticTypes => Stats.StatisticTypes;
 
-        public PlayerBattingStatistics BattingStats => Stats[CricketStatTypes.PlayerBattingStats] as PlayerBattingStatistics;
+        public PlayerBattingRecord BattingStats => Stats[CricketStatTypes.PlayerBattingRecord] as PlayerBattingRecord;
 
-        public PlayerBowlingStatistics BowlingStats => Stats[CricketStatTypes.PlayerBowlingStats] as PlayerBowlingStatistics;
+        public PlayerBowlingRecord BowlingStats => Stats[CricketStatTypes.PlayerBowlingRecord] as PlayerBowlingRecord;
         public PlayerFieldingStatistics FieldingStats => Stats[CricketStatTypes.PlayerFieldingStats] as PlayerFieldingStatistics;
 
         public PlayerAttendanceStatistics Played => Stats[CricketStatTypes.PlayerAttendanceStats] as PlayerAttendanceStatistics;
@@ -65,9 +64,9 @@ namespace CricketStructures.Statistics.Implementation.Collection
             var stats = new[]
             {
                 CricketStatTypes.PlayerAttendanceStats,
-                CricketStatTypes.PlayerBattingStats,
+                CricketStatTypes.PlayerBattingRecord,
                 CricketStatTypes.PlayerPartnershipStats,
-                CricketStatTypes.PlayerBowlingStats,
+                CricketStatTypes.PlayerBowlingRecord,
                 CricketStatTypes.PlayerFieldingStats
             };
             Stats = new CricketStatsCollection($"Brief Statistics for player {name}", stats, teamName, season, matchTypes, name);
@@ -80,9 +79,9 @@ namespace CricketStructures.Statistics.Implementation.Collection
             var stats = new[]
             {
                 CricketStatTypes.PlayerAttendanceStats,
-                CricketStatTypes.PlayerBattingStats,
+                CricketStatTypes.PlayerBattingRecord,
                 CricketStatTypes.PlayerPartnershipStats,
-                CricketStatTypes.PlayerBowlingStats,
+                CricketStatTypes.PlayerBowlingRecord,
                 CricketStatTypes.PlayerFieldingStats
             };
             Stats = new CricketStatsCollection($"Brief Statistics for player {name}", stats, team, matchTypes, name);
@@ -100,13 +99,13 @@ namespace CricketStructures.Statistics.Implementation.Collection
                 .WriteParagraph(new string[] { "Wins:", $"{played.TotalGamesWon}" })
                 .WriteParagraph(new string[] { "Losses:", $"{played.TotalGamesLost}" });
 
-            var battingStats = Stats[CricketStatTypes.PlayerBattingStats] as PlayerBattingStatistics;
+            var battingStats = Stats[CricketStatTypes.PlayerBattingRecord] as PlayerBattingRecord;
             if (battingStats.Best != null)
             {
                 _ = rb.WriteParagraph(new string[] { "Best Batting:", battingStats.Best.ToString() });
             }
 
-            var bowlingStats = Stats[CricketStatTypes.PlayerBowlingStats] as PlayerBowlingStatistics;
+            var bowlingStats = Stats[CricketStatTypes.PlayerBowlingRecord] as PlayerBowlingRecord;
             if (bowlingStats.BestFigures != null)
             {
                 _ = rb.WriteParagraph(new string[] { "Best Bowling:", bowlingStats.BestFigures.ToString() });

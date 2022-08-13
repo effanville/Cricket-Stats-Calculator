@@ -38,9 +38,14 @@ namespace CricketStructures.Season
         IReadOnlyList<PlayerName> Players(string teamName, MatchType[] matchTypes);
 
         /// <summary>
+        /// Did the player play in this season.
+        /// </summary>
+        bool Played(string teamName, MatchType[] matchTypes, PlayerName player);
+
+        /// <summary>
         /// Calculates what games have been played in the season.
         /// </summary>
-        SeasonGames CalculateGamesPlayed(MatchType[] matchTypes);
+        SeasonRecord CalculateGamesPlayed(MatchType[] matchTypes);
 
         /// <summary>
         /// Alters the player name in all matches in the season.

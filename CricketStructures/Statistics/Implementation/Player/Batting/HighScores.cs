@@ -1,108 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-
-using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
-using CricketStructures.Season;
-using CricketStructures.Statistics.Implementation.Player.Model;
 
 namespace CricketStructures.Statistics.Implementation.Player.Batting
 {
-    internal class HighScores : ICricketStat
+    public sealed class HighScores : IMatchAggregateStat<PlayerScore>
     {
         private int MinimumScoreValue;
-        private readonly PlayerName Name;
+        public string Title => MinimumScoreValue == 0 ? "All Scores" : $"Scores over {MinimumScoreValue}";
 
-        public List<PlayerScore> Centuries
+        public PlayerName Name
         {
-            get;
-            set;
-        } = new List<PlayerScore>();
-
-        public HighScores()
-        {
+            get; private set;
         }
 
-        public HighScores(int minimumScoreValue)
-            : this()
-        {
-            MinimumScoreValue = minimumScoreValue;
-        }
+        public IReadOnlyList<string> Headers => throw new NotImplementedException();
 
-        public HighScores(int minimumScoreValue, PlayerName name)
-            : this(minimumScoreValue)
-        {
-            Name = name;
-        }
+        public Func<PlayerScore, string[]> OutputValueSelector => throw new NotImplementedException();
 
-        public void CalculateStats(ICricketTeam team, MatchType[] matchTypes)
+        public Action<PlayerName, string, ICricketMatch, List<PlayerScore>> AddStatsAction => Create;
+        void Create(PlayerName name, string teamName, ICricketMatch match, List<PlayerScore> stats)
         {
-            // try to display many scores.
-            int minimumNumbertoDisplay = 10;
-            int numberEntries = 0;
-            int previousMinNumber = MinimumScoreValue;
-            do
+            CricketStatsHelpers.BattingIterator(
+                match,
+                teamName,
+                Update);
+            void Update(BattingEntry battingEntry, CricketInnings innings)
             {
-                CricketStatsHelpers.SeasonIterator(
-                team.Seasons,
-                season => CalculateStats(team.TeamName, season, matchTypes),
-                preCycleAction: ResetStats);
-                numberEntries = Centuries.Count;
-                if (numberEntries < minimumNumbertoDisplay)
-                {
-                    previousMinNumber = MinimumScoreValue;
-                    MinimumScoreValue = Math.Max(0, MinimumScoreValue - 5);
-                }
-            }
-            while (numberEntries < minimumNumbertoDisplay && previousMinNumber != MinimumScoreValue);
-        }
-
-        public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
-        {
-            CricketStatsHelpers.MatchIterator(
-                season,
-                matchTypes,
-                match => UpdateStats(teamName, match),
-                postCycleAction: () => Centuries.Sort((a, b) => b.Runs.CompareTo(a.Runs)));
-        }
-
-        public void ResetStats()
-        {
-            Centuries.Clear();
-        }
-
-        public void UpdateStats(string teamName, ICricketMatch match)
-        {
-            var innings = match.GetInnings(teamName, batting: true);
-            var battingInnings = innings?.Batting;
-            if (battingInnings == null)
-            {
-                return;
-            }
-            foreach (BattingEntry battingEntry in battingInnings)
-            {
-                if (battingEntry.RunsScored >= MinimumScoreValue && battingEntry.MethodOut != Wicket.DidNotBat)
+                if (battingEntry.RunsScored >= MinimumScoreValue && battingEntry.MethodOut.DidBat())
                 {
                     if (Name == null || battingEntry.Name.Equals(Name))
                     {
-                        Centuries.Add(new PlayerScore(teamName, battingEntry, match.MatchData, innings.Score()));
+                        stats.Add(new PlayerScore(teamName, battingEntry, match.MatchData, innings.Score()));
                     }
                 }
             }
         }
 
-        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
+        public Comparison<PlayerScore> Comparison => (a, b) => b.Runs.CompareTo(a.Runs);
+
+        public HighScores(int minScore, PlayerName name)
         {
-            if (Centuries.Any())
-            {
-                string title = MinimumScoreValue == 0 ? "All Scores" : $"Scores over {MinimumScoreValue}";
-                _ = rb.WriteTitle(title, headerElement)
-                    .WriteTable(Centuries, headerFirstColumn: false);
-            }
+            MinimumScoreValue = minScore;
+            Name = name;
+        }
+
+        public bool IncreaseStatScope()
+        {
+            MinimumScoreValue = Math.Max(0, MinimumScoreValue - 5);
+            return MinimumScoreValue == 0;
         }
     }
 }

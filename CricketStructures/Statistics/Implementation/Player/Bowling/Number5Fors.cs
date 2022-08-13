@@ -1,16 +1,77 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
+using Common.Structure.NamingStructures;
 using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
 using CricketStructures.Season;
-using CricketStructures.Statistics.Implementation.Player.Model;
 
 namespace CricketStructures.Statistics.Implementation.Player.Bowling
 {
+    public sealed class HighWicketHauls : IMatchAggregateStat<NamedRecord<int>>
+    {
+        private int fMinimum;
+        public string Title => $"Individual Wicket hauls over {fMinimum} wickets.";
+
+        public PlayerName Name
+        {
+            get; private set;
+        }
+
+        public IReadOnlyList<string> Headers => new string[] { "Name", "Number Hauls" };
+
+        public Func<NamedRecord<int>, string[]> OutputValueSelector => value => value.ArrayValues();
+
+        public Action<PlayerName, string, ICricketMatch, List<NamedRecord<int>>> AddStatsAction => Create;
+        void Create(PlayerName name, string teamName, ICricketMatch match, List<NamedRecord<int>> stats)
+        {
+            CricketStatsHelpers.BowlingIterator(
+                match,
+                teamName,
+                UpdateFiveFors);
+            void UpdateFiveFors(BowlingEntry bowlingEntry)
+            {
+                if (Name == null || bowlingEntry.Name.Equals(Name))
+                {
+                    if (bowlingEntry.Wickets >= 5)
+                    {
+                        if (stats.Any(entry => entry.Name.Equals(bowlingEntry.Name)))
+                        {
+                            var value = stats.First(entry => entry.Name.Equals(bowlingEntry.Name));
+                            value.UpdateValue(1);
+                        }
+                        else
+                        {
+                            stats.Add(new NamedRecord<int>("NumberFiveFor", bowlingEntry.Name, 1, Update));
+                        }
+                    }
+                }
+
+                int Update(int a, int b)
+                {
+                    return a + b;
+                }
+            }
+        }
+
+        public Comparison<NamedRecord<int>> Comparison => NamedRecordComparers.ValueCompare<int>();
+
+        public HighWicketHauls(int minimum, PlayerName name)
+        {
+            fMinimum = minimum;
+            Name = name;
+        }
+
+        public bool IncreaseStatScope()
+        {
+            return true;
+        }
+    }
+
     internal class Number5Fors : ICricketStat
     {
         private readonly PlayerName Name;
@@ -55,7 +116,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             CricketStatsHelpers.BowlingIterator(
                 match,
                 teamName,
-                entry => UpdateFiveFors(entry));
+                UpdateFiveFors);
             void UpdateFiveFors(BowlingEntry bowlingEntry)
             {
                 if (Name == null || bowlingEntry.Name.Equals(Name))

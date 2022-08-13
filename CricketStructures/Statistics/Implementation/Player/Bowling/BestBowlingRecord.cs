@@ -8,7 +8,6 @@ using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
 using CricketStructures.Season;
-using CricketStructures.Statistics.Implementation.Player.Model;
 
 namespace CricketStructures.Statistics.Implementation.Player.Bowling
 {
@@ -78,14 +77,14 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             CricketStatsHelpers.BowlingIterator(
                 match,
                 teamName,
-                entry => AddManyWickets(entry));
+                AddManyWickets);
             void AddManyWickets(BowlingEntry bowlingEntry)
             {
                 if (Name == null || bowlingEntry.Name.Equals(Name))
                 {
                     if (bowlingEntry.Wickets >= MinimumNumberWickets)
                     {
-                        ManyWickets.Add(new BowlingPerformance(bowlingEntry, match.MatchData));
+                        ManyWickets.Add(new BowlingPerformance(teamName, bowlingEntry, match.MatchData));
                     }
                 }
             }

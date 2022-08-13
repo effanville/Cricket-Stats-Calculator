@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CricketStructures.Season;
 using CricketStructures.Player;
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
@@ -71,32 +70,45 @@ namespace CricketStructures.Match.Innings
             KeeperStumpings = stumpings;
             KeeperCatches = keeperCatches;
         }
-
-        public FieldingEntry(PlayerName name)
-        {
-            Name = name;
-        }
-
         public FieldingEntry()
         {
         }
 
-        public void SetSeasonStats(string team, ICricketSeason season)
+        public FieldingEntry(PlayerName name)
+            : this()
         {
-            Catches = 0;
-            RunOuts = 0;
-            KeeperStumpings = 0;
-            KeeperCatches = 0;
-            foreach (ICricketMatch match in season.Matches)
+            Name = name;
+        }
+
+        public FieldingEntry(PlayerName name, int catches, int runOuts, int stumpings, int keeperCatches)
+            : this(name)
+        {
+            SetScores(catches, runOuts, stumpings, keeperCatches);
+        }
+
+
+
+        public void UpdateEntry(Wicket wicket, bool wasKeeper)
+        {
+            if (wicket == Wicket.Caught)
             {
-                FieldingEntry fielding = match.GetFielding(team, Name);
-                if (fielding != null)
+                if (wasKeeper)
                 {
-                    Catches += fielding.Catches;
-                    RunOuts += fielding.RunOuts;
-                    KeeperCatches += fielding.KeeperCatches;
-                    KeeperStumpings += fielding.KeeperStumpings;
+                    KeeperCatches++;
                 }
+                else
+                {
+                    Catches++;
+                }
+            }
+            if (wicket == Wicket.RunOut)
+            {
+                RunOuts++;
+            }
+
+            if (wicket == Wicket.Stumped)
+            {
+                KeeperStumpings++;
             }
         }
 

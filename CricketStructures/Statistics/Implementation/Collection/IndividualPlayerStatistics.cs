@@ -28,9 +28,9 @@ namespace CricketStructures.Statistics.Implementation.Collection
             var stats = new[]
             {
                 CricketStatTypes.PlayerAttendanceStats,
-                CricketStatTypes.PlayerBattingStats,
+                CricketStatTypes.PlayerBattingRecord,
                 CricketStatTypes.PlayerPartnershipStats,
-                CricketStatTypes.PlayerBowlingStats,
+                CricketStatTypes.PlayerBowlingRecord,
                 CricketStatTypes.PlayerFieldingStats
             };
             Stats = new CricketStatsCollection("Overall Player Records", stats, team, matchTypes, playerName);

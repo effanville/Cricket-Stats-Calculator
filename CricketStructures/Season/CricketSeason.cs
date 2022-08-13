@@ -9,7 +9,8 @@ using Common.Structure.Validation;
 
 namespace CricketStructures.Season
 {
-    public class CricketSeason : ICricketSeason, IValidity
+    /// <inheritdoc/>
+    public sealed class CricketSeason : ICricketSeason, IValidity
     {
         /// <inheritdoc/>
         [XmlAttribute]
@@ -39,44 +40,20 @@ namespace CricketStructures.Season
         public IReadOnlyList<ICricketMatch> Matches => SeasonsMatches.Select(match => (ICricketMatch)match).ToList();
 
         /// <inheritdoc/>
-        public SeasonGames CalculateGamesPlayed(MatchType[] matchTypes)
+        public SeasonRecord CalculateGamesPlayed(MatchType[] matchTypes)
         {
             int gamesPlayed = 0;
-            int numberWins = 0;
-            int numberLosses = 0;
-            int numberDraws = 0;
-            int numberTies = 0;
-            int numberAbandoned = 0;
+            var results = new Dictionary<ResultType, int>();
             foreach (var match in Matches)
             {
                 if (matchTypes.Contains(match.MatchData.Type))
                 {
                     gamesPlayed++;
-
-                    if (match.Result == ResultType.Win)
-                    {
-                        numberWins++;
-                    }
-                    if (match.Result == ResultType.Loss)
-                    {
-                        numberLosses++;
-                    }
-                    if (match.Result == ResultType.Draw)
-                    {
-                        numberDraws++;
-                    }
-                    if (match.Result == ResultType.Tie)
-                    {
-                        numberTies++;
-                    }
-                    if (match.Result == ResultType.Abandoned)
-                    {
-                        numberAbandoned++;
-                    }
+                    results[match.Result]++;
                 }
             }
 
-            return new SeasonGames(gamesPlayed, numberWins, numberLosses, numberDraws, numberTies, numberAbandoned);
+            return new SeasonRecord(Year, gamesPlayed, results);
         }
 
         public event EventHandler PlayerAdded;
@@ -93,8 +70,6 @@ namespace CricketStructures.Season
                 match.PlayerAdded += OnPlayerAdded;
             }
         }
-
-
 
         /// <inheritdoc/>
         public void EditPlayerName(PlayerName oldName, PlayerName newName)
@@ -115,13 +90,19 @@ namespace CricketStructures.Season
 
             List<PlayerName> MatchPlayers(ICricketMatch match)
             {
-                if(matchTypes.Contains(match.MatchData.Type))
+                if (matchTypes.Contains(match.MatchData.Type))
                 {
                     return match.Players(teamName);
                 }
-                
+
                 return new List<PlayerName>();
             }
+        }
+
+        /// <inheritdoc/>
+        public bool Played(string teamName, MatchType[] matchTypes, PlayerName player)
+        {
+            return Players(teamName, matchTypes).Contains(player);
         }
 
         /// <inheritdoc/>
@@ -151,18 +132,18 @@ namespace CricketStructures.Season
                 var match = new CricketMatch(info);
                 match.PlayerAdded += OnPlayerAdded;
                 SeasonsMatches.Add(match);
-                SeasonsMatches.Sort((a,b) =>a.MatchData.Date.CompareTo(b.MatchData.Date));
+                SeasonsMatches.Sort((a, b) => a.MatchData.Date.CompareTo(b.MatchData.Date));
                 return true;
             }
 
-            SeasonsMatches.Sort((a,b) =>a.MatchData.Date.CompareTo(b.MatchData.Date));
+            SeasonsMatches.Sort((a, b) => a.MatchData.Date.CompareTo(b.MatchData.Date));
             return false;
         }
 
         /// <inheritdoc/>
         public bool ContainsMatch(DateTime date, string homeTeam, string awayTeam)
         {
-            SeasonsMatches.Sort((a,b) =>a.MatchData.Date.CompareTo(b.MatchData.Date));
+            SeasonsMatches.Sort((a, b) => a.MatchData.Date.CompareTo(b.MatchData.Date));
             return SeasonsMatches.Any(match => match.SameMatch(date, homeTeam, awayTeam));
         }
 

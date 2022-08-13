@@ -61,7 +61,7 @@ namespace CricketStructures.Match
         /// <summary>
         /// Query to determine whether a player played or not for this team.
         /// </summary>
-        bool PlayNotPlay(string team, PlayerName name);
+        bool Played(string team, PlayerName name);
 
         /// <summary>
         /// Alters a players name in the record.

@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Common.Structure.NamingStructures;
 using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Season;
-using CricketStructures.Statistics.Implementation.Player.Model;
 
-namespace CricketStructures.Statistics.Implementation.Player.Career
+namespace CricketStructures.Statistics.Implementation.Team
 {
     internal class MostClubRuns : ICricketStat
     {
