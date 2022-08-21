@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/net6.0-windows/win-x64/CricketStatisticsDatabase.exe",
+            "program": "${workspaceFolder}/bin/debug/net6.0-windows/win-x64/CricketStatisticsDatabase.exe",
             "args": [],
             "cwd": "${workspaceFolder}/CricketStatisticsDatabase",
             "console": "internalConsole",
