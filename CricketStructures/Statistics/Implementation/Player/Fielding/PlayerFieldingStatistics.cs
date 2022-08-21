@@ -115,6 +115,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
 
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
+            
             _ = rb.WriteTitle("Fielding Stats", headerElement)
                 .WriteTable(new PlayerFieldingStatistics[] { this }, headerFirstColumn: false);
         }

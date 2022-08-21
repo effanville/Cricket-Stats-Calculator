@@ -89,6 +89,11 @@ namespace CricketStructures.Match.Innings
 
         public int CompareTo(BowlingPerformance other)
         {
+            if(other == null)
+            {
+                return 1;
+            }   
+
             if (!Wickets.Equals(other.Wickets))
             {
                 return Wickets.CompareTo(other.Wickets);

@@ -66,7 +66,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
 
         internal TeamBriefStatistics(ICricketTeam team, Match.MatchType[] matchTypes)
         {
-            Header = $"Brief Statistics for {team.TeamName}";
+            Header = $"Statistics for {team.TeamName}";
             CalculatePlayerStats(team, matchTypes);
             Partnerships = CricketStatsFactory.Generate(CricketStatTypes.TeamPartnershipStats, team, matchTypes);
             TeamRecord = CricketStatsFactory.Generate(CricketStatTypes.TeamRecord, team, matchTypes);
@@ -74,7 +74,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
 
         internal TeamBriefStatistics(string teamName, ICricketSeason season, Match.MatchType[] matchTypes)
         {
-            Header = $"Brief Statistics for {teamName} for the year {season.Year.Year}";
+            Header = $"Statistics for {teamName} for the year {season.Year.Year}";
             SeasonYear = season.Year;
             CalculatePlayerStats(teamName, season, matchTypes);
             Partnerships = CricketStatsFactory.Generate(CricketStatTypes.TeamPartnershipStats, teamName, season, matchTypes);
@@ -108,14 +108,8 @@ namespace CricketStructures.Statistics.Implementation.Collection
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
             var innerHeaderElement = headerElement.GetNext();
-            if (!SeasonYear.HasValue)
-            {
-                _ = rb.WriteTitle("All time Brief Statistics", headerElement);
-            }
-            else
-            {
-                _ = rb.WriteTitle($"For season {SeasonYear.Value.Year}", headerElement);
-            }
+
+                _ = rb.WriteTitle(Header, headerElement);
 
             TeamRecord.ExportStats(rb, innerHeaderElement);
 
@@ -202,7 +196,25 @@ namespace CricketStructures.Statistics.Implementation.Collection
             _ = rb.WriteTitle("Fielding Stats", innerHeaderElement);
             _ = fielding.RemoveAll(field => field.TotalDismissals.Equals(0));
             fielding.Sort((x, y) => y.TotalDismissals.CompareTo(x.TotalDismissals));
-            _ = rb.WriteTable(fielding, headerFirstColumn: false);
+            var fieldingHeaders = new string[]
+            {
+                    "Name",
+                    "Catches",
+                    "Run Outs",
+                    "Stumpings",
+                    "KeeperCatches",
+                    "Total"
+            };
+            var fieldingFields = fielding.Select(stat => new string[]
+            {
+                stat.Name.ToString(),
+                stat.Catches.ToString(),
+                stat.RunOuts.ToString(),
+                stat.KeeperStumpings.ToString(),
+                stat.KeeperCatches.ToString(),
+                stat.TotalDismissals.ToString()
+            });
+            _ = rb.WriteTableFromEnumerable(fieldingHeaders, fieldingFields, headerFirstColumn: false);
         }
     }
 }

@@ -83,6 +83,10 @@ namespace CricketStructures.Match.Innings
 
         public int CompareTo(PlayerScore other)
         {
+            if (other == null)
+            {
+                return 1;
+            }
             if (string.IsNullOrEmpty(Opposition))
             {
                 return -1;
