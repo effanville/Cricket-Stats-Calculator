@@ -8,7 +8,7 @@ using Common.Structure.ReportWriting;
 using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Season;
-using CricketStructures.Statistics.Implementation.Collection;
+using CricketStructures.Statistics.Collection.Implementation;
 
 namespace CricketStructures.Statistics.Implementation.Player.Bowling
 {

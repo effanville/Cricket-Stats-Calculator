@@ -131,6 +131,20 @@ namespace CricketStructures.Match.Innings
         }
 
         public static string[] Headers => new string[] { "Runs", "Name", "Opposition", "Date", "Game Type", "Location", "Team Total Score" };
+        public static string[] PlayerHeaders => new string[] { "Runs", "Opposition", "Date", "Game Type", "Location", "Team Total Score" };
+
+        public string[] ArrayOfPlayerValues()
+        {
+            return new string[]
+                {
+                    Runs.ToString(),
+                    Opposition.ToString(),
+                    Date.ToUkDateString(),
+                    GameType.ToString(),
+                    Location.ToString(),
+                    TeamTotalScore.ToString()
+                };
+        }
 
         public string[] ArrayOfValues()
         {

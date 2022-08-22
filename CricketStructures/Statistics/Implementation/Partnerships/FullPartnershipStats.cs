@@ -121,9 +121,14 @@ namespace CricketStructures.Statistics.Implementation.Partnerships
             MostPartnershipsAsPair = new List<PartnershipPairNumber>();
         }
 
+        /// <inheritdoc/>
+        public void Finalise()
+        {
+        }
+
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            DocumentElement lowerLevelElement = headerElement++;
+            DocumentElement lowerLevelElement = headerElement.GetNext();
             _ = rb.WriteTitle("Partnership Records", headerElement);
             if (PartnershipsByWicket.Any())
             {

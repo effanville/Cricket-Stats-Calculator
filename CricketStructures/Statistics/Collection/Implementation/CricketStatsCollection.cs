@@ -7,7 +7,7 @@ using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Season;
 
-namespace CricketStructures.Statistics.Implementation.Collection
+namespace CricketStructures.Statistics.Collection.Implementation
 {
     /// <summary>
     /// A generic container for a collection of statistics.
@@ -144,12 +144,19 @@ namespace CricketStructures.Statistics.Implementation.Collection
         /// <inheritdoc/>
         public void Finalise()
         {
+            foreach (var stat in Statistics)
+            {
+                stat.Value.Finalise();
+            }
         }
 
         /// <inheritdoc/>
         public void ExportStats(ReportBuilder reportBuilder, DocumentElement headerElement)
         {
-            _ = reportBuilder.WriteTitle(Header, headerElement);
+            if (!string.IsNullOrEmpty(Header))
+            {
+                _ = reportBuilder.WriteTitle(Header, headerElement);
+            }
 
             var statsTypes = Statistics.Keys;
             foreach (CricketStatTypes statName in statsTypes)
@@ -158,7 +165,5 @@ namespace CricketStructures.Statistics.Implementation.Collection
                 stats.ExportStats(reportBuilder, headerElement.GetNext());
             }
         }
-
-
     }
 }

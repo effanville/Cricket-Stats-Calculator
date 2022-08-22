@@ -204,5 +204,10 @@ namespace CricketStructures.Statistics.Implementation.Team
             HighestScoresBattingSecond.Clear();
             LowestScoresBattingFirstNotLose.Clear();
         }
+
+        /// <inheritdoc/>
+        public void Finalise()
+        {
+        }
     }
 }

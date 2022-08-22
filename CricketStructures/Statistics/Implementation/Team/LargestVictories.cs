@@ -87,5 +87,10 @@ namespace CricketStructures.Statistics.Implementation.Team
             WinBy100Runs.Clear();
             WinBy10Wickets.Clear();
         }
+
+        /// <inheritdoc/>
+        public void Finalise()
+        {
+        }
     }
 }

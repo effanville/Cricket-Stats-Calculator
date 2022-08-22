@@ -87,6 +87,11 @@ namespace CricketStructures.Statistics.Implementation.Partnerships
         }
 
         /// <inheritdoc/>
+        public void Finalise()
+        {
+        }
+
+        /// <inheritdoc/>
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
             _ = rb.WriteTitle("Highest Partnerships", headerElement)

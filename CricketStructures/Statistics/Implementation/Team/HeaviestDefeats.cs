@@ -87,5 +87,10 @@ namespace CricketStructures.Statistics.Implementation.Team
             HeaviestLossByRuns.Clear();
             HeaviestLossByWickets.Clear();
         }
+
+        /// <inheritdoc/>
+        public void Finalise()
+        {
+        }
     }
 }

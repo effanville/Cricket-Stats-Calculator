@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using CricketStructures.Match;
-using CricketStructures.Statistics;
+using CricketStructures.Statistics.Collection;
 
 namespace CSD
 {

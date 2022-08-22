@@ -6,7 +6,7 @@ using System;
 using Common.Structure.ReportWriting;
 using System.Collections.Generic;
 
-namespace CricketStructures.Statistics.Implementation.Player
+namespace CricketStructures.Statistics.Implementation.Player.Batting
 {
     public sealed class PlayerBattingRecord : ICricketStat
     {
@@ -99,11 +99,17 @@ namespace CricketStructures.Statistics.Implementation.Player
             Name = name;
         }
 
-        public PlayerBattingRecord(PlayerName name, ICricketTeam team)
+        public PlayerBattingRecord(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
             : this(name)
         {
             Name = name;
-            CalculateStats(team, MatchHelpers.AllMatchTypes);
+            CalculateStats(team, matchTypes);
+        }
+
+        public PlayerBattingRecord(PlayerName name, string teamName, ICricketSeason season, MatchType[] matchTypes)
+            : this(name)
+        {
+            CalculateStats(teamName, season, matchTypes);
         }
 
         public void CalculateStats(ICricketTeam team, MatchType[] matchTypes)
@@ -127,15 +133,6 @@ namespace CricketStructures.Statistics.Implementation.Player
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
         {
-            if (season.Year < StartYear)
-            {
-                StartYear = season.Year;
-            }
-            if (season.Year > EndYear)
-            {
-                EndYear = season.Year;
-            }
-
             CricketStatsHelpers.MatchIterator(
                 season,
                 matchTypes,
@@ -147,6 +144,15 @@ namespace CricketStructures.Statistics.Implementation.Player
         {
             if (match.Played(teamName, Name))
             {
+                if (match.MatchData.Date < StartYear)
+                {
+                    StartYear = match.MatchData.Date;
+                }
+                if (match.MatchData.Date > EndYear)
+                {
+                    EndYear = match.MatchData.Date;
+                }
+
                 MatchesPlayed++;
                 BattingEntry batting = match.GetBatting(teamName, Name);
                 if (batting != null)
@@ -207,68 +213,77 @@ namespace CricketStructures.Statistics.Implementation.Player
 
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var headers = new string[]
-            {
-                "Name",
-                "Start Year",
-                "End Year",
-                "Matches Played",
-                "Innings",
-                "Not Out",
-                "Runs",
-                "Best",
-                "Average",
-                "Centuries",
-                "Fifties"
-            };
-            var fields = new string[]
-            {
-                Name.ToString(),
-                StartYear.Year.ToString(),
-                EndYear.Year.ToString(),
-                MatchesPlayed.ToString(),
-                TotalInnings.ToString(),
-                TotalNotOut.ToString(),
-                TotalRuns.ToString(),
-                Average.ToString(),
-                Best.ToString(),
-                Centuries.ToString(),
-                Fifties.ToString()
-            };
-
             _ = rb.WriteTitle("Batting Stats", headerElement)
-                .WriteTableFromEnumerable(headers, new[] { fields }, headerFirstColumn: false);
+                .WriteTableFromEnumerable(Headers(true, false), new[] { Values(true, false) }, headerFirstColumn: false);
         }
 
-        public static string[] PlayerHeaders => new string[] { "Year", "Innings", "Not Out", "Runs", "Average", "Runs Per Innings" };
-        public static string[] Headers => new string[] { "Year", "Name", "Innings", "Not Out", "Runs", "Average", "Runs Per Innings" };
-
-
-        public string[] PlayerArrayValues()
+        public static IReadOnlyList<string> Headers(bool includeName, bool singleSeason, bool includeYear = true)
         {
-            return new string[]
-                    {
-                        StartYear.Year.ToString(),
-                        TotalInnings.ToString(),
-                        TotalNotOut.ToString(),
-                        TotalRuns.ToString(),
-                        Average.ToString(),
-                        RunsPerInnings.ToString()
-                    };
+            var headers = new List<string>();
+            if (includeName)
+            {
+                headers.Add("Name");
+            }
+
+            if(includeYear)
+            {
+                if (singleSeason)
+                {
+                    headers.Add("Year");
+                }
+                else
+                {
+                    headers.Add("Start Year");
+                    headers.Add("End Year");
+                }
+            }
+
+            headers.Add("Innings");
+            headers.Add("Not Out");
+            headers.Add("Runs");
+            headers.Add("Average");
+            headers.Add("Runs Per Innings");
+            headers.Add("Centuries");
+            headers.Add("Fifties");
+            headers.Add("Best");
+
+            return headers;
         }
 
-        public string[] ArrayValues()
+        public IReadOnlyList<string> Values(
+            bool includeName,
+            bool singleSeason,
+            bool includeYear = true)
         {
-            return new string[]
-                    {
-                        StartYear.Year.ToString(),
-                        Name.ToString(),
-                        TotalInnings.ToString(),
-                        TotalNotOut.ToString(),
-                        TotalRuns.ToString(),
-                        Average.ToString(),
-                        RunsPerInnings.ToString()
-                    };
+            var values = new List<string>();
+            if (includeName)
+            {
+                values.Add(Name.ToString());
+            }
+
+            if(includeYear)
+            {
+                if (singleSeason)
+                {
+                    values.Add(StartYear.Year.ToString());
+                }
+                else
+                {
+                    values.Add(StartYear.Year.ToString());
+                    values.Add(EndYear.Year.ToString());
+                }   
+            }
+
+            values.Add(TotalInnings.ToString());
+            values.Add(TotalNotOut.ToString());
+            values.Add(TotalRuns.ToString());
+            values.Add(Average.ToString());
+            values.Add(RunsPerInnings.ToString());
+            values.Add(Centuries.ToString());
+            values.Add(Fifties.ToString());
+            values.Add(Best?.ToString() ?? "");
+
+            return values;
         }
     }
 }

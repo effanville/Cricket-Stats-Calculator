@@ -19,12 +19,13 @@ namespace CricketStructures.Statistics.Implementation.Collection
         private readonly int MinimumNumberOfStatsToDisplay = 10;
 
         private readonly ISeasonAggregateStat<T> StatGeneration;
-        private readonly string Header;
-        private readonly IReadOnlyList<string> Headers;
-        private readonly Func<T, string[]> OutputValueSelector;
-        private readonly Func<PlayerName, string, ICricketSeason, MatchType[], T> StatGenerator;
-        private readonly Func<T, bool> SelectorFunc;
-        private readonly Comparison<T> Comparison;
+        private string Header => StatGeneration.Title;
+        private IReadOnlyList<string> Headers => StatGeneration.Headers;
+        private Func<T, IReadOnlyList<string>> OutputValueSelector => StatGeneration.OutputValueSelector;
+        private Func<PlayerName, string, ICricketSeason, MatchType[], T> StatGenerator => StatGeneration.StatGenerator;
+        private Func<T, bool> SelectorFunc => StatGeneration.SelectorFunc;
+        private Comparison<T> Comparison => StatGeneration.Comparison;
+        private readonly int? OutputNumber = null;
         private readonly PlayerName Name;
 
         public List<T> Stats
@@ -33,51 +34,11 @@ namespace CricketStructures.Statistics.Implementation.Collection
             set;
         } = new List<T>();
 
-        private SeasonAggregateStatList()
+        public SeasonAggregateStatList(ISeasonAggregateStat<T> statGeneration, int? numberToOutput = null)
         {
-        }
-
-        public SeasonAggregateStatList(
-            string header,
-            IReadOnlyList<string> headers,
-            Func<T, string[]> outputValueSelector,
-            Func<PlayerName, string, ICricketSeason, MatchType[], T> statGenerator,
-            Func<T, bool> selectorFunc,
-            Comparison<T> comparison)
-            : this()
-        {
-            Header = header;
-            Headers = headers;
-            OutputValueSelector = outputValueSelector;
-            StatGenerator = statGenerator;
-            SelectorFunc = selectorFunc;
-            Comparison = comparison;
-        }
-
-        public SeasonAggregateStatList(
-            string header,
-            IReadOnlyList<string> headers,
-            Func<T, string[]> outputValueSelector,
-            PlayerName name,
-            Func<PlayerName, string, ICricketSeason, MatchType[], T> statGenerator,
-            Func<T, bool> selectorFunc,
-            Comparison<T> comparison)
-            : this(header, headers, outputValueSelector, statGenerator, selectorFunc, comparison)
-        {
-            Name = name;
-        }
-
-        public SeasonAggregateStatList(ISeasonAggregateStat<T> statGeneration)
-            : this(
-                  statGeneration.Title,
-                  statGeneration.Headers,
-                  statGeneration.OutputValueSelector,
-                  statGeneration.Name,
-                  statGeneration.StatGenerator,
-                  statGeneration.SelectorFunc,
-                  statGeneration.Comparison)
-        {
+            OutputNumber = numberToOutput;
             StatGeneration = statGeneration;
+            Name = StatGeneration.Name;
         }
 
         public void CalculateStats(ICricketTeam team, MatchType[] matchTypes)
@@ -96,7 +57,6 @@ namespace CricketStructures.Statistics.Implementation.Collection
                 {
                     reachedMin = StatGeneration.IncreaseStatScope();
                 }
-
             }
             while (numberEntries < MinimumNumberOfStatsToDisplay && !reachedMin);
         }
@@ -122,6 +82,10 @@ namespace CricketStructures.Statistics.Implementation.Collection
         public void Finalise()
         {
             Stats.Sort(Comparison);
+            if (OutputNumber.HasValue)
+            {
+                Stats = Stats.Take(OutputNumber.Value).ToList();
+            }
         }
 
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)

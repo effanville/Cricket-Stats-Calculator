@@ -5,10 +5,12 @@ using Common.Structure.ReportWriting;
 using CricketStructures.Statistics.Implementation.Player;
 using System.Collections.Generic;
 using CricketStructures.Statistics.Implementation.Player.Fielding;
+using CricketStructures.Statistics.Implementation.Player.Bowling;
+using CricketStructures.Statistics.Implementation.Player.Batting;
 
-namespace CricketStructures.Statistics.Implementation.Collection
+namespace CricketStructures.Statistics.Collection.Implementation
 {
-    public sealed class PlayerBriefStatistics : IStatCollection
+    internal sealed class PlayerBriefStatistics : IStatCollection
     {
         private readonly CricketStatsCollection Stats;
 
@@ -47,9 +49,9 @@ namespace CricketStructures.Statistics.Implementation.Collection
         public PlayerBattingRecord BattingStats => Stats[CricketStatTypes.PlayerBattingRecord] as PlayerBattingRecord;
 
         public PlayerBowlingRecord BowlingStats => Stats[CricketStatTypes.PlayerBowlingRecord] as PlayerBowlingRecord;
-        public PlayerFieldingStatistics FieldingStats => Stats[CricketStatTypes.PlayerFieldingStats] as PlayerFieldingStatistics;
+        public PlayerFieldingRecord FieldingStats => Stats[CricketStatTypes.PlayerFieldingStats] as PlayerFieldingRecord;
 
-        public PlayerAttendanceStatistics Played => Stats[CricketStatTypes.PlayerAttendanceStats] as PlayerAttendanceStatistics;
+        public PlayerAttendanceRecord Played => Stats[CricketStatTypes.PlayerAttendanceRecord] as PlayerAttendanceRecord;
 
         internal PlayerBriefStatistics()
         {
@@ -63,7 +65,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
             SeasonYear = season.Year;
             var stats = new[]
             {
-                CricketStatTypes.PlayerAttendanceStats,
+                CricketStatTypes.PlayerAttendanceRecord,
                 CricketStatTypes.PlayerBattingRecord,
                 CricketStatTypes.PlayerPartnershipStats,
                 CricketStatTypes.PlayerBowlingRecord,
@@ -78,7 +80,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
             Name = name;
             var stats = new[]
             {
-                CricketStatTypes.PlayerAttendanceStats,
+                CricketStatTypes.PlayerAttendanceRecord,
                 CricketStatTypes.PlayerBattingRecord,
                 CricketStatTypes.PlayerPartnershipStats,
                 CricketStatTypes.PlayerBowlingRecord,
@@ -94,10 +96,10 @@ namespace CricketStructures.Statistics.Implementation.Collection
             _ = rb.WriteTitle($"Brief Statistics for player {Name}", headerElement)
                 .WriteTitle("Player Overall", innerHeaderElement);
 
-            var played = Stats[CricketStatTypes.PlayerAttendanceStats] as PlayerAttendanceStatistics;
-            _ = rb.WriteParagraph(new string[] { "Games Played:", $"{played.TotalGamesPlayed}" })
-                .WriteParagraph(new string[] { "Wins:", $"{played.TotalGamesWon}" })
-                .WriteParagraph(new string[] { "Losses:", $"{played.TotalGamesLost}" });
+            var played = Stats[CricketStatTypes.PlayerAttendanceRecord] as PlayerAttendanceRecord;
+            _ = rb.WriteParagraph(new string[] { "Games Played:", $"{played.MatchesPlayed}" })
+                .WriteParagraph(new string[] { "Wins:", $"{played.MatchesWon}" })
+                .WriteParagraph(new string[] { "Losses:", $"{played.MatchesLost}" });
 
             var battingStats = Stats[CricketStatTypes.PlayerBattingRecord] as PlayerBattingRecord;
             if (battingStats.Best != null)

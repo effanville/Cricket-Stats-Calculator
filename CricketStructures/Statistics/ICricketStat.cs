@@ -40,9 +40,7 @@ namespace CricketStructures.Statistics
         /// <summary>
         /// Perform any final action on the statistics.
         /// </summary>
-        void Finalise()
-        {
-        }
+        void Finalise();
 
         /// <summary>
         /// Export the stats into a RebortBuilder format.

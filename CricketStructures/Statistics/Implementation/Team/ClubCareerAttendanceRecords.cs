@@ -6,24 +6,25 @@ using Common.Structure.ReportWriting;
 using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Season;
-using CricketStructures.Statistics.Implementation.Player.Bowling;
+using CricketStructures.Statistics.Implementation.Player;
 
 namespace CricketStructures.Statistics.Implementation.Team
 {
-    public sealed class ClubCareerBowlingRecords : ICricketStat
+    public sealed class ClubCareerAttendanceRecords : ICricketStat
     {
-        private bool _IsAllTime = false;
-        public IDictionary<PlayerName, PlayerBowlingRecord> PlayerBowling
+        bool _IsAllTime = false;
+        public IDictionary<PlayerName, PlayerAttendanceRecord> PlayerFielding
         {
             get;
             set;
-        } = new Dictionary<PlayerName, PlayerBowlingRecord>();
+        } = new Dictionary<PlayerName, PlayerAttendanceRecord>();
 
 
-        public ClubCareerBowlingRecords()
+        public ClubCareerAttendanceRecords()
         {
         }
-        public ClubCareerBowlingRecords(ICricketTeam team)
+
+        public ClubCareerAttendanceRecords(ICricketTeam team)
         {
             CalculateStats(team, MatchHelpers.AllMatchTypes);
         }
@@ -33,7 +34,7 @@ namespace CricketStructures.Statistics.Implementation.Team
             _IsAllTime = true;
             foreach (var player in team.Players())
             {
-                PlayerBowling.Add(player.Name, new PlayerBowlingRecord(player.Name, team, matchTypes));
+                PlayerFielding.Add(player.Name, new PlayerAttendanceRecord(player.Name, team, matchTypes));
             }
         }
 
@@ -41,7 +42,7 @@ namespace CricketStructures.Statistics.Implementation.Team
         {
             foreach (var player in season.Players(teamName, matchTypes))
             {
-                PlayerBowling.Add(player, new PlayerBowlingRecord(player, teamName, season, matchTypes));
+                PlayerFielding.Add(player, new PlayerAttendanceRecord(player, teamName, season, matchTypes));
             }
         }
 
@@ -51,7 +52,7 @@ namespace CricketStructures.Statistics.Implementation.Team
 
         public void ResetStats()
         {
-            PlayerBowling.Clear();
+            PlayerFielding.Clear();
         }
 
         public void Finalise()
@@ -60,21 +61,20 @@ namespace CricketStructures.Statistics.Implementation.Team
 
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            if (PlayerBowling.Any())
+            if (PlayerFielding.Any())
             {
-                var values = PlayerBowling.Values.ToList();
-
-                if (_IsAllTime)
+                var values = PlayerFielding.Values.ToList();
+                if(_IsAllTime)
                 {
                     values.Sort((a, b) => a.Name.CompareTo(b.Name));
                 }
                 else
                 {
-                    values.Sort((a, b) => b.TotalWickets.CompareTo(a.TotalWickets));
+                    values.Sort((a,b) => b.MatchesPlayed.CompareTo(a.MatchesPlayed));
                 }
-                values.RemoveAll(bat => bat.TotalOvers.Equals(0));
-                _ = rb.WriteTitle("Overall Bowling Performance", headerElement)
-                    .WriteTableFromEnumerable(PlayerBowlingRecord.Headers(true, !_IsAllTime, _IsAllTime), values.Select(val => val.Values(true, !_IsAllTime, _IsAllTime)), headerFirstColumn: false);
+                values.RemoveAll(field => field.MatchesPlayed.Equals(0));
+                _ = rb.WriteTitle("Overall Attendance", headerElement)
+                    .WriteTableFromEnumerable(PlayerAttendanceRecord.Headers(true, !_IsAllTime, _IsAllTime), values.Select(val => val.Values(true, !_IsAllTime, _IsAllTime)), headerFirstColumn: false);
             }
         }
     }

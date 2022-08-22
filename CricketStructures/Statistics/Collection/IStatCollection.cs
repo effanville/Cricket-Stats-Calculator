@@ -2,7 +2,7 @@
 
 using Common.Structure.ReportWriting;
 
-namespace CricketStructures.Statistics
+namespace CricketStructures.Statistics.Collection
 {
     /// <summary>
     /// Provides the ability to export a statistics object.

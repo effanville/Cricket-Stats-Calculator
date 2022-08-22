@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-
-using Common.Structure.NamingStructures;
-using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
 using CricketStructures.Player;
@@ -12,13 +8,41 @@ using CricketStructures.Statistics.Implementation.Collection;
 
 namespace CricketStructures.Statistics.Implementation.Player.Bowling
 {
-    internal class LowEconomyStat : ICricketStat
+    internal class LowEconomyStat : ISeasonAggregateStat<PlayerBowlingRecord>
     {
-        private readonly PlayerName Name;
-        public List<NamedRecord<int, double>> LowEconomy
+        public List<PlayerBowlingRecord> LowEconomy
         {
             get;
-        } = new List<NamedRecord<int, double>>();
+        } = new List<PlayerBowlingRecord>();
+
+        public string Title => "Low Economy";
+
+        public PlayerName Name
+        {
+            get;
+            private set;
+        }
+
+        public IReadOnlyList<string> Headers => new string[] { "Name", "Wickets", "Economy" };
+
+        public Func<PlayerBowlingRecord, IReadOnlyList<string>> OutputValueSelector
+        {
+            get
+            {
+                return val => new string[]
+                {
+                    val.Name.ToString(),
+                    val.TotalWickets.ToString(),
+                    val.Economy.ToString()
+                };
+            }
+        }
+
+        public Func<PlayerName, string, ICricketSeason, MatchType[], PlayerBowlingRecord> StatGenerator =>
+            (name, teamName, season, matchTypes) => CricketStatsFactory.Generate(CricketStatTypes.PlayerBowlingRecord, teamName, season, matchTypes, name) as PlayerBowlingRecord;
+        public Func<PlayerBowlingRecord, bool> SelectorFunc => val => !double.IsNaN(val.Economy) && val.MatchesPlayed > 10 && val.TotalOvers > 20;
+
+        public Comparison<PlayerBowlingRecord> Comparison => (a, b) => a.Economy.CompareTo(b.Economy);
 
         public LowEconomyStat()
         {
@@ -29,55 +53,9 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             Name = name;
         }
 
-        public void CalculateStats(ICricketTeam team, MatchType[] matchTypes)
+        public bool IncreaseStatScope()
         {
-            var playerNames = Name == null ? team.Players().Select(player => player.Name).ToList() : new List<PlayerName>() { Name };
-            List<PlayerBriefStatistics> playerStats = playerNames.Select(name => new PlayerBriefStatistics(name, team, matchTypes)).ToList();
-
-            foreach (var player in playerStats)
-            {
-                if (!double.IsNaN(player.BowlingStats.Economy))
-                {
-                    LowEconomy.Add(new NamedRecord<int, double>("LowEconomy", player.Name, player.BowlingStats.TotalWickets, player.BowlingStats.Economy, null, null));
-                }
-            }
-
-            LowEconomy.Sort((a, b) => a.SecondValue.CompareTo(b.SecondValue));
-        }
-
-        public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
-        {
-            var playerNames = Name == null ? season.Players(teamName, matchTypes) : new List<PlayerName>() { Name };
-            List<PlayerBriefStatistics> playerStats = playerNames.Select(name => new PlayerBriefStatistics(teamName, name, season, matchTypes)).ToList();
-
-            foreach (var player in playerStats)
-            {
-                if (!double.IsNaN(player.BowlingStats.Economy))
-                {
-                    LowEconomy.Add(new NamedRecord<int, double>("LowEconomy", player.Name, player.BowlingStats.TotalWickets, player.BowlingStats.Economy, null, null));
-                }
-            }
-
-            LowEconomy.Sort((a, b) => a.SecondValue.CompareTo(b.SecondValue));
-        }
-
-        public void ResetStats()
-        {
-            LowEconomy.Clear();
-        }
-
-        public void UpdateStats(string teamName, ICricketMatch match)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
-        {
-            if (LowEconomy.Any())
-            {
-                _ = rb.WriteTitle("Low Economy", headerElement)
-                    .WriteTableFromEnumerable(new string[] { "Name", "Wickets", "Economy" }, LowEconomy.Select(value => new string[] { value.Name.ToString(), value.Value.ToString(), value.SecondValue.ToString() }), headerFirstColumn: false);
-            }
+            return true;
         }
     }
 }

@@ -5,8 +5,10 @@ using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
 using CricketStructures.Statistics;
-using CricketStructures.Statistics.Implementation.Collection;
-using CricketStructures.Statistics.Implementation.Player;
+using CricketStructures.Statistics.Collection;
+using CricketStructures.Statistics.Collection.Implementation;
+using CricketStructures.Statistics.Implementation.Player.Batting;
+using CricketStructures.Statistics.Implementation.Player.Bowling;
 using CricketStructures.Statistics.Implementation.Player.Fielding;
 
 using NUnit.Framework;
@@ -72,7 +74,7 @@ namespace CricketStructures.Tests.StatisticsTests
             var fielding = new List<(int, int, int, int)>(values.Item3);
             var season = TestCaseInstances.CreateTestSeason(TeamName, player, batting, bowling, fielding);
             var generalStats = CricketStatsFactory.Generate(CricketStatTypes.PlayerFieldingStats, TeamName, season, MatchHelpers.AllMatchTypes, player);
-            var stats = generalStats as PlayerFieldingStatistics;
+            var stats = generalStats as PlayerFieldingRecord;
             Assert.AreEqual(expected[0], stats.KeeperCatches, "Keeper Catches");
             Assert.AreEqual(expected[1], stats.KeeperStumpings, "stumpings");
             Assert.AreEqual(expected[2], stats.Catches, "Catches");
@@ -98,7 +100,7 @@ namespace CricketStructures.Tests.StatisticsTests
                 teamName: TeamName,
                 playerName: player,
                 season: season) as PlayerBriefStatistics;
-            Assert.AreEqual(expected[0], stats.Played.TotalGamesPlayed);
+            Assert.AreEqual(expected[0], stats.Played.MatchesPlayed);
             Assert.AreEqual(expected[1], stats.Played.TotalMom);
         }
 

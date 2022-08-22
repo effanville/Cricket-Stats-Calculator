@@ -56,7 +56,7 @@ namespace CricketStructures.Match
         /// The players for the team who played for the team specified.
         /// A null team defaults to a team specified by the atHome flag.
         /// </summary>
-        List<PlayerName> Players(string team);
+        HashSet<PlayerName> Players(string team);
 
         /// <summary>
         /// Query to determine whether a player played or not for this team.

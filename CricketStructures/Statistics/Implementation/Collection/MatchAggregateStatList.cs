@@ -5,7 +5,6 @@ using System.Linq;
 using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
-using CricketStructures.Player;
 using CricketStructures.Season;
 
 namespace CricketStructures.Statistics.Implementation.Collection
@@ -21,10 +20,11 @@ namespace CricketStructures.Statistics.Implementation.Collection
         private readonly IMatchAggregateStat<T> _matchAggregateStat;
         private string Header => _matchAggregateStat.Title;
         private IReadOnlyList<string> Headers => _matchAggregateStat.Headers;
-        private Func<T, string[]> OutputValueSelector => _matchAggregateStat.OutputValueSelector;
-        private Action<PlayerName, string, ICricketMatch, List<T>> StatGenerator => _matchAggregateStat.AddStatsAction;
+        private Func<T, IReadOnlyList<string>> OutputValueSelector => _matchAggregateStat.OutputValueSelector;
+        private Action<string, ICricketMatch, List<T>> StatGenerator => _matchAggregateStat.AddStatsAction;
+        private Func<T, bool> SelectorFunc => _matchAggregateStat.SelectorFunc;
         private Comparison<T> Comparison => _matchAggregateStat.Comparison;
-        private readonly PlayerName Name;
+        private readonly int? OutputNumber = null;
 
         public List<T> Stats
         {
@@ -32,8 +32,9 @@ namespace CricketStructures.Statistics.Implementation.Collection
             set;
         } = new List<T>();
 
-        public MatchAggregateStatList(IMatchAggregateStat<T> matchStat)
+        public MatchAggregateStatList(IMatchAggregateStat<T> matchStat, int? numberToOutput = null)
         {
+            OutputNumber = numberToOutput;
             _matchAggregateStat = matchStat;
         }
 
@@ -55,7 +56,6 @@ namespace CricketStructures.Statistics.Implementation.Collection
                 }
             }
             while (numberEntries < MinimumNumberOfStatsToDisplay && !reachedMin);
-
         }
 
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
@@ -64,7 +64,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
                            season,
                            matchTypes,
                            match => UpdateStats(teamName, match),
-                           postCycleAction: Finalise);
+                           postCycleAction: AfterMatchFinalise);
         }
 
         public void ResetStats()
@@ -74,12 +74,38 @@ namespace CricketStructures.Statistics.Implementation.Collection
 
         public void UpdateStats(string teamName, ICricketMatch match)
         {
-            StatGenerator(Name, teamName, match, Stats);
+            StatGenerator(teamName, match, Stats);
+        }
+
+        public void AfterMatchFinalise()
+        {
+            if (Stats.Any() && Stats[0] is ICricketStat)
+            {
+                foreach (ICricketStat stat in Stats)
+                {
+                    stat.Finalise();
+                }
+            }
+
+            Stats.Sort(Comparison);
         }
 
         public void Finalise()
         {
+            if (Stats.Any() && Stats[0] is ICricketStat)
+            {
+                foreach (ICricketStat stat in Stats)
+                {
+                    stat.Finalise();
+                }
+            }
+
+            Stats = Stats.Where(SelectorFunc).ToList();
             Stats.Sort(Comparison);
+            if (OutputNumber.HasValue)
+            {
+                Stats = Stats.Take(OutputNumber.Value).ToList();
+            }
         }
 
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)

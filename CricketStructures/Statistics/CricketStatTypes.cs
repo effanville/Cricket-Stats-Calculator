@@ -7,7 +7,8 @@
     {
         // Statistics for the whole team.
         TeamRecord,
-        TeamResultStats,
+        YearByYearRecord,
+        TeamAgainstRecord,
         ExtremeScores,
         LargestVictories,
         HeaviestDefeats,
@@ -17,8 +18,7 @@
         PlayerPartnershipStats,
         TeamPartnershipStats,
 
-        // Player Collection Stats
-        DetailedAllTimePlayerStatistics,
+        // Player Stats
         ClubCenturies,
         ClubHighScoreRecord,
         ClubCarryingOfBat,
@@ -35,11 +35,13 @@
         ClubLowEconomy,
         ClubLowStrikeRate,
 
+        ClubCareerAttendance,
         ClubCareerBatting,
         MostClubAppearances,
         MostClubRuns,
         HighestClubBattingAverage,
         MostClubWickets,
+        LowestClubBowlingAverage,
         ClubCareerBowling,
         ClubCareerFielding,
 
@@ -47,7 +49,7 @@
         PlayerBattingRecord,
         PlayerBowlingRecord,
         PlayerFieldingStats,
-        PlayerAttendanceStats,
+        PlayerAttendanceRecord,
         SeasonAttendanceRecord,
         CenturyScores,
         FiftyScores,
@@ -69,6 +71,5 @@
         LowEconomy,
         LowStrikeRate,
         SeasonFieldingRecord,
-        CareerFielding,
     }
 }

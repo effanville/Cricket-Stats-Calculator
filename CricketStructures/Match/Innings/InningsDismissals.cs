@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Common.Structure.Extensions;
 
@@ -53,7 +54,7 @@ namespace CricketStructures.Match.Innings
 
         public static string[] DisplayHeaders => new[] { "Dismissals", "Name", "Opposition", "Date", "Location" };
 
-        public string[] ArrayOfValues()
+        public IReadOnlyList<string> ArrayOfValues()
         {
             return new string[] { Dismissals.ToString(), Name.ToString(), Opposition, Date.ToUkDateString(), Location };
         }

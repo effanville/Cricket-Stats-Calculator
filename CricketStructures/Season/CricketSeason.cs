@@ -92,7 +92,7 @@ namespace CricketStructures.Season
             {
                 if (matchTypes.Contains(match.MatchData.Type))
                 {
-                    return match.Players(teamName);
+                    return match.Players(teamName).ToList();
                 }
 
                 return new List<PlayerName>();

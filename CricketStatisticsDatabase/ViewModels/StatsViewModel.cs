@@ -15,7 +15,7 @@ using CricketStructures.Player;
 using CricketStructures;
 using CricketStructures.Match;
 using CricketStructures.Season;
-using CricketStructures.Statistics;
+using CricketStructures.Statistics.Collection;
 
 namespace CSD.ViewModels
 {

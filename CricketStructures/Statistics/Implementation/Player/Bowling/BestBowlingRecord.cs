@@ -1,78 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-
-using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
-using CricketStructures.Season;
+using CricketStructures.Statistics.Implementation.Collection;
 
 namespace CricketStructures.Statistics.Implementation.Player.Bowling
 {
-    internal sealed class BestBowlingRecord : ICricketStat
+    internal sealed class BestBowlingRecord : IMatchAggregateStat<BowlingPerformance>
     {
-        private int MinimumNumberWickets;
-        private readonly PlayerName Name;
-        public List<BowlingPerformance> ManyWickets
-        {
-            get;
-            set;
-        } = new List<BowlingPerformance>();
+        private int fMinimum;
 
-        public BestBowlingRecord()
+        public string Title => fMinimum == 0 ? "All Bowling Performances" : $"Bowling performances over {fMinimum} wickets";
+
+        public PlayerName Name
         {
+            get; private set;
         }
 
-        public BestBowlingRecord(int minimumNumberWickets)
-            : this()
+        public IReadOnlyList<string> Headers
         {
-            MinimumNumberWickets = minimumNumberWickets;
-        }
-        public BestBowlingRecord(int minimumNumberWickets, PlayerName name)
-            : this(minimumNumberWickets)
-        {
-            Name = name;
-        }
-
-        public void CalculateStats(ICricketTeam team, MatchType[] matchTypes)
-        {
-            // try to display many.
-            int minimumNumbertoDisplay = 10;
-            int numberEntries = 0;
-            int previousMinNumber = MinimumNumberWickets;
-            do
+            get
             {
-                CricketStatsHelpers.SeasonIterator(
-                team.Seasons,
-                season => CalculateStats(team.TeamName, season, matchTypes),
-                preCycleAction: ResetStats);
-                numberEntries = ManyWickets.Count;
-                if (numberEntries < minimumNumbertoDisplay)
+                if (Name != null)
                 {
-                    previousMinNumber = MinimumNumberWickets;
-                    MinimumNumberWickets = Math.Max(0, MinimumNumberWickets - 5);
+                    return BowlingPerformance.PlayerHeaders;
+                }
+                else
+                {
+                    return BowlingPerformance.Headers;
                 }
             }
-            while (numberEntries < minimumNumbertoDisplay && previousMinNumber != MinimumNumberWickets);
         }
 
-        public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
+        public Func<BowlingPerformance, IReadOnlyList<string>> OutputValueSelector
         {
-            CricketStatsHelpers.MatchIterator(
-                season,
-                matchTypes,
-                match => UpdateStats(teamName, match),
-                postCycleAction: () => ManyWickets.Sort((a, b) => b.Wickets.CompareTo(a.Wickets)));
+            get
+            {
+                if (Name != null)
+                {
+                    return value => value.ArrayOfPlayerValues();
+                }
+                else
+                {
+                    return value => value.ArrayOfValues();
+                }
+            }
         }
 
-        public void ResetStats()
-        {
-            ManyWickets.Clear();
-        }
-
-        public void UpdateStats(string teamName, ICricketMatch match)
+        public Action<string, ICricketMatch, List<BowlingPerformance>> AddStatsAction => UpdateStats;
+        public void UpdateStats(string teamName, ICricketMatch match, List<BowlingPerformance> stats)
         {
             CricketStatsHelpers.BowlingIterator(
                 match,
@@ -82,22 +60,27 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             {
                 if (Name == null || bowlingEntry.Name.Equals(Name))
                 {
-                    if (bowlingEntry.Wickets >= MinimumNumberWickets)
+                    if (bowlingEntry.Wickets >= fMinimum)
                     {
-                        ManyWickets.Add(new BowlingPerformance(teamName, bowlingEntry, match.MatchData));
+                        stats.Add(new BowlingPerformance(teamName, bowlingEntry, match.MatchData));
                     }
                 }
             }
         }
 
-        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
+        public Comparison<BowlingPerformance> Comparison => (a, b) => b.Wickets.CompareTo(a.Wickets);
+
+        public BestBowlingRecord(int minimum, PlayerName name)
         {
-            if (ManyWickets.Any())
-            {
-                string title = MinimumNumberWickets == 0 ? "All Bowling Performances" : $"Bowling performances over {MinimumNumberWickets} wickets";
-                _ = rb.WriteTitle(title, headerElement)
-                    .WriteTable(ManyWickets, headerFirstColumn: false);
-            }
+            fMinimum = minimum;
+            Name = name;
+        }
+
+        public bool IncreaseStatScope()
+        {
+            fMinimum--;
+            return fMinimum <= 0;
+            throw new NotImplementedException();
         }
     }
 }

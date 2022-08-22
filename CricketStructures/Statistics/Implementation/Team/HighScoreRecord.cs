@@ -89,6 +89,11 @@ namespace CricketStructures.Statistics.Implementation.Team
             }
         }
 
+        /// <inheritdoc/>
+        public void Finalise()
+        {
+        }
+
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
             if (ScoresPast50.Any())

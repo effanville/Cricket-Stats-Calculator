@@ -5,7 +5,7 @@ using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Season;
 
-namespace CricketStructures.Statistics.Implementation
+namespace CricketStructures.Statistics.Implementation.Collection
 {
     public interface ISeasonAggregateStat<T> where T : class
     {
@@ -24,7 +24,7 @@ namespace CricketStructures.Statistics.Implementation
             get;
         }
 
-        Func<T, string[]> OutputValueSelector
+        Func<T, IReadOnlyList<string>> OutputValueSelector
         {
             get;
         }

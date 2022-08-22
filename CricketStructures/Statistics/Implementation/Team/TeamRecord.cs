@@ -73,7 +73,7 @@ namespace CricketStructures.Statistics.Implementation.Team
                 postCycleAction: Finalise);
         }
 
-        private void Finalise()
+        public void Finalise()
         {
             WinRatio = Won / (double)Played;
         }

@@ -2,7 +2,7 @@
 
 using CricketStructures.Match;
 using CricketStructures.Player;
-using CricketStructures.Statistics;
+using CricketStructures.Statistics.Collection;
 
 using NUnit.Framework;
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using CricketStructures.Match;
 using CricketStructures.Player;
 
-namespace CricketStructures.Statistics.Implementation
+namespace CricketStructures.Statistics.Implementation.Collection
 {
     public interface IMatchAggregateStat<T>
     {
@@ -20,14 +20,21 @@ namespace CricketStructures.Statistics.Implementation
         {
             get;
         }
-        Func<T, string[]> OutputValueSelector
+        Func<T, IReadOnlyList<string>> OutputValueSelector
         {
             get;
         }
 
-        Action<PlayerName, string, ICricketMatch, List<T>> AddStatsAction
+        Action<string, ICricketMatch, List<T>> AddStatsAction
         {
             get;
+        }
+        public Func<T, bool> SelectorFunc
+        {
+            get
+            {
+                return val => true;
+            }
         }
 
         Comparison<T> Comparison

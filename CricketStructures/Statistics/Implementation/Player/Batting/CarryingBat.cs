@@ -5,6 +5,7 @@ using System.Linq;
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
+using CricketStructures.Statistics.Implementation.Collection;
 
 namespace CricketStructures.Statistics.Implementation.Player.Batting
 {
@@ -19,11 +20,11 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
 
         public IReadOnlyList<string> Headers => PlayerScore.Headers;
 
-        public Func<PlayerScore, string[]> OutputValueSelector => value => value.ArrayOfValues();
+        public Func<PlayerScore, IReadOnlyList<string>> OutputValueSelector => value => value.ArrayOfValues();
 
-        public Action<PlayerName, string, ICricketMatch, List<PlayerScore>> AddStatsAction => Create;
+        public Action<string, ICricketMatch, List<PlayerScore>> AddStatsAction => Create;
 
-        void Create(PlayerName name, string teamName, ICricketMatch match, List<PlayerScore> stats)
+        void Create(string teamName, ICricketMatch match, List<PlayerScore> stats)
         {
             var innings = match.GetInnings(teamName, batting: true);
             var battingInnings = innings?.Batting;
@@ -32,7 +33,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
                 return;
             }
 
-            if (name != null && !(battingInnings[0].Name.Equals(name) || battingInnings[1].Name.Equals(name)))
+            if (Name != null && !(battingInnings[0].Name.Equals(Name) || battingInnings[1].Name.Equals(Name)))
             {
                 return;
             }
@@ -43,7 +44,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
                 if (battingInnings.Any())
                 {
                     BattingEntry bat = battingInnings[0];
-                    if (!bat.Out())
+                    if (!bat.Out() && !bat.MethodOut.IsRetired())
                     {
                         stats.Add(new PlayerScore(teamName,
                             bat,
@@ -52,7 +53,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
                     }
 
                     bat = battingInnings[1];
-                    if (!bat.Out())
+                    if (!bat.Out() && !bat.MethodOut.IsRetired())
                     {
                         stats.Add(new PlayerScore(
                             teamName,

@@ -3,7 +3,6 @@
                     xmlns:vm="clr-namespace:CSD.ViewModels"
                     xmlns:vmd="clr-namespace:CSD.ViewModels.Dialogs"
                     xmlns:vmM="clr-namespace:CSD.ViewModels.Match"
-                    xmlns:stats="clr-namespace:CricketStructures.Statistics.Implementation.Collection;assembly=CricketStructures"
                     xmlns:gui="clr-namespace:CSD.Windows"
                     xmlns:guid="clr-namespace:CSD.Windows.Dialogs"
                     xmlns:guiM="clr-namespace:CSD.Windows.Match">
@@ -15,15 +14,6 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:StatsViewModel}">
         <gui:StatsView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type stats:PlayerBriefStatistics}">
-        <gui:PlayerStatsDisplay />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type stats:TeamBriefStatistics}">
-        <gui:SeasonBriefStatsTemplate />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type stats:DetailedAllTimeStatistics}">
-        <gui:DetailedStatsTemplate />
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:ReportingViewModel}">
         <gui:ReportingView/>

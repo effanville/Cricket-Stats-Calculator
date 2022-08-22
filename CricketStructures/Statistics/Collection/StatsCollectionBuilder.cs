@@ -1,9 +1,9 @@
 ﻿using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Season;
-using CricketStructures.Statistics.Implementation.Collection;
+using CricketStructures.Statistics.Collection.Implementation;
 
-namespace CricketStructures.Statistics
+namespace CricketStructures.Statistics.Collection
 {
     /// <summary>
     /// Builder for a statis collection.

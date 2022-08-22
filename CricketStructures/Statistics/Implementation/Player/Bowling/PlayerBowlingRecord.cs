@@ -4,8 +4,9 @@ using CricketStructures.Season;
 using CricketStructures.Player;
 using System;
 using Common.Structure.ReportWriting;
+using System.Collections.Generic;
 
-namespace CricketStructures.Statistics.Implementation.Player
+namespace CricketStructures.Statistics.Implementation.Player.Bowling
 {
     public sealed class PlayerBowlingRecord : ICricketStat
     {
@@ -93,10 +94,16 @@ namespace CricketStructures.Statistics.Implementation.Player
             Name = name;
         }
 
-        public PlayerBowlingRecord(PlayerName name, ICricketTeam team)
+        public PlayerBowlingRecord(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
             : this(name)
         {
-            CalculateStats(team, MatchHelpers.AllMatchTypes);
+            CalculateStats(team, matchTypes);
+        }
+
+        public PlayerBowlingRecord(PlayerName name, string teamName, ICricketSeason season, MatchType[] matchTypes)
+            : this(name)
+        {
+            CalculateStats(teamName, season, matchTypes);
         }
 
         /// <inheritdoc/>
@@ -112,15 +119,6 @@ namespace CricketStructures.Statistics.Implementation.Player
         /// <inheritdoc/>
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
         {
-            if (season.Year < StartYear)
-            {
-                StartYear = season.Year;
-            }
-            if (season.Year > EndYear)
-            {
-                EndYear = season.Year;
-            }
-
             CricketStatsHelpers.MatchIterator(
                 season,
                 matchTypes,
@@ -133,6 +131,15 @@ namespace CricketStructures.Statistics.Implementation.Player
         {
             if (match.Played(teamName, Name))
             {
+                if (match.MatchData.Date < StartYear)
+                {
+                    StartYear = match.MatchData.Date;
+                }
+                if (match.MatchData.Date > EndYear)
+                {
+                    EndYear = match.MatchData.Date;
+                }
+
                 MatchesPlayed++;
                 BowlingEntry bowling = match.GetBowling(teamName, Name);
                 if (bowling != null)
@@ -152,7 +159,7 @@ namespace CricketStructures.Statistics.Implementation.Player
             }
         }
 
-        private void Finalise()
+        public void Finalise()
         {
             if (TotalWickets != 0)
             {
@@ -193,73 +200,73 @@ namespace CricketStructures.Statistics.Implementation.Player
         /// <inheritdoc/>
         public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            var headers = new string[]
-                {
-                    "Name",
-                    "Start Year",
-                    "End Year",
-                    "Overs",
-                    "Maidens",
-                    "Runs Conceded",
-                    "Wickets",
-                    "Average",
-                    "Economy",
-                    "Strike Rate",
-                    "Best Figures"
-                };
-            var fields = new string[]
-            {
-                Name.ToString(),
-                StartYear.Year.ToString(),
-                EndYear.Year.ToString(),
-                TotalOvers.ToString(),
-                TotalMaidens.ToString(),
-                TotalRunsConceded.ToString(),
-                TotalWickets.ToString(),
-                Average.ToString(),
-                Economy.ToString(),
-                StrikeRate.ToString(),
-                BestFigures.ToString(),
-            };
             _ = rb.WriteTitle("Bowling Stats", headerElement)
-                .WriteTableFromEnumerable(headers, new[] { fields }, headerFirstColumn: false);
+                .WriteTableFromEnumerable(Headers(true, false), new[] { Values(true, false) }, headerFirstColumn: false);
         }
 
-        public static string[] PlayerHeaders => new string[] { "Year", "Overs", "Maidens", "Runs Conceded", "Wickets", "Average", "Economy", "Strike Rate", "Best Figures" };
-        public static string[] Headers => new string[] { "Year", "Name", "Overs", "Maidens", "Runs Conceded", "Wickets", "Average", "Economy", "Strike Rate", "Best Figures" };
-
-
-        public string[] ArrayValues()
+        public static IReadOnlyList<string> Headers(bool includeName, bool singleSeason, bool includeYear = true)
         {
-            return new string[]
-                            {
-                            StartYear.Year.ToString(),
-                            Name.ToString(),
-                            TotalOvers.ToString(),
-                            TotalMaidens.ToString(),
-                            TotalRunsConceded.ToString(),
-                            TotalWickets.ToString(),
-                            Average.ToString(),
-                            Economy.ToString(),
-                            StrikeRate.ToString(),
-                            BestFigures?.ToString() ?? string.Empty,
-                            };
+            var headers = new List<string>();
+            if (includeName)
+            {
+                headers.Add("Name");
+            }
+
+            if (includeYear)
+            {
+                if (singleSeason)
+                {
+                    headers.Add("Year");
+                }
+                else
+                {
+                    headers.Add("Start Year");
+                    headers.Add("End Year");
+                }
+            }
+            headers.Add("Overs");
+            headers.Add("Maidens");
+            headers.Add("Runs Conceded");
+            headers.Add("Wickets");
+            headers.Add("Average");
+            headers.Add("Economy");
+            headers.Add("Strike Rate");
+            headers.Add("Best");
+
+            return headers;
         }
 
-        public string[] PlayerArrayValues()
+        public IReadOnlyList<string> Values(bool includeName, bool singleSeason, bool includeYear = true)
         {
-            return new string[]
-                            {
-                            StartYear.Year.ToString(),
-                            TotalOvers.ToString(),
-                            TotalMaidens.ToString(),
-                            TotalRunsConceded.ToString(),
-                            TotalWickets.ToString(),
-                            Average.ToString(),
-                            Economy.ToString(),
-                            StrikeRate.ToString(),
-                            BestFigures?.ToString() ?? string.Empty,
-                            };
+            var values = new List<string>();
+            if (includeName)
+            {
+                values.Add(Name.ToString());
+            }
+
+            if (includeYear)
+            {
+                if (singleSeason)
+                {
+                    values.Add(StartYear.Year.ToString());
+                }
+                else
+                {
+                    values.Add(StartYear.Year.ToString());
+                    values.Add(EndYear.Year.ToString());
+                }
+            }
+
+            values.Add(TotalOvers.ToString());
+            values.Add(TotalMaidens.ToString());
+            values.Add(TotalRunsConceded.ToString());
+            values.Add(TotalWickets.ToString());
+            values.Add(Average.ToString());
+            values.Add(Economy.ToString());
+            values.Add(StrikeRate.ToString());
+            values.Add(BestFigures.ToString());
+
+            return values;
         }
     }
 }

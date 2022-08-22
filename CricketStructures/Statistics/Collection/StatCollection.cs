@@ -1,4 +1,4 @@
-﻿namespace CricketStructures.Statistics
+﻿namespace CricketStructures.Statistics.Collection
 {
     /// <summary>
     /// The types of a statistics collection.

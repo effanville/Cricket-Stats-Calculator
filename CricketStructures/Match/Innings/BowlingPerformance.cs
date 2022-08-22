@@ -89,10 +89,10 @@ namespace CricketStructures.Match.Innings
 
         public int CompareTo(BowlingPerformance other)
         {
-            if(other == null)
+            if (other == null)
             {
                 return 1;
-            }   
+            }
 
             if (!Wickets.Equals(other.Wickets))
             {
@@ -110,6 +110,41 @@ namespace CricketStructures.Match.Innings
             }
 
             return 0;
+        }
+
+        public static string[] PlayerHeaders => new string[] { "Date", "Overs", "Maidens", "Runs", "Wickets", "Opposition", "GameType", "Location" };
+
+        public static string[] Headers => new string[] { "Name", "Date", "Overs", "Maidens", "Runs", "Wickets", "Opposition", "GameType", "Location" };
+
+        public string[] ArrayOfPlayerValues()
+        {
+            return new string[]
+            {
+                Date.ToUkDateString(),
+                Overs.ToString(),
+                Maidens.ToString(),
+                RunsConceded.ToString(),
+                Wickets.ToString(),
+                Opposition,
+                GameType.ToString(),
+                Location
+            };
+        }
+
+        public string[] ArrayOfValues()
+        {
+            return new string[]
+            {
+                Name.ToString(),
+                Date.ToUkDateString(),
+                Overs.ToString(),
+                Maidens.ToString(),
+                RunsConceded.ToString(),
+                Wickets.ToString(),
+                Opposition,
+                GameType.ToString(),
+                Location
+            };
         }
     }
 }

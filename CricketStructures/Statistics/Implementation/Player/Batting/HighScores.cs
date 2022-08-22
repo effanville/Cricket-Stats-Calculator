@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CricketStructures.Match;
 using CricketStructures.Match.Innings;
 using CricketStructures.Player;
+using CricketStructures.Statistics.Implementation.Collection;
 
 namespace CricketStructures.Statistics.Implementation.Player.Batting
 {
@@ -17,12 +18,38 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
             get; private set;
         }
 
-        public IReadOnlyList<string> Headers => throw new NotImplementedException();
+        public IReadOnlyList<string> Headers
+        {
+            get
+            {
+                if (Name != null)
+                {
+                    return PlayerScore.PlayerHeaders;
+                }
+                else
+                {
+                    return PlayerScore.Headers;
+                }
+            }
+        }
 
-        public Func<PlayerScore, string[]> OutputValueSelector => throw new NotImplementedException();
+        public Func<PlayerScore, IReadOnlyList<string>> OutputValueSelector
+        {
+            get
+            {
+                if (Name != null)
+                {
+                    return value => value.ArrayOfPlayerValues();
+                }
+                else
+                {
+                    return value => value.ArrayOfValues();
+                }
+            }
+        }
 
-        public Action<PlayerName, string, ICricketMatch, List<PlayerScore>> AddStatsAction => Create;
-        void Create(PlayerName name, string teamName, ICricketMatch match, List<PlayerScore> stats)
+        public Action<string, ICricketMatch, List<PlayerScore>> AddStatsAction => Create;
+        void Create(string teamName, ICricketMatch match, List<PlayerScore> stats)
         {
             CricketStatsHelpers.BattingIterator(
                 match,

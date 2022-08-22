@@ -44,5 +44,11 @@
         {
             return !wicket.IsNotOut();
         }
+
+        public static bool IsRetired(this Wicket wicket)
+        {
+            return wicket == Wicket.RetiredOut
+                || wicket == Wicket.RetiredNotOut;
+        }
     }
 }

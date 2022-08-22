@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CricketStructures.Match;
-using CricketStructures.Statistics;
+using CricketStructures.Statistics.Collection;
 
 namespace CricketStructures
 {

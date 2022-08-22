@@ -5,8 +5,9 @@ using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
 using CricketStructures.Player;
+using CricketStructures.Statistics.Collection;
 
-namespace CricketStructures.Statistics.Implementation.Collection
+namespace CricketStructures.Statistics.Collection.Implementation
 {
     internal sealed class IndividualPlayerStatistics : IStatCollection
     {
@@ -27,7 +28,7 @@ namespace CricketStructures.Statistics.Implementation.Collection
             PlayerName = playerName;
             var stats = new[]
             {
-                CricketStatTypes.PlayerAttendanceStats,
+                CricketStatTypes.PlayerAttendanceRecord,
                 CricketStatTypes.PlayerBattingRecord,
                 CricketStatTypes.PlayerPartnershipStats,
                 CricketStatTypes.PlayerBowlingRecord,

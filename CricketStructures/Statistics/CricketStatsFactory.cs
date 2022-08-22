@@ -31,8 +31,11 @@ namespace CricketStructures.Statistics
                 // Statistics for the whole team.
                 case CricketStatTypes.TeamRecord:
                     return new TeamRecord();
-                case CricketStatTypes.TeamResultStats:
-                    return new TeamResultStats();
+
+                case CricketStatTypes.YearByYearRecord:
+                    return new SeasonAggregateStatList<DatedRecord<TeamRecord>>(new YearByYearRecord());
+                case CricketStatTypes.TeamAgainstRecord:
+                    return new MatchAggregateStatList<Labell<string, TeamRecord>>(new TeamAgainstRecord());
                 case CricketStatTypes.ExtremeScores:
                     return new ExtremeScores();
                 case CricketStatTypes.LargestVictories:
@@ -48,10 +51,6 @@ namespace CricketStructures.Statistics
                 case CricketStatTypes.TeamPartnershipStats:
                     return new PlayerPartnershipStats(null);
 
-                // Player Collection Stats
-                case CricketStatTypes.DetailedAllTimePlayerStatistics:
-                    return new DetailedAllTimePlayerStatistics();
-
                 case CricketStatTypes.ClubCenturies:
                     return new MatchAggregateStatList<PlayerScore>(new HighScores(100, null));
 
@@ -62,64 +61,83 @@ namespace CricketStructures.Statistics
                     return new MatchAggregateStatList<PlayerScore>(new CarryingBat(null));
 
                 case CricketStatTypes.ClubSeasonRunsOver300:
-                    return new SeasonAggregateStatList<PlayerBattingRecord>(new SeasonRunsRecord(300, null));
+                    return new SeasonAggregateStatList<PlayerBattingRecord>(new RunsRecord(false, 300, null));
 
                 case CricketStatTypes.ClubSeasonRunsOver500:
-                    return new SeasonAggregateStatList<PlayerBattingRecord>(new SeasonRunsRecord(300, null));
+                    return new SeasonAggregateStatList<PlayerBattingRecord>(new RunsRecord(false, 300, null));
 
                 case CricketStatTypes.ClubSeasonAverageOver30:
-                    return new SeasonAggregateStatList<PlayerBattingRecord>(new BattingAverage(30, null));
+                    return new SeasonAggregateStatList<PlayerBattingRecord>(new BattingAverage(false, 30, null));
 
                 case CricketStatTypes.ClubInningsDismissals:
                     return new MatchAggregateStatList<InningsDismissals>(new MostInningsDismissals(3, null));
 
                 case CricketStatTypes.ClubSeasonTwentyCatches:
-                    return new SeasonAggregateStatList<NameDatedRecord<int>>(new SeasonCatches(20, null));
+                    return new SeasonAggregateStatList<NameDatedRecord<int>>(new SeasonCatchRecord(20, null));
 
                 case CricketStatTypes.ClubSeasonTenStumpings:
-                    return new SeasonAggregateStatList<NameDatedRecord<int>>(new SeasonStumpings(10, null));
+                    return new SeasonAggregateStatList<NameDatedRecord<int>>(new SeasonStumpingRecord(10, null));
 
                 case CricketStatTypes.ClubOver5Wickets:
-                    return new BestBowlingRecord();
+                    return new MatchAggregateStatList<BowlingPerformance>(new BestBowlingRecord(5, null));
 
                 case CricketStatTypes.ClubSeasonOver20Wickets:
-                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new SeasonWickets(20, yearCompare: false, null));
+                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new WicketRecord(false, 20, yearCompare: false, null));
 
                 case CricketStatTypes.ClubSeasonAverageUnder15:
-                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new SeasonAverage(15, null));
+                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new BowlingAverage(false, 15, null));
 
                 case CricketStatTypes.ClubNumber5For:
-                    return new Number5Fors();
+                    return new MatchAggregateStatList<NamedRecord<int>>(new HighWicketHauls(5, null));
 
                 case CricketStatTypes.ClubLowEconomy:
-                    return new LowEconomyStat();
+                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new LowEconomyStat(), 20);
+
                 case CricketStatTypes.ClubLowStrikeRate:
                     return new LowStrikeRateStat();
 
                 case CricketStatTypes.ClubCareerBatting:
                     return new ClubCareerBattingRecords();
+
                 case CricketStatTypes.ClubCareerBowling:
                     return new ClubCareerBowlingRecords();
+
+                case CricketStatTypes.ClubCareerFielding:
+                    return new ClubCareerFieldingRecords();
+
+                case CricketStatTypes.ClubCareerAttendance:
+                    return new ClubCareerAttendanceRecords();
+
                 case CricketStatTypes.MostClubAppearances:
-                    return new MostClubAppearances();
+                    return new MatchAggregateStatList<PlayerAttendanceRecord>(new AttendanceRecord(true, 0, null), 10);
+
                 case CricketStatTypes.MostClubRuns:
-                    return new MostClubRuns();
+                    return new MatchAggregateStatList<PlayerBattingRecord>(new RunsRecord(true, 0, null), 10);
+
                 case CricketStatTypes.HighestClubBattingAverage:
-                    return new HighestClubBattingAverage();
+                    return new MatchAggregateStatList<PlayerBattingRecord>(new BattingAverage(true, 0, null), 10);
+
                 case CricketStatTypes.MostClubWickets:
-                    return new MostClubWickets();
+                    return new MatchAggregateStatList<PlayerBowlingRecord>(new WicketRecord(true, 0, false, null), 10);
+
+                case CricketStatTypes.LowestClubBowlingAverage:
+                    return new MatchAggregateStatList<PlayerBowlingRecord>(new BowlingAverage(true, 50, null), 10);
 
                 // Player Individual Stats.
                 case CricketStatTypes.PlayerBattingRecord:
                     return new PlayerBattingRecord(playerName);
+
                 case CricketStatTypes.PlayerBowlingRecord:
                     return new PlayerBowlingRecord(playerName);
+
                 case CricketStatTypes.PlayerFieldingStats:
-                    return new PlayerFieldingStatistics(playerName);
-                case CricketStatTypes.PlayerAttendanceStats:
-                    return new PlayerAttendanceStatistics(playerName);
+                    return new PlayerFieldingRecord(playerName);
+
+                case CricketStatTypes.PlayerAttendanceRecord:
+                    return new PlayerAttendanceRecord(playerName);
+
                 case CricketStatTypes.SeasonAttendanceRecord:
-                    return new SeasonAttendanceRecord(playerName);
+                    return new SeasonAggregateStatList<PlayerAttendanceRecord>(new AttendanceRecord(false, 0, playerName));
 
                 case CricketStatTypes.CenturyScores:
                     return new MatchAggregateStatList<PlayerScore>(new HighScores(100, playerName));
@@ -137,50 +155,50 @@ namespace CricketStructures.Statistics
                     return new MatchAggregateStatList<PlayerScore>(new CarryingBat(playerName));
 
                 case CricketStatTypes.SeasonBattingRecord:
-                    return new SeasonAggregateStatList<PlayerBattingRecord>(new SeasonRunsRecord(0, playerName));
+                    return new SeasonAggregateStatList<PlayerBattingRecord>(new RunsRecord(false, 0, playerName));
 
                 case CricketStatTypes.SeasonRunsOver300:
-                    return new SeasonAggregateStatList<PlayerBattingRecord>(new SeasonRunsRecord(300, playerName));
+                    return new SeasonAggregateStatList<PlayerBattingRecord>(new RunsRecord(false, 300, playerName));
 
                 case CricketStatTypes.SeasonRunsOver500:
-                    return new SeasonAggregateStatList<PlayerBattingRecord>(new SeasonRunsRecord(500, playerName));
+                    return new SeasonAggregateStatList<PlayerBattingRecord>(new RunsRecord(false, 500, playerName));
 
                 case CricketStatTypes.SeasonAverageOver30:
-                    return new SeasonAggregateStatList<PlayerBattingRecord>(new BattingAverage(30, playerName));
+                    return new SeasonAggregateStatList<PlayerBattingRecord>(new BattingAverage(false, 30, playerName));
 
                 case CricketStatTypes.InningsDismissals:
                     return new MatchAggregateStatList<InningsDismissals>(new MostInningsDismissals(3, playerName));
 
                 case CricketStatTypes.SeasonTwentyCatches:
-                    return new SeasonAggregateStatList<NameDatedRecord<int>>(new SeasonCatches(20, playerName));
+                    return new SeasonAggregateStatList<NameDatedRecord<int>>(new SeasonCatchRecord(20, playerName));
 
                 case CricketStatTypes.SeasonTenStumpings:
-                    return new SeasonAggregateStatList<NameDatedRecord<int>>(new SeasonStumpings(10, playerName));
+                    return new SeasonAggregateStatList<NameDatedRecord<int>>(new SeasonStumpingRecord(10, playerName));
 
                 case CricketStatTypes.Over5Wickets:
-                    return new BestBowlingRecord(5, playerName);
+                    return new MatchAggregateStatList<BowlingPerformance>(new BestBowlingRecord(5, playerName));
 
                 case CricketStatTypes.SeasonBowlingRecord:
-                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new SeasonWickets(0, yearCompare: true, playerName));
+                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new WicketRecord(false, 0, yearCompare: true, playerName));
 
                 case CricketStatTypes.SeasonOver20Wickets:
-                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new SeasonWickets(20, yearCompare: false, playerName));
+                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new WicketRecord(false, 20, yearCompare: false, playerName));
 
                 case CricketStatTypes.SeasonAverageUnder15:
-                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new SeasonAverage(15, playerName));
+                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new BowlingAverage(false, 15, playerName));
 
                 case CricketStatTypes.Number5For:
-                    return new Number5Fors(playerName);
+                    return new MatchAggregateStatList<NamedRecord<int>>(new HighWicketHauls(5, playerName));
+
                 case CricketStatTypes.LowEconomy:
-                    return new LowEconomyStat(playerName);
+                    return new SeasonAggregateStatList<PlayerBowlingRecord>(new LowEconomyStat(playerName), 20);
+
                 case CricketStatTypes.LowStrikeRate:
                     return new LowStrikeRateStat(playerName);
 
                 case CricketStatTypes.SeasonFieldingRecord:
-                    return new SeasonAggregateStatList<PlayerFieldingStatistics>(new SeasonFielding(0, playerName));
+                    return new SeasonAggregateStatList<PlayerFieldingRecord>(new SeasonFieldingRecord(0, playerName));
 
-                case CricketStatTypes.CareerFielding:
-                case CricketStatTypes.ClubCareerFielding:
                 default:
                     return null;
             }

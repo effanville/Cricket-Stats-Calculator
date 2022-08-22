@@ -1,14 +1,16 @@
-﻿using CricketStructures.Match;
-using CricketStructures.Match.Innings;
-using CricketStructures.Season;
-using CricketStructures.Player;
-using Common.Structure.ReportWriting;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace CricketStructures.Statistics.Implementation.Player.Fielding
+using Common.Structure.ReportWriting;
+
+using CricketStructures.Match;
+using CricketStructures.Player;
+using CricketStructures.Season;
+
+namespace CricketStructures.Statistics.Implementation.Player
 {
-    public sealed class PlayerFieldingRecord : ICricketStat
+    public sealed class PlayerAttendanceRecord : ICricketStat
     {
         public PlayerName Name
         {
@@ -34,59 +36,53 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
             set;
         }
 
-        public int Catches
+        public int MatchesWon
         {
             get;
             set;
         }
 
-        public int RunOuts
+        public int MatchesLost
         {
             get;
             set;
         }
 
-        public int KeeperStumpings
+        public int TotalMom
         {
             get;
             set;
         }
 
-        public int KeeperCatches
-        {
-            get;
-            set;
-        }
+        public double WinRatio => Math.Round(MatchesWon / (double)MatchesPlayed, 2);
 
-        public int TotalDismissals => Catches + RunOuts + KeeperCatches + KeeperStumpings;
-
-        internal int TotalKeeperDismissals => KeeperCatches + KeeperStumpings;
-
-        internal int TotalNonKeeperDismissals => Catches + RunOuts;
-
-        public PlayerFieldingRecord()
+        public PlayerAttendanceRecord()
         {
             StartYear = DateTime.MaxValue;
             EndYear = DateTime.MinValue;
         }
 
-        public PlayerFieldingRecord(PlayerName name)
+        public PlayerAttendanceRecord(PlayerName name)
             : this()
         {
             Name = name;
         }
-        public PlayerFieldingRecord(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
+
+        public PlayerAttendanceRecord(PlayerName name, ICricketTeam team, MatchType[] matchTypes)
             : this(name)
         {
+            Name = name;
             CalculateStats(team, matchTypes);
         }
 
-        public PlayerFieldingRecord(PlayerName name, string teamName, ICricketSeason season, MatchType[] matchTypes)
+        public PlayerAttendanceRecord(PlayerName name, string teamName, ICricketSeason season, MatchType[] matchTypes)
             : this(name)
         {
+            Name = name;
             CalculateStats(teamName, season, matchTypes);
         }
 
+        /// <inheritdoc/>
         public void CalculateStats(ICricketTeam team, MatchType[] matchTypes)
         {
             CricketStatsHelpers.SeasonIterator(
@@ -95,6 +91,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
                 preCycleAction: ResetStats);
         }
 
+        /// <inheritdoc/>
         public void CalculateStats(string teamName, ICricketSeason season, MatchType[] matchTypes)
         {
             CricketStatsHelpers.MatchIterator(
@@ -103,6 +100,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
                 match => UpdateStats(teamName, match));
         }
 
+        /// <inheritdoc/>
         public void UpdateStats(string teamName, ICricketMatch match)
         {
             if (match.Played(teamName, Name))
@@ -116,34 +114,43 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
                     EndYear = match.MatchData.Date;
                 }
 
-                MatchesPlayed++;
-                FieldingEntry fielding = match.GetFielding(teamName, Name);
-                if (fielding != null)
+                MatchesPlayed += 1;
+                if (match.MenOfMatch != null && match.MenOfMatch.Contains(Name))
                 {
-                    Catches += fielding.Catches;
-                    RunOuts += fielding.RunOuts;
-                    KeeperCatches += fielding.KeeperCatches;
-                    KeeperStumpings += fielding.KeeperStumpings;
+                    TotalMom += 1;
+                }
+                if (match.Result == ResultType.Win)
+                {
+                    MatchesWon += 1;
+                }
+                if (match.Result == ResultType.Loss)
+                {
+                    MatchesLost += 1;
                 }
             }
         }
 
-        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
+        /// <inheritdoc/>
+        public void ResetStats()
         {
-            _ = rb.WriteTitle("Fielding Stats", headerElement)
-                .WriteTableFromEnumerable(Headers(true, false), new[] { Values(true, false) }, headerFirstColumn: false);
+            MatchesWon = 0;
+            MatchesPlayed = 0;
+            MatchesLost = 0;
+            TotalMom = 0;
+            StartYear = DateTime.Today;
+            EndYear = new DateTime();
         }
 
+        /// <inheritdoc/>
         public void Finalise()
         {
         }
 
-        public void ResetStats()
+        /// <inheritdoc/>
+        public void ExportStats(ReportBuilder rb, DocumentElement headerElement)
         {
-            Catches = 0;
-            RunOuts = 0;
-            KeeperStumpings = 0;
-            KeeperCatches = 0;
+            _ = rb.WriteTitle("Appearances", headerElement)
+                .WriteTableFromEnumerable(Headers(true, false), new[] { Values(true, false) }, headerFirstColumn: false);
         }
 
         public static IReadOnlyList<string> Headers(bool includeName, bool singleSeason, bool includeYear = true)
@@ -154,7 +161,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
                 headers.Add("Name");
             }
 
-            if(includeYear)
+            if (includeYear)
             {
                 if (singleSeason)
                 {
@@ -167,11 +174,11 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
                 }
             }
 
-            headers.Add("Catches");
-            headers.Add("Run Outs");
-            headers.Add($"Catches({CricketConstants.WicketKeeperSymbol})");
-            headers.Add("Stumpings");
-            headers.Add("Total");
+            headers.Add("Matches Played");
+            headers.Add("Matches Won");
+            headers.Add("Matches Lost");
+            headers.Add("Total Mom");
+            headers.Add("Win Ratio");
 
             return headers;
         }
@@ -184,7 +191,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
                 values.Add(Name.ToString());
             }
 
-            if(includeYear)
+            if (includeYear)
             {
                 if (singleSeason)
                 {
@@ -196,11 +203,12 @@ namespace CricketStructures.Statistics.Implementation.Player.Fielding
                     values.Add(EndYear.Year.ToString());
                 }
             }
-            values.Add(Catches.ToString());
-            values.Add(RunOuts.ToString());
-            values.Add(KeeperCatches.ToString());
-            values.Add(KeeperStumpings.ToString());
-            values.Add(TotalDismissals.ToString());
+
+            values.Add(MatchesPlayed.ToString());
+            values.Add(MatchesWon.ToString());
+            values.Add(MatchesLost.ToString());
+            values.Add(TotalMom.ToString());
+            values.Add(WinRatio.ToString());
 
             return values;
         }
