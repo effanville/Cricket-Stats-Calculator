@@ -264,7 +264,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Bowling
             values.Add(Average.ToString());
             values.Add(Economy.ToString());
             values.Add(StrikeRate.ToString());
-            values.Add(BestFigures.ToString());
+            values.Add(BestFigures?.ToString() ?? "");
 
             return values;
         }

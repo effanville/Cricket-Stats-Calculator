@@ -175,7 +175,11 @@ namespace CricketStructures.Match
                 string oldHomeTeam = MatchData.HomeTeam;
                 MatchData.HomeTeam = homeTeam;
                 FirstInnings.UpdateTeamName(oldHomeTeam, homeTeam);
-                _ = fPlayersByTeam.Remove(oldHomeTeam);
+                if (!string.IsNullOrEmpty(oldHomeTeam))
+                {
+                    _ = fPlayersByTeam.Remove(oldHomeTeam);
+                }
+
                 _ = Players(homeTeam);
             }
             if (!string.IsNullOrEmpty(awayTeam))
@@ -183,7 +187,12 @@ namespace CricketStructures.Match
                 string oldAwayTeam = MatchData.AwayTeam;
                 MatchData.AwayTeam = awayTeam;
                 FirstInnings.UpdateTeamName(oldAwayTeam, awayTeam);
-                _ = fPlayersByTeam.Remove(oldAwayTeam);
+
+                if (!string.IsNullOrEmpty(oldAwayTeam))
+                {
+                    _ = fPlayersByTeam.Remove(oldAwayTeam);
+                }
+
                 _ = Players(awayTeam);
             }
             if (date.HasValue)

@@ -37,6 +37,11 @@ namespace CricketStructures.Player
         private static readonly string StringSeparator = " ";
         public static PlayerName FromString(string playerNameAsString)
         {
+            if (string.IsNullOrWhiteSpace(playerNameAsString))
+            {
+                return null;
+            }
+
             string[] splitted = playerNameAsString.Split(StringSeparator);
             if (splitted.Length == 2)
             {

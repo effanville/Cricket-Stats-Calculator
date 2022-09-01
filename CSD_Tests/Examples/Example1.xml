@@ -10,223 +10,36 @@
           <MenOfMatch />
           <FirstInnings B="TeamName" F="AwayTeam1">
             <Batting>
-              <BattingEntry O="1">
-                <Name F="Jon" S="Doe" />
-                <MethodOut>Bowled</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>0</RunsScored>
-                <WicketFellAt>1</WicketFellAt>
-                <TeamScoreAtWicket>1</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="2">
-                <Name F="Simon" S="Marcus" />
-                <MethodOut>Bowled</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>3</RunsScored>
-                <WicketFellAt>2</WicketFellAt>
-                <TeamScoreAtWicket>12</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="3">
-                <Name F="Julian" S="Mark" />
-                <MethodOut>NotOut</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>20</RunsScored>
-                <WicketFellAt>0</WicketFellAt>
-                <TeamScoreAtWicket>0</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="4">
-                <Name F="Master" S="Chief" />
-                <MethodOut>Bowled</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>32</RunsScored>
-                <WicketFellAt>3</WicketFellAt>
-                <TeamScoreAtWicket>92</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="5">
-                <Name F="James" S="Whole" />
-                <MethodOut>Bowled</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>20</RunsScored>
-                <WicketFellAt>4</WicketFellAt>
-                <TeamScoreAtWicket>118</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="6">
-                <Name F="David" S="Brown" />
-                <MethodOut>LBW</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>21</RunsScored>
-                <WicketFellAt>7</WicketFellAt>
-                <TeamScoreAtWicket>134</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="7">
-                <Name F="Massey" S="Ferguson" />
-                <MethodOut>RunOut</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>1</RunsScored>
-                <WicketFellAt>5</WicketFellAt>
-                <TeamScoreAtWicket>120</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="8">
-                <Name F="John" S="Deere" />
-                <MethodOut>Bowled</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>4</RunsScored>
-                <WicketFellAt>6</WicketFellAt>
-                <TeamScoreAtWicket>128</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="9">
-                <Name F="Stu" S="Guy" />
-                <MethodOut>Bowled</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>3</RunsScored>
-                <WicketFellAt>8</WicketFellAt>
-                <TeamScoreAtWicket>137</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="10">
-                <Name F="James" S="Toole" />
-                <MethodOut>Bowled</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>2</RunsScored>
-                <WicketFellAt>9</WicketFellAt>
-                <TeamScoreAtWicket>137</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="11">
-                <Name F="Marc" S="Lewis" />
-                <MethodOut>Caught</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>0</RunsScored>
-                <WicketFellAt>10</WicketFellAt>
-                <TeamScoreAtWicket>139</TeamScoreAtWicket>
-              </BattingEntry>
+              <BattingEntry O="1" N="Jon Doe" HO="Bowled" F=" " K="False" B=" " R="0" W="1" TS="1" />
+              <BattingEntry O="2" N="Simon Marcus" HO="Bowled" F=" " K="False" B=" " R="3" W="2" TS="12" />
+              <BattingEntry O="3" N="Julian Mark" HO="NotOut" F=" " K="False" B=" " R="20" W="0" TS="0" />
+              <BattingEntry O="4" N="Master Chief" HO="Bowled" F=" " K="False" B=" " R="32" W="3" TS="92" />
+              <BattingEntry O="5" N="James Whole" HO="Bowled" F=" " K="False" B=" " R="20" W="4" TS="118" />
+              <BattingEntry O="6" N="David Brown" HO="LBW" F=" " K="False" B=" " R="21" W="7" TS="134" />
+              <BattingEntry O="7" N="Massey Ferguson" HO="RunOut" F=" " K="False" B=" " R="1" W="5" TS="120" />
+              <BattingEntry O="8" N="John Deere" HO="Bowled" F=" " K="False" B=" " R="4" W="6" TS="128" />
+              <BattingEntry O="9" N="Stu Guy" HO="Bowled" F=" " K="False" B=" " R="3" W="8" TS="137" />
+              <BattingEntry O="10" N="James Toole" HO="Bowled" F=" " K="False" B=" " R="2" W="9" TS="137" />
+              <BattingEntry O="11" N="Marc Lewis" HO="Caught" F=" " K="False" B=" " R="0" W="10" TS="139" />
             </Batting>
             <Bowling />
             <InningsExtras B="33" LB="0" W="0" NB="0" P="0" />
           </FirstInnings>
           <SecondInnings B="AwayTeam1" F="TeamName">
             <Batting>
-              <BattingEntry O="0">
-                <Name F="forename" S="opposition0" />
-                <MethodOut>Caught</MethodOut>
-                <Fielder F="Marc" S="Lewis" />
-                <WasKeeper>false</WasKeeper>
-                <RunsScored>0</RunsScored>
-                <WicketFellAt>0</WicketFellAt>
-                <TeamScoreAtWicket>0</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="0">
-                <Name F="forename" S="opposition0" />
-                <MethodOut>Caught</MethodOut>
-                <Fielder F="Master" S="Chief" />
-                <WasKeeper>false</WasKeeper>
-                <RunsScored>0</RunsScored>
-                <WicketFellAt>0</WicketFellAt>
-                <TeamScoreAtWicket>0</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="0">
-                <Name F="forename" S="opposition0" />
-                <MethodOut>Caught</MethodOut>
-                <Fielder F="John" S="Deere" />
-                <WasKeeper>true</WasKeeper>
-                <RunsScored>0</RunsScored>
-                <WicketFellAt>0</WicketFellAt>
-                <TeamScoreAtWicket>0</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="0">
-                <Name F="forename" S="opposition1" />
-                <MethodOut>Caught</MethodOut>
-                <Fielder F="John" S="Deere" />
-                <WasKeeper>true</WasKeeper>
-                <RunsScored>0</RunsScored>
-                <WicketFellAt>0</WicketFellAt>
-                <TeamScoreAtWicket>0</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="0">
-                <Name F="forename" S="opposition0" />
-                <MethodOut>Caught</MethodOut>
-                <Fielder F="James" S="Toole" />
-                <WasKeeper>false</WasKeeper>
-                <RunsScored>0</RunsScored>
-                <WicketFellAt>0</WicketFellAt>
-                <TeamScoreAtWicket>0</TeamScoreAtWicket>
-              </BattingEntry>
+              <BattingEntry O="0" N="forename opposition0" HO="Caught" F="Marc Lewis" K="False" B=" " R="0" W="0" TS="0" />
+              <BattingEntry O="0" N="forename opposition0" HO="Caught" F="Master Chief" K="False" B=" " R="0" W="0" TS="0" />
+              <BattingEntry O="0" N="forename opposition0" HO="Caught" F="John Deere" K="True" B=" " R="0" W="0" TS="0" />
+              <BattingEntry O="0" N="forename opposition1" HO="Caught" F="John Deere" K="True" B=" " R="0" W="0" TS="0" />
+              <BattingEntry O="0" N="forename opposition0" HO="Caught" F="James Toole" K="False" B=" " R="0" W="0" TS="0" />
             </Batting>
             <Bowling>
-              <BowlingEntry>
-                <Name F="Marc" S="Lewis" />
-                <OversBowled>9</OversBowled>
-                <Maidens>3</Maidens>
-                <RunsConceded>34</RunsConceded>
-                <Wickets>1</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
-              <BowlingEntry>
-                <Name F="James" S="Toole" />
-                <OversBowled>5</OversBowled>
-                <Maidens>0</Maidens>
-                <RunsConceded>20</RunsConceded>
-                <Wickets>1</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
-              <BowlingEntry>
-                <Name F="Stu" S="Guy" />
-                <OversBowled>5</OversBowled>
-                <Maidens>1</Maidens>
-                <RunsConceded>7</RunsConceded>
-                <Wickets>1</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
-              <BowlingEntry>
-                <Name F="James" S="Whole" />
-                <OversBowled>7.33333</OversBowled>
-                <Maidens>1</Maidens>
-                <RunsConceded>32</RunsConceded>
-                <Wickets>2</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
-              <BowlingEntry>
-                <Name F="John" S="Deere" />
-                <OversBowled>6</OversBowled>
-                <Maidens>0</Maidens>
-                <RunsConceded>23</RunsConceded>
-                <Wickets>0</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
-              <BowlingEntry>
-                <Name F="Master" S="Chief" />
-                <OversBowled>10</OversBowled>
-                <Maidens>3</Maidens>
-                <RunsConceded>19</RunsConceded>
-                <Wickets>2</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
+              <BowlingEntry N="Marc Lewis" O="9" M="3" R="34" W="1" WD="0" NB="0" />
+              <BowlingEntry N="James Toole" O="5" M="0" R="20" W="1" WD="0" NB="0" />
+              <BowlingEntry N="Stu Guy" O="5" M="1" R="7" W="1" WD="0" NB="0" />
+              <BowlingEntry N="James Whole" O="7.2" M="1" R="32" W="2" WD="0" NB="0" />
+              <BowlingEntry N="John Deere" O="6" M="0" R="23" W="0" WD="0" NB="0" />
+              <BowlingEntry N="Master Chief" O="10" M="3" R="19" W="2" WD="0" NB="0" />
             </Bowling>
             <InningsExtras B="15" LB="0" W="0" NB="0" P="0" />
           </SecondInnings>
@@ -236,106 +49,16 @@
           <MenOfMatch />
           <FirstInnings B="TeamName" F="AwayTeam2">
             <Batting>
-              <BattingEntry O="1">
-                <Name F="Julian" S="Mark" />
-                <MethodOut>LBW</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>19</RunsScored>
-                <WicketFellAt>1</WicketFellAt>
-                <TeamScoreAtWicket>44</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="2">
-                <Name F="Jon" S="Doe" />
-                <MethodOut>Caught</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>27</RunsScored>
-                <WicketFellAt>2</WicketFellAt>
-                <TeamScoreAtWicket>99</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="3">
-                <Name F="Master" S="Chief" />
-                <MethodOut>Caught</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>66</RunsScored>
-                <WicketFellAt>4</WicketFellAt>
-                <TeamScoreAtWicket>148</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="4">
-                <Name F="Simon" S="Marcus" />
-                <MethodOut>Bowled</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>7</RunsScored>
-                <WicketFellAt>3</WicketFellAt>
-                <TeamScoreAtWicket>127</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="5">
-                <Name F="Massey" S="Ferguson" />
-                <MethodOut>NotOut</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>17</RunsScored>
-                <WicketFellAt>0</WicketFellAt>
-                <TeamScoreAtWicket>0</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="6">
-                <Name F="David" S="Brown" />
-                <MethodOut>Bowled</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>1</RunsScored>
-                <WicketFellAt>5</WicketFellAt>
-                <TeamScoreAtWicket>153</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="7">
-                <Name F="Shaemus" S="Coleman" />
-                <MethodOut>DidNotBat</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>0</RunsScored>
-                <WicketFellAt>0</WicketFellAt>
-                <TeamScoreAtWicket>0</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="8">
-                <Name F="Lewis" S="Jones" />
-                <MethodOut>DidNotBat</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>0</RunsScored>
-                <WicketFellAt>0</WicketFellAt>
-                <TeamScoreAtWicket>0</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="9">
-                <Name F="James" S="Toole" />
-                <MethodOut>DidNotBat</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>0</RunsScored>
-                <WicketFellAt>0</WicketFellAt>
-                <TeamScoreAtWicket>0</TeamScoreAtWicket>
-              </BattingEntry>
-              <BattingEntry O="10">
-                <Name F="James" S="Whole" />
-                <MethodOut>DidNotBat</MethodOut>
-                <Fielder />
-                <WasKeeper>false</WasKeeper>
-                <Bowler />
-                <RunsScored>0</RunsScored>
-                <WicketFellAt>0</WicketFellAt>
-                <TeamScoreAtWicket>0</TeamScoreAtWicket>
-              </BattingEntry>
+              <BattingEntry O="1" N="Julian Mark" HO="LBW" F=" " K="False" B=" " R="19" W="1" TS="44" />
+              <BattingEntry O="2" N="Jon Doe" HO="Caught" F=" " K="False" B=" " R="27" W="2" TS="99" />
+              <BattingEntry O="3" N="Master Chief" HO="Caught" F=" " K="False" B=" " R="66" W="4" TS="148" />
+              <BattingEntry O="4" N="Simon Marcus" HO="Bowled" F=" " K="False" B=" " R="7" W="3" TS="127" />
+              <BattingEntry O="5" N="Massey Ferguson" HO="NotOut" F=" " K="False" B=" " R="17" W="0" TS="0" />
+              <BattingEntry O="6" N="David Brown" HO="Bowled" F=" " K="False" B=" " R="1" W="5" TS="153" />
+              <BattingEntry O="7" N="Shaemus Coleman" HO="DidNotBat" F=" " K="False" B=" " R="0" W="0" TS="0" />
+              <BattingEntry O="8" N="Lewis Jones" HO="DidNotBat" F=" " K="False" B=" " R="0" W="0" TS="0" />
+              <BattingEntry O="9" N="James Toole" HO="DidNotBat" F=" " K="False" B=" " R="0" W="0" TS="0" />
+              <BattingEntry O="10" N="James Whole" HO="DidNotBat" F=" " K="False" B=" " R="0" W="0" TS="0" />
             </Batting>
             <Bowling />
             <InningsExtras B="16" LB="0" W="0" NB="0" P="0" />
@@ -343,60 +66,12 @@
           <SecondInnings B="AwayTeam2" F="TeamName">
             <Batting />
             <Bowling>
-              <BowlingEntry>
-                <Name F="Shaemus" S="Coleman" />
-                <OversBowled>5</OversBowled>
-                <Maidens>0</Maidens>
-                <RunsConceded>31</RunsConceded>
-                <Wickets>1</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
-              <BowlingEntry>
-                <Name F="James" S="Toole" />
-                <OversBowled>2</OversBowled>
-                <Maidens>0</Maidens>
-                <RunsConceded>26</RunsConceded>
-                <Wickets>0</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
-              <BowlingEntry>
-                <Name F="Lewis" S="Jones" />
-                <OversBowled>3</OversBowled>
-                <Maidens>0</Maidens>
-                <RunsConceded>32</RunsConceded>
-                <Wickets>0</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
-              <BowlingEntry>
-                <Name F="Master" S="Chief" />
-                <OversBowled>3</OversBowled>
-                <Maidens>0</Maidens>
-                <RunsConceded>23</RunsConceded>
-                <Wickets>0</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
-              <BowlingEntry>
-                <Name F="Jon" S="Doe" />
-                <OversBowled>3</OversBowled>
-                <Maidens>0</Maidens>
-                <RunsConceded>19</RunsConceded>
-                <Wickets>0</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
-              <BowlingEntry>
-                <Name F="David" S="Brown" />
-                <OversBowled>0.6666666</OversBowled>
-                <Maidens>0</Maidens>
-                <RunsConceded>19</RunsConceded>
-                <Wickets>0</Wickets>
-                <Wides>0</Wides>
-                <NoBalls>0</NoBalls>
-              </BowlingEntry>
+              <BowlingEntry N="Shaemus Coleman" O="5" M="0" R="31" W="1" WD="0" NB="0" />
+              <BowlingEntry N="James Toole" O="2" M="0" R="26" W="0" WD="0" NB="0" />
+              <BowlingEntry N="Lewis Jones" O="3" M="0" R="32" W="0" WD="0" NB="0" />
+              <BowlingEntry N="Master Chief" O="3" M="0" R="23" W="0" WD="0" NB="0" />
+              <BowlingEntry N="Jon Doe" O="3" M="0" R="19" W="0" WD="0" NB="0" />
+              <BowlingEntry N="David Brown" O="0.4" M="0" R="19" W="0" WD="0" NB="0" />
             </Bowling>
             <InningsExtras B="20" LB="0" W="0" NB="0" P="0" />
           </SecondInnings>

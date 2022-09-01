@@ -225,7 +225,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
                 headers.Add("Name");
             }
 
-            if(includeYear)
+            if (includeYear)
             {
                 if (singleSeason)
                 {
@@ -261,7 +261,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
                 values.Add(Name.ToString());
             }
 
-            if(includeYear)
+            if (includeYear)
             {
                 if (singleSeason)
                 {
@@ -271,7 +271,7 @@ namespace CricketStructures.Statistics.Implementation.Player.Batting
                 {
                     values.Add(StartYear.Year.ToString());
                     values.Add(EndYear.Year.ToString());
-                }   
+                }
             }
 
             values.Add(TotalInnings.ToString());

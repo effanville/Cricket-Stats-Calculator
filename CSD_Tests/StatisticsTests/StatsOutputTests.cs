@@ -13,7 +13,6 @@ namespace CricketStructures.Tests.StatisticsTests
     {
         [TestCase(StatCollection.SeasonBrief, "Example1.xml", "example1-season-brief.html")]
         [TestCase(StatCollection.AllTimeBrief, "Example1.xml", "example1-alltime-brief.html")]
-        [Ignore("NO reason")]
         public void TeamStats(StatCollection statType, string teamFileName, string expectedOutputFile)
         {
             CricketTeam team = ExampleFileHelpers.GetExampleFromXmlFile<CricketTeam>(teamFileName);
@@ -30,7 +29,6 @@ namespace CricketStructures.Tests.StatisticsTests
 
         [TestCase(StatCollection.PlayerSeason, "Example1.xml", "example1-playerseason-brief.html")]
         [TestCase(StatCollection.PlayerBrief, "Example1.xml", "example1-playeralltime-brief.html")]
-        [Ignore("NO reason")]
         public void PlayerStats(StatCollection statType, string teamFileName, string expectedOutputFile)
         {
             CricketTeam team = ExampleFileHelpers.GetExampleFromXmlFile<CricketTeam>(teamFileName);
