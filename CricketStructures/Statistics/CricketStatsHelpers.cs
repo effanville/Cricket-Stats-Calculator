@@ -11,6 +11,15 @@ namespace CricketStructures.Statistics
 {
     internal static class CricketStatsHelpers
     {
+        public static void CalculateStats(this ICricketStat stat, string teamName, IReadOnlyList<ICricketSeason> seasons, MatchType[] matchTypes)
+        {
+            CricketStatsHelpers.SeasonIterator(
+                seasons,
+                season => stat.CalculateStats(teamName, season, matchTypes),
+                preCycleAction: stat.ResetStats,
+                postCycleAction: stat.Finalise);
+        }
+
         /// <summary>
         /// Cycles through a list of seasons and performs an action on each season.
         /// Also is able to perform an action prior and post this cycle.

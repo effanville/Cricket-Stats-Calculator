@@ -10,6 +10,7 @@ using CricketStructures.Statistics.Implementation.Collection;
 using CricketStructures.Match.Innings;
 using Common.Structure.NamingStructures;
 using CricketStructures.Statistics.Implementation.Player.Fielding;
+using System.Collections.Generic;
 
 namespace CricketStructures.Statistics
 {
@@ -220,6 +221,26 @@ namespace CricketStructures.Statistics
         {
             var stats = Generate(statName, playerName);
             stats.CalculateStats(team, matchTypes);
+            return stats;
+        }
+
+        /// <summary>
+        /// Create a statistic and calculate the value from the team
+        /// </summary>
+        /// <param name="statName">The type of statistic to create.</param>
+        /// <param name="team">The team to calculate the values of the statistic.</param>
+        /// <param name="matchTypes">The types of match to use.</param>
+        /// <param name="playerName">An optional extra name of the player to calculate the statistic for.</param>
+        /// <returns>The statistic.</returns>
+        public static ICricketStat Generate(
+            CricketStatTypes statName,
+            string teamName,
+            IReadOnlyList<ICricketSeason> seasons,
+            MatchType[] matchTypes,
+            PlayerName playerName = null)
+        {
+            var stats = Generate(statName, playerName);
+            stats.CalculateStats(teamName, seasons, matchTypes);
             return stats;
         }
 

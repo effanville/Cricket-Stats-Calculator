@@ -80,6 +80,22 @@ namespace CricketStructures.Statistics.Collection.Implementation
             string header,
             IList<CricketStatTypes> statsToGenerate,
             string teamName,
+            IReadOnlyList<ICricketSeason> seasons,
+            MatchType[] matchTypes,
+            PlayerName playerName = null)
+        {
+            Header = header;
+            foreach (CricketStatTypes statName in statsToGenerate)
+            {
+                var stat = CricketStatsFactory.Generate(statName, teamName, seasons, matchTypes, playerName);
+                Statistics.Add(statName, stat);
+            }
+        }
+
+        public CricketStatsCollection(
+            string header,
+            IList<CricketStatTypes> statsToGenerate,
+            string teamName,
             ICricketSeason season,
             MatchType[] matchTypes,
             PlayerName playerName = null)
