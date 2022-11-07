@@ -106,6 +106,13 @@ namespace CricketStructures.Match
             SecondInnings = new CricketInnings(homeTeamBattingFirst ? awayTeam : homeTeam, homeTeamBattingFirst ? homeTeam : awayTeam);
         }
 
+        private CricketMatch(MatchInfo info, CricketInnings firstInnings, CricketInnings secondInnings)
+        {
+            MatchData = info;
+            FirstInnings = firstInnings;
+            SecondInnings = secondInnings;
+        }
+
         internal CricketMatch(MatchInfo info)
         {
             MatchData = info;
@@ -427,11 +434,26 @@ namespace CricketStructures.Match
             throw new NotImplementedException();
         }
 
+
+        private static readonly string InningsTitle = "Innings of:";
+
+        public static CricketMatch CreateFromScorecard(DocumentType exportType, string scorecard)
+        {
+            int indexOfFirstInnings = scorecard.IndexOf(InningsTitle);
+            int indexOfSecondInnings = scorecard.IndexOf(InningsTitle, indexOfFirstInnings + InningsTitle.Length);
+
+            var info = MatchInfo.FromString(Helpers.GetTitle(exportType, scorecard, DocumentElement.h1));
+            var firstInnings = CricketInnings.CreateFromScorecard(exportType, scorecard.Substring(indexOfFirstInnings - 4, indexOfSecondInnings));
+            var secondInnings = CricketInnings.CreateFromScorecard(exportType, scorecard.Substring(indexOfSecondInnings));
+
+            return new CricketMatch(info, firstInnings, secondInnings);
+        }
+
         public ReportBuilder SerializeToString(DocumentType exportType)
         {
             ReportBuilder sb = new ReportBuilder(exportType, new ReportSettings(useColours: true, useDefaultStyle: false, useScripts: true));
             _ = sb.WriteHeader("")
-                .WriteTitle($"{MatchData.HomeTeam} vs {MatchData.AwayTeam}. Venue: {MatchData.Location}. Date: {MatchData.Date}. Type of Match: {MatchData.Type}", DocumentElement.h1);
+                .WriteTitle($"{MatchData}", DocumentElement.h1);
 
             var firstInningsString = FirstInnings.SerializeToString(exportType);
             _ = sb.Append(firstInningsString)

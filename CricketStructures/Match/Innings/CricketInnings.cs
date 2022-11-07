@@ -5,6 +5,7 @@ using Common.Structure.Extensions;
 using Common.Structure.Validation;
 using Common.Structure.ReportWriting;
 using System.Xml.Serialization;
+using System;
 
 namespace CricketStructures.Match.Innings
 {
@@ -246,7 +247,8 @@ namespace CricketStructures.Match.Innings
         }
 
         public void SetBatting(
-            PlayerName player, Wicket howOut,
+            PlayerName player, 
+            Wicket howOut,
             int runs,
             int order,
             int wicketToFallAt,
@@ -487,9 +489,91 @@ namespace CricketStructures.Match.Innings
             return results;
         }
 
+        private static string BattingSection = "Batting";
+        private static string BowlingSection = "Bowling";
+        private static string PartnershipsSection = "Partnership";
+        private static string ScoreTitle = "Score";
+
         public static CricketInnings CreateFromScorecard(DocumentType exportType, string scorecard)
         {
-            return null;
+            var innings = new CricketInnings();
+
+            string title = Helpers.GetTitle(exportType, scorecard, DocumentElement.h2);
+            string battingTeam = title.Split(":")[1].Trim('\n').Trim('\r').Trim('.').Trim();
+            innings.BattingTeam = battingTeam;
+
+            int indexOfBatting = scorecard.IndexOf(BattingSection);
+            int indexOfBowling = scorecard.IndexOf(BowlingSection);
+            int partnerships = scorecard.IndexOf(PartnershipsSection);
+            int scoreSectionStart = scorecard.IndexOf(ScoreTitle);
+
+            string battingSection = scorecard.Substring(indexOfBatting, partnerships);
+            var battingData = TableInverter.InvertTable(exportType, battingSection);
+
+            foreach (var batting in battingData.TableRows)
+            {
+                if (int.TryParse(batting[0], out var order))
+                {
+                    var data = GetMethodOut(batting[2]);
+                    var bowler = PlayerName.FromString(batting[3]);
+                    var runsScored = int.Parse(batting[4]);
+                    innings.SetBatting(PlayerName.FromString(batting[1]), data.Item1, runsScored, order, 1, 1, data.fielder, data.wasKeeper, bowler);
+                }
+            }
+
+            (Wicket, PlayerName fielder, bool wasKeeper) GetMethodOut(string methodOutString)
+            {
+                bool keeper = methodOutString.Contains(CricketConstants.WicketKeeperSymbol);
+                var wicketSTringEndIndex = methodOutString.IndexOf(' ');
+                if (wicketSTringEndIndex > 0)
+                {
+                    var wicketString = methodOutString.Substring(0, wicketSTringEndIndex);
+                    var nameString = methodOutString.Substring(wicketSTringEndIndex + 1);
+                    var wicketType = Enum.Parse<Wicket>(wicketString);
+                    var name = PlayerName.FromString(nameString.Replace(CricketConstants.WicketKeeperSymbol, ""));
+                    return (wicketType, name, keeper);
+                }
+                else
+                {
+                    var wicketType = Enum.Parse<Wicket>(methodOutString);
+                    return (wicketType, null, keeper);
+                }
+            }
+
+            var extrasTableIndex = battingSection.IndexOf("</table>");
+            var fieldingSection = battingSection.Substring(extrasTableIndex + "</table>".Length);
+            var fieldingData = TableInverter.InvertTable(exportType, fieldingSection);
+
+            int byes = GetExtraValue(fieldingData, "Byes");
+            int legbyes = GetExtraValue(fieldingData, "Leg Byes");
+            int wides = GetExtraValue(fieldingData, "Wides");
+            int noBalls = GetExtraValue(fieldingData, "No Balls");
+            int penalties = GetExtraValue(fieldingData, "Penalties");
+            innings.SetExtras(byes, legbyes, wides, noBalls, penalties);
+
+            int GetExtraValue(TableInput input, string extraType)
+            {
+                return int.Parse(input.TableRows.First(data => data[0] == extraType)[1]);
+            }
+
+            string bowlingSection = scorecard.Substring(indexOfBowling + BowlingSection.Length, scoreSectionStart - indexOfBowling - BowlingSection.Length);
+            var bowlingData = TableInverter.InvertTable(exportType, bowlingSection);
+            foreach (var bowling in bowlingData.TableRows)
+            {
+                Over overs = Over.FromString(bowling[3]);
+                int maidens = int.Parse(bowling[4]);
+                int runsConceded = int.Parse(bowling[5]);
+                int wickets = int.Parse(bowling[6]);
+                int bowlingWides = int.Parse(bowling[1]);
+                int bowlingNoBalls = int.Parse(bowling[2]);
+                var name = PlayerName.FromString(bowling[0]);
+                if (bowling[0] != BowlingTotalsString)
+                {
+                    innings.SetBowling(name, overs, maidens, runsConceded, wickets, bowlingWides, bowlingNoBalls);
+                }
+            }
+
+            return innings;
         }
 
         public ReportBuilder SerializeToString(DocumentType exportType)
@@ -571,7 +655,7 @@ namespace CricketStructures.Match.Innings
             bowlingColumns.Add(
                 new List<string>
                 {
-                    "Bowling Totals",
+                    BowlingTotalsString,
                     bowlingTotals.Wides.ToString(),
                     bowlingTotals.NoBalls.ToString(),
                     bowlingTotals.OversBowled.ToString(),
@@ -591,5 +675,7 @@ namespace CricketStructures.Match.Innings
 
             return sb;
         }
+
+        private const string BowlingTotalsString = "Bowling Totals";
     }
 }

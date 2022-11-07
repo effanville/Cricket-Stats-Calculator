@@ -58,9 +58,34 @@ namespace CricketStructures.Match
             Type = type;
         }
 
+        private static string vs = "vs";
+        private static string venue = "Venue";
+        private static string DateString = "Date";
+        private static string TypeOfMatch = "Type of Match";
+
+        public static MatchInfo FromString(string stringForm)
+        {
+            int indexOfvs = stringForm.IndexOf(vs);
+            int indexOfvenueName = stringForm.IndexOf(venue);
+            int indexOfDate = stringForm.IndexOf(DateString);
+            int indexOfType = stringForm.IndexOf(TypeOfMatch);
+            int matchTypeEnd = stringForm.IndexOf("\r\n", indexOfType);
+
+
+            string homeTeam = stringForm.Substring(0, indexOfvs).Trim();
+            string awayTeam = stringForm.Substring(indexOfvs + vs.Length, indexOfvenueName - indexOfvs - vs.Length).Trim().Trim('.');
+            string location = stringForm.Substring(indexOfvenueName + venue.Length + 1, indexOfDate - indexOfvenueName - venue.Length - 2).Trim().Trim('.');
+            string dateString = stringForm.Substring(indexOfDate + DateString.Length + 1, indexOfType - indexOfDate - DateString.Length - 3).Trim();
+            string typeString = stringForm.Substring(indexOfType + TypeOfMatch.Length + 2, matchTypeEnd - indexOfType - TypeOfMatch.Length - 2).Trim();
+            DateTime date = DateTime.Parse(dateString);
+            MatchType matchType = Enum.Parse<MatchType>(typeString);
+
+            return new MatchInfo(homeTeam, awayTeam, location, date, matchType);
+        }
+
         public override string ToString()
         {
-            return $"{Date.ToUkDateString()} - {HomeTeam} v {AwayTeam} at {Location}";
+            return $"{HomeTeam} vs {AwayTeam}. Venue: {Location}. Date: {Date}. Type of Match: {Type}";
         }
 
         public bool Validate()
