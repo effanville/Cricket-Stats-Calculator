@@ -247,7 +247,7 @@ namespace CricketStructures.Match.Innings
         }
 
         public void SetBatting(
-            PlayerName player, 
+            PlayerName player,
             Wicket howOut,
             int runs,
             int order,
