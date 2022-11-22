@@ -11,7 +11,7 @@ using CricketStructures.Match.Result;
 
 namespace CricketStructures.Match
 {
-    public sealed class CricketMatch : ICricketMatch, IValidity
+    public sealed class CricketMatch : ICricketMatch, IValidity, IEquatable<CricketMatch>
     {
         [XmlAttribute(AttributeName = "H")]
         public string HomeTeam
@@ -439,12 +439,16 @@ namespace CricketStructures.Match
 
         public static CricketMatch CreateFromScorecard(DocumentType exportType, string scorecard)
         {
-            int indexOfFirstInnings = scorecard.IndexOf(InningsTitle);
-            int indexOfSecondInnings = scorecard.IndexOf(InningsTitle, indexOfFirstInnings + InningsTitle.Length);
+            var scorecardDocument = ReportSplitter.SplitReportString(exportType, scorecard);
+            int indexOfFirstInnings = scorecardDocument.Parts.FindIndex(0, part => part.ConstituentString.Contains(InningsTitle));
+            int indexOfSecondInnings = scorecardDocument.Parts.FindIndex(indexOfFirstInnings, part => part.ConstituentString.Contains(InningsTitle));
 
-            var info = MatchInfo.FromString(Helpers.GetTitle(exportType, scorecard, DocumentElement.h1));
-            var firstInnings = CricketInnings.CreateFromScorecard(exportType, scorecard.Substring(indexOfFirstInnings - 4, indexOfSecondInnings));
-            var secondInnings = CricketInnings.CreateFromScorecard(exportType, scorecard.Substring(indexOfSecondInnings));
+            var firstInningsDoc = scorecardDocument.GetSubDocument(indexOfFirstInnings);
+            var secondInningsDoc = scorecardDocument.GetSubDocument(indexOfSecondInnings);
+
+            var info = MatchInfo.FromString(scorecardDocument.Parts.First(part => part.Element == DocumentElement.h1).ConstituentString);
+            var firstInnings = CricketInnings.CreateFromScorecard(exportType, firstInningsDoc.SerializeToString());
+            var secondInnings = CricketInnings.CreateFromScorecard(exportType, secondInningsDoc.SerializeToString());
 
             return new CricketMatch(info, firstInnings, secondInnings);
         }
@@ -469,6 +473,38 @@ namespace CricketStructures.Match
                 .WriteParagraph(new[] { $"Match Result: ", result.ToString() })
                 .WriteFooter();
             return sb;
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as CricketMatch);
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(CricketMatch other)
+        {
+            return HomeTeam == other.HomeTeam
+                && AwayTeam == other.AwayTeam;
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+            hash.Add(HomeTeam);
+            hash.Add(AwayTeam);
+            hash.Add(Location);
+            hash.Add(Date);
+            hash.Add(Type);
+            hash.Add(MatchData);
+            hash.Add(Result);
+            hash.Add(MenOfMatch);
+            hash.Add(FirstInnings);
+            hash.Add(SecondInnings);
+            hash.Add(fPlayersByTeam);
+            return hash.ToHashCode();
         }
     }
 }
