@@ -6,6 +6,7 @@ using Common.Structure.Validation;
 using Common.Structure.ReportWriting;
 using System.Xml.Serialization;
 using System;
+using Common.Structure.ReportWriting.Document;
 
 namespace CricketStructures.Match.Innings
 {
@@ -498,11 +499,11 @@ namespace CricketStructures.Match.Innings
 
         public static CricketInnings CreateFromScorecard(DocumentType exportType, string scorecard)
         {
-            ReportSplitter.Document inningsDocument = ReportSplitter.SplitReportString(exportType, scorecard);
+            Document inningsDocument = ReportSplitter.SplitReportString(exportType, scorecard);
             return CreateFromScorecard(inningsDocument);
         }
 
-        public static CricketInnings CreateFromScorecard(ReportSplitter.Document inningsDocument)
+        public static CricketInnings CreateFromScorecard(Document inningsDocument)
         {
             var innings = new CricketInnings();
 
@@ -510,8 +511,8 @@ namespace CricketStructures.Match.Innings
             string battingTeam = title.Split(":")[1].Trim('\n').Trim('\r').Trim('.').Trim();
             innings.BattingTeam = battingTeam;
 
-            var battingSection = inningsDocument.GetSubDocument(inningsDocument.Parts.FindIndex(part => part.ConstituentString.Contains(BattingSection)));
-            var battingData = battingSection.Parts.First(part => part.Element == DocumentElement.table) as ReportSplitter.TableDocumentPart;
+            var battingSection = inningsDocument.GetSubDocument(inningsDocument.Parts.ToList().FindIndex(part => part.ConstituentString.Contains(BattingSection)));
+            var battingData = battingSection.Parts.First(part => part.Element == DocumentElement.table) as TableDocumentPart;
 
             foreach (var batting in battingData.TableRows)
             {
@@ -543,8 +544,8 @@ namespace CricketStructures.Match.Innings
                 }
             }
 
-            var fieldingSection = inningsDocument.GetSubDocument(inningsDocument.Parts.FindIndex(part => part.ConstituentString.Contains(ExtrasSection) && part.Element != DocumentElement.table));
-            var fieldingData = fieldingSection.Parts.First(part => part.Element == DocumentElement.table) as ReportSplitter.TableDocumentPart;
+            var fieldingSection = inningsDocument.GetSubDocument(inningsDocument.Parts.ToList().FindIndex(part => part.ConstituentString.Contains(ExtrasSection) && part.Element != DocumentElement.table));
+            var fieldingData = fieldingSection.Parts.First(part => part.Element == DocumentElement.table) as TableDocumentPart;
 
             int byes = GetExtraValue(fieldingData, "Byes");
             int legbyes = GetExtraValue(fieldingData, "Leg Byes");
@@ -553,13 +554,13 @@ namespace CricketStructures.Match.Innings
             int penalties = GetExtraValue(fieldingData, "Penalties");
             innings.SetExtras(byes, legbyes, wides, noBalls, penalties);
 
-            int GetExtraValue(ReportSplitter.TableDocumentPart input, string extraType)
+            int GetExtraValue(TableDocumentPart input, string extraType)
             {
                 return int.Parse(input.TableRows.First(data => data[0].Contains(extraType))[1]);
             }
 
-            var bowlingSection = inningsDocument.GetSubDocument(inningsDocument.Parts.FindIndex(part => part.ConstituentString.Contains(BowlingSection)));
-            var bowlingData = bowlingSection.Parts.First(part => part.Element == DocumentElement.table) as ReportSplitter.TableDocumentPart;
+            var bowlingSection = inningsDocument.GetSubDocument(inningsDocument.Parts.ToList().FindIndex(part => part.ConstituentString.Contains(BowlingSection)));
+            var bowlingData = bowlingSection.Parts.First(part => part.Element == DocumentElement.table) as TableDocumentPart;
             foreach (var bowling in bowlingData.TableRows)
             {
                 Over overs = Over.FromString(bowling[3]);

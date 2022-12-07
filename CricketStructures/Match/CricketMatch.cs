@@ -8,6 +8,7 @@ using Common.Structure.Extensions;
 using Common.Structure.Validation;
 using Common.Structure.ReportWriting;
 using CricketStructures.Match.Result;
+using Common.Structure.ReportWriting.Document;
 
 namespace CricketStructures.Match
 {
@@ -440,13 +441,13 @@ namespace CricketStructures.Match
         public static CricketMatch CreateFromScorecard(DocumentType exportType, string scorecard)
         {
             var scorecardDocument = ReportSplitter.SplitReportString(exportType, scorecard);
-            int indexOfFirstInnings = scorecardDocument.Parts.FindIndex(0, part => part.ConstituentString.Contains(InningsTitle));
-            int indexOfSecondInnings = scorecardDocument.Parts.FindIndex(indexOfFirstInnings, part => part.ConstituentString.Contains(InningsTitle));
+            int indexOfFirstInnings = scorecardDocument.Parts.ToList().FindIndex(0, part => part.ConstituentString.Contains(InningsTitle));
+            int indexOfSecondInnings = scorecardDocument.Parts.ToList().FindIndex(indexOfFirstInnings, part => part.ConstituentString.Contains(InningsTitle));
 
             var firstInningsDoc = scorecardDocument.GetSubDocument(indexOfFirstInnings);
             var secondInningsDoc = scorecardDocument.GetSubDocument(indexOfSecondInnings);
 
-            var info = MatchInfo.FromString(scorecardDocument.Parts.First(part => part.Element == DocumentElement.h1).ConstituentString);
+            var info = MatchInfo.FromString((scorecardDocument.Parts.First(part => part.Element == DocumentElement.h1) as TextDocumentPart).Text);
             var firstInnings = CricketInnings.CreateFromScorecard(exportType, firstInningsDoc.SerializeToString());
             var secondInnings = CricketInnings.CreateFromScorecard(exportType, secondInningsDoc.SerializeToString());
 

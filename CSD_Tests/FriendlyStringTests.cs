@@ -437,22 +437,13 @@ Match Result: South Africa beat Australia by 1 wickets.
 
 ";
 
-        //[TestCase("HighestODIChase", Common.Structure.ReportWriting.DocumentType.Html)]
-        [TestCase("HighestODIChase", Common.Structure.ReportWriting.DocumentType.Md)]
+        [TestCase("HighestODIChase", DocumentType.Html)]
+        [TestCase("HighestODIChase", DocumentType.Md)]
         public void UndoStuff(string index, DocumentType docType)
         {
             string matchScorecard = docType == DocumentType.Html ? HtmlScorecard : mdScorecard;
             CricketMatch friendlyString = CricketMatch.CreateFromScorecard(docType, matchScorecard);
             Assert.AreEqual(TestCaseInstances.ExampleMatches[index], friendlyString);
-        }
-
-        //[TestCase("HighestODIChase", DocumentType.Html)]
-        [TestCase("HighestODIChase", DocumentType.Md)]
-        public void UndoStuff2(string index, DocumentType docType)
-        {
-            var matchScorecard = docType == DocumentType.Html ? HtmlScorecard : mdScorecard;
-            var split = ReportSplitter.SplitReportString(docType, matchScorecard);
-            Assert.AreEqual(TestCaseInstances.ExampleMatches[index], split);
         }
     }
 }
