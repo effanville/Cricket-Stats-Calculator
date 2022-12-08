@@ -54,7 +54,7 @@ namespace CricketStructures.Migration
             output.MatchData.Location = match.MatchData.Place;
             output.MatchData.Type = (MatchType)Enum.Parse(typeof(MatchType), match.MatchData.Type.ToString());
             output.Result = (ResultType)Enum.Parse(typeof(ResultType), match.Result.ToString());
-            output.MenOfMatch = new PlayerName[] { ConvertPlayerName(match.ManOfMatch) };
+            output.MenOfMatch = new List<PlayerName> { ConvertPlayerName(match.ManOfMatch) };
 
             output.FirstInnings = match.BattingFirstOrSecond == Cricket.Match.TeamInnings.First
                 ? ConvertBattingInnings(match.Batting, teamName, match.MatchData.Opposition)

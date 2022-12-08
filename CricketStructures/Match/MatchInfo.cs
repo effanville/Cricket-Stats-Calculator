@@ -117,7 +117,9 @@ namespace CricketStructures.Match
 
         public bool Equals(DateTime date, string homeTeam, string awayTeam)
         {
-            return string.Equals(HomeTeam, homeTeam) && string.Equals(AwayTeam, awayTeam) & DateTime.Equals(Date, date);
+            return string.Equals(HomeTeam ?? "", homeTeam ?? "")
+                && string.Equals(AwayTeam ?? "", awayTeam ?? "")
+                && DateTime.Equals(Date, date);
         }
 
         public override int GetHashCode()

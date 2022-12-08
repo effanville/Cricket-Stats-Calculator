@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CricketStructures.Player;
-using Common.Structure.Extensions;
-using Common.Structure.Validation;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using System;
+
+using CricketStructures.Player;
+using Common.Structure.Extensions;
+using Common.Structure.Validation;
 
 namespace CricketStructures.Match.Innings
 {
     /// <summary>
     /// Represents an entry on the batting part of a cricket scorecard.
     /// </summary>
-    public class BattingEntry : IValidity, IXmlSerializable
+    public sealed class BattingEntry : IValidity, IXmlSerializable, IEquatable<BattingEntry>
     {
         /// <summary>
         /// At what point in the innings did this batsman bat.
@@ -125,12 +126,8 @@ namespace CricketStructures.Match.Innings
 
         public override string ToString()
         {
-            if (Name != null)
-            {
-                return "Batsman-" + Name.ToString();
-            }
-
-            return "Batsman: No Name";
+            string fielderString = Fielder +(WasKeeper ? CricketConstants.WicketKeeperSymbol : "");
+            return $"{Order}-{Name}-{MethodOut}-{fielderString}-{Bowler}-{RunsScored}-{WicketFellAt}-{TeamScoreAtWicket}";
         }
 
         /// <summary>
@@ -285,6 +282,7 @@ namespace CricketStructures.Match.Innings
             reader.ReadEndElement();
         }
 
+        /// <inheritdoc/>
         public void ReadXml(XmlReader reader)
         {
             _ = reader.MoveToContent();
@@ -318,6 +316,7 @@ namespace CricketStructures.Match.Innings
             reader.ReadStartElement();
         }
 
+        /// <inheritdoc/>
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteAttributeString("O", Order.ToString());
@@ -329,6 +328,42 @@ namespace CricketStructures.Match.Innings
             writer.WriteAttributeString("R", RunsScored.ToString());
             writer.WriteAttributeString("W", WicketFellAt.ToString());
             writer.WriteAttributeString("TS", TeamScoreAtWicket.ToString());
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(BattingEntry other)
+        {
+            return Order.Equals(other.Order)
+                && Name.Equals(other.Name)
+                && MethodOut.Equals(other.MethodOut)
+                && Fielder.Equals(other.Fielder)
+                && WasKeeper.Equals(other.WasKeeper)
+                && Bowler.Equals(other.Bowler)
+                && RunsScored.Equals(other.RunsScored)
+                && WicketFellAt.Equals(other.WicketFellAt)
+                && TeamScoreAtWicket.Equals(other.TeamScoreAtWicket);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+            hash.Add(Order);
+            hash.Add(Name);
+            hash.Add(MethodOut);
+            hash.Add(Fielder);
+            hash.Add(WasKeeper);
+            hash.Add(Bowler);
+            hash.Add(RunsScored);
+            hash.Add(WicketFellAt);
+            hash.Add(TeamScoreAtWicket);
+            return hash.ToHashCode();
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as BattingEntry);
         }
     }
 }

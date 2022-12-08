@@ -10,7 +10,7 @@ using Common.Structure.ReportWriting.Document;
 
 namespace CricketStructures.Match.Innings
 {
-    public sealed class CricketInnings : IValidity
+    public sealed class CricketInnings : IValidity, IEquatable<CricketInnings>
     {
         [XmlAttribute(AttributeName = "B")]
         public string BattingTeam
@@ -507,12 +507,12 @@ namespace CricketStructures.Match.Innings
         {
             var innings = new CricketInnings();
 
-            string title = inningsDocument.Parts.First(part => part.Element == DocumentElement.h2).ConstituentString;
+            string title = inningsDocument.FirstTextPart(DocumentElement.h2).Text;
             string battingTeam = title.Split(":")[1].Trim('\n').Trim('\r').Trim('.').Trim();
             innings.BattingTeam = battingTeam;
 
-            var battingSection = inningsDocument.GetSubDocument(inningsDocument.Parts.ToList().FindIndex(part => part.ConstituentString.Contains(BattingSection)));
-            var battingData = battingSection.Parts.First(part => part.Element == DocumentElement.table) as TableDocumentPart;
+            var battingSection = inningsDocument.GetSubDocumentFrom(part => part.ConstituentString.Contains(BattingSection));
+            var battingData = battingSection.FirstTablePart();
 
             foreach (var batting in battingData.TableRows)
             {
@@ -521,7 +521,7 @@ namespace CricketStructures.Match.Innings
                     var data = GetMethodOut(batting[2]);
                     var bowler = PlayerName.FromString(batting[3]);
                     int runsScored = int.Parse(batting[4]);
-                    innings.SetBatting(PlayerName.FromString(batting[1]), data.Item1, runsScored, order, 1, 1, data.fielder, data.wasKeeper, bowler);
+                    innings.SetBatting(PlayerName.FromString(batting[1]), data.Item1, runsScored, order, 0, 0, data.fielder, data.wasKeeper, bowler);
                 }
             }
 
@@ -540,12 +540,25 @@ namespace CricketStructures.Match.Innings
                 else
                 {
                     var wicketType = Enum.Parse<Wicket>(methodOutString);
-                    return (wicketType, null, keeper);
+                    return (wicketType, new PlayerName(), keeper);
                 }
             }
 
-            var fieldingSection = inningsDocument.GetSubDocument(inningsDocument.Parts.ToList().FindIndex(part => part.ConstituentString.Contains(ExtrasSection) && part.Element != DocumentElement.table));
-            var fieldingData = fieldingSection.Parts.First(part => part.Element == DocumentElement.table) as TableDocumentPart;
+            var partnershipSection = inningsDocument.GetSubDocumentFrom(part => part.ConstituentString.Contains(PartnershipsSection));
+            var partnershipData = partnershipSection.FirstTablePart();
+
+            var fieldingSection = inningsDocument.GetSubDocumentFrom(part => part.ConstituentString.Contains(ExtrasSection) && part.Element != DocumentElement.table);
+            var fieldingData = fieldingSection.FirstTablePart();
+
+            foreach (var row in partnershipData.TableRows)
+            {
+                int wicket = int.Parse(row[0]);
+                int runs = int.Parse(row[1]);
+                int manOut = int.Parse(row[2]);
+
+                innings.Batting[manOut - 1].WicketFellAt = wicket;
+                innings.Batting[manOut - 1].TeamScoreAtWicket = runs;
+            }
 
             int byes = GetExtraValue(fieldingData, "Byes");
             int legbyes = GetExtraValue(fieldingData, "Leg Byes");
@@ -559,8 +572,9 @@ namespace CricketStructures.Match.Innings
                 return int.Parse(input.TableRows.First(data => data[0].Contains(extraType))[1]);
             }
 
-            var bowlingSection = inningsDocument.GetSubDocument(inningsDocument.Parts.ToList().FindIndex(part => part.ConstituentString.Contains(BowlingSection)));
-            var bowlingData = bowlingSection.Parts.First(part => part.Element == DocumentElement.table) as TableDocumentPart;
+
+            var bowlingSection = inningsDocument.GetSubDocumentFrom(part => part.ConstituentString.Contains(BowlingSection));
+            var bowlingData = bowlingSection.FirstTablePart();
             foreach (var bowling in bowlingData.TableRows)
             {
                 Over overs = Over.FromString(bowling[3]);
@@ -586,7 +600,7 @@ namespace CricketStructures.Match.Innings
 
             _ = sb.WriteTitle(BattingSection, DocumentElement.h3);
 
-            List<string> battingHeaders = new List<string>() { "", "Batsman", "How Out", "Bowler", "Total" };
+            List<string> battingHeaders = new List<string>() { " ", "Batsman", "How Out", "Bowler", "Total" };
             List<List<string>> battingPerBatsman = new List<List<string>>();
 
             foreach (var batsman in Batting)
@@ -682,6 +696,27 @@ namespace CricketStructures.Match.Innings
             _ = sb.WriteParagraph(new[] { $"Final Score: {score.Runs} for {score.Wickets}" });
 
             return sb;
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(CricketInnings other)
+        {
+            return (BattingTeam ?? "").Equals(other.BattingTeam ?? "")
+                && (FieldingTeam ?? "").Equals(other.FieldingTeam ?? "")
+                && Enumerable.SequenceEqual(Batting, other.Batting)
+                && Enumerable.SequenceEqual(Bowling, other.Bowling)
+                && InningsExtras.Equals(other.InningsExtras);
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as CricketInnings);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(BattingTeam, FieldingTeam, Batting, Bowling, InningsExtras);
         }
     }
 }

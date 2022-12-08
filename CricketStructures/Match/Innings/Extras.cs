@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
 
 namespace CricketStructures.Match.Innings
 {
-    public sealed class Extras : IValidity
+    public sealed class Extras : IValidity, IEquatable<Extras>
     {
         [XmlAttribute(AttributeName = "B")]
         public int Byes
@@ -81,11 +83,13 @@ namespace CricketStructures.Match.Innings
             return Byes + LegByes + Penalties;
         }
 
+        /// <inheritdoc/>
         public bool Validate()
         {
             return !Validation().Any(validation => !validation.IsValid);
         }
 
+        /// <inheritdoc/>
         public List<ValidationResult> Validation()
         {
             List<ValidationResult> results = new List<ValidationResult>();
@@ -95,6 +99,28 @@ namespace CricketStructures.Match.Innings
             results.AddIfNotNull(Validating.NotNegative(NoBalls, nameof(NoBalls), ToString()));
             results.AddIfNotNull(Validating.NotNegative(Penalties, nameof(Penalties), ToString()));
             return results;
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(Extras other)
+        {
+            return Byes.Equals(other.Byes)
+                && LegByes.Equals(other.LegByes)
+                && Wides.Equals(other.Wides)
+                && NoBalls.Equals(other.NoBalls)
+                && Penalties.Equals(other.Penalties);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Byes, LegByes, Wides, NoBalls, Penalties);
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Extras);
         }
     }
 }

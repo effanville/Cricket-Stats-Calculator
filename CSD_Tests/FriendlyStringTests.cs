@@ -1,9 +1,6 @@
-﻿﻿using System.IO;
-
-using Common.Structure.ReportWriting;
+﻿using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
-
 
 using NUnit.Framework;
 
@@ -11,14 +8,22 @@ namespace CricketStructures.Tests
 {
     internal class FriendlyStringTests
     {
-        [TestCase("HighestODIChase", Common.Structure.ReportWriting.DocumentType.Html)]
-        [TestCase("HighestODIChase", Common.Structure.ReportWriting.DocumentType.Md)]
-        public void DoStuff(string index, Common.Structure.ReportWriting.DocumentType exportType)
+        [TestCase("HighestODIChase", DocumentType.Html, "HighestODIChase.html")]
+        [TestCase("HighestODIChase", DocumentType.Md, "HighestODIChase.md")]
+        [TestCase("Empty Match", DocumentType.Html, "Empty Match.html")]
+        [TestCase("Empty Match", DocumentType.Md, "Empty Match.md")]
+        public void RoundTripTests(string index, DocumentType exportType, string exampleFileName)
         {
             var matchToTest = TestCaseInstances.ExampleMatches[index];
             var friendlyString = matchToTest.SerializeToString(exportType);
-            var stringThing = friendlyString.ToString();
-            File.WriteAllText($"c:\\data\\source\\test{index}.{exportType.ToString()}", stringThing);
+            string matchScorecard = friendlyString.ToString();
+
+            string teamString = ExampleFileHelpers.GetExampleFile(exampleFileName);
+
+            Assert.AreEqual(teamString, matchScorecard);
+
+            CricketMatch deserializedMatch = CricketMatch.CreateFromScorecard(exportType, matchScorecard);
+            Assert.AreEqual(matchToTest, deserializedMatch);
         }
 
         const string HtmlScorecard = @"<!DOCTYPE html>

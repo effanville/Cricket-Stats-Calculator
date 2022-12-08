@@ -40,14 +40,14 @@ namespace CricketStructures.Player
         {
             if (string.IsNullOrWhiteSpace(playerNameAsString))
             {
-                return null;
+                return new PlayerName();
             }
 
             int forenameEndIndex = playerNameAsString.IndexOf(StringSeparator);
             if (forenameEndIndex > 0)
             {
                 string forename = playerNameAsString.Substring(0, forenameEndIndex);
-                string surname = playerNameAsString.Substring(forenameEndIndex);
+                string surname = playerNameAsString.Substring(forenameEndIndex + 1);
                 return new PlayerName(surname, forename);
             }
             if (forenameEndIndex == -1)

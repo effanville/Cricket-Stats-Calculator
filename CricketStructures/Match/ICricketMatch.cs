@@ -30,7 +30,7 @@ namespace CricketStructures.Match
         /// <summary>
         /// The MVPs of this match.
         /// </summary>
-        PlayerName[] MenOfMatch
+        List<PlayerName> MenOfMatch
         {
             get;
         }
@@ -78,11 +78,6 @@ namespace CricketStructures.Match
         /// </summary>
         /// <param name="isHomeTeam">Whether the home team is batting first.</param>
         void SetBattingFirst(bool isHomeTeam);
-
-        /// <summary>
-        /// Edit the man of the match for the game.
-        /// </summary>
-        bool EditManOfMatch(PlayerName[] player);
 
         /// <summary>
         /// Get the innings for the team specified.
