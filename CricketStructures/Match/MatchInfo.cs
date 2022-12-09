@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -84,7 +85,17 @@ namespace CricketStructures.Match
 
         public override string ToString()
         {
-            return $"{HomeTeam} vs {AwayTeam}. Venue: {Location}. Date: {Date}. Type of Match: {Type}";
+            return $"{HomeTeam} vs {AwayTeam}. {venue}: {Location}. {DateString}: {ToFriendlyDateString(Date)}. {TypeOfMatch}: {Type}";
+        }
+
+        public static string ToFriendlyDateString(DateTime date)
+        {
+            if (date.Hour == 0 && date.Minute == 0 && date.Second == 0)
+            {
+                return date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            }
+
+            return date.ToString("o", CultureInfo.InvariantCulture);
         }
 
         public bool Validate()

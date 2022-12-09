@@ -1,4 +1,4 @@
-# South Africa vs Australia. Venue: Joburg. Date: 12/03/2006 00:00:00. Type of Match: League
+# South Africa vs Australia. Venue: Joburg. Date: 2006-03-12. Type of Match: League
 ## Innings of: Australia.
 ### Batting
 |    | Batsman      | How Out             | Bowler        | Total |

@@ -1,4 +1,4 @@
-#  vs . Venue: . Date: 01/01/0001 00:00:00. Type of Match: League
+#  vs . Venue: . Date: 0001-01-01. Type of Match: League
 ## Innings of: .
 ### Batting
 |   | Batsman | How Out | Bowler        | Total |
