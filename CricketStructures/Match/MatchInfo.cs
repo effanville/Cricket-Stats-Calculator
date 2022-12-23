@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -58,9 +59,43 @@ namespace CricketStructures.Match
             Type = type;
         }
 
+        private static string vs = "vs";
+        private static string venue = "Venue";
+        private static string DateString = "Date";
+        private static string TypeOfMatch = "Type of Match";
+
+        public static MatchInfo FromString(string stringForm)
+        {
+            int indexOfvs = stringForm.IndexOf(vs);
+            int indexOfvenueName = stringForm.IndexOf(venue);
+            int indexOfDate = stringForm.IndexOf(DateString);
+            int indexOfType = stringForm.IndexOf(TypeOfMatch);
+
+
+            string homeTeam = stringForm.Substring(0, indexOfvs).Trim();
+            string awayTeam = stringForm.Substring(indexOfvs + vs.Length, indexOfvenueName - indexOfvs - vs.Length).Trim().Trim('.');
+            string location = stringForm.Substring(indexOfvenueName + venue.Length + 1, indexOfDate - indexOfvenueName - venue.Length - 2).Trim().Trim('.');
+            string dateString = stringForm.Substring(indexOfDate + DateString.Length + 1, indexOfType - indexOfDate - DateString.Length - 3).Trim();
+            string typeString = stringForm.Substring(indexOfType + TypeOfMatch.Length + 2, stringForm.Length - indexOfType - TypeOfMatch.Length - 2).Trim();
+            DateTime date = DateTime.Parse(dateString);
+            MatchType matchType = Enum.Parse<MatchType>(typeString);
+
+            return new MatchInfo(homeTeam, awayTeam, location, date, matchType);
+        }
+
         public override string ToString()
         {
-            return $"{Date.ToUkDateString()} - {HomeTeam} v {AwayTeam} at {Location}";
+            return $"{HomeTeam} vs {AwayTeam}. {venue}: {Location}. {DateString}: {ToFriendlyDateString(Date)}. {TypeOfMatch}: {Type}";
+        }
+
+        public static string ToFriendlyDateString(DateTime date)
+        {
+            if (date.Hour == 0 && date.Minute == 0 && date.Second == 0)
+            {
+                return date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            }
+
+            return date.ToString("o", CultureInfo.InvariantCulture);
         }
 
         public bool Validate()
@@ -93,7 +128,9 @@ namespace CricketStructures.Match
 
         public bool Equals(DateTime date, string homeTeam, string awayTeam)
         {
-            return string.Equals(HomeTeam, homeTeam) && string.Equals(AwayTeam, awayTeam) & DateTime.Equals(Date, date);
+            return string.Equals(HomeTeam ?? "", homeTeam ?? "")
+                && string.Equals(AwayTeam ?? "", awayTeam ?? "")
+                && DateTime.Equals(Date, date);
         }
 
         public override int GetHashCode()

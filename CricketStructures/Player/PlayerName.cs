@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+
 using Common.Structure.NamingStructures;
 
 namespace CricketStructures.Player
@@ -39,17 +40,19 @@ namespace CricketStructures.Player
         {
             if (string.IsNullOrWhiteSpace(playerNameAsString))
             {
-                return null;
+                return new PlayerName();
             }
 
-            string[] splitted = playerNameAsString.Split(StringSeparator);
-            if (splitted.Length == 2)
+            int forenameEndIndex = playerNameAsString.IndexOf(StringSeparator);
+            if (forenameEndIndex > 0)
             {
-                return new PlayerName(splitted[1], splitted[0]);
+                string forename = playerNameAsString.Substring(0, forenameEndIndex);
+                string surname = playerNameAsString.Substring(forenameEndIndex + 1);
+                return new PlayerName(surname, forename);
             }
-            if (splitted.Length == 1)
+            if (forenameEndIndex == -1)
             {
-                return new PlayerName(splitted[0], "");
+                return new PlayerName(playerNameAsString, "");
             }
 
             return new PlayerName();

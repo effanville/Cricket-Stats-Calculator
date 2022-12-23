@@ -67,6 +67,7 @@ namespace CricketStructures.Tests
                     sAInnings.SetBowling("Symonds", "A", 9, 0, 75, 2, 0, 0);
                     sAInnings.SetBowling("Clarke", "MJ", 7, 0, 49, 1, 0, 0);
                     fExampleMatches.Add(example1Name, firstExample);
+                    fExampleMatches.Add("Empty Match", new CricketMatch());
                 }
 
                 return fExampleMatches;

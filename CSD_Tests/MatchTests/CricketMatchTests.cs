@@ -5,6 +5,7 @@ using CricketStructures.Match.Innings;
 using CricketStructures.Player;
 using NUnit.Framework;
 using Common.Structure.Validation;
+using System.Linq;
 
 namespace CricketStructures.Tests.MatchTests
 {
@@ -68,8 +69,8 @@ namespace CricketStructures.Tests.MatchTests
             };
             var match = new CricketMatch(matchInfo);
             var player = new PlayerName("Root", "Joe");
-            _ = match.EditManOfMatch(new[] { player });
-            Assert.AreEqual(1, match.MenOfMatch.Length);
+            _ = match.MenOfMatch = (new[] { player }).ToList();
+            Assert.AreEqual(1, match.MenOfMatch.Count);
             Assert.AreEqual(player, match.MenOfMatch[0]);
         }
 

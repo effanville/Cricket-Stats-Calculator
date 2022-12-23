@@ -11,7 +11,7 @@ using CricketStructures.Match.Result;
 
 namespace CricketStructures.Match
 {
-    public sealed class CricketMatch : ICricketMatch, IValidity
+    public sealed class CricketMatch : ICricketMatch, IValidity, IEquatable<CricketMatch>
     {
         [XmlAttribute(AttributeName = "H")]
         public string HomeTeam
@@ -66,7 +66,7 @@ namespace CricketStructures.Match
 
         /// <inheritdoc/>
         [XmlArray]
-        public PlayerName[] MenOfMatch
+        public List<PlayerName> MenOfMatch
         {
             get;
             set;
@@ -89,7 +89,7 @@ namespace CricketStructures.Match
         }
 
         [XmlIgnore]
-        private Dictionary<string, HashSet<PlayerName>> fPlayersByTeam
+        private Dictionary<string, HashSet<PlayerName>> PlayersByTeam
         {
             get;
             set;
@@ -99,25 +99,29 @@ namespace CricketStructures.Match
         /// default generator of match
         /// </summary>
         internal CricketMatch(string homeTeam, string awayTeam, DateTime date, MatchType matchType, bool homeTeamBattingFirst, string location = null)
+        : this(
+              new MatchInfo(homeTeam, awayTeam, location, date, matchType),
+              new CricketInnings(homeTeamBattingFirst ? homeTeam : awayTeam, homeTeamBattingFirst ? awayTeam : homeTeam),
+              new CricketInnings(homeTeamBattingFirst ? awayTeam : homeTeam, homeTeamBattingFirst ? homeTeam : awayTeam))
         {
-            MatchData = new MatchInfo(homeTeam, awayTeam, location, date, matchType);
+        }
 
-            FirstInnings = new CricketInnings(homeTeamBattingFirst ? homeTeam : awayTeam, homeTeamBattingFirst ? awayTeam : homeTeam);
-            SecondInnings = new CricketInnings(homeTeamBattingFirst ? awayTeam : homeTeam, homeTeamBattingFirst ? homeTeam : awayTeam);
+        private CricketMatch(MatchInfo info, CricketInnings firstInnings, CricketInnings secondInnings)
+        {
+            MatchData = info;
+            FirstInnings = firstInnings;
+            SecondInnings = secondInnings;
+            MenOfMatch = new List<PlayerName>();
         }
 
         internal CricketMatch(MatchInfo info)
+            : this(info, new CricketInnings(), new CricketInnings())
         {
-            MatchData = info;
-            FirstInnings = new CricketInnings();
-            SecondInnings = new CricketInnings();
         }
 
         public CricketMatch()
+            : this(new MatchInfo(), new CricketInnings(), new CricketInnings())
         {
-            MatchData = new MatchInfo();
-            FirstInnings = new CricketInnings();
-            SecondInnings = new CricketInnings();
         }
 
         public event EventHandler PlayerAdded;
@@ -156,15 +160,15 @@ namespace CricketStructures.Match
         public HashSet<PlayerName> Players(string team)
         {
             string teamName = team;
-            if (!fPlayersByTeam.ContainsKey(team))
+            if (!PlayersByTeam.ContainsKey(team))
             {
                 var players = new HashSet<PlayerName>();
                 players.UnionWith(FirstInnings.Players(teamName));
                 players.UnionWith(SecondInnings.Players(teamName));
-                fPlayersByTeam[team] = players;
+                PlayersByTeam[team] = players;
             }
 
-            return fPlayersByTeam[team];
+            return PlayersByTeam[team];
         }
 
         /// <inheritdoc/>
@@ -177,7 +181,7 @@ namespace CricketStructures.Match
                 FirstInnings.UpdateTeamName(oldHomeTeam, homeTeam);
                 if (!string.IsNullOrEmpty(oldHomeTeam))
                 {
-                    _ = fPlayersByTeam.Remove(oldHomeTeam);
+                    _ = PlayersByTeam.Remove(oldHomeTeam);
                 }
 
                 _ = Players(homeTeam);
@@ -190,7 +194,7 @@ namespace CricketStructures.Match
 
                 if (!string.IsNullOrEmpty(oldAwayTeam))
                 {
-                    _ = fPlayersByTeam.Remove(oldAwayTeam);
+                    _ = PlayersByTeam.Remove(oldAwayTeam);
                 }
 
                 _ = Players(awayTeam);
@@ -226,20 +230,10 @@ namespace CricketStructures.Match
         }
 
         /// <inheritdoc/>
-        public bool EditManOfMatch(PlayerName[] player)
-        {
-            MenOfMatch = player;
-            return true;
-        }
-
-        /// <inheritdoc/>
         public void SetBatting(string team, PlayerName player, Wicket howOut, int runs, int order, int wicketFellAt, int teamScoreAtWicket, PlayerName fielder = null, bool wasKeeper = false, PlayerName bowler = null)
         {
             var innings = InningsHelpers.SelectBattingInnings(FirstInnings, SecondInnings, team);
-            if (innings != null)
-            {
-                innings.SetBatting(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, wasKeeper, bowler);
-            }
+            innings?.SetBatting(player, howOut, runs, order, wicketFellAt, teamScoreAtWicket, fielder, wasKeeper, bowler);
         }
 
         public void SetInnings(CricketInnings innings, bool first)
@@ -272,10 +266,7 @@ namespace CricketStructures.Match
         public void SetBowling(string team, PlayerName player, Over overs, int maidens, int runsConceded, int wickets, int wides = 0, int noBalls = 0)
         {
             var innings = InningsHelpers.SelectFieldingInnings(FirstInnings, SecondInnings, team);
-            if (innings != null)
-            {
-                innings.SetBowling(player, overs, maidens, runsConceded, wickets);
-            }
+            innings?.SetBowling(player, overs, maidens, runsConceded, wickets);
         }
 
         /// <inheritdoc/>
@@ -427,11 +418,31 @@ namespace CricketStructures.Match
             throw new NotImplementedException();
         }
 
+
+        private static readonly string InningsTitle = "Innings of:";
+
+        public static CricketMatch CreateFromScorecard(DocumentType exportType, string scorecard)
+        {
+            var scorecardDocument = ReportSplitter.SplitReportString(exportType, scorecard);
+            int indexOfFirstInnings = scorecardDocument.FindIndex(0, part => part.ConstituentString.Contains(InningsTitle));
+
+            var firstInningsDoc = scorecardDocument.GetSubDocument(indexOfFirstInnings);
+            var secondInningsDoc = scorecardDocument.GetSubDocumentFrom(indexOfFirstInnings + 1, part => part.ConstituentString.Contains(InningsTitle));
+
+            var info = MatchInfo.FromString(scorecardDocument.FirstTextPart(DocumentElement.h1).Text);
+            var firstInnings = CricketInnings.CreateFromScorecard(firstInningsDoc);
+            firstInnings.FieldingTeam = info.OppositionName(firstInnings.BattingTeam);
+            var secondInnings = CricketInnings.CreateFromScorecard(secondInningsDoc);
+            secondInnings.FieldingTeam = info.OppositionName(secondInnings.BattingTeam);
+
+            return new CricketMatch(info, firstInnings, secondInnings);
+        }
+
         public ReportBuilder SerializeToString(DocumentType exportType)
         {
             ReportBuilder sb = new ReportBuilder(exportType, new ReportSettings(useColours: true, useDefaultStyle: false, useScripts: true));
             _ = sb.WriteHeader("")
-                .WriteTitle($"{MatchData.HomeTeam} vs {MatchData.AwayTeam}. Venue: {MatchData.Location}. Date: {MatchData.Date}. Type of Match: {MatchData.Type}", DocumentElement.h1);
+                .WriteTitle($"{MatchData}", DocumentElement.h1);
 
             var firstInningsString = FirstInnings.SerializeToString(exportType);
             _ = sb.Append(firstInningsString)
@@ -447,6 +458,39 @@ namespace CricketStructures.Match
                 .WriteParagraph(new[] { $"Match Result: ", result.ToString() })
                 .WriteFooter();
             return sb;
+        }
+
+        public bool IsMatchDataEqual(CricketMatch other)
+        {
+            return MatchData.Equals(other.MatchData);
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as CricketMatch);
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(CricketMatch other)
+        {
+            return IsMatchDataEqual(other)
+                && FirstInnings.Equals(other.FirstInnings)
+                && SecondInnings.Equals(other.SecondInnings)
+                && Result.Equals(other.Result)
+                && Enumerable.SequenceEqual(MenOfMatch, other.MenOfMatch);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+            hash.Add(MatchData);
+            hash.Add(Result);
+            hash.Add(MenOfMatch);
+            hash.Add(FirstInnings);
+            hash.Add(SecondInnings);
+            return hash.ToHashCode();
         }
     }
 }

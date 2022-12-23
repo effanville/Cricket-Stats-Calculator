@@ -10,7 +10,7 @@ using System;
 
 namespace CricketStructures.Match.Innings
 {
-    public class BowlingEntry : IValidity, IXmlSerializable
+    public sealed class BowlingEntry : IValidity, IXmlSerializable, IEquatable<BowlingEntry>
     {
         public PlayerName Name
         {
@@ -83,11 +83,13 @@ namespace CricketStructures.Match.Innings
             NoBalls = noBalls;
         }
 
+        /// <inheritdoc/>
         public bool Validate()
         {
             return !Validation().Any(validation => !validation.IsValid);
         }
 
+        /// <inheritdoc/>
         public List<ValidationResult> Validation()
         {
             List<ValidationResult> results = Name.Validation();
@@ -99,6 +101,7 @@ namespace CricketStructures.Match.Innings
             return results;
         }
 
+        /// <inheritdoc/>
         public XmlSchema GetSchema()
         {
             return null;
@@ -147,6 +150,7 @@ namespace CricketStructures.Match.Innings
             reader.ReadEndElement();
         }
 
+        /// <inheritdoc/>
         public void ReadXml(XmlReader reader)
         {
             _ = reader.MoveToContent();
@@ -176,6 +180,7 @@ namespace CricketStructures.Match.Innings
             reader.ReadStartElement();
         }
 
+        /// <inheritdoc/>
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteAttributeString("N", Name.ToString());
@@ -185,6 +190,30 @@ namespace CricketStructures.Match.Innings
             writer.WriteAttributeString("W", Wickets.ToString());
             writer.WriteAttributeString("WD", Wides.ToString());
             writer.WriteAttributeString("NB", NoBalls.ToString());
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(BowlingEntry other)
+        {
+            return Name.Equals(other.Name)
+                && OversBowled.Equals(other.OversBowled)
+                && Maidens.Equals(other.Maidens)
+                && RunsConceded.Equals(other.RunsConceded)
+                && Wickets.Equals(other.Wickets)
+                && Wides.Equals(other.Wides)
+                && NoBalls.Equals(other.NoBalls);
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as BowlingEntry);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, OversBowled, Maidens, RunsConceded, Wickets, Wides, NoBalls);
         }
     }
 }
