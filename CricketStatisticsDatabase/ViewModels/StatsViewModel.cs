@@ -100,7 +100,7 @@ namespace CSD.ViewModels
             }
             else
             {
-                FileInteractionResult gotFile = fUiGlobals.FileInteractionService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
+                FileInteractionResult gotFile = fUiGlobals.FileInteractionService.SaveFile("html", "", filter: "Html Files|*.html|Markdown Files|*.md|CSV Files|*.csv|All Files|*.*");
                 if (gotFile.Success)
                 {
                     IStatCollection allTimeStats = StatsCollectionBuilder.StandardStat(
