@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Serialization;
 
 namespace CricketStructures.Match.Innings
 {
@@ -7,7 +8,11 @@ namespace CricketStructures.Match.Innings
     {
         public static readonly int NumberOverBalls = 6;
         public static readonly Over Min = new Over(0, 0);
+
+        [XmlAttribute(AttributeName = "Overs")]
         public int NumberOvers;
+
+        [XmlAttribute(AttributeName = "Balls")]
         public int NumberBalls;
 
         public Over(int wholeOvers, int numberBalls)
