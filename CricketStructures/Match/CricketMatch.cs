@@ -73,13 +73,12 @@ namespace CricketStructures.Match
         }
 
         /// <inheritdoc/>
-        // TODO: Replace this with the ability to set in a custom manner.
         [XmlElement]
         public Over MaximumNumberOvers
         {
             get;
             set;
-        } = new Over(40);
+        }
 
         /// <inheritdoc/>
         [XmlElement]

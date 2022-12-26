@@ -17,6 +17,7 @@
             <uiC:ArrayMultiValueConverter x:Key="ArrayMultiValueConverter" />
             <player:PlayerNameToStringConverter x:Key="NameToStringConverter" />
             <player:PlayerNameArrayToStringConverter x:Key="NameArrayToStringConverter" />
+            <player:OverToStringConverter x:Key="OverConverter" />
             <uiC:StringToUKDateConverter x:Key="UKDateConverter" />
             <gui:CricketConstants x:Key="Consts" />
         </Grid.Resources>
@@ -66,6 +67,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="32" />
                         <RowDefinition Height="32" />
+                        <RowDefinition Height="32" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -84,11 +86,17 @@
                     <Label Grid.Column="0"
                            Grid.Row="2"
                            Content="Result" />
-            <ComboBox x:Name="MatchResultBox"
-            Grid.Column="1"
-                      Grid.Row="2"
-                      SelectedItem="{Binding SelectedMatch.Result, Mode=TwoWay}"
-                      ItemsSource="{Binding Source={StaticResource Consts}, Path=MatchResultTypes}" />
+                    <ComboBox x:Name="MatchResultBox"
+                              Grid.Column="1"
+                              Grid.Row="2"
+                              SelectedItem="{Binding SelectedMatch.Result, Mode=TwoWay}"
+                              ItemsSource="{Binding Source={StaticResource Consts}, Path=MatchResultTypes}" />
+                    <Label Grid.Column="0"
+                           Grid.Row="3"
+                           Content="Innings Length" />
+                    <TextBox Grid.Column="1"
+                             Grid.Row="3"
+                             Text="{Binding SelectedMatch.MaximumNumberOvers, Converter={StaticResource OverConverter}, Mode=TwoWay}" />
                 </Grid>
             </Border>
             <StackPanel Grid.Column="0"

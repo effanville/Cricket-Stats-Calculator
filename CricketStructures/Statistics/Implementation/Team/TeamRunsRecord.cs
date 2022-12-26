@@ -17,7 +17,7 @@ namespace CricketStructures.Statistics.Implementation.Team
 
         public PlayerName Name => new PlayerName("empty", "empty");
 
-        public IReadOnlyList<string> Headers => new string[] { "Year", "Number Runs", "Runs Per Game", "Runs Per Wicket" };
+        public IReadOnlyList<string> Headers => new string[] { "Year", "Number Runs", "Runs Per Game", "Runs Per Wicket", "Runs Per Over" };
 
         public Func<DatedRecord<ClubRunsRecord>, IReadOnlyList<string>> OutputValueSelector => record =>
         new string[] 
@@ -25,7 +25,8 @@ namespace CricketStructures.Statistics.Implementation.Team
             record.Date.Year.ToString(),
             record.Value.NumberRuns.ToString(),
             record.Value.RunsPerGame.TruncateToString(),
-            record.Value.RunsPerWicket.TruncateToString()
+            record.Value.RunsPerWicket.TruncateToString(),
+            record.Value.RunsPerOver.TruncateToString()
         };
 
         public Func<PlayerName, string, ICricketSeason, MatchType[], DatedRecord<ClubRunsRecord>> StatGenerator => Create;

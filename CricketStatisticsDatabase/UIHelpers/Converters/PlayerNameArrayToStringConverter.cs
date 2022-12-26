@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
 using CricketStructures.Player;
@@ -11,13 +12,13 @@ namespace CricketStatisticsDatabase.UIHelpers.Converters
         {
             if (value != null)
             {
-                if(value is PlayerName[] array)
+                if(value is List<PlayerName> array)
                 {
                     string output = string.Empty;
-                    for(int index = 0; index < array.Length; index++)
+                    for(int index = 0; index < array.Count; index++)
                     {
                         output +=array[index].ToString();
-                        if(index < array.Length -1)
+                        if(index < array.Count -1)
                         {
                             output += ",";
                         }
