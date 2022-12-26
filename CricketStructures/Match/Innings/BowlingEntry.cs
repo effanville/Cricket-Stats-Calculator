@@ -195,13 +195,13 @@ namespace CricketStructures.Match.Innings
         /// <inheritdoc/>
         public bool Equals(BowlingEntry other)
         {
-            return Name.Equals(other.Name)
-                && OversBowled.Equals(other.OversBowled)
-                && Maidens.Equals(other.Maidens)
-                && RunsConceded.Equals(other.RunsConceded)
-                && Wickets.Equals(other.Wickets)
-                && Wides.Equals(other.Wides)
-                && NoBalls.Equals(other.NoBalls);
+            return Name.Equals(other?.Name)
+                && OversBowled.Equals(other?.OversBowled)
+                && Maidens.Equals(other?.Maidens)
+                && RunsConceded.Equals(other?.RunsConceded)
+                && Wickets.Equals(other?.Wickets)
+                && Wides.Equals(other?.Wides)
+                && NoBalls.Equals(other?.NoBalls);
         }
 
         /// <inheritdoc/>
