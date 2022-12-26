@@ -12,6 +12,8 @@
         ExtremeScores,
         LargestVictories,
         HeaviestDefeats,
+        TeamRunsRecord,
+        TeamWicketsRecord,
 
         // Statistics for Partnerships.
         PartnershipStats,
