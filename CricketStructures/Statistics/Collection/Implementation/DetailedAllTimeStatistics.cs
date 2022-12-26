@@ -42,12 +42,12 @@ namespace CricketStructures.Statistics.Collection.Implementation
             var teamResultStats = new List<CricketStatTypes>()
             {
                 CricketStatTypes.YearByYearRecord,
+                CricketStatTypes.TeamRunsRecord,
+                CricketStatTypes.TeamWicketsRecord,
                 CricketStatTypes.TeamAgainstRecord,
                 CricketStatTypes.ExtremeScores,
                 CricketStatTypes.LargestVictories,
                 CricketStatTypes.HeaviestDefeats,
-                CricketStatTypes.TeamRunsRecord,
-                CricketStatTypes.TeamWicketsRecord,
             };
 
             TeamResultStats = new CricketStatsCollection($"Team Records for {team.TeamName}", teamResultStats, team, matchTypes);

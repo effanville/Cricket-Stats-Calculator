@@ -17,13 +17,12 @@ namespace CricketStructures.Statistics.Implementation.Team
 
         public PlayerName Name => new PlayerName("empty", "empty");
 
-        public IReadOnlyList<string> Headers => new string[] { "Year", "Number Games", "Number Wickets", "Wickets Per Game", "Runs Per Wicket" };
+        public IReadOnlyList<string> Headers => new string[] { "Year", "Number Wickets", "Wickets Per Game", "Runs Per Wicket" };
 
         public Func<DatedRecord<ClubWicketsRecord>, IReadOnlyList<string>> OutputValueSelector => record =>
         new string[] 
         { 
-            record.Date.Year.ToString(), 
-            record.Value.NumberGames.ToString(),
+            record.Date.Year.ToString(),
             record.Value.NumberWickets.ToString(),
             record.Value.WicketsPerGame.TruncateToString(),
             record.Value.RunsPerWicket.TruncateToString()
