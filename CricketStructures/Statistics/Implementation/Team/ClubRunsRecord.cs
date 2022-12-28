@@ -70,7 +70,7 @@ namespace CricketStructures.Statistics.Implementation.Team
                 NumberGames++;
                 NumberRuns += teamScore.Runs;
                 NumberWickets += teamScore.Wickets;
-                NumberOvers += match.MaximumNumberOvers;
+                NumberOvers += teamScore.Overs == Over.Unknown() ? match.MaximumNumberOvers : teamScore.Overs;
             }
         }
     }

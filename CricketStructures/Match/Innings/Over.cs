@@ -16,15 +16,30 @@ namespace CricketStructures.Match.Innings
         public int NumberBalls;
 
         public Over(int wholeOvers, int numberBalls)
-        {
+        {            
+            if(wholeOvers < 0 || numberBalls < 0)
+            {
+                NumberOvers = -1;
+                NumberBalls = -1;
+            }
+            
             NumberOvers = wholeOvers;
             NumberBalls = numberBalls;
         }
 
         public Over(int wholeOvers)
+            : this(wholeOvers, 0)
         {
-            NumberOvers = wholeOvers;
-            NumberBalls = 0;
+        }
+
+        public static Over Unknown()
+        {
+            return new Over(-1,-1);
+        }
+
+        public static Over Zero()
+        {
+            return new Over(0,0);
         }
 
         public static Over FromString(string serialised)

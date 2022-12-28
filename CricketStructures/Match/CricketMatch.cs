@@ -468,6 +468,11 @@ namespace CricketStructures.Match
             return sb;
         }
 
+        public static string CreateEmptyScorecardString(DocumentType docType)
+        {
+            return new CricketMatch().SerializeToString(docType).ToString();
+        }
+
         public bool IsMatchDataEqual(CricketMatch other)
         {
             if (other == null)

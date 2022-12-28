@@ -47,6 +47,13 @@ namespace CricketStructures.Match.Innings
             set;
         }
 
+        [XmlElement]
+        public Over OversFaced
+        {
+            get;
+            set;
+        }
+
         public CricketInnings()
         {
             Batting = new List<BattingEntry>();
@@ -317,13 +324,22 @@ namespace CricketStructures.Match.Innings
             return Bowling.RemoveAll(item => item.Name.Equals(player)) != 0;
         }
 
+        public Over OversPlayed()
+        {
+            Over numberOvers = Over.Zero();
+            foreach (BowlingEntry bowler in Bowling)
+            {
+                numberOvers += bowler.OversBowled;
+            }
+
+            return  Bowling.Count == 0 ? Over.Unknown() : numberOvers;
+        }
+
         public InningsScore Score()
         {
             var battingScore = BattingScore();
             var bowlingScore = BowlingScore();
-            int comparison = battingScore.CompareTo(bowlingScore);
-
-            return comparison < 0 ? bowlingScore : battingScore;
+            return InningsScore.Combine(battingScore, bowlingScore);
         }
 
         public InningsScore BattingScore()
@@ -336,7 +352,7 @@ namespace CricketStructures.Match.Innings
                 runs += batsman.RunsScored;
             }
 
-            return new InningsScore(runs, wickets);
+            return new InningsScore(runs, wickets, OversPlayed());
         }
 
         public int BatsmenRuns()
@@ -360,7 +376,7 @@ namespace CricketStructures.Match.Innings
                 runs += bowler.RunsConceded;
             }
 
-            return new InningsScore(runs, wickets);
+            return new InningsScore(runs, wickets, OversPlayed());
         }
 
         public BowlingEntry BowlingTotals()
@@ -380,6 +396,7 @@ namespace CricketStructures.Match.Innings
                 wides += bowler.Wides;
                 nb += bowler.NoBalls;
             }
+
             var bowlingTotals = new BowlingEntry(new PlayerName("Totals", "Bowling"));
             bowlingTotals.SetBowling(overs, maidens, runs, wickets, wides, nb);
             return bowlingTotals;
