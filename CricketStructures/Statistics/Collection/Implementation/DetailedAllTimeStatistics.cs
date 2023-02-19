@@ -48,7 +48,7 @@ namespace CricketStructures.Statistics.Collection.Implementation
                 CricketStatTypes.HeaviestDefeats
             };
 
-            TeamResultStats = new CricketStatsCollection($"Team Records for {team.TeamName}", teamResultStats);
+            TeamResultStats = new CricketStatsCollection($"Team Records for {team.TeamName}", teamResultStats, team, matchTypes);
             PlayerStats = new DetailedAllTimePlayerStatistics(team, matchTypes);
         }
 
