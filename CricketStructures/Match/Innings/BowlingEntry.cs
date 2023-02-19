@@ -195,7 +195,7 @@ namespace CricketStructures.Match.Innings
         /// <inheritdoc/>
         public bool Equals(BowlingEntry other)
         {
-            return Name.Equals(other?.Name)
+            return Name?.Equals(other?.Name) ?? other?.Name == null
                 && OversBowled.Equals(other?.OversBowled)
                 && Maidens.Equals(other?.Maidens)
                 && RunsConceded.Equals(other?.RunsConceded)
