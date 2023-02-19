@@ -15,7 +15,7 @@ namespace CricketCLI
     {
         private static void WriteLine(string text) 
         {
-            string message = $"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.ZZ")}] -{text}";
+            string message = $"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}] -{text}";
             Console.WriteLine(message);
         }
         private static void WriteError(string text)
