@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.IO.Abstractions;
 
+using Common.Structure.Reporting;
 using Common.Structure.ReportWriting;
 
 namespace CricketStructures.Statistics.Collection
@@ -33,7 +34,7 @@ namespace CricketStructures.Statistics.Collection
         /// <param name="fileSystem"></param>
         /// <param name="filePath"></param>
         /// <param name="exportType"></param>
-        public static void ExportStats(this IStatCollection collection, IFileSystem fileSystem, string filePath, DocumentType exportType)
+        public static void ExportStats(this IStatCollection collection, IFileSystem fileSystem, string filePath, DocumentType exportType, IReportLogger logger)
         {
             try
             {
@@ -48,8 +49,9 @@ namespace CricketStructures.Statistics.Collection
                     fileWriter.WriteLine(rb.ToString());
                 }
             }
-            catch (IOException)
+            catch (IOException exception)
             {
+                _ = logger.Log(ReportSeverity.Critical, ReportType.Error, ReportLocation.Saving, $"Error when creating stats: {exception.Message}.");
                 return;
             }
         }
