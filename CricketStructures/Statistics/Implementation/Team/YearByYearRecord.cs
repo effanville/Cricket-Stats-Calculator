@@ -37,7 +37,7 @@ namespace CricketStructures.Statistics.Implementation.Team
 
         public Func<DatedRecord<TeamRecord>, bool> SelectorFunc => a => true;
 
-        public Comparison<DatedRecord<TeamRecord>> Comparison => DatedRecordComparisons.DateCompare<TeamRecord>();
+        public Comparison<DatedRecord<TeamRecord>> Comparison => DatedRecordComparisons.InverseDateCompare<TeamRecord>();
         public bool IncreaseStatScope()
         {
             return true;
