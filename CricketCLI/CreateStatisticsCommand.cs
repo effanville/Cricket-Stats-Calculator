@@ -55,44 +55,32 @@ namespace CricketCLI
             Options.Add(fStatCollection);
         }
 
-        /// <summary>
-        /// The method to write help for this command.
-        /// </summary>
-        /// <param name="console"></param>
+        /// <inheritdoc/>
         public void WriteHelp(IConsole console)
         {
             CommandExtensions.WriteHelp(this, console);
         }
 
-        /// <summary>
-        /// The mechanism for validating the input option values.
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public bool Validate(IConsole console, string[] args)
         { 
             return CommandExtensions.Validate(this, args, console);
         }
 
-        /// <summary>
-        /// Execute the given command.
-        /// </summary>
-        /// <param name="args">The command line arguments.</param>
-        /// <returns>The exit code of the command.</returns>
+        /// <inheritdoc/>
         public int Execute(IConsole console, string[] args = null)
         {
+            _ = fLogger.LogUseful(ReportType.Information, ReportLocation.Loading, $"[Command {Name}] - Beginning execution.");
             var teamFilePath = fFilepathOption.Value;
             ICricketTeam team = CricketTeamFactory.CreateFromFile(fFileSystem, teamFilePath, out string error);
 
             if(!string.IsNullOrEmpty(error))
             {
-                console.WriteError($"[Command {Name}] - Error when creating cricket team from file: {error}");
+                _ = fLogger.LogUsefulError(ReportLocation.Loading, $"[Command {Name}] - Error when creating cricket team from file: {error}");
                 return 1;
             }
 
             string exportFilePath = fStatsOutputPath.Value;
-
-            
             if (fStatCollection.Value.IsPlayerStat())
             {
                 string playerBaseFilePath = fFileSystem.Path.Combine(exportFilePath, "Players");
@@ -104,6 +92,8 @@ namespace CricketCLI
                 string allTimeFilePath = fFileSystem.Path.Combine(exportFilePath, "allTimeStats.html");
                 SaveAllTimeStats(allTimeFilePath, fStatCollection.Value, team, null);
             }
+
+            _ = fLogger.LogUseful(ReportType.Information, ReportLocation.Loading, $"[Command {Name}] - Completed execution.");
             return 0;
         }
 
@@ -118,6 +108,7 @@ namespace CricketCLI
             string extension = fFileSystem.Path.GetExtension(allTimeFilePath).Trim('.');
             DocumentType type = extension.ToEnum<DocumentType>();
             allTimeStats.ExportStats(fFileSystem, allTimeFilePath, type, fLogger);
+            _ = fLogger.LogUseful(ReportType.Information, ReportLocation.StatisticsPage, $"[Command {Name}] - Completed saving {statCollection} stats."); 
         }
 
         private void SaveAllPlayerStats(string baseFilePath, StatCollection selectedStatType, ICricketTeam team, ICricketSeason season)
@@ -147,6 +138,8 @@ namespace CricketCLI
                     playerName: playerName);
                 allTimeStats.ExportStats(fFileSystem, filePath, type, fLogger);
             }
+
+            _ = fLogger.LogUseful(ReportType.Information, ReportLocation.StatisticsPage, $"[Command {Name}] - Completed saving {selectedStatType} stats.");
         }
     }
 }
