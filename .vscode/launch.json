@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "buildCLI",
             "program": "${workspaceFolder}/bin/Debug/net6.0/cricketcli",
-            "args": ["stats", "--filepath", "/Users/CindyTsoi/Downloads/AWCC.xml", "--statsOutputPath", "/Users/CindyTsoi/Downloads/Stats", "--statType", "alltimedetailed"],
+            "args": ["stats", "--filepath", "/Users/CindyTsoi/Documents/AWCC.xml", "--statsOutputPath", "/Users/CindyTsoi/Documents/Stats"],
             "cwd": "${workspaceFolder}/CricketCLI",
             "console": "internalConsole",
             "stopAtEntry": false

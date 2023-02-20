@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
+using System.IO.Compression;
 using System.Linq;
 
 using Common.Console;
@@ -22,6 +23,8 @@ namespace CricketCLI
 {
     public sealed class CreateStatisticsCommand : ICommand
     {
+        private readonly string fSmtpAuthUser;
+        private readonly string fSmtpAuthPassword;
         private readonly IFileSystem fFileSystem;
         private readonly IReportLogger fLogger;
         private readonly CommandOption<string> fFilepathOption;
@@ -42,8 +45,10 @@ namespace CricketCLI
             get;
         } = new List<ICommand>();
 
-        public CreateStatisticsCommand(IFileSystem fileSystem, IReportLogger logger)
+        public CreateStatisticsCommand(IFileSystem fileSystem, IReportLogger logger, string smtpAuthUser, string smtpAuthPassword)
         {
+            fSmtpAuthUser = smtpAuthUser;
+            fSmtpAuthPassword = smtpAuthPassword;
             fFileSystem = fileSystem;
             fLogger = logger;
             Func<string, bool> fileValidator = filepath => fileSystem.File.Exists(filepath);
@@ -81,19 +86,31 @@ namespace CricketCLI
             }
 
             string exportFilePath = fStatsOutputPath.Value;
+            string allTimeFilePath = fFileSystem.Path.Combine(exportFilePath, "allTimeStats.html");
+            string playerBaseFilePath = fFileSystem.Path.Combine(exportFilePath, "Players");
+            string playerZipFile = fFileSystem.Path.Combine(exportFilePath, "players.zip");
             if (fStatCollection.Value.IsPlayerStat())
             {
-                string playerBaseFilePath = fFileSystem.Path.Combine(exportFilePath, "Players");
                 fFileSystem.Directory.CreateDirectory(playerBaseFilePath);
                 SaveAllPlayerStats(playerBaseFilePath, fStatCollection.Value, team, null);
+                ZipFile.CreateFromDirectory(playerBaseFilePath, playerZipFile);
             }
-            else
+
+            if(fStatCollection.Value.IsAllTimeStat())
             {
-                string allTimeFilePath = fFileSystem.Path.Combine(exportFilePath, "allTimeStats.html");
                 SaveAllTimeStats(allTimeFilePath, fStatCollection.Value, team, null);
             }
 
+            if(fStatCollection.Value == StatCollection.Custom)
+            {
+                fFileSystem.Directory.CreateDirectory(playerBaseFilePath);
+                SaveAllPlayerStats(playerBaseFilePath, StatCollection.PlayerDetailed, team, null);
+                SaveAllTimeStats(allTimeFilePath, StatCollection.AllTimeDetailed, team, null);
+                ZipFile.CreateFromDirectory(playerBaseFilePath, playerZipFile);
+            }
+
             _ = fLogger.LogUseful(ReportType.Information, ReportLocation.Loading, $"[Command {Name}] - Completed execution.");
+            Email.WriteEmail(fFileSystem, fSmtpAuthUser, fSmtpAuthPassword, "Cricket Statistics", new List<string> { fSmtpAuthUser }, new List<string>{ allTimeFilePath, playerZipFile });
             return 0;
         }
 

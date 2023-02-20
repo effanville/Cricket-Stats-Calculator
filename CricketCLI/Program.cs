@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
+using System.IO;
+using System.Net.Mail;
 using System.Reflection;
+using System.Threading.Tasks;
 
 using Common.Console;
 using Common.Console.Commands;
 using Common.Console.Options;
 using Common.Structure.Extensions;
 using Common.Structure.Reporting;
+
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace CricketCLI
 {
@@ -41,6 +47,14 @@ namespace CricketCLI
 
         public static int Main(string[] args)
         {
+            // Build a config object, using env vars and JSON providers.
+            IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddEnvironmentVariables()
+                .Build();
+
+            var smtpAuthUser = config.GetValue<string>("SmtpAuthUser");
+            var smtpAuthPassword = config.GetValue<string>("SmtpAuthPassword");
             IReportLogger logger = new LogReporter(ReportAction);
             IConsole console = new ConsoleInstance(WriteError, WriteLine);
             
@@ -49,7 +63,7 @@ namespace CricketCLI
             // Define the acceptable commands for this program.
             var validCommands = new List<ICommand>()
             {
-                new CreateStatisticsCommand(fileSystem, logger),
+                new CreateStatisticsCommand(fileSystem, logger, smtpAuthUser, smtpAuthPassword),
             };
             
             Assembly assembly = Assembly.GetExecutingAssembly();
