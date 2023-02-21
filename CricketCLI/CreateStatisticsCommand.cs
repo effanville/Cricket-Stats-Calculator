@@ -106,6 +106,10 @@ namespace CricketCLI
                 fFileSystem.Directory.CreateDirectory(playerBaseFilePath);
                 SaveAllPlayerStats(playerBaseFilePath, StatCollection.PlayerDetailed, team, null);
                 SaveAllTimeStats(allTimeFilePath, StatCollection.AllTimeDetailed, team, null);
+                if(fFileSystem.File.Exists(playerZipFile))
+                {
+                    fFileSystem.File.Delete(playerZipFile);
+                }
                 ZipFile.CreateFromDirectory(playerBaseFilePath, playerZipFile);
             }
 
