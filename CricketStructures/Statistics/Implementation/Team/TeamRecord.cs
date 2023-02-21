@@ -45,8 +45,7 @@ namespace CricketStructures.Statistics.Implementation.Team
 
         public double WinRatio
         {
-            get;
-            set;
+            get => Won/(double)Played;
         }
 
         public TeamRecord()
@@ -75,7 +74,6 @@ namespace CricketStructures.Statistics.Implementation.Team
 
         public void Finalise()
         {
-            WinRatio = Won / (double)Played;
         }
 
         /// <inheritdoc/>
@@ -109,7 +107,6 @@ namespace CricketStructures.Statistics.Implementation.Team
             Lost = 0;
             Drew = 0;
             Tie = 0;
-            WinRatio = 0;
         }
 
         /// <inheritdoc/>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Common.Structure.Extensions;
 using Common.Structure.NamingStructures;
 
 using CricketStructures.Match;
@@ -24,7 +25,7 @@ namespace CricketStructures.Statistics.Implementation.Team
                     record.Value.Played.ToString(),
                     record.Value.Won.ToString(),
                     record.Value.Lost.ToString(),
-                    record.Value.WinRatio.ToString()
+                    record.Value.WinRatio.TruncateToString()
                 };
 
         public Func<PlayerName, string, ICricketSeason, MatchType[], DatedRecord<TeamRecord>> StatGenerator => Create;

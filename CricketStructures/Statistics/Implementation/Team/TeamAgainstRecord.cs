@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Common.Structure.Extensions;
 using Common.Structure.NamingStructures;
 
 using CricketStructures.Match;
@@ -24,7 +25,7 @@ namespace CricketStructures.Statistics.Implementation.Team
                                 record.Instance.Played.ToString(),
                                 record.Instance.Won.ToString(),
                                 record.Instance.Lost.ToString(),
-                                record.Instance.WinRatio.ToString()
+                                record.Instance.WinRatio.TruncateToString()
                 };
 
         public Action<string, ICricketMatch, List<Labell<string, TeamRecord>>> AddStatsAction => AddStats;
