@@ -4,10 +4,22 @@
         {
             "label": "build",
             "command": "dotnet",
-            "type": "process",
+            "type": "shell",
             "args": [
                 "build",
                 "${workspaceFolder}/CricketStatisticsDatabase/CricketStatisticsDatabase.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "buildCLI",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "build",
+                "${workspaceFolder}/CricketCLI/CricketCLI.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

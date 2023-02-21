@@ -333,15 +333,16 @@ namespace CricketStructures.Match.Innings
         /// <inheritdoc/>
         public bool Equals(BattingEntry other)
         {
-            return Order.Equals(other.Order)
-                && Name.Equals(other.Name)
-                && MethodOut.Equals(other.MethodOut)
-                && Fielder.Equals(other.Fielder)
-                && WasKeeper.Equals(other.WasKeeper)
-                && Bowler.Equals(other.Bowler)
-                && RunsScored.Equals(other.RunsScored)
-                && WicketFellAt.Equals(other.WicketFellAt)
-                && TeamScoreAtWicket.Equals(other.TeamScoreAtWicket);
+
+            return Order.Equals(other?.Order)
+                && (Name?.Equals(other?.Name) ?? other?.Name == null)
+                && MethodOut.Equals(other?.MethodOut)
+                && (Fielder?.Equals(other?.Fielder) ?? other?.Bowler == null)
+                && WasKeeper.Equals(other?.WasKeeper)
+                && (Bowler?.Equals(other?.Bowler) ?? other?.Bowler == null)
+                && RunsScored.Equals(other?.RunsScored)
+                && WicketFellAt.Equals(other?.WicketFellAt)
+                && TeamScoreAtWicket.Equals(other?.TeamScoreAtWicket);
         }
 
         /// <inheritdoc/>

@@ -140,6 +140,22 @@ namespace CricketStructures.Season
             return false;
         }
 
+                /// <inheritdoc/>
+        public bool AddMatch(CricketMatch match)
+        {
+            var info = match.MatchData;
+            if (!ContainsMatch(info.Date, info.HomeTeam, info.AwayTeam))
+            {
+                match.PlayerAdded += OnPlayerAdded;
+                SeasonsMatches.Add(match);
+                SeasonsMatches.Sort((a, b) => a.MatchData.Date.CompareTo(b.MatchData.Date));
+                return true;
+            }
+
+            SeasonsMatches.Sort((a, b) => a.MatchData.Date.CompareTo(b.MatchData.Date));
+            return false;
+        }
+
         /// <inheritdoc/>
         public bool ContainsMatch(DateTime date, string homeTeam, string awayTeam)
         {

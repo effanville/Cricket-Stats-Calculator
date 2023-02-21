@@ -5,6 +5,28 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": ".NET Core Launch (CricketCLI)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildCLI",
+            "program": "${workspaceFolder}/bin/Debug/net6.0/cricketcli",
+            "args": ["stats", "--filepath", "/Users/CindyTsoi/Documents/AWCC.xml", "--statsOutputPath", "/Users/CindyTsoi/Documents/Stats"],
+            "cwd": "${workspaceFolder}/CricketCLI",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },        
+        {
+            "name": ".NET Core Launch (CricketCLI Scorecards)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildCLI",
+            "program": "${workspaceFolder}/bin/Debug/net6.0/cricketcli",
+            "args": ["scorecard", "export", "--filepath", "/Users/CindyTsoi/Documents/AWCC.xml", "--exportPath", "/Users/CindyTsoi/Documents/Scorecards"],
+            "cwd": "${workspaceFolder}/CricketCLI",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
             "name": ".NET Core Launch (console)",
             "type": "coreclr",
             "request": "launch",

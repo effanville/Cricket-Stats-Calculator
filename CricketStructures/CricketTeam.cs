@@ -165,6 +165,19 @@ namespace CricketStructures
         }
 
         /// <inheritdoc/>
+        public bool AddMatch(CricketMatch match)
+        {
+            DateTime year = new DateTime(match.Date.Year, 1, 1);
+            if (!ContainsSeason(year, null))
+            {
+                AddSeason(year, null);
+            }
+
+            var season = GetSeason(year, null);
+            return season.AddMatch(match);
+        }
+
+        /// <inheritdoc/>
         public bool ContainsSeason(DateTime year, string name)
         {
             return TeamSeasons.Any(season => season.SameSeason(year, name));

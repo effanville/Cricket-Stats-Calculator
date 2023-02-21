@@ -44,7 +44,7 @@ namespace CricketStructures.Player
             }
 
             int forenameEndIndex = playerNameAsString.IndexOf(StringSeparator);
-            if (forenameEndIndex > 0)
+            if (forenameEndIndex >= 0)
             {
                 string forename = playerNameAsString.Substring(0, forenameEndIndex);
                 string surname = playerNameAsString.Substring(forenameEndIndex + 1);

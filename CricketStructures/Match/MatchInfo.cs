@@ -88,6 +88,11 @@ namespace CricketStructures.Match
             return $"{HomeTeam} vs {AwayTeam}. {venue}: {Location}. {DateString}: {ToFriendlyDateString(Date)}. {TypeOfMatch}: {Type}";
         }
 
+        public string ToFileNameString()
+        {
+            return $"{ToFriendlyDateString(Date)}-{HomeTeam}-v-{AwayTeam}-at-{Location}";        
+        }
+        
         public static string ToFriendlyDateString(DateTime date)
         {
             if (date.Hour == 0 && date.Minute == 0 && date.Second == 0)

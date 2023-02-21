@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using CricketStructures.Match;
 using CricketStructures.Player;
 using CricketStructures.Player.Interfaces;
 using CricketStructures.Season;
@@ -71,6 +73,13 @@ namespace CricketStructures
         /// Adds a season to the teams season list.
         /// </summary>
         bool AddSeason(DateTime year, string name);
+
+        /// <summary>
+        /// Adds a match to the relevant season list
+        /// based upon year. 
+        /// If no season exists then it adds.
+        /// </summary>
+        bool AddMatch(CricketMatch match);
 
         /// <summary>
         /// Queries whether a season with the specified name is a member of the team.
