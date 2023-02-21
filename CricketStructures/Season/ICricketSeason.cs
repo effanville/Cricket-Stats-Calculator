@@ -69,6 +69,12 @@ namespace CricketStructures.Season
         bool AddMatch(MatchInfo info);
 
         /// <summary>
+        /// Adds a match in the list. Returns false if 
+        /// a match with the same information already exists.
+        /// </summary>
+        bool AddMatch(CricketMatch match);
+
+        /// <summary>
         /// Returns the match in the list with a given identifier.
         /// </summary>
         ICricketMatch GetMatch(DateTime date, string homeTeam, string awayTeam);

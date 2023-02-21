@@ -40,6 +40,7 @@ namespace CricketCLI
         public ScorecardsCommand(IFileSystem fileSystem, IReportLogger logger, string smtpAuthUser, string smtpAuthPassword)
         {
             SubCommands.Add(new ExportScorecardsCommand(fileSystem, logger, smtpAuthUser, smtpAuthPassword));
+            SubCommands.Add(new ScorecardAddCommand(fileSystem, logger));
         }
 
         /// <inheritdoc/>
