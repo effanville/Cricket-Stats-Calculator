@@ -14,6 +14,17 @@
             "cwd": "${workspaceFolder}/CricketCLI",
             "console": "internalConsole",
             "stopAtEntry": false
+        },        
+        {
+            "name": ".NET Core Launch (CricketCLI Scorecards)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildCLI",
+            "program": "${workspaceFolder}/bin/Debug/net6.0/cricketcli",
+            "args": ["scorecard", "export", "--filepath", "/Users/CindyTsoi/Documents/AWCC.xml", "--exportPath", "/Users/CindyTsoi/Documents/Scorecards"],
+            "cwd": "${workspaceFolder}/CricketCLI",
+            "console": "internalConsole",
+            "stopAtEntry": false
         },
         {
             "name": ".NET Core Launch (console)",

@@ -64,6 +64,7 @@ namespace CricketCLI
             var validCommands = new List<ICommand>()
             {
                 new CreateStatisticsCommand(fileSystem, logger, smtpAuthUser, smtpAuthPassword),
+                new ScorecardsCommand(fileSystem, logger, smtpAuthUser, smtpAuthPassword),
             };
             
             Assembly assembly = Assembly.GetExecutingAssembly();
