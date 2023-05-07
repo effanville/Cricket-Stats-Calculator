@@ -462,6 +462,8 @@ namespace CricketStructures.Match
 
         public bool IsMatchDataEqual(CricketMatch other)
         {
+            if (other == null)
+                return false;
             return MatchData.Equals(other.MatchData);
         }
 
