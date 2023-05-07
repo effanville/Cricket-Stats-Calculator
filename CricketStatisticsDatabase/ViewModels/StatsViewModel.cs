@@ -103,7 +103,7 @@ namespace CSD.ViewModels
                 FileInteractionResult gotFile = fUiGlobals.FileInteractionService.SaveFile("html", "", filter: "Html Files|*.html|CSV Files|*.csv|All Files|*.*");
                 if (gotFile.Success)
                 {
-                    var allTimeStats = StatsCollectionBuilder.StandardStat(
+                    IStatCollection allTimeStats = StatsCollectionBuilder.StandardStat(
                         SelectedStatsType,
                         MatchTypeNames.Where(n => n.Selected).Select(name => name.Instance).ToArray(),
                         team: DataStore,
@@ -111,7 +111,7 @@ namespace CSD.ViewModels
                         season: SelectedSeason);
                     string extension = fUiGlobals.CurrentFileSystem.Path.GetExtension(gotFile.FilePath).Trim('.');
                     DocumentType type = extension.ToEnum<DocumentType>();
-                    allTimeStats.ExportStats(fUiGlobals.CurrentFileSystem, gotFile.FilePath, type);
+                    allTimeStats.ExportStats(fUiGlobals.CurrentFileSystem, gotFile.FilePath, type, fUiGlobals.ReportLogger);
                 }
             }
         }
@@ -141,7 +141,7 @@ namespace CSD.ViewModels
                         teamName: DataStore.TeamName,
                         season: SelectedSeason,
                         playerName: playerName);
-                    allTimeStats.ExportStats(fUiGlobals.CurrentFileSystem, filePath, type);
+                    allTimeStats.ExportStats(fUiGlobals.CurrentFileSystem, filePath, type, fUiGlobals.ReportLogger);
                 }
             }
         }
