@@ -14,14 +14,38 @@ namespace CricketStructures.Match.Innings
             get; set;
         }
 
+        public Over Overs
+        {
+            get;
+            private set;
+        }
+
         public InningsScore()
         {
         }
 
         public InningsScore(int runs, int wickets)
+            : this(runs, wickets, Over.Unknown())
+        {
+        }
+
+        public InningsScore(int runs, int wickets, Over overs)
         {
             Runs = runs;
             Wickets = wickets;
+            Overs = overs;
+        }
+
+        /// <summary>
+        /// Combines the two scores, taking the values from the first if larger.
+        /// </summary>
+        public static InningsScore Combine(InningsScore first, InningsScore second)
+        {
+            int comparison = first.CompareTo(second);
+            int numberRuns = comparison < 0 ? second.Runs : first.Runs;
+            int numberWickets = comparison < 0 ? second.Wickets : first.Wickets;
+            Over numberOvers = first.Overs != Over.Unknown() ? first.Overs : second.Overs; 
+            return new InningsScore(numberRuns, numberWickets, numberOvers);
         }
 
         public override string ToString()

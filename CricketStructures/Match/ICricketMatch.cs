@@ -36,6 +36,15 @@ namespace CricketStructures.Match
         }
 
         /// <summary>
+        /// For a limited overs match, this is the maximum number overs allowed
+        /// per side
+        ///</summary>
+        public Over MaximumNumberOvers
+        {
+            get;
+        }
+
+        /// <summary>
         /// The first innings of the match.
         /// </summary>
         CricketInnings FirstInnings

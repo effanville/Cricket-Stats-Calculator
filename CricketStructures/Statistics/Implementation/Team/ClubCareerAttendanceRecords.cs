@@ -64,15 +64,16 @@ namespace CricketStructures.Statistics.Implementation.Team
             if (PlayerFielding.Any())
             {
                 var values = PlayerFielding.Values.ToList();
-                if(_IsAllTime)
+                if (_IsAllTime)
                 {
                     values.Sort((a, b) => a.Name.CompareTo(b.Name));
                 }
                 else
                 {
-                    values.Sort((a,b) => b.MatchesPlayed.CompareTo(a.MatchesPlayed));
+                    values.Sort((a, b) => b.MatchesPlayed.CompareTo(a.MatchesPlayed));
                 }
-                values.RemoveAll(field => field.MatchesPlayed.Equals(0));
+
+                _ = values.RemoveAll(field => field.MatchesPlayed.Equals(0));
                 _ = rb.WriteTitle("Overall Attendance", headerElement)
                     .WriteTableFromEnumerable(PlayerAttendanceRecord.Headers(true, !_IsAllTime, _IsAllTime), values.Select(val => val.Values(true, !_IsAllTime, _IsAllTime)), headerFirstColumn: false);
             }

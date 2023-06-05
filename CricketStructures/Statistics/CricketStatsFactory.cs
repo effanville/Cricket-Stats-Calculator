@@ -44,6 +44,10 @@ namespace CricketStructures.Statistics
                 case CricketStatTypes.HeaviestDefeats:
                     return new HeaviestDefeats();
 
+                case CricketStatTypes.TeamRunsRecord:
+                    return new SeasonAggregateStatList<DatedRecord<ClubRunsRecord>>(new TeamRunsRecord());
+                case CricketStatTypes.TeamWicketsRecord:
+                    return new SeasonAggregateStatList<DatedRecord<ClubWicketsRecord>>(new TeamWicketsRecord());
                 // Statistics for Partnerships.
                 case CricketStatTypes.PartnershipStats:
                     return new FullPartnershipStats();

@@ -74,6 +74,14 @@ namespace CricketStructures.Match
 
         /// <inheritdoc/>
         [XmlElement]
+        public Over MaximumNumberOvers
+        {
+            get;
+            set;
+        }
+
+        /// <inheritdoc/>
+        [XmlElement]
         public CricketInnings FirstInnings
         {
             get;
@@ -458,6 +466,11 @@ namespace CricketStructures.Match
                 .WriteParagraph(new[] { $"Match Result: ", result.ToString() })
                 .WriteFooter();
             return sb;
+        }
+
+        public static string CreateEmptyScorecardString(DocumentType docType)
+        {
+            return new CricketMatch().SerializeToString(docType).ToString();
         }
 
         public bool IsMatchDataEqual(CricketMatch other)

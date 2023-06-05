@@ -128,6 +128,10 @@ namespace CricketStructures.Match
 
         public bool Equals(MatchInfo other)
         {
+            if(other == null)
+            {
+                return false;
+            }
             return Equals(other.Date, other.HomeTeam, other.AwayTeam);
         }
 
