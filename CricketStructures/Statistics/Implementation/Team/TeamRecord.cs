@@ -1,4 +1,6 @@
-﻿using Common.Structure.ReportWriting;
+﻿using System.Collections.Generic;
+
+using Common.Structure.ReportWriting;
 
 using CricketStructures.Match;
 using CricketStructures.Season;
@@ -7,45 +9,30 @@ namespace CricketStructures.Statistics.Implementation.Team
 {
     internal sealed class TeamRecord : ICricketStat
     {
+        private int SafeGet(ResultType resultType) => _matchRecord.ContainsKey(resultType) ? _matchRecord[resultType] : 0;
+        private Dictionary<ResultType, int> _matchRecord = new Dictionary<ResultType, int>();
         public int Played
         {
             get;
             set;
         }
 
-        public int Won
-        {
-            get;
-            set;
-        }
+        public int Won => _matchRecord.ContainsKey(ResultType.Win) ? _matchRecord[ResultType.Win] : 0;
+        public int Walkover => SafeGet(ResultType.Walkover);
 
-        public int Drew
-        {
-            get;
-            set;
-        }
+        public int Drew => SafeGet(ResultType.Draw);
 
-        public int Lost
-        {
-            get;
-            set;
-        }
+        public int Lost => _matchRecord.ContainsKey(ResultType.Loss) ? _matchRecord[ResultType.Loss] : 0;
 
-        public int Abandoned
-        {
-            get;
-            set;
-        }
+        public int Abandoned => _matchRecord.ContainsKey(ResultType.Abandoned) ? _matchRecord[ResultType.Abandoned] : 0;
 
-        public int Tie
-        {
-            get;
-            set;
-        }
+        public int Tie => _matchRecord.ContainsKey(ResultType.Tie) ? _matchRecord[ResultType.Tie] : 0;
+
+        public int Cancelled => SafeGet(ResultType.Cancelled);
 
         public double WinRatio
         {
-            get => Won/(double)Played;
+            get => Won / (double)Played;
         }
 
         public TeamRecord()
@@ -80,33 +67,20 @@ namespace CricketStructures.Statistics.Implementation.Team
         public void UpdateStats(string teamName, ICricketMatch match)
         {
             Played++;
-            if (match.Result == ResultType.Win)
+            if (_matchRecord.ContainsKey(match.Result))
             {
-                Won++;
+                _matchRecord[match.Result]++;
             }
-
-            if (match.Result == ResultType.Loss)
+            else
             {
-                Lost++;
-            }
-            if (match.Result == ResultType.Tie)
-            {
-                Tie++;
-            }
-            if (match.Result == ResultType.Draw)
-            {
-                Drew++;
+                _matchRecord[match.Result] = 1;
             }
         }
 
         /// <inheritdoc/>
         public void ResetStats()
         {
-            Played = 0;
-            Won = 0;
-            Lost = 0;
-            Drew = 0;
-            Tie = 0;
+            _matchRecord.Clear();
         }
 
         /// <inheritdoc/>
@@ -117,7 +91,10 @@ namespace CricketStructures.Statistics.Implementation.Team
                 .WriteParagraph(new string[] { "Wins:", $"{Won}" })
                 .WriteParagraph(new string[] { "Losses:", $"{Lost}" })
                 .WriteParagraph(new string[] { "Draws:", $"{Drew}" })
-                .WriteParagraph(new string[] { "Ties:", $"{Tie}" });
+                .WriteParagraph(new string[] { "Ties:", $"{Tie}" })
+                .WriteParagraph(new string[] { "Abandoned", $"{Abandoned}" })
+                .WriteParagraph(new string[] { "Cancelled", $"{Cancelled}" })
+                .WriteParagraph(new string[] { "Walkover", $"{Walkover}" });
         }
     }
 }
